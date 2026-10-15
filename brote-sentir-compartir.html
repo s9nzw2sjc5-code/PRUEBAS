@@ -424,23 +424,62 @@ const DIFIC=["Nada difícil","Algo difícil","Muy difícil","Extremadamente dif�
 const ALERTAS=["Duermo muy poco o demasiado","Me aíslo","Lloro mucho","Dejo de comer","Pienso que no puedo más","Bebo más de la cuenta","Todo me da igual"];
 const CALMAR=["Respirar despacio","Ducha caliente","Dar un paseo","Poner música","Salir a la calle","Tumbarme con una manta","Escribir lo que siento","Ver algo que me haga reír"];
 
-const JUEGO=[
- ["Llevas toda la semana preparando una presentación y en la reunión nadie la menciona.","Decepcionada",["Decepcionada","Aliviada","Aburrida"],"Esperabas un reconocimiento que no ha llegado. La decepción aparece cuando lo esperado y lo real no coinciden."],
- ["Mañana tienes una cita médica y no paras de pensar en qué te dirán.","Preocupada",["Enfadada","Preocupada","Satisfecha"],"Darle vueltas a algo que podría salir mal es preocupación, de la familia del miedo."],
- ["Por fin te confirman que el resultado de una prueba ha salido bien.","Aliviada",["Orgullosa","Aliviada","Nostálgica"],"El alivio llega cuando desaparece una preocupación."],
- ["Tu pareja quedó en llamarte y se le olvidó por tercera vez.","Molesta",["Molesta","Tranquila","Avergonzada"],"Algo te ha sentado mal y se repite. Es enfado en versión suave; si siguiera, podría convertirse en resentimiento."],
- ["Tienes cinco tareas urgentes, el móvil no para y no sabes por dónde empezar.","Abrumada",["Aburrida","Abrumada","Ilusionada"],"Cuando hay demasiado a la vez, el cuerpo se bloquea: eso es sentirse abrumada."],
- ["Encuentras unas fotos de un verano con tus amigas de hace años.","Nostálgica",["Nostálgica","Celosa","Irritable"],"Echar de menos algo bonito del pasado, con cariño y algo de pena, es nostalgia."],
- ["Terminas un proyecto difícil que al principio creías que no podrías hacer.","Orgullosa",["Culpable","Orgullosa","Asustada"],"Valorar lo que has logrado tú es orgullo, y es sano sentirlo."],
- ["Llevas un mes durmiendo poco, trabajando mucho y cuidando de todo.","Agotada",["Aburrida","Agotada","Contenta"],"Más allá del cansancio de un día: dar de más durante mucho tiempo agota."],
- ["En una cena, todos hablan entre ellos y nadie te pregunta nada.","Sola",["Sola","Segura","Divertida"],"Puedes estar rodeada de gente y sentirte sola si no te sientes vista."],
- ["Le contestaste mal a una amiga porque estabas estresada.","Culpable",["Indignada","Culpable","Satisfecha"],"La culpa aparece cuando crees que has hecho daño. Te invita a reparar, no a castigarte."],
- ["El sábado por fin vas a ver a alguien a quien no ves desde hace meses.","Ilusionada",["Nerviosa","Ilusionada","Apática"],"Esperar algo bonito es ilusión. A veces viene junto con un poco de nervios, y es normal."],
- ["Das un paseo al atardecer, sin prisa y sin mirar el móvil.","Tranquila",["Tranquila","Frustrada","Insegura"],"Nada urge y el cuerpo se suelta: eso es calma."],
- ["Intentas montar un mueble, la pieza no encaja y ya van tres veces.","Frustrada",["Frustrada","Triste","Aliviada"],"La frustración sale cuando lo intentas y no consigues lo que quieres."],
- ["Te tropiezas delante de mucha gente en la calle.","Avergonzada",["Avergonzada","Orgullosa","Sola"],"Sentirte expuesta delante de otros es vergüenza. Se pasa rápido, aunque al principio queme."],
- ["Ves que ascienden a una compañera haciendo lo mismo que tú, y a ti no.","Indignada",["Agradecida","Indignada","Tranquila"],"Cuando algo te parece injusto, aparece la indignación, de la familia del enfado."],
- ["Una amiga se presenta en tu casa con tu comida favorita porque sabía que tenías un mal día.","Agradecida",["Agradecida","Culpable","Saturada"],"Notar que alguien te ha cuidado es agradecimiento. Decirlo en voz alta lo hace más grande."]];
+/* --- Practicar: decirlo a otros (estructura de comunicación no violenta: hecho, emoción, necesidad, petición) --- */
+const GUIONES=[
+ {id:"contar",e:"🫂",t:"Contar que no estoy bien",tip:"No hace falta explicarlo todo. Decir cómo estás y qué te vendría bien ya es mucho.",
+  f:p=>`${p.obs}. Me siento ${p.emo} y necesito ${p.nec}. ${p.pet}`,
+  obs:["Últimamente no estoy muy bien","Llevo unos días rara","Hay algo que me tiene removida","Hoy me ha costado mucho el día"],
+  emo:["triste","ansiosa","sola","desanimada","vacía","agotada"],
+  nec:["que alguien lo sepa","sentirme acompañada","desahogarme","no hacer como si nada"],
+  pet:["No hace falta que lo arregles, solo quería contártelo.","¿Tienes un rato para hablar?","¿Me das un abrazo?"]},
+ {id:"espacio",e:"🌿",t:"Pedir un rato para mí",tip:"Aclarar que no es por la otra persona evita que se lo tome a mal.",
+  f:p=>`${p.obs}. Me siento ${p.emo} y necesito ${p.nec}. ${p.pet}`,
+  obs:["Hoy ha sido un día muy intenso","Llevo varios días con mucha carga","Tengo la cabeza llena","Llego del trabajo sin energía"],
+  emo:["agotada","saturada","abrumada","cansada","irritable"],
+  nec:["descansar","un rato de silencio","recargar pilas","ordenar mis ideas"],
+  pet:["¿Te parece si me tomo media hora para mí y luego hablamos?","¿Podemos dejarlo para mañana?","¿Me dejas un rato tranquila? No es por ti."]},
+ {id:"sentado",e:"💬",t:"Decir que algo me sentó mal",tip:"Habla de lo que pasó, no de cómo es la otra persona: «cuando no me avisaste», mejor que «eres un desconsiderado».",
+  f:p=>`${p.obs}, me sentí ${p.emo}, porque necesito ${p.nec}. ${p.pet}`,
+  obs:["Cuando me interrumpiste delante de otros","Cuando no me avisaste de que llegabas tarde","Cuando hiciste esa broma sobre mí","Cuando no me contestaste en todo el día"],
+  emo:["dolida","molesta","decepcionada","insegura","frustrada"],
+  nec:["sentir que me tienes en cuenta","que nos hablemos con respeto","saber a qué atenerme","sentirme escuchada"],
+  pet:["¿Podemos hablarlo con calma?","¿Podrías avisarme la próxima vez?","¿Podrías tenerlo en cuenta a partir de ahora?"]},
+ {id:"ayuda",e:"🤝",t:"Pedir ayuda",tip:"Pide algo concreto. «Ayúdame» es difícil de cumplir; «¿te encargas de la cena hoy?» es fácil.",
+  f:p=>`${p.obs}. Me siento ${p.emo} y necesito ${p.nec}. ${p.pet}`,
+  obs:["Tengo demasiadas cosas a la vez","Esta semana se me está haciendo cuesta arriba","No llego a todo en casa","Hay algo que no sé cómo resolver"],
+  emo:["agobiada","abrumada","cansada","preocupada","insegura"],
+  nec:["repartir la carga","un poco de apoyo","otra opinión","sentir que no estoy sola en esto"],
+  pet:["¿Podrías ayudarme con una cosa concreta?","¿Te puedes encargar tú de esto hoy?","¿Tienes un rato para que lo pensemos juntos?"]},
+ {id:"limite",e:"✋",t:"Decir que no",tip:"Un «no» amable no necesita muchas explicaciones. Cuanto más justificas, más fácil es que insistan.",
+  f:p=>`${p.obs}. Ahora mismo me siento ${p.emo} y necesito ${p.nec}. ${p.pet}`,
+  obs:["Me pides que haga esto también","Me proponéis un plan para este fin de semana","Me escribís del trabajo fuera de horario","Me pides un favor que no me viene bien"],
+  emo:["saturada","agobiada","incómoda","cansada"],
+  nec:["cuidar mi tiempo","descansar","no comprometerme a más","separar el trabajo de mi vida"],
+  pet:["Esta vez voy a decir que no. Gracias por entenderlo.","Ahora no puedo. ¿Lo vemos otro día?","Te contesto mañana en horario de trabajo.","Puedo ayudarte con una parte, pero no con todo."]},
+ {id:"gracias",e:"💛",t:"Dar las gracias de verdad",tip:"Decir qué hizo y qué te provocó hace que el agradecimiento llegue mucho más.",
+  f:p=>`${p.obs}, me sentí ${p.emo}, porque necesitaba ${p.nec}. ${p.pet}`,
+  obs:["Cuando me escuchaste el otro día","Cuando te encargaste de eso por mí","Cuando me escribiste para ver cómo estaba","Cuando te quedaste conmigo"],
+  emo:["agradecida","acompañada","tranquila","querida"],
+  nec:["sentirme apoyada","no sentirme sola","un respiro"],
+  pet:["Gracias de verdad.","Quería que lo supieras.","Me hizo mucho bien."]}];
+const PIEZAS=[["obs","Lo que pasa","¿Qué ha pasado o qué está pasando?"],["emo","Cómo me siento","Una sola palabra basta."],["nec","Lo que necesito","Lo que hay debajo de la emoción."],["pet","Lo que pido","Algo concreto que la otra persona pueda hacer."]];
+
+/* --- Practicar: afinar palabras parecidas (sin respuestas correctas) --- */
+const PARES=[
+ ["Triste","Decepcionada","La tristeza es por algo que has perdido o echas de menos. La decepción es por algo que esperabas y no llegó."],
+ ["Nerviosa","Ansiosa","Los nervios tienen un motivo cercano y concreto, como una cita o un examen. La ansiedad se adelanta a muchas cosas y no se apaga fácilmente."],
+ ["Cansada","Agotada","El cansancio se pasa durmiendo. El agotamiento viene de dar de más durante mucho tiempo y no se va con una noche."],
+ ["Molesta","Frustrada","La molestia es por algo que te han hecho. La frustración es por algo que intentas tú y no sale."],
+ ["Culpable","Avergonzada","La culpa dice «he hecho algo mal». La vergüenza dice «hay algo malo en mí»."],
+ ["Sola","Vacía","Sentirte sola es echar en falta a alguien. Sentirte vacía es no sentir casi nada, aunque estés acompañada."],
+ ["Preocupada","Abrumada","Preocuparte es darle vueltas a una cosa. Estar abrumada es tener tantas que no sabes por dónde empezar."],
+ ["Tranquila","Apática","La calma es estar bien sin prisa. La apatía es que nada te importa ni te apetece."],
+ ["Irritable","Saturada","Estar saturada es necesitar menos ruido y menos estímulos. Estar irritable es saltar por cualquier cosa, y muchas veces viene después de la saturación."],
+ ["Insegura","Asustada","La inseguridad es dudar de ti. El miedo es sentir que hay un peligro."],
+ ["Desanimada","Triste","El desánimo es perder las ganas de seguir con algo. La tristeza es dolor por algo que ha pasado."],
+ ["Dolida","Resentida","Dolida es la herida reciente. Resentida es cuando esa herida se queda guardada mucho tiempo sin hablarse."],
+ ["Celosa","Insegura","Los celos son miedo a perder a alguien. La inseguridad es dudar de lo que vales, haya otra persona o no."]];
+const AF_OP=[["a","Me pasa más la primera"],["b","Me pasa más la segunda"],["ambas","Me pasan las dos"],["ninguna","Ninguna de las dos"]];
 
 /* ============ Estado y almacenamiento ============ */
 const LS=window.BROTE_LS||"brote-sentir.v1";
@@ -527,7 +566,7 @@ function fraseParaOtros(e){
 }
 
 /* ============ Render ============ */
-const TABS=[["hoy","☀️","Hoy"],["calma","🫧","Calma"],["palabras","📖","Palabras"],["juego","🎲","Practicar"],["camino","🌿","Camino"]];
+const TABS=[["hoy","☀️","Hoy"],["calma","🫧","Calma"],["palabras","📖","Palabras"],["juego","💬","Practicar"],["camino","🌿","Camino"]];
 function aplicarMascota(){
   const m=(S.cfg.mascota||"").trim(), c=byId(CAUSAS,"ringo"), k=byId(CON,"ringo");
   c[2]=m||"Mi mascota"; c[3]=m?"por "+m:"por mi mascota";
@@ -541,7 +580,7 @@ function render(){
   aplicarMascota();
   $("#tabs").innerHTML=TABS.map(([id,i,t])=>`<button data-act="tab" data-v="${id}" class="${UI.tab===id?"on":""}" aria-current="${UI.tab===id?"page":"false"}"><span class="i">${i}</span>${t}</button>`).join("");
   const head=`<header class="top"><div class="brand"><span class="lg">🌱</span>Brote <small>Sentir</small></div><div class="sync ${synced?"on":""}"><i></i>${synced?"Guardado en tu cuenta":SUELTA?"Guardado en este móvil":"En este dispositivo"}</div></header>`;
-  $("#app").innerHTML=head+({hoy:vHoy,calma:vCalma,palabras:vPalabras,juego:vJuego,camino:vCamino}[UI.tab])();
+  $("#app").innerHTML=head+({hoy:vHoy,calma:vCalma,palabras:vPalabras,juego:vPracticar,camino:vCamino}[UI.tab])();
   renderLayer();
 }
 
@@ -731,18 +770,57 @@ function vWord(){
 }
 
 /* ---------- PRACTICAR ---------- */
-function newGame(){ const done=UI.game?.idx; let i; do{ i=Math.floor(Math.random()*JUEGO.length); }while(JUEGO.length>1 && i===done); UI.game={idx:i, pick:null, opts:JUEGO[i][2].slice().sort(()=>Math.random()-.5)}; }
-function vJuego(){
-  if(!UI.game) newGame();
-  const G=UI.game, s=JUEGO[G.idx], J=S.cfg.juego||{ok:0,tot:0,racha:0};
-  return `<h1 style="margin:0 0 6px">Practicar</h1><p class="muted">Pequeñas situaciones para entrenar el ojo. Ponerle nombre a lo que sienten otros ayuda a encontrar el nombre de lo tuyo.</p>
-  <div class="score" style="margin:14px 0"><div><b>${J.ok}</b><span>Aciertos</span></div><div><b>${J.racha}</b><span>Seguidos</span></div><div><b>${J.tot}</b><span>Jugadas</span></div></div>
-  <div class="card"><span class="small muted" style="font-weight:800;text-transform:uppercase;letter-spacing:.04em">¿Cómo se sentiría?</span>
-  <p class="scen">${esc(s[0])}</p>
-  ${G.opts.map(o=>{ const x=findWord(o), cls=G.pick?(o===s[1]?"ok":o===G.pick?"no":""):""; return `<button class="opt ${cls}" data-act="pick" data-v="${o}" ${G.pick?"disabled":""}><span style="font-size:22px">${x?x.f.e:"🙂"}</span>${o}</button>`; }).join("")}
-  ${G.pick?`<div class="why"><b>${G.pick===s[1]?"¡Eso es!":"Casi. Era "+s[1].toLowerCase()+"."}</b> ${esc(s[3])}</div><div class="row" style="margin-top:12px;justify-content:space-between"><button class="btn sm" data-act="word" data-v="${s[1]}">Ver la palabra</button><button class="btn pri" data-act="newGame">Otra situación</button></div>`:""}
+function vPracticar(){
+  const m=UI.prac||"decir";
+  const tabs=[["decir","💬 Decirlo"],["afinar","🔍 Afinar"],["dias","🗓️ Mis días"]];
+  return `<h1 style="margin:0 0 6px">Practicar</h1><p class="muted">Ejercicios para pasar de sentirlo a decirlo. Aquí no hay respuestas correctas ni incorrectas.</p>
+  <div class="seg" style="margin:14px 0">${tabs.map(([k,t])=>`<button class="chip ${m===k?"on":""}" data-act="prac" data-v="${k}" aria-pressed="${m===k}">${t}</button>`).join("")}</div>`
+  +({decir:vDecir,afinar:vAfinar,dias:vMisDias}[m])();
+}
+function vDecir(){
+  const G=UI.guion, mis=S.cfg.guiones||[];
+  if(!G){
+    return `<div class="card tip"><div class="k">Cómo funciona</div><p style="margin:6px 0 0">Elige una situación y monta la frase en cuatro piezas: <b>lo que pasa</b>, <b>cómo te sientes</b>, <b>lo que necesitas</b> y <b>lo que pides</b>. Es la forma que recomiendan los psicólogos para decir las cosas sin atacar ni callarte.</p></div>
+    ${GUIONES.map(g=>`<button class="tool" style="--c:#9A79E2" data-act="guion" data-v="${g.id}"><span class="ti">${g.e}</span><span style="min-width:0"><b>${g.t}</b></span></button>`).join("")}
+    ${mis.length?`<div class="card" style="margin-top:14px"><h2>Mis frases preparadas</h2>${mis.slice().reverse().map(x=>`<div class="ent"><div class="dot" style="--c:#9A79E2">${(GUIONES.find(g=>g.id===x.sit)||{e:"💬"}).e}</div><div class="tx"><div class="fr">${esc(x.txt)}</div><div class="row" style="margin-top:6px"><button class="btn sm" data-act="gCopy" data-v="${x.id}">Copiar</button><button class="btn ghost sm" data-act="gDel" data-v="${x.id}">Borrar</button></div></div></div>`).join("")}</div>`:""}`;
+  }
+  const g=GUIONES.find(x=>x.id===G.sit), p=G.p, listo=PIEZAS.every(([k])=>p[k]);
+  const prev=g.f({obs:p.obs||"___",emo:p.emo||"___",nec:p.nec||"___",pet:p.pet||"___"});
+  return `<div class="row between"><b style="font-family:var(--font-d);font-size:19px">${g.e} ${g.t}</b><button class="btn ghost sm" data-act="gBack">Volver</button></div>
+  <div class="card" style="margin-top:12px;background:color-mix(in srgb,#9A79E2 14%,var(--surface))"><p class="frase" style="font-size:19px">${esc(prev)}</p></div>
+  ${PIEZAS.map(([k,t,h],i)=>`<div class="card"><h3>${i+1}. ${t}</h3><p class="small muted" style="margin:-4px 0 10px">${h}</p><div class="chips">${g[k].map(o=>`<button class="chip ${p[k]===o?"on":""}" data-act="gPieza" data-k="${k}" data-v="${esc(o)}" aria-pressed="${p[k]===o}" style="padding:7px 11px;font-size:14px;text-align:left">${esc(o)}</button>`).join("")}</div></div>`).join("")}
+  <div class="card tip"><div class="k">Un consejo</div><p style="margin:6px 0 0">${g.tip}</p></div>
+  ${listo?`<div class="card"><h3>Retócala a tu manera (opcional)</h3><textarea id="gTxt" data-gt="1">${esc(G.edited?G.txt:prev)}</textarea><div class="row wrapf" style="margin-top:10px"><button class="btn pri sm" data-act="gSave">Guardar en mis frases</button><button class="btn sm" data-act="gCopyCur">Copiar</button></div></div>`
+    :`<p class="small muted" style="text-align:center">Elige una opción en cada pieza para completar la frase.</p>`}`;
+}
+function vAfinar(){
+  const i=UI.par||0, [a,b,dif]=PARES[i], A=findWord(a), B=findWord(b), r=(S.cfg.afinar||{})[a+"|"+b], hechos=Object.keys(S.cfg.afinar||{}).length;
+  const box=(w,x)=>`<div class="wordbox" style="--c:${x.f.c};margin:0"><b class="w">${x.f.e} ${w}</b><p class="kv" style="margin-top:4px">${x.w[1]}</p><p class="kv"><span>En el cuerpo:</span> ${x.w[2]}</p></div>`;
+  const msg={a:`Cuando te pase, prueba a decir «me siento ${a.toLowerCase()}».`,b:`Cuando te pase, prueba a decir «me siento ${b.toLowerCase()}».`,ambas:`Pueden ir juntas. Puedes decir «me siento ${a.toLowerCase()} y también ${b.toLowerCase()}».`,ninguna:"Apuntado. Quizá otra palabra de la misma familia encaje mejor: búscala en Palabras."};
+  return `<p class="small muted" style="font-weight:700">Pareja ${i+1} de ${PARES.length} · ${hechos} respondidas</p>
+  <div class="card"><h2>${a} o ${b}</h2><div style="display:grid;gap:10px">${box(a,A)}${box(b,B)}</div>
+  <div class="why" style="margin-top:12px"><b>La diferencia:</b> ${dif}</div>
+  <h3 style="margin-top:16px">¿Cuál se parece más a lo que te suele pasar a ti?</h3>
+  <div class="who">${AF_OP.map(([k,t])=>`<button class="${r===k?"on":""}" data-act="afinar" data-v="${k}">${t}</button>`).join("")}</div>
+  ${r?`<p style="margin:12px 0 0;font-weight:600">${msg[r]}</p>`:""}</div>
+  <div class="row between"><button class="btn sm" data-act="par" data-v="-1" ${i?"":"disabled"}>‹ Anterior</button><button class="btn ${r?"pri":""} sm" data-act="par" data-v="1" ${i<PARES.length-1?"":"disabled"}>Siguiente ›</button></div>`;
+}
+function vMisDias(){
+  const pend=allEnts().filter(e=>!e.word).reverse(), R=UI.rep||{};
+  if(!allEnts().length) return `<div class="card empty"><div class="big">🗓️</div><p>Cuando hagas tus primeros registros en Hoy, aquí podrás volver a ellos con calma y ponerles palabras.</p></div>`;
+  if(!pend.length) return `<div class="card empty"><div class="big">🌸</div><p>Todos tus registros tienen ya una palabra. Vuelve cuando tengas más días.</p></div>`;
+  const idx=Math.min(R.i||0,pend.length-1), e=pend[idx], c=CIELO.find(x=>x.id===e.w), q=e.mx&&cuad(e.mx,e.my);
+  const sug=q?CUAD[q].fams:(SUG_CIELO[e.w]||[]), fam=R.fam&&famById(R.fam), x=R.word&&findWord(R.word);
+  const datos=[c&&`${c.e} Cielo: ${c.t.toLowerCase()}`, q&&`🗺️ Zona ${CUAD[q].n.toLowerCase()}: ${CUAD[q].d.toLowerCase()}`, e.zonas?.length&&`🫀 Lo notabas en ${lista(e.zonas.map(z=>ZONAS[z]))}${e.sens?.length?": "+lista(e.sens.map(s=>s.toLowerCase())):""}`, e.en&&`🔋 Energía: ${ENERGIA[e.en][0].toLowerCase()}`].filter(Boolean);
+  return `<p class="small muted" style="font-weight:700">${pend.length} ${pend.length===1?"registro":"registros"} sin palabra · ${idx+1} de ${pend.length}</p>
+  <div class="card" style="--c:${colorDe(e)}"><div class="row between"><b>${fmtD(e.k)}</b><span class="small muted">${e.t?pad(new Date(e.t).getHours())+":"+pad(new Date(e.t).getMinutes()):""}</span></div>
+    <ul class="plist">${datos.map(d=>`<li>${d}</li>`).join("")}</ul><p class="small muted" style="margin:8px 0 0">Lo que dijiste: «${esc(e.frase)}»</p></div>
+  <div class="card"><h2>Mirándolo ahora, ¿qué era?</h2><p class="hint">Recuerda ese momento con calma. ${sug.length?"Por lo que marcaste, quizá fuera "+lista(sug.map(s=>famById(s).n.toLowerCase())).replace(/ y ([^ ]+)$/," o $1")+".":""}</p>
+    <div class="grid2">${FAMILIAS.map(f=>`<button class="tile ${R.fam===f.id?"on":""} ${sug.includes(f.id)&&R.fam!==f.id?"sug":""}" style="--c:${f.c};padding:10px 6px" data-act="repFam" data-v="${f.id}"><span class="e" style="font-size:26px">${f.e}</span><b>${f.n}</b></button>`).join("")}</div>
+    ${fam?`<h3 style="margin-top:16px">¿Qué palabra encaja?</h3><div class="chips">${fam.w.map(w=>`<button class="chip ${R.word===w[0]?"on":""}" data-act="repWord" data-v="${w[0]}">${w[0]}</button>`).join("")}</div>`:""}
+    ${x?`<div class="wordbox" style="--c:${x.f.c}"><b class="w">${x.w[0]}</b><p class="kv" style="margin-top:4px">${x.w[1]}</p></div><button class="btn pri" data-act="repSave" style="margin-top:12px">Guardar «${x.w[0].toLowerCase()}» en ese día</button>`:""}
   </div>
-  <p class="small muted">No hay respuestas perfectas: la misma situación puede sentirse distinto según la persona. Aquí elegimos la más habitual.</p>`;
+  <div class="row between"><button class="btn sm" data-act="repNav" data-v="-1" ${idx?"":"disabled"}>‹ Más reciente</button><button class="btn sm" data-act="repNav" data-v="1" ${idx<pend.length-1?"":"disabled"}>Más antiguo ›</button></div>`;
 }
 
 /* ---------- MI CAMINO ---------- */
@@ -1064,6 +1142,11 @@ function burst(el,big){
     s.style.cssText=`left:${cx}px;top:${cy}px;background:${cols[i%cols.length]};--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d-20}px;border-radius:${i%3?"2px":"50%"}`;
     document.body.appendChild(s); setTimeout(()=>s.remove(),1000); }
 }
+function copiar(txt){
+  if(!txt) return;
+  try{ navigator.clipboard.writeText(txt).then(()=>toast("Copiada"),()=>toast("No se ha podido copiar. Mantén pulsado el texto para seleccionarlo.")); }
+  catch(e){ toast("Mantén pulsado el texto para seleccionarlo."); }
+}
 let tt; function toast(m){ let t=$(".toast"); if(!t){ t=document.createElement("div"); t.className="toast"; t.setAttribute("role","status"); document.body.appendChild(t); } t.textContent=m; clearTimeout(tt); tt=setTimeout(()=>t.remove(),2600); }
 
 async function pedirAlternativas(){
@@ -1111,8 +1194,22 @@ document.addEventListener("click",ev=>{
     case "copy": { const txt=fraseParaOtros(F.e); try{ navigator.clipboard.writeText(txt).then(()=>toast("Copiada"),()=>toast("No se ha podido copiar. Mantén pulsado el texto para copiarlo.")); }catch(e){ toast("Mantén pulsado el texto para copiarlo."); } break; }
     case "save": saveEntry(); break;
     case "word": UI.word=v; renderLayer(); break;
-    case "pick": { const G=UI.game, s=JUEGO[G.idx]; G.pick=v; const J=S.cfg.juego||(S.cfg.juego={ok:0,tot:0,racha:0}); J.tot++; if(v===s[1]){ J.ok++; J.racha++; } else J.racha=0; saveCfg(); render(); if(v===s[1]) burst($(".opt.ok"),false); break; }
-    case "newGame": newGame(); render(); break;
+    case "prac": UI.prac=v; render(); window.scrollTo(0,0); break;
+    case "guion": UI.guion={sit:v,p:{},txt:"",edited:false}; render(); window.scrollTo(0,0); break;
+    case "gBack": UI.guion=null; render(); break;
+    case "gPieza": { const G=UI.guion, k=b.dataset.k; G.p[k]=G.p[k]===v?null:v; G.edited=false; render(); break; }
+    case "gSave": { const G=UI.guion, g=GUIONES.find(x=>x.id===G.sit), txt=($("#gTxt")?.value||"").trim()||g.f(G.p); S.cfg.guiones=(S.cfg.guiones||[]).concat([{id:uid(),sit:G.sit,txt,t:Date.now()}]).slice(-30); saveCfg(); UI.guion=null; render(); window.scrollTo(0,0); toast("Guardada en tus frases"); break; }
+    case "gCopyCur": copiar(($("#gTxt")?.value||"").trim()); break;
+    case "gCopy": { const x=(S.cfg.guiones||[]).find(y=>y.id===v); if(x) copiar(x.txt); break; }
+    case "gDel": S.cfg.guiones=(S.cfg.guiones||[]).filter(y=>y.id!==v); saveCfg(); render(); break;
+    case "afinar": { const [a,b2]=PARES[UI.par||0]; S.cfg.afinar=Object.assign({},S.cfg.afinar||{},{[a+"|"+b2]:v}); saveCfg(); render(); break; }
+    case "par": UI.par=Math.max(0,Math.min(PARES.length-1,(UI.par||0)+Number(v))); render(); break;
+    case "repFam": { const R=UI.rep=UI.rep||{}; R.fam=R.fam===v?null:v; R.word=null; render(); break; }
+    case "repWord": { const R=UI.rep=UI.rep||{}; R.word=R.word===v?null:v; render(); break; }
+    case "repNav": UI.rep={i:Math.max(0,((UI.rep||{}).i||0)+Number(v))}; render(); break;
+    case "repSave": { const R=UI.rep||{}, pend=allEnts().filter(e=>!e.word).reverse(), e=pend[Math.min(R.i||0,pend.length-1)];
+      if(e&&R.word){ const D=S.days[e.k], ent=D&&(D.ents||[]).find(x=>x.id===e.id); if(ent){ const nueva=!palabrasUsadas()[R.word]; ent.word=R.word; ent.fam=R.fam; ent.revisada=true; saveDay(e.k); UI.rep={i:R.i||0}; render(); toast(nueva?"Guardada. Palabra nueva en tu colección 📖":"Guardada en ese día"); } }
+      break; }
     case "lvl": { const n=Number(v); S.cfg.lvl = n===0?null:Math.max(1,Math.min(5,lvl()+n)); if(S.cfg.lvl===autoLvl()) S.cfg.lvl=null; saveCfg(); render(); toast("Ahora estás en el nivel "+lvl()+": "+NIVELES[lvl()].n); break; }
     case "del": UI.confirmDel=v; render(); break;
     case "delNo": UI.confirmDel=null; render(); break;
@@ -1188,6 +1285,7 @@ document.addEventListener("change",ev=>{
 document.addEventListener("input",ev=>{
   const t=ev.target;
   if(UI.tool){ if(t.dataset.tt){ UI.tool[t.dataset.tt]=t.value; if(t.dataset.tt==="txt"&&t.value) UI.tool.pi=null; } if(t.dataset.plan) UI.tool.d[t.dataset.plan]=t.value; return; }
+  if(t.dataset.gt&&UI.guion){ UI.guion.txt=t.value; UI.guion.edited=true; return; }
   if(!UI.flow) return;
   if(t.dataset.txt==="frase"){ UI.flow.e.frase=t.value; UI.flow.edited=true; }
   if(t.dataset.txt==="txt"){ UI.flow.e.txt=t.value; }
