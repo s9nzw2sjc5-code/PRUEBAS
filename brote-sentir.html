@@ -239,6 +239,34 @@ nav.tabs button.on .i{filter:none; opacity:1}
 .psec .num{width:24px; height:24px; border-radius:50%; background:var(--soft); display:grid; place-items:center; font-size:12px; font-weight:800; flex:none}
 .inp2{display:grid; grid-template-columns:1fr 1fr; gap:6px; margin-bottom:6px}
 .tel{font-family:var(--font-d); font-weight:700; user-select:all}
+/* Mindfulness, SOS, sonidos y acompañante */
+.quick{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:0 0 16px}
+.quick .btn{display:flex; align-items:center; justify-content:center; gap:6px; padding:13px 10px; background:var(--surface); box-shadow:var(--shadow-s)}
+.quick .sos{background:color-mix(in srgb,#F06A55 16%,var(--surface))}
+.tool.lock{opacity:.6}
+.tool .lk{margin-left:auto; flex:none; font-size:12px; font-weight:800; color:var(--muted); text-align:right}
+.gstep{font-family:var(--font-d); font-size:24px; font-weight:700; margin:18px 0 8px; text-wrap:balance}
+.gtext{font-size:18px; line-height:1.5; margin:0 0 14px; text-wrap:pretty}
+.gleft{font-family:var(--font-d); font-size:30px; font-weight:700; text-align:center; font-variant-numeric:tabular-nums; color:var(--accent); margin:6px 0}
+.player{display:flex; align-items:center; gap:10px; padding:12px 14px; border-radius:18px; background:linear-gradient(135deg,color-mix(in srgb,#6C9BEA 26%,var(--surface)),color-mix(in srgb,#8E7CF0 20%,var(--surface))); margin:0 0 12px}
+.player b{flex:1; min-width:0}
+.semana .big{font-family:var(--font-d); font-size:20px; font-weight:700; line-height:1.3; margin:10px 0 0; text-wrap:pretty}
+.semana .row3{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:12px}
+.semana .row3 div{background:color-mix(in srgb,var(--surface) 70%,transparent); border-radius:14px; padding:10px; text-align:center}
+.semana .row3 b{display:block; font-family:var(--font-d); font-size:18px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.semana .row3 span{font-size:11.5px; font-weight:700; color:var(--muted)}
+.hdr-r{display:flex; align-items:center; gap:8px}
+.chatlog{display:flex; flex-direction:column; gap:8px; max-height:50vh; overflow-y:auto; padding:4px 2px 8px; margin:8px 0}
+.bub{max-width:86%; padding:10px 13px; border-radius:18px; font-size:15.5px; line-height:1.45; white-space:pre-wrap; word-break:break-word}
+.bub.a{align-self:flex-start; background:var(--surface-2); border-bottom-left-radius:6px}
+.bub.u{align-self:flex-end; background:var(--accent); color:var(--accent-ink); border-bottom-right-radius:6px}
+.bub.err{opacity:.75; font-style:italic}
+.chatin{display:flex; gap:8px; align-items:flex-end}
+.chatin textarea{min-height:46px; max-height:120px; flex:1; resize:none}
+.chatin .btn{flex:none}
+.memi{display:flex; gap:10px; align-items:flex-start; padding:10px 0; border-top:1px solid var(--line)}
+.memi:first-child{border-top:0}
+.memi span{flex:1; min-width:0}
 @media (max-width:380px){ .grid3{grid-template-columns:repeat(2,1fr)} .bodymap{width:110px} .bar{grid-template-columns:minmax(0,1fr) 80px 28px} }
 @media (prefers-reduced-motion: reduce){ *{transition:none!important; animation:none!important} }
 </style>
@@ -467,6 +495,39 @@ const GUIONES=[
   emo:["agradecida","acompañada","tranquila","querida"],
   nec:["sentirme apoyada","no sentirme sola","un respiro"],
   pet:["Gracias de verdad.","Quería que lo supieras.","Me hizo mucho bien."]}];
+
+/* --- Prácticas guiadas de mindfulness (una nueva por nivel) --- */
+const GUIAS={
+ stop:{n:"Pausa STOP",e:"⏸️",c:"#4FC487",lvl:2,d:"Un minuto para parar en mitad del día: parar, tomar aire, observar y seguir.",steps:[
+  ["Para","Para lo que estés haciendo. Deja las manos quietas.",10],
+  ["Toma aire","Toma aire despacio por la nariz y suéltalo largo, dos veces.",15],
+  ["Observa","Fíjate en tu cuerpo, en lo que sientes y en lo que piensas. Sin cambiar nada.",20],
+  ["Prosigue","Vuelve a lo que hacías, un poco más despacio.",10]]},
+ scan:{n:"Escaneo corporal",e:"🫧",c:"#6C9BEA",lvl:3,marca:true,d:"Recorre tu cuerpo de los pies a la cabeza y toca dónde notas algo. Unos 4 minutos.",steps:[
+  ["Prepárate","Siéntate o túmbate cómoda. Cierra los ojos si quieres. Respira con normalidad.",20],
+  ["Los pies","Lleva la atención a los pies. ¿Notas calor, frío, presión u hormigueo? Solo obsérvalo.",25,"piernas"],
+  ["Las piernas","Sube por las piernas. Fíjate si hay tensión o pesadez.",25,"piernas"],
+  ["La tripa","Nota cómo sube y baja la tripa al respirar. ¿Hay algún nudo?",25,"estomago"],
+  ["El pecho","Lleva la atención al pecho. ¿Está abierto o apretado?",25,"pecho"],
+  ["Los hombros","Nota los hombros. Si están subidos, déjalos caer un poco.",25,"hombros"],
+  ["Brazos y manos","Recorre los brazos hasta las manos. ¿Están quietas, tensas o inquietas?",25,"manos"],
+  ["Cuello y garganta","Fíjate en el cuello y la garganta. Traga despacio.",20,"garganta"],
+  ["Cara y cabeza","Suelta la mandíbula, la frente y los ojos.",25,"cabeza"],
+  ["Todo el cuerpo","Siente el cuerpo entero respirando. Cuando quieras, abre los ojos.",20]]},
+ rio:{n:"Hojas en el río",e:"🍃",c:"#9A79E2",lvl:4,d:"Observa tus pensamientos sin engancharte a ellos. Unos 3 minutos.",steps:[
+  ["Prepárate","Siéntate cómoda y respira con calma.",15],
+  ["El río","Imagina que estás sentada junto a un río tranquilo. Por el agua bajan hojas.",25],
+  ["Los pensamientos","Cada vez que aparezca un pensamiento, ponlo sobre una hoja y deja que el río se lo lleve.",40],
+  ["Sin juzgar","Si te enganchas a uno, no pasa nada. Vuelve al río y sigue poniendo pensamientos en las hojas.",40],
+  ["Cerrar","Deja de imaginar el río y nota tu respiración. Los pensamientos van y vienen: tú no eres ellos.",20]]},
+ compasion:{n:"Pausa de autocompasión",e:"🤲",c:"#FF9EC4",lvl:5,d:"Para los momentos en que te tratas con dureza. Unos 2 minutos.",steps:[
+  ["Algo difícil","Piensa en algo que te esté costando ahora. Algo pequeño o mediano.",20],
+  ["Esto duele","Dite por dentro: «Esto es un momento difícil. Esto duele».",20],
+  ["No estás sola","Dite: «Las dificultades forman parte de la vida. Otras personas también se sienten así».",20],
+  ["Amabilidad","Pon una mano en el pecho y dite: «Que pueda ser amable conmigo ahora».",25],
+  ["Lo que necesitas","Pregúntate qué necesitas oír ahora y dítelo como se lo dirías a una amiga.",25]]}};
+const PRACT_LVL={2:"stop",3:"scan",4:"rio",5:"compasion"};
+const SONIDOS=[["lluvia","🌧️","Lluvia"],["mar","🌊","Mar"],["marron","🤎","Ruido suave"]];
 const PIEZAS=[["obs","Lo que pasa","¿Qué ha pasado o qué está pasando?"],["emo","Cómo me siento","Una sola palabra basta."],["nec","Lo que necesito","Lo que hay debajo de la emoción."],["pet","Lo que pido","Algo concreto que la otra persona pueda hacer."]];
 
 /* --- Practicar: afinar palabras parecidas (sin respuestas correctas) --- */
@@ -584,7 +645,7 @@ const conMascota=c=>c[0]!=="ringo"||!!(S.cfg.mascota||"").trim();
 function render(){
   aplicarMascota();
   $("#tabs").innerHTML=TABS.map(([id,i,t])=>`<button data-act="tab" data-v="${id}" class="${UI.tab===id?"on":""}" aria-current="${UI.tab===id?"page":"false"}"><span class="i">${i}</span>${t}</button>`).join("");
-  const head=`<header class="top"><div class="brand"><span class="lg">🌱</span>Brote <small>Sentir</small></div><div class="sync ${synced?"on":""}"><i></i>${synced?"Guardado en tu cuenta":SUELTA?"Guardado en este móvil":"En este dispositivo"}</div></header>`;
+  const head=`<header class="top"><div class="brand"><span class="lg">🌱</span>Brote <small>Sentir</small></div><div class="hdr-r"><div class="sync ${synced?"on":""}"><i></i>${synced?"Guardado en tu cuenta":SUELTA?"Guardado en este móvil":"En este dispositivo"}</div><button class="icon-btn sm" data-act="chat" aria-label="Hablar con el acompañante">💬</button></div></header>`;
   $("#app").innerHTML=head+({hoy:vHoy,calma:vCalma,palabras:vMapa,juego:vPracticar,camino:vCamino}[UI.tab])();
   renderLayer();
 }
@@ -613,7 +674,10 @@ function vHoy(){
     </div><div class="plant-wrap">${plant(L)}</div></div>
     <button class="btn pri big" data-act="start" style="width:100%">${ult?"Añadir otro momento":"Empezar · 1 minuto"}</button>
     ${falta!=null&&sig?`<p class="small" style="margin:12px 0 0;text-align:center;font-weight:600">${falta?`${falta===1?"Falta 1 día":"Faltan "+falta+" días"} para el nivel ${sig.e} ${sig.n}: ${sig.t.toLowerCase()}`:`Mañana se abre el nivel ${sig.e} ${sig.n}`}</p>`:""}
-  </section>`;
+  </section>
+  <div class="quick"><button class="btn sos" data-act="tool" data-v="sos">🆘 Ahora estoy mal</button><button class="btn" data-act="chat">💬 Hablarlo</button></div>`;
+  if(semanaToca()) html+=semanaCard(true);
+  html+=playerHTML();
   if(hoyE.length){
     html+=`<div class="card"><h2>Hoy lo has dicho así</h2>${hoyE.slice().reverse().map(e=>entRow(Object.assign({k:today()},e))).join("")}</div>`;
     if(ult && ult.int>=4 && ["miedo","enfado","tristeza","verguenza","cansancio"].includes(ult.fam)) html+=ayudaCard(ult);
@@ -644,11 +708,12 @@ function ayudaCard(e){
 /* ---------- CHECK-IN ---------- */
 function startFlow(){ const L=lvl(); UI.flow={i:0, L, e:{lvl:L, zonas:[], sens:[], int:3, con:[], act:[]}, alts:null, altBusy:false, own:false}; renderLayer(); }
 function renderLayer(){
-  const ly=$("#layer"), kind=UI.flow?"flow":UI.tool?"tool:"+UI.tool.id:UI.done?"done":UI.word?"word":"", still=kind&&kind===renderLayer.kind, top=still?($(".sheet")?.scrollTop||0):0;
+  const ly=$("#layer"), kind=UI.flow?"flow":UI.tool?"tool:"+UI.tool.id:UI.chat?"chat"+(UI.chatMem?":mem":""):UI.done?"done":UI.word?"word":"", still=kind&&kind===renderLayer.kind, top=still?($(".sheet")?.scrollTop||0):0;
   renderLayer.kind=kind;
   if(UI.flow) ly.innerHTML=`<div class="sheet-bg" data-act="bgclose"><div class="sheet" role="dialog" aria-modal="true" aria-label="Cómo estoy">${vFlow()}</div></div>`;
   else if(UI.ready && !S.cfg.intro) ly.innerHTML=`<div class="sheet-bg"><div class="sheet" role="dialog" aria-modal="true" aria-label="Bienvenida">${vBienvenida()}</div></div>`;
   else if(UI.tool) ly.innerHTML=`<div class="sheet-bg" data-act="bgclose"><div class="sheet" role="dialog" aria-modal="true">${vTool()}</div></div>`;
+  else if(UI.chat) ly.innerHTML=`<div class="sheet-bg"><div class="sheet" role="dialog" aria-modal="true" aria-label="Acompañante">${vChat()}</div></div>`;
   else if(UI.done) ly.innerHTML=`<div class="sheet-bg" data-act="bgclose"><div class="sheet" role="dialog" aria-modal="true">${vDone()}</div></div>`;
   else if(UI.word) ly.innerHTML=`<div class="sheet-bg" data-act="bgclose"><div class="sheet" role="dialog" aria-modal="true">${vWord()}</div></div>`;
   else ly.innerHTML="";
@@ -748,7 +813,7 @@ function vDone(){
   ${nueva?`<p style="text-align:center;font-weight:700">📖 Palabra nueva en tu colección: <b>${esc(ent.word)}</b></p>`:""}
   <p class="small muted" style="text-align:center">${diasHechos()} ${diasHechos()===1?"día":"días"} escuchándote${racha()>1?" · "+racha()+" seguidos":""}</p>
   ${sugTool(ent)}
-  ${up?`<div class="unlock"><b style="font-family:var(--font-d);font-size:19px">Nivel ${up} desbloqueado: ${NIVELES[up].n}</b><p style="margin:6px 0 0">${NIVELES[up].p}</p></div>`:""}
+  ${up?`<div class="unlock"><b style="font-family:var(--font-d);font-size:19px">Nivel ${up} desbloqueado: ${NIVELES[up].n}</b><p style="margin:6px 0 0">${NIVELES[up].p}</p>${PRACT_LVL[up]?`<p style="margin:8px 0 0">Y una práctica nueva en Calma: <b>${GUIAS[PRACT_LVL[up]].e} ${GUIAS[PRACT_LVL[up]].n}</b>.</p>`:""}</div>`:""}
   <div class="foot"><span></span><button class="btn pri" data-act="closeDone">Listo</button></div>`;
 }
 
@@ -858,6 +923,7 @@ function vCamino(){
     return `<div class="stage ${cls}"><span class="ic">${N.e}</span><div class="tx"><b>${N.n} · ${N.t}</b>${i>L?`<span class="small muted"> · desde el día ${N.dias}</span>`:""}<p>${N.p}</p></div></div>`; }).join("")}</div>
     <h3 style="margin-top:6px">Ir a mi ritmo</h3><p class="small muted">${S.cfg.lvl?`Has fijado el nivel ${S.cfg.lvl} a mano.`:"El nivel sube solo según los días que te registras."}</p>
     <div class="seg"><button class="btn sm" data-act="lvl" data-v="-1" ${L<=1?"disabled":""}>Más sencillo</button><button class="btn sm" data-act="lvl" data-v="1" ${L>=5?"disabled":""}>Un paso más</button>${S.cfg.lvl?`<button class="btn sm ghost" data-act="lvl" data-v="0">Volver a automático</button>`:""}</div></div>`;
+  html+=semanaCard(false);
   html+=`<div class="card"><h2>Últimas 5 semanas</h2>${calendario()}</div>`;
   html+=analisis(ents);
   if(ents.length>=3) html+=`<div class="card"><h2>Lo que más se repite</h2>${patrones(ents)}</div>`;
@@ -896,11 +962,16 @@ const who5Banda=s=>s<=28?"Muy bajo":s<=50?"Bajo":"Adecuado";
 const who5Due=()=>{ const w=S.cfg.who5||[]; return w.length? addDays(w[w.length-1].k,14)<=today() : diasHechos()>=1; };
 function vCalma(){
   const pens=Object.values(S.days).flatMap(d=>d.pens||[]).length, w=S.cfg.who5||[], lw=w[w.length-1];
-  const T=(id,ic,c,t,d)=>`<button class="tool" style="--c:${c}" data-act="tool" data-v="${id}"><span class="ti">${ic}</span><span style="min-width:0"><b>${t}</b><small>${d}</small></span></button>`;
+  const T=(id,ic,c,t,d,lock)=>`<button class="tool ${lock?"lock":""}" style="--c:${c}" data-act="tool" data-v="${id}"><span class="ti">${ic}</span><span style="min-width:0"><b>${t}</b><small>${d}</small></span>${lock?`<span class="lk">🔒 Nivel ${lock}</span>`:""}</button>`;
   return `<h1 style="margin:0 0 6px">Calma</h1><p class="muted">Herramientas que recomiendan los psicólogos. Todas se hacen tocando la pantalla.</p>
+  ${playerHTML()}
+  ${T("sos","🆘","#F06A55","Ahora estoy mal","Un toque y te acompaño paso a paso. No tienes que decidir nada.")}
   <p class="sec-t">Para ahora mismo</p>
   ${T("resp","🌬️","#6C9BEA","Respirar","1 o 2 minutos. Tres ritmos para bajar los nervios.")}
   ${T("ground","🖐️","#4FC487","5-4-3-2-1","Vuelve al presente con los sentidos cuando la cabeza no para.")}
+  ${T("sonidos","🎧","#8E7CF0","Sonidos para calmarte","Lluvia, mar o ruido suave, con temporizador.")}
+  <p class="sec-t">Tu camino de mindfulness</p><p class="small muted" style="margin:-4px 4px 10px">Cada nivel abre una práctica guiada nueva, con voz.</p>
+  ${Object.entries(GUIAS).map(([k,g])=>T("guia:"+k,g.e,g.c,g.n,g.d,practicaAbierta(k)?null:g.lvl)).join("")}
   <p class="sec-t">Para entenderte mejor</p>
   ${T("pens","🧠","#9A79E2","Revisar un pensamiento","Descubre las trampas de la mente y busca otra forma de verlo."+(pens?" Llevas "+pens+".":""))}
   ${T("buena","☀️","#FFBF3C","Una cosa buena al día","Elige algo pequeño que te siente bien y mira cómo te ha ido.")}
@@ -912,7 +983,8 @@ function vCalma(){
   <p class="crisis">Si estás en peligro o piensas en hacerte daño, llama al <b>024</b> (gratis, 24 h) o al <b>112</b>.</p>`;
 }
 function openTool(id,o){
-  const init={resp:{pat:"cuadrada",run:false,n:0,fin:false},ground:{i:0,taps:0},pens:{p:0,pi:null,txt:"",antes:null,dist:[],alt:null,altTxt:"",despues:null,saved:false},
+  soltarTool();
+  const init={sos:{stage:"intro",pat:"suspiro",run:false,n:0,i:0,taps:0},guia:{i:-1,run:false,marks:[]},sonidos:{s:"lluvia",min:20},resp:{pat:"cuadrada",run:false,n:0,fin:false},ground:{i:0,taps:0},pens:{p:0,pi:null,txt:"",antes:null,dist:[],alt:null,altTxt:"",despues:null,saved:false},
     who5:{i:0,r:[]},test:{i:0,r:[],dif:null,done:false},plan:{edit:!S.cfg.plan, d:JSON.parse(JSON.stringify(S.cfg.plan||{alertas:[],calmar:[]}))},buena:{},informe:{dias:14}}[id]||{};
   UI.done=null; UI.word=null; UI.tool=Object.assign({id},init,o||{}); renderLayer();
 }
@@ -946,15 +1018,16 @@ function vBienvenida(){
   <p class="small muted" style="margin:8px 0 0">La usaré en algunas opciones, como «Pasear a Luna». Puedes cambiarlo cuando quieras en Camino.</p>`:""}
   <div class="foot"><span></span><button class="btn pri" data-act="bvOk">Empezar</button></div>`;
 }
-function closeTool(){ const T=UI.tool; if(T&&T.to) clearTimeout(T.to); UI.tool=null; render(); }
+function soltarTool(){ const T=UI.tool; if(T){ clearTimeout(T.to); clearInterval(T.iv); if(T.id==="guia") callar(); } UI.tool=null; }
+function closeTool(){ soltarTool(); render(); }
 function breathTick(){
-  const T=UI.tool; if(!T||T.id!=="resp"||!T.run) return;
+  const T=UI.tool; if(!T||!["resp","sos"].includes(T.id)||!T.run) return;
   const R=RESP[T.pat], P=R.f; T.ph=(T.ph+1)%P.length; if(T.ph===0) T.n++;
-  if(T.n>R.max){ T.run=false; T.fin=true; renderLayer(); return; }
+  if(T.n>(T.max||R.max)){ T.run=false; if(T.id==="sos"){ T.stage="ground"; T.i=0; T.taps=0; } else T.fin=true; renderLayer(); return; }
   const [lab,sec,sc]=P[T.ph], c=$("#circle"), l=$("#blbl"), cnt=$("#bcnt");
   if(c){ c.style.transitionDuration=sec+"s"; c.style.transform=`scale(${.75+.75*sc})`; }
   if(l) l.innerHTML=`${lab}<br><small>${sec} s</small>`;
-  if(cnt) cnt.textContent=`Ronda ${T.n} de ${R.max}`;
+  if(cnt) cnt.textContent=`Ronda ${T.n} de ${T.max||R.max}`;
   T.to=setTimeout(breathTick, sec*1000);
 }
 function vTool(){
@@ -967,6 +1040,38 @@ function vTool(){
     <p class="small muted" id="bcnt" style="text-align:center">${T.fin?"Fíjate en cómo está ahora tu cuerpo.":R.f.map(x=>x[0]+" "+x[1]+" s").join(" · ")}</p>
     <div class="foot"><span></span>${T.run?`<button class="btn" data-act="respStop">Parar</button>`:`<button class="btn pri" data-act="respGo">${T.fin?"Otra vez":"Empezar"}</button>`}</div>`;
   }
+  if(T.id==="sos"){
+    const per=[0,1,2].map(i=>[(S.cfg.plan||{})["p"+i+"n"],(S.cfg.plan||{})["p"+i+"t"]]).filter(x=>x[0]||x[1]);
+    const gente=per.length?`<div class="card" style="box-shadow:none;background:var(--surface-2);margin-top:12px"><b>Puedes escribir o llamar a:</b>${per.map(x=>`<p style="margin:4px 0">${esc(x[0]||"")} <span class="tel">${esc(x[1]||"")}</span></p>`).join("")}</div>`:"";
+    if(T.stage==="intro") return head("Ahora estoy mal")+`<div class="done-art">🫂</div><p class="q" style="text-align:center">Estoy aquí contigo</p><p class="hint" style="text-align:center">Vamos paso a paso: primero respirar un minuto y después volver al presente. No tienes que decidir nada, solo seguirme.</p><div class="foot"><span></span><button class="btn pri" data-act="sosGo">Empezar</button></div>`;
+    if(T.stage==="resp") return head("Paso 1 de 3 · Respirar")+`<p class="hint" style="margin-top:10px">Sigue el círculo: toma aire cuando crece y suéltalo largo cuando se encoge.</p><div class="breath"><div class="circle" id="circle" style="transform:scale(.75)"></div><div class="lbl" id="blbl"></div></div><p class="small muted" id="bcnt" style="text-align:center"></p><div class="foot"><span></span><button class="btn ghost" data-act="sosSkip">Pasar al siguiente</button></div>`;
+    if(T.stage==="ground"){ const [n,t,ic]=GROUND[Math.min(T.i,4)]; return head("Paso 2 de 3 · Volver al presente")+prog(5,T.i)+`<p class="q">Busca ${n} ${t}</p><p class="hint">Toca un círculo por cada una.</p><div class="taps">${Array.from({length:n},(_,j)=>`<button class="${j<T.taps?"on":""}" data-act="groundTap" aria-label="Una más">${j<T.taps?ic:""}</button>`).join("")}</div><div class="foot"><span></span><button class="btn ghost" data-act="sosRes" data-v="check">Pasar al siguiente</button></div>`; }
+    if(T.stage==="check") return head("Paso 3 de 3")+`<p class="q" style="margin-top:12px">¿Cómo estás ahora?</p><div class="who" style="margin-top:12px"><button data-act="sosRes" data-v="mejor">Un poco mejor</button><button data-act="sosRes" data-v="igual">Igual</button><button data-act="sosRes" data-v="peor">Peor</button></div>`;
+    if(T.stage==="mejor") return head("Ahora estoy mal")+`<div class="done-art">🌱</div><p class="q" style="text-align:center">Bien hecho</p><p class="hint" style="text-align:center">Has atravesado un momento difícil. Cuando puedas, marca cómo estás: te ayudará a entenderlo.</p><div class="row wrapf" style="justify-content:center"><button class="btn pri sm" data-act="sosMapa">Marcar en el mapa</button>${SAMPLE?`<button class="btn sm" data-act="chat">Hablarlo</button>`:""}<button class="btn ghost sm" data-act="closeTool">Cerrar</button></div>`;
+    if(T.stage==="igual") return head("Ahora estoy mal")+`<p class="q" style="margin-top:12px">A veces hace falta un poco más</p><p class="hint">Elige lo que te apetezca:</p><div class="who"><button data-act="sosGo">Respirar otra vez</button><button data-act="tool" data-v="sonidos">Poner lluvia o mar de fondo</button>${SAMPLE?`<button data-act="chat">Hablarlo con el acompañante</button>`:""}<button data-act="tool" data-v="plan">Ver mi plan de seguridad</button></div>${gente}`;
+    return head("Ahora estoy mal")+`<div class="alerta" style="margin-top:12px;padding:14px;border-radius:16px;background:color-mix(in srgb,#F06A55 18%,var(--surface))"><b style="font-family:var(--font-d);font-size:18px">No tienes que pasarlo sola</b><p style="margin:6px 0">Llama ahora a alguien de confianza. Si piensas en hacerte daño, llama al <span class="tel">024</span> (gratis, 24 h). Si estás en peligro, al <span class="tel">112</span>.</p><button class="btn pri sm" data-act="tool" data-v="plan">Abrir mi plan de seguridad</button></div>${gente}<div class="foot"><button class="btn" data-act="sosGo">Respirar otra vez</button><button class="btn ghost" data-act="closeTool">Cerrar</button></div>`;
+  }
+  if(T.id==="guia"){ const G=GUIAS[T.g], n=G.steps.length;
+    if(T.fin){ const zs=[...new Set(T.marks||[])];
+      return head(G.n)+`<div class="done-art">${G.e}</div><p class="q" style="text-align:center">Bien hecho</p>`+(G.marca
+        ?`<p class="hint" style="text-align:center">${zs.length?"Has notado algo en "+lista(zs.map(z=>ZONAS[z]))+".":"No has marcado ninguna zona. También es información: quizá hoy el cuerpo está tranquilo."}</p>${zs.length?`<div class="foot"><button class="btn" data-act="closeTool">Cerrar</button><button class="btn pri" data-act="scanSave">Guardar en mi día</button></div>`:`<div class="foot"><span></span><button class="btn pri" data-act="closeTool">Listo</button></div>`}`
+        :T.g==="stop"?`<p class="hint" style="text-align:center">¿Quieres apuntar cómo estás ahora?</p><div class="foot"><button class="btn" data-act="closeTool">Cerrar</button><button class="btn pri" data-act="sosMapa">Marcar en el mapa</button></div>`
+        :`<p class="hint" style="text-align:center">Fíjate en cómo está ahora tu cuerpo.</p><div class="foot"><span></span><button class="btn pri" data-act="closeTool">Listo</button></div>`); }
+    if(T.i<0){ const mins=Math.max(1,Math.round(G.steps.reduce((a,x)=>a+x[2],0)/60));
+      return head(G.n)+`<div class="done-art">${G.e}</div><p class="q" style="text-align:center">${G.n}</p><p class="hint" style="text-align:center">${G.d}</p>
+      ${VOZ?`<div style="text-align:center"><button class="chip ${S.cfg.voz!==false?"on":""}" data-act="voz">${S.cfg.voz!==false?"🔊 Con voz":"🔇 Sin voz"}</button></div>`:""}
+      <p class="small muted" style="text-align:center;margin-top:10px">${n} pasos · unos ${mins} min. Si no oyes la voz, sube el volumen o quita el modo silencio.</p>
+      <div class="foot"><span></span><button class="btn pri" data-act="guiaGo">Empezar</button></div>`; }
+    const st=G.steps[T.i], on=st[3]&&(T.marks||[]).includes(st[3]);
+    return head(G.n+" · "+(T.i+1)+" de "+n)+prog(n,T.i)+`<p class="gstep">${st[0]}</p><p class="gtext">${st[1]}</p><p class="gleft" id="gLeft">${T.left} s</p>
+      ${st[3]?`<div style="text-align:center"><button class="chip ${on?"on":""}" data-act="gMark" data-v="${st[3]}" style="font-size:16px;padding:12px 18px">${on?"✓ Noto algo aquí":"📍 Noto algo aquí"}</button></div>`:""}
+      <div class="foot"><button class="btn" data-act="${T.run?"guiaPausa":"guiaSeguir"}">${T.run?"Pausa":"Seguir"}</button><button class="btn ghost" data-act="guiaSalta">Siguiente paso</button></div>`;
+  }
+  if(T.id==="sonidos") return head("Sonidos")+`<p class="hint" style="margin-top:10px">Se generan en el propio móvil, sin internet. Úsalos para meditar, concentrarte o dormirte.</p>
+    <div class="grid3">${SONIDOS.map(([k,e,n])=>`<button class="tile ${T.s===k?"on":""}" style="--c:#6C9BEA" data-act="sndSel" data-v="${k}"><span class="e">${e}</span><b>${n}</b></button>`).join("")}</div>
+    <h3 style="margin-top:16px">¿Cuánto tiempo?</h3><div class="chips">${[5,10,20,30].map(m=>`<button class="chip ${T.min===m?"on":""}" data-act="sndMin" data-v="${m}">${m} min</button>`).join("")}</div>
+    <div style="margin-top:14px">${playerHTML()}</div><p class="small muted">Si no oyes nada, sube el volumen o quita el modo silencio.</p>
+    <div class="foot"><span></span><button class="btn pri" data-act="sndPlay">${SND.on?"Cambiar sonido":"Reproducir"}</button></div>`;
   if(T.id==="ground"){
     if(T.i>=GROUND.length) return head("5-4-3-2-1")+`<div class="done-art">🌿</div><p class="q" style="text-align:center">Estás aquí, ahora.</p><p class="hint" style="text-align:center">Has usado los cinco sentidos para volver al presente. ¿Notas tu respiración más lenta?</p><div class="foot"><button class="btn" data-act="groundAgain">Repetir</button><button class="btn pri" data-act="closeTool">Listo</button></div>`;
     const [n,t,ic]=GROUND[T.i];
@@ -1161,6 +1266,160 @@ function analisis(ents){
   h+=`<div class="card"><h2>Mi plan de seguridad</h2><div class="row between"><span class="small muted">${S.cfg.plan?"Preparado.":"Aún sin preparar."}</span><button class="btn sm" data-act="tool" data-v="plan">${S.cfg.plan?"Ver":"Preparar"}</button></div></div>`;
   return h;
 }
+/* ============ Voz, campana y sonidos (todo generado en el móvil) ============ */
+const VOZ="speechSynthesis" in window;
+let ACX=null;
+function audio(){
+  try{ if(navigator.audioSession) navigator.audioSession.type="playback"; }catch(e){} // suena aunque el iPhone esté en silencio
+  try{ ACX=ACX||new (window.AudioContext||window.webkitAudioContext)(); if(ACX.state==="suspended") ACX.resume(); }catch(e){ ACX=null; }
+  return ACX;
+}
+function campana(){
+  const c=audio(); if(!c) return; const t=c.currentTime;
+  [[528,.22],[1056,.07],[1584,.035]].forEach(([f,g])=>{ const o=c.createOscillator(), v=c.createGain(); o.type="sine"; o.frequency.value=f;
+    v.gain.setValueAtTime(0,t); v.gain.linearRampToValueAtTime(g,t+.02); v.gain.exponentialRampToValueAtTime(.0001,t+3.5); o.connect(v).connect(c.destination); o.start(t); o.stop(t+3.6); });
+}
+function hablar(t){
+  if(!VOZ||S.cfg.voz===false) return;
+  try{ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(t), vs=speechSynthesis.getVoices(); u.lang="es-ES";
+    const v=vs.find(x=>/^es[-_]ES/i.test(x.lang))||vs.find(x=>/^es/i.test(x.lang)); if(v) u.voice=v; u.rate=.9; speechSynthesis.speak(u); }catch(e){}
+}
+function callar(){ try{ if(VOZ) speechSynthesis.cancel(); }catch(e){} }
+const SND={on:null,nodes:null,end:0,to:null};
+function sonar(tipo,min){
+  parar(false); const c=audio(); if(!c){ toast("Este navegador no puede reproducir sonidos."); return; }
+  const len=c.sampleRate*4, buf=c.createBuffer(1,len,c.sampleRate), d=buf.getChannelData(0); let last=0;
+  for(let i=0;i<len;i++){ const w=Math.random()*2-1; if(tipo==="lluvia") d[i]=w; else { last=(last+.02*w)/1.02; d[i]=last*3.5; } }
+  const src=c.createBufferSource(), f=c.createBiquadFilter(), g=c.createGain(), t=c.currentTime; src.buffer=buf; src.loop=true;
+  if(tipo==="lluvia"){ f.type="bandpass"; f.frequency.value=1600; f.Q.value=.5; } else { f.type="lowpass"; f.frequency.value=tipo==="mar"?900:450; }
+  const vol=tipo==="lluvia"?.16:.45; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(vol,t+2);
+  src.connect(f).connect(g).connect(c.destination);
+  let lfo=null; if(tipo==="mar"){ lfo=c.createOscillator(); const lg=c.createGain(); lfo.frequency.value=.08; lg.gain.value=vol*.7; lfo.connect(lg).connect(g.gain); lfo.start(); }
+  src.start(); SND.on=tipo; SND.nodes={src,g,lfo}; SND.end=Date.now()+min*60000; SND.to=setTimeout(()=>{ parar(true); render(); },min*60000);
+}
+function parar(suave){
+  clearTimeout(SND.to); const n=SND.nodes; SND.on=null; SND.nodes=null; if(!n||!ACX) return;
+  try{ const t=ACX.currentTime, fin=suave?4:.3; n.g.gain.cancelScheduledValues(t); n.g.gain.setValueAtTime(n.g.gain.value,t); n.g.gain.linearRampToValueAtTime(0,t+fin);
+    setTimeout(()=>{ try{ n.src.stop(); if(n.lfo) n.lfo.stop(); }catch(e){} },fin*1000+200); }catch(e){}
+}
+const minRest=()=>Math.max(1,Math.ceil((SND.end-Date.now())/60000));
+function playerHTML(){ if(!SND.on) return ""; const s=SONIDOS.find(x=>x[0]===SND.on); return `<div class="player"><span style="font-size:24px">${s[1]}</span><b>Sonando: ${s[2].toLowerCase()}<br><span class="small muted">Quedan unos ${minRest()} min</span></b><button class="btn sm" data-act="sndStop">Parar</button></div>`; }
+
+/* ============ Prácticas guiadas ============ */
+function guiaPaso(nuevo){
+  const T=UI.tool; if(!T||T.id!=="guia"||!T.run) return; const G=GUIAS[T.g], st=G.steps[T.i];
+  if(nuevo){ T.left=st[2]; hablar(st[0]+". "+st[1]); renderLayer(); }
+  clearInterval(T.iv);
+  T.iv=setInterval(()=>{ if(UI.tool!==T||!T.run){ clearInterval(T.iv); return; } T.left--; const c=$("#gLeft"); if(c) c.textContent=T.left+" s"; if(T.left<=0) guiaSig(); },1000);
+}
+function guiaSig(){
+  const T=UI.tool, G=GUIAS[T.g]; clearInterval(T.iv); T.i++;
+  if(T.i>=G.steps.length){ T.run=false; T.fin=true; campana(); hablar("Has terminado. Bien hecho."); renderLayer(); setTimeout(()=>burst($(".done-art"),false),100); }
+  else guiaPaso(true);
+}
+const practicaAbierta=g=>lvl()>=GUIAS[g].lvl;
+
+/* ============ Tu semana ============ */
+function semanaDatos(){
+  const desde=addDays(today(),-6), E=allEnts().filter(e=>e.k>=desde); if(!E.length) return null;
+  const cnt=a=>{ const m={}; a.forEach(x=>{ if(x) m[x]=(m[x]||0)+1; }); return Object.entries(m).sort((a,b)=>b[1]-a[1]); };
+  const dias=new Set(E.map(e=>e.k)).size, q=cnt(E.filter(e=>e.mx).map(e=>cuad(e.mx,e.my)))[0], w=cnt(E.map(e=>e.word))[0], f=cnt(E.map(e=>e.fam))[0];
+  const P=Object.keys(S.days).filter(k=>k>=desde).map(k=>S.days[k].plan).filter(p=>p&&p.done&&p.ef>0), co=correlaciones(allEnts()), bien=co&&co.rows.find(r=>r[1]>0);
+  const ayuda=P.length?ACTB[P[0].a][1].toLowerCase():bien?tagLabel(bien[0]).replace(/^\S+\s/,"").toLowerCase():null;
+  const qq=q&&q[0];
+  const frase=dias>=5?"Te has escuchado casi todos los días. Eso es constancia, y se nota.":qq==="azul"?"Ha sido una semana con poca energía. Descansar también cuenta como avanzar.":qq==="rojo"?"Ha sido una semana intensa. La estás atravesando, paso a paso.":qq?"Ha habido momentos de luz esta semana. Guárdalos.":"Cada vez que te paras a escucharte, te conoces un poco mejor.";
+  return {dias,q:qq,w:w&&w[0],f:f&&f[0],ayuda,frase};
+}
+function semanaCard(cerrable){
+  const s=semanaDatos(); if(!s) return "";
+  const col=s.q?CUAD[s.q].c:s.f?famById(s.f).c:"#9A79E2";
+  return `<div class="card semana" style="background:linear-gradient(160deg,color-mix(in srgb,${col} 30%,var(--surface)),var(--surface) 85%)"><div class="row between"><h2 style="margin:0">Tu semana</h2>${cerrable?`<button class="btn ghost sm" data-act="semanaOk">Cerrar</button>`:""}</div>
+  <div class="row3"><div><b>${s.dias}</b><span>${s.dias===1?"día":"días"} contigo</span></div><div><b>${s.q?CUAD[s.q].n:"—"}</b><span>zona más frecuente</span></div><div><b>${s.w?esc(s.w):"—"}</b><span>palabra más usada</span></div></div>
+  ${s.ayuda?`<p class="small" style="margin:12px 0 0"><b>Lo que te sentó bien:</b> ${esc(s.ayuda)}.</p>`:""}
+  <p class="big">${s.frase}</p></div>`;
+}
+const semanaToca=()=>{ const d=new Date().getDay(); return (d===0||d===1) && !(S.cfg.semanaVista && S.cfg.semanaVista>=addDays(today(),-1)); };
+
+/* ============ Acompañante (chat). Memoria y conversación solo en este móvil ============ */
+const CHAT_LS=LS+".chat";
+const CH={msgs:[],mem:[],ctx:true,loaded:false,draft:"",busy:false,opts:null,riesgo:false,nUser:0};
+function chatLoad(){ if(CH.loaded) return; CH.loaded=true; try{ const o=JSON.parse(localStorage.getItem(CHAT_LS)||"null"); if(o){ CH.msgs=o.msgs||[]; CH.mem=o.mem||[]; CH.ctx=o.ctx!==false; } }catch(e){} }
+function chatSave(){ try{ localStorage.setItem(CHAT_LS,JSON.stringify({msgs:CH.msgs.slice(-200),mem:CH.mem,ctx:CH.ctx})); }catch(e){} }
+const RIESGO=/suicid|matarme|quitarme la vida|hacerme da[ñn]o|no quiero vivir|acabar con todo|mejor muert|autolesi|cortarme|desaparecer para siempre/i;
+const OPC_INI=["No sé cómo me siento","Ha pasado algo","Estoy bien, solo quiero hablar"];
+function contextoReciente(){
+  const E=allEnts().filter(e=>e.k>=addDays(today(),-6)); if(!E.length) return "Sin registros esta semana.";
+  return E.slice(-10).map(e=>`- ${fmtD(e.k)}: ${e.frase}${e.causa?" (causa: "+byId(CAUSAS,e.causa)[2]+")":""}${e.nec?" (necesitaba: "+byId(NECES,e.nec)[2]+")":""}`).join("\n");
+}
+function instrucciones(){
+  return `Eres el acompañante de Brote Sentir, una app para aprender a reconocer y expresar emociones poco a poco.${S.cfg.nombre?" Hablas con "+S.cfg.nombre+".":""} ${ANONIMA?"No sabes su género: usa un lenguaje neutro.":"Es una mujer: háblale en femenino."}
+Cómo debes responder:
+- Español de España, tuteo, frases cortas y cálidas. Como mucho 4 frases.
+- A esta persona le cuesta encontrar las palabras. Haz una sola pregunta cada vez y da ejemplos concretos para que pueda elegir.
+- Ayúdale a poner nombre a lo que siente (alegría, calma, tristeza, miedo, enfado, vergüenza, cansancio y sus matices), a notar dónde lo siente en el cuerpo y qué necesita.
+- Puedes sugerir herramientas de la app cuando encajen: Respirar, 5-4-3-2-1, Pausa STOP, Escaneo corporal, Revisar un pensamiento o Una cosa buena al día.
+- No eres psicóloga: no diagnostiques ni des consejos médicos. Si sale algo importante, anímale a hablarlo con su psicóloga.
+- Si menciona hacerse daño, suicidio o estar en peligro: responde con calma y cariño, dile que no está sola, que llame al 024 (gratis, 24 horas) o al 112 si hay peligro inmediato, y que avise a alguien de confianza.
+- No inventes recuerdos: usa solo lo que aparece abajo.
+- Termina SIEMPRE con una línea aparte que empiece por "OPCIONES:" y tenga 3 respuestas cortas que podría tocar, en primera persona, separadas por " | " (máximo 6 palabras cada una).
+
+Lo que recuerdas de otras conversaciones:
+${CH.mem.length?CH.mem.map(m=>"- "+m).join("\n"):"(nada todavía)"}
+${CH.ctx?"\nSus registros de esta semana en la app:\n"+contextoReciente():""}`;
+}
+function limpiar(t){ const p=String(t||"").split(/\n?\s*OPCIONES\s*:/i); return {txt:p[0].trim(), opts:(p[1]||"").split("|").map(x=>x.trim().replace(/^[-•"«\s]+|["»\s]+$/g,"")).filter(Boolean).slice(0,3)}; }
+function turnos(){
+  const t=[]; CH.msgs.filter(m=>!m.err&&m.t).slice(-20).forEach(m=>{ const role=m.r==="u"?"user":"assistant"; if(t.length&&t[t.length-1].role===role) t[t.length-1].content+="\n"+m.t; else t.push({role,content:m.t}); });
+  while(t.length&&t[0].role!=="user") t.shift();
+  if(t.length) t[0].content=instrucciones()+"\n\n---\nSu primer mensaje:\n"+t[0].content;
+  return t;
+}
+const chatScroll=()=>{ const l=$("#chatlog"); if(l) l.scrollTop=l.scrollHeight; };
+async function chatEnviar(txt){
+  txt=String(txt||"").trim(); if(!txt||CH.busy) return;
+  if(!SAMPLE){ toast("El acompañante solo funciona desde la versión de Claude."); return; }
+  CH.msgs.push({r:"u",t:txt,ts:Date.now()}); CH.draft=""; CH.opts=null; if(RIESGO.test(txt)) CH.riesgo=true;
+  const input=turnos(), a={r:"a",t:"",ts:Date.now()}; CH.msgs.push(a); CH.busy=true; chatSave(); renderLayer(); chatScroll();
+  try{
+    const r=await SAMPLE(input,{modelTier:"quick",cache:false,onText:({text})=>{ a.t=limpiar(text).txt; const el=$("#chatLast"); if(el) el.textContent=a.t||"…"; chatScroll(); }});
+    const L=limpiar(r.text); a.t=L.txt||"Perdona, no he sabido qué decir. ¿Me lo cuentas de otra forma?"; CH.opts=L.opts.length?L.opts:null;
+  }catch(e){
+    if(e&&e.text){ a.t=limpiar(e.text).txt; }
+    else { a.err=true; a.t=e&&e.code==="not_granted"?"Para hablar conmigo hace falta que permitas usar Claude cuando te lo pregunte.":e&&e.code==="rate_limited"?"Vamos muy rápido. Espera un momento y vuelve a escribirme.":"No he podido responder ahora. Prueba otra vez en un momento."; }
+  }
+  CH.busy=false; CH.nUser++; chatSave(); if(UI.chat){ renderLayer(); chatScroll(); }
+  if(CH.nUser%3===0) chatMemoria();
+}
+async function chatMemoria(){
+  if(!SAMPLE||CH.memBusy||!CH.nUser||CH.nUser===CH.memAt) return; CH.memBusy=true; CH.memAt=CH.nUser;
+  const conv=CH.msgs.filter(m=>!m.err&&m.t).slice(-12).map(m=>(m.r==="u"?"Ella: ":"Acompañante: ")+m.t).join("\n");
+  const prompt=`Mantienes la memoria breve de un acompañante emocional.\nMemoria actual:\n${CH.mem.map(m=>"- "+m).join("\n")||"(vacía)"}\n\nConversación reciente:\n${conv}\n\nDevuelve la memoria actualizada: como mucho 12 frases cortas (menos de 15 palabras cada una) con lo que conviene recordar para acompañarla mejor: personas importantes, situaciones que le afectan, lo que le ayuda, cómo prefiere que le hablen y palabras que está aprendiendo. Nada de teléfonos, direcciones ni datos médicos detallados. Mantén lo que siga siendo útil y quita lo repetido. Responde solo con JSON: {"memoria":["..."]}`;
+  try{ const r=await SAMPLE.json(prompt,{modelTier:"quick"}); if(r&&Array.isArray(r.memoria)){ CH.mem=r.memoria.filter(x=>typeof x==="string"&&x.trim()).map(x=>x.trim().slice(0,160)).slice(0,12); chatSave(); if(UI.chat&&UI.chatMem) renderLayer(); } }catch(e){}
+  CH.memBusy=false;
+}
+function vChat(){
+  chatLoad();
+  const head=`<div class="row between"><b style="font-family:var(--font-d);font-size:19px">🌱 Acompañante</b><div class="row" style="gap:4px">${SAMPLE&&!UI.chatMem?`<button class="btn ghost sm" data-act="chatMem">🧠 Memoria${CH.mem.length?" ("+CH.mem.length+")":""}</button>`:""}<button class="btn ghost sm" data-act="chatClose">Cerrar</button></div></div>`;
+  if(!SAMPLE) return head+`<div class="done-art">💬</div><p class="q" style="text-align:center">Aquí no puedo hablar contigo</p>
+    <p class="hint" style="text-align:center">${SUELTA?"Para responderte necesito a Claude, y la app instalada funciona sin conexión con Claude.":"Para responderte necesito que esta página pueda usar Claude, y ahora no está disponible."} Abre Brote Sentir desde Claude para hablar conmigo. Lo que hablemos se guardará solo en ese móvil.</p>
+    ${SUELTA&&!ANONIMA?`<p style="text-align:center"><a class="btn pri" href="https://claude.ai/artifact/AHtyDo5i2PhTyzmECRd5V1" target="_blank" rel="noopener">Abrir en Claude</a></p>`:""}`;
+  if(UI.chatMem) return head+`<p class="hint" style="margin-top:12px">Esto es lo que recuerdo para acompañarte mejor. Se guarda <b>solo en este móvil</b>: no va a tu cuenta ni a las copias de seguridad. Para responderte, cada mensaje se envía a Claude junto con esta memoria.</p>
+    <div class="card" style="box-shadow:none;background:var(--surface-2);margin:0">${CH.mem.length?CH.mem.map((m,i)=>`<div class="memi"><span>${esc(m)}</span><button class="btn ghost sm" data-act="memDel" data-v="${i}" aria-label="Olvidar esto">✕</button></div>`).join(""):`<p class="muted" style="margin:0">Todavía no recuerdo nada. Iré apuntando lo importante cuando hablemos.</p>`}</div>
+    <button class="chip ${CH.ctx?"on":""}" data-act="chatCtx" style="margin-top:12px">${CH.ctx?"✓ ":""}Tener en cuenta mis registros de la semana</button>
+    <div class="row wrapf" style="margin-top:16px">${UI.chatDel?`<span class="small">¿Seguro? No se puede deshacer.</span><button class="btn sm" style="background:var(--warn);color:#fff" data-act="chatDelYes" data-v="${UI.chatDel}">${UI.chatDel==="mem"?"Olvidar todo":"Borrar conversación"}</button><button class="btn ghost sm" data-act="chatDelNo">Cancelar</button>`
+      :`<button class="btn sm" data-act="chatDel" data-v="mem">Olvidar todo</button><button class="btn sm" data-act="chatDel" data-v="conv">Borrar la conversación</button>`}</div>
+    <div class="foot"><span></span><button class="btn pri" data-act="chatMemBack">Volver al chat</button></div>`;
+  const ms=CH.msgs.slice(-60), last=ms[ms.length-1], opts=CH.busy?[]:(CH.opts||(ms.length?[]:OPC_INI));
+  return head+`<p class="small muted" style="margin:6px 0 0">No soy una persona ni una psicóloga. Te ayudo a ponerle palabras a lo que sientes.</p>
+  ${CH.riesgo?`<div class="alerta" style="margin-top:10px;padding:12px;border-radius:14px;background:color-mix(in srgb,#F06A55 18%,var(--surface))"><b>No estás sola.</b> Si piensas en hacerte daño, llama ahora al <span class="tel">024</span> (gratis, 24 h) o al <span class="tel">112</span> si estás en peligro. <div class="row wrapf" style="margin-top:8px"><button class="btn pri sm" data-act="tool" data-v="plan">Mi plan de seguridad</button><button class="btn ghost sm" data-act="riesgoOk">Entendido</button></div></div>`:""}
+  <div class="chatlog" id="chatlog" aria-live="polite">
+    ${ms.length?"":`<div class="bub a">Hola${S.cfg.nombre?", "+esc(S.cfg.nombre):""}. Estoy aquí para ayudarte a ponerle palabras a lo que sientes, sin prisa. ¿Cómo estás ahora?</div>`}
+    ${ms.map(m=>`<div class="bub ${m.r}${m.err?" err":""}" ${m===last&&m.r==="a"?'id="chatLast"':""}>${esc(m.t||"…")}</div>`).join("")}
+  </div>
+  ${opts.length?`<div class="chips" style="margin-bottom:8px">${opts.map(o=>`<button class="chip" data-act="chatOpt" data-v="${esc(o)}" style="padding:7px 11px;font-size:14px">${esc(o)}</button>`).join("")}</div>`:""}
+  <div class="chatin"><textarea id="chatIn" data-chat="1" rows="1" placeholder="Escribe o toca una opción" aria-label="Tu mensaje">${esc(CH.draft)}</textarea><button class="btn pri" data-act="chatSend" ${CH.busy?"disabled":""}>${CH.busy?"…":"Enviar"}</button></div>`;
+}
+
 /* ============ Efectos ============ */
 function burst(el,big){
   if(!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -1197,7 +1456,7 @@ async function pedirAlternativas(){
 document.addEventListener("click",ev=>{
   const b=ev.target.closest("[data-act]"); if(!b) return;
   const a=b.dataset.act, v=b.dataset.v, F=UI.flow;
-  if(a==="bgclose"){ if(ev.target===b){ if(UI.flow||UI.tool) return; UI.done=null; UI.word=null; renderLayer(); } return; }
+  if(a==="bgclose"){ if(ev.target===b){ if(UI.flow||UI.tool||UI.chat) return; UI.done=null; UI.word=null; renderLayer(); } return; }
   switch(a){
     case "tab": UI.tab=v; UI.confirmDel=null; render(); window.scrollTo(0,0); break;
     case "start": startFlow(); break;
@@ -1255,12 +1514,43 @@ document.addEventListener("click",ev=>{
     case "delYes": { const [k,id]=v.split("|"); const D=S.days[k]; if(D){ D.ents=(D.ents||[]).filter(e=>e.id!==id); saveDay(k); } UI.confirmDel=null; render(); toast("Registro borrado"); break; }
     case "mapa": F.e.mx=Number(b.dataset.x); F.e.my=Number(b.dataset.y); F.e.en=EN_Y[F.e.my]; F.edited=false; F.alts=null; renderLayer(); break;
     case "set1": { const k=b.dataset.k; F.e[k]=F.e[k]===v?null:v; renderLayer(); break; }
-    case "tool": if(v.startsWith("test:")) openTool("test",{t:v.slice(5)}); else openTool(v); break;
+    case "tool": if(v.startsWith("test:")) openTool("test",{t:v.slice(5)});
+      else if(v.startsWith("guia:")){ const g=v.slice(5); if(practicaAbierta(g)) openTool("guia",{g}); else toast(`Se abre en el nivel ${GUIAS[g].lvl} (${NIVELES[GUIAS[g].lvl].n}). Puedes adelantar tu nivel en Camino.`); }
+      else openTool(v); break;
+    case "sosGo": { const T=UI.tool; T.stage="resp"; T.pat="suspiro"; T.max=3; T.run=true; T.n=0; T.ph=-1; renderLayer(); setTimeout(breathTick,60); break; }
+    case "sosSkip": { const T=UI.tool; T.run=false; clearTimeout(T.to); T.stage="ground"; T.i=0; T.taps=0; renderLayer(); break; }
+    case "sosRes": UI.tool.stage=v; renderLayer(); break;
+    case "sosMapa": soltarTool(); UI.chat=false; UI.tab="palabras"; UI.mapa={}; render(); window.scrollTo(0,0); break;
+    case "guiaGo": { const T=UI.tool; audio(); T.i=0; T.run=true; T.fin=false; T.marks=[]; campana(); guiaPaso(true); break; }
+    case "guiaPausa": { const T=UI.tool; T.run=false; clearInterval(T.iv); callar(); renderLayer(); break; }
+    case "guiaSeguir": { const T=UI.tool; T.run=true; renderLayer(); guiaPaso(false); break; }
+    case "guiaSalta": { const T=UI.tool; callar(); T.run=true; guiaSig(); break; }
+    case "gMark": { const m=UI.tool.marks||(UI.tool.marks=[]), i=m.indexOf(v); i>=0?m.splice(i,1):m.push(v); renderLayer(); break; }
+    case "voz": S.cfg.voz=S.cfg.voz===false; saveCfg(); renderLayer(); if(S.cfg.voz!==false) hablar("Así sonará la voz."); break;
+    case "scanSave": { const T=UI.tool, zs=[...new Set(T.marks||[])], k=today(), D=S.days[k]||(S.days[k]={ents:[]});
+      D.ents=(D.ents||[]).concat([{id:uid(),t:Date.now(),lvl:lvl(),zonas:zs,sens:[],rapido:true,frase:`He hecho un escaneo corporal. Noté algo en ${lista(zs.map(z=>ZONAS[z]))}.`}]); saveDay(k); closeTool(); toast("Guardado en tu día"); break; }
+    case "sndSel": UI.tool.s=v; renderLayer(); break;
+    case "sndMin": UI.tool.min=Number(v); renderLayer(); break;
+    case "sndPlay": sonar(UI.tool.s,UI.tool.min); renderLayer(); break;
+    case "sndStop": parar(true); render(); break;
+    case "semanaOk": S.cfg.semanaVista=today(); saveCfg(); render(); break;
+    case "chat": soltarTool(); UI.done=null; UI.chat=true; UI.chatMem=false; chatLoad(); renderLayer(); setTimeout(chatScroll,30); break;
+    case "chatClose": UI.chat=false; UI.chatMem=false; UI.chatDel=null; render(); chatMemoria(); break;
+    case "chatSend": chatEnviar($("#chatIn")?.value); break;
+    case "chatOpt": chatEnviar(v); break;
+    case "chatMem": UI.chatMem=true; renderLayer(); break;
+    case "chatMemBack": UI.chatMem=false; UI.chatDel=null; renderLayer(); setTimeout(chatScroll,30); break;
+    case "memDel": CH.mem.splice(Number(v),1); chatSave(); renderLayer(); break;
+    case "chatCtx": CH.ctx=!CH.ctx; chatSave(); renderLayer(); break;
+    case "chatDel": UI.chatDel=v; renderLayer(); break;
+    case "chatDelNo": UI.chatDel=null; renderLayer(); break;
+    case "chatDelYes": if(v==="mem") CH.mem=[]; else { CH.msgs=[]; CH.opts=null; CH.riesgo=false; } chatSave(); UI.chatDel=null; renderLayer(); toast(v==="mem"?"Memoria borrada":"Conversación borrada"); break;
+    case "riesgoOk": CH.riesgo=false; renderLayer(); break;
     case "closeTool": closeTool(); break;
     case "respPat": UI.tool.pat=v; UI.tool.fin=false; renderLayer(); break;
     case "respGo": { const T=UI.tool; T.run=true; T.fin=false; T.n=0; T.ph=-1; renderLayer(); setTimeout(breathTick,60); break; }
     case "respStop": { const T=UI.tool; T.run=false; clearTimeout(T.to); renderLayer(); break; }
-    case "groundTap": { const T=UI.tool, n=GROUND[T.i][0]; if(T.taps>=n) break; T.taps++; renderLayer(); if(T.taps>=n) setTimeout(()=>{ if(UI.tool===T){ T.i++; T.taps=0; renderLayer(); if(T.i>=GROUND.length) burst($(".done-art"),false); } },450); break; }
+    case "groundTap": { const T=UI.tool, n=GROUND[T.i][0]; if(T.taps>=n) break; T.taps++; renderLayer(); if(T.taps>=n) setTimeout(()=>{ if(UI.tool===T){ T.i++; T.taps=0; if(T.id==="sos"&&T.i>=GROUND.length) T.stage="check"; renderLayer(); if(T.id==="ground"&&T.i>=GROUND.length) burst($(".done-art"),false); } },450); break; }
     case "groundAgain": UI.tool.i=0; UI.tool.taps=0; renderLayer(); break;
     case "pensPick": { const T=UI.tool, j=Number(v); T.pi=T.pi===j?null:j; T.txt=""; T.alt=null; T.dist=T.pi!=null?[PENS[T.pi][1]]:[]; renderLayer(); break; }
     case "pensSet": UI.tool[b.dataset.k]=Number(v); renderLayer(); if(b.dataset.k==="antes") setTimeout(()=>{ if(UI.tool&&UI.tool.p===1){ UI.tool.p=2; renderLayer(); } },260); break;
@@ -1324,6 +1614,7 @@ document.addEventListener("change",ev=>{
 document.addEventListener("input",ev=>{
   const t=ev.target;
   if(UI.tool){ if(t.dataset.tt){ UI.tool[t.dataset.tt]=t.value; if(t.dataset.tt==="txt"&&t.value) UI.tool.pi=null; } if(t.dataset.plan) UI.tool.d[t.dataset.plan]=t.value; return; }
+  if(t.dataset.chat){ CH.draft=t.value; return; }
   if(t.dataset.gt&&UI.guion){ UI.guion.txt=t.value; UI.guion.edited=true; return; }
   if(!UI.flow) return;
   if(t.dataset.txt==="frase"){ UI.flow.e.frase=t.value; UI.flow.edited=true; }
