@@ -1,13 +1,16 @@
-"""Genera la app instalable (docs/) a partir de brote-sentir.html.
+"""Genera las apps instalables a partir de brote-sentir.html.
 
 Uso: python3 tools/build_app.py
-GitHub Pages publica la carpeta docs/ de la rama brote-sentir.
+- docs/            tu app personal
+- docs/compartir/  copia limpia para compartir, con su propio almacenamiento
+- brote-sentir-compartir.html  la misma copia limpia para publicarla en Claude
+GitHub Pages publica la carpeta docs/.
 """
 import pathlib
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
 SALIDA = RAIZ / "docs"
-VERSION = "5"  # súbela cuando cambie la app para renovar la caché sin conexión
+VERSION = "6"  # súbela cuando cambie la app para renovar la caché sin conexión
 
 HEAD = """<!doctype html>
 <html lang="es">
@@ -22,8 +25,8 @@ HEAD = """<!doctype html>
 <meta name="apple-mobile-web-app-title" content="Brote Sentir">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="{iconos}icon-192.png">
+<link rel="apple-touch-icon" href="{iconos}apple-touch-icon.png">{extra}
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
 </head>
 <body>
@@ -50,15 +53,15 @@ MANIFEST = """{
   "background_color": "#F6F3FC",
   "theme_color": "#F6F3FC",
   "icons": [
-    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
-    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
+    {"src": "ICONOS" + "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable"},
+    {"src": "ICONOS" + "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"}
   ]
 }
 """
 
 SW = """// Caché sin conexión: muestra lo guardado al instante y lo actualiza en segundo plano
-const CACHE = "brote-sentir-v%s";
-const BASE = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
+const CACHE = "%s-v%s";
+const BASE = ["./", "./index.html", "./manifest.webmanifest", "%sicon-192.png", "%sicon-512.png", "%sapple-touch-icon.png"];
 self.addEventListener("install", e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(BASE))); self.skipWaiting(); });
 self.addEventListener("activate", e => {
   e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== CACHE).map(k => caches.delete(k)))));
@@ -101,17 +104,30 @@ def icono(lado):
     return im.resize((lado, lado), Image.LANCZOS)
 
 
+COMPARTIR = '<script>window.BROTE_LS="brote-sentir-compartida.v1"</script>'
+
+
+def generar(destino, pagina, iconos, cache, extra=""):
+    destino.mkdir(parents=True, exist_ok=True)
+    head = HEAD.replace("{iconos}", iconos).replace("{extra}", extra)
+    (destino / "index.html").write_text(head + pagina + PIE, encoding="utf-8")
+    (destino / "manifest.webmanifest").write_text(MANIFEST.replace('"ICONOS" + "', '"' + iconos), encoding="utf-8")
+    (destino / "sw.js").write_text(SW % (cache, VERSION, iconos, iconos, iconos), encoding="utf-8")
+
+
 def main():
     SALIDA.mkdir(exist_ok=True)
     pagina = (RAIZ / "brote-sentir.html").read_text(encoding="utf-8")
-    (SALIDA / "index.html").write_text(HEAD + pagina + PIE, encoding="utf-8")
-    (SALIDA / "manifest.webmanifest").write_text(MANIFEST, encoding="utf-8")
-    (SALIDA / "sw.js").write_text(SW % VERSION, encoding="utf-8")
+    generar(SALIDA, pagina, "", "brote-sentir")
+    generar(SALIDA / "compartir", pagina, "../", "brote-sentir-compartida", "\n" + COMPARTIR)
+    # copia para Claude: el script va justo después del <title> para que se ejecute antes que la app
+    titulo_fin = pagina.index("</title>") + len("</title>")
+    (RAIZ / "brote-sentir-compartir.html").write_text(pagina[:titulo_fin] + "\n" + COMPARTIR + pagina[titulo_fin:], encoding="utf-8")
     (SALIDA / ".nojekyll").write_text("", encoding="utf-8")
     for nombre, lado in [("icon-192.png", 192), ("icon-512.png", 512), ("apple-touch-icon.png", 180)]:
         if not (SALIDA / nombre).exists():
             icono(lado).save(SALIDA / nombre, optimize=True)
-    print("App generada en", SALIDA)
+    print("Apps generadas en", SALIDA, "y", SALIDA / "compartir")
 
 
 if __name__ == "__main__":

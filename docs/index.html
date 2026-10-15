@@ -460,7 +460,7 @@ const JUEGO=[
  ["Una amiga se presenta en tu casa con tu comida favorita porque sabía que tenías un mal día.","Agradecida",["Agradecida","Culpable","Saturada"],"Notar que alguien te ha cuidado es agradecimiento. Decirlo en voz alta lo hace más grande."]];
 
 /* ============ Estado y almacenamiento ============ */
-const LS="brote-sentir.v1";
+const LS=window.BROTE_LS||"brote-sentir.v1"; // la copia para compartir usa su propio almacenamiento
 function SUELTA_INI(){ return !window.claude; }
 const S={cfg:{nombre:"", mascota:"", lvl:null, juego:{ok:0,tot:0,racha:0}}, days:{}};
 const UI={ready:SUELTA_INI(), tab:"hoy", flow:null, game:null, word:null, sample:undefined, confirmDel:null, nameEdit:false};
