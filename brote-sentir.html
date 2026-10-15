@@ -404,6 +404,21 @@ const BUENAS=["Un café tranquilo","Algo rico","Un rato con Ringo","Una charla b
 // WHO-5, índice de bienestar de la OMS (versión en español), periodo de 2 semanas
 const WHO5=["Me he sentido alegre y de buen humor","Me he sentido tranquila y relajada","Me he sentido activa y con energía","Me he despertado fresca y descansada","Mi vida diaria ha estado llena de cosas que me interesan"];
 const WHO_OP=[[5,"Todo el tiempo"],[4,"La mayor parte del tiempo"],[3,"Más de la mitad del tiempo"],[2,"Menos de la mitad del tiempo"],[1,"De vez en cuando"],[0,"Nunca"]];
+// PHQ-9 y GAD-7 (versiones en español; uso libre, Pfizer). Periodo: últimas 2 semanas
+const FREQ4=[[0,"Nunca"],[1,"Varios días"],[2,"Más de la mitad de los días"],[3,"Casi todos los días"]];
+const TESTS={
+ phq9:{n:"Estado de ánimo",corto:"Ánimo · PHQ-9",ic:"🌧️",c:"#6C9BEA",max:27,desc:"9 preguntas sobre el ánimo de las últimas 2 semanas (PHQ-9).",
+  intro:"El PHQ-9 es el cuestionario que más usan médicos y psicólogos para seguir el estado de ánimo. Responde pensando en las últimas dos semanas.",
+  stem:"Durante las últimas 2 semanas, ¿con qué frecuencia te han molestado estos problemas?",
+  items:["Poco interés o placer en hacer las cosas","Sentirse decaída, deprimida o sin esperanza","Problemas para dormirse o mantenerse dormida, o dormir demasiado","Sentirse cansada o con poca energía","Tener poco apetito o comer en exceso","Sentirse mal con una misma, o sentir que eres un fracaso o que te has fallado a ti misma o a tu familia","Problemas para concentrarse en algo, como leer o ver la televisión","Moverse o hablar tan despacio que otras personas lo han notado. O lo contrario: estar tan inquieta o agitada que te has movido mucho más de lo normal","Pensamientos de que estarías mejor muerta o de hacerte daño de alguna manera"],
+  bands:[[4,"Mínima"],[9,"Leve"],[14,"Moderada"],[19,"Moderadamente grave"],[27,"Grave"]],que:"síntomas de ánimo bajo"},
+ gad7:{n:"Ansiedad",corto:"Ansiedad · GAD-7",ic:"🌪️",c:"#9A79E2",max:21,desc:"7 preguntas sobre nervios y preocupación de las últimas 2 semanas (GAD-7).",
+  intro:"El GAD-7 es el cuestionario más usado para seguir la ansiedad. Responde pensando en las últimas dos semanas.",
+  stem:"Durante las últimas 2 semanas, ¿con qué frecuencia te han molestado estos problemas?",
+  items:["Sentirse nerviosa, ansiosa o con los nervios de punta","No poder dejar de preocuparse o no poder controlar la preocupación","Preocuparse demasiado por diferentes cosas","Dificultad para relajarse","Estar tan inquieta que es difícil quedarse sentada tranquila","Molestarse o irritarse fácilmente","Sentir miedo, como si algo terrible fuera a pasar"],
+  bands:[[4,"Mínima"],[9,"Leve"],[14,"Moderada"],[21,"Grave"]],que:"síntomas de ansiedad"}};
+const DIFICQ="Si has marcado algún problema, ¿cuánto te ha costado por ello trabajar, ocuparte de la casa o llevarte bien con otras personas?";
+const DIFIC=["Nada difícil","Algo difícil","Muy difícil","Extremadamente difícil"];
 // Plan de seguridad (modelo Stanley-Brown)
 const ALERTAS=["Duermo muy poco o demasiado","Me aíslo","Lloro mucho","Dejo de comer","Pienso que no puedo más","Bebo más de la cuenta","Todo me da igual"];
 const CALMAR=["Respirar despacio","Ducha caliente","Pasear a Ringo","Poner música","Salir a la calle","Tumbarme con una manta","Escribir lo que siento","Ver algo que me haga reír"];
@@ -543,7 +558,9 @@ function vHoy(){
     html+=`<div class="card"><h2>Hoy lo has dicho así</h2>${hoyE.slice().reverse().map(e=>entRow(Object.assign({k:today()},e))).join("")}</div>`;
     if(ult && ult.int>=4 && ["miedo","enfado","tristeza","verguenza","cansancio"].includes(ult.fam)) html+=ayudaCard(ult);
   }
-  if(who5Due()) html+=`<div class="card" style="background:linear-gradient(160deg,color-mix(in srgb,#FF9EC4 var(--tint),var(--surface)),var(--surface) 80%)"><div class="row between"><div><b style="font-family:var(--font-d);font-size:18px">📋 Cuestionario de bienestar</b><div class="small muted">5 preguntas · cada 2 semanas</div></div><button class="btn pri sm" data-act="tool" data-v="who5">Hacer</button></div></div>`;
+  { const due=[["who5",who5Due()],["phq9",testDue("phq9")],["gad7",testDue("gad7")]].filter(x=>x[1]).map(x=>x[0]);
+    if(alertaPHQ()) html+=`<div class="card" style="background:color-mix(in srgb,#F06A55 16%,var(--surface))"><h2>🛟 No tienes que llevarlo sola</h2><p>Hace poco dijiste que has tenido pensamientos de hacerte daño o de que estarías mejor muerta. Cuéntaselo a tu psicóloga o a alguien de confianza. Si en algún momento estás en peligro, llama al <b class="tel">024</b> o al <b class="tel">112</b>.</p><button class="btn pri sm" data-act="tool" data-v="plan">Abrir mi plan de seguridad</button></div>`;
+    if(due.length) html+=`<div class="card" style="background:linear-gradient(160deg,color-mix(in srgb,#FF9EC4 var(--tint),var(--surface)),var(--surface) 80%)"><h2>📋 Cuestionarios de esta quincena</h2><p class="hint" style="margin-bottom:10px">Unos minutos cada 2 semanas para ver cómo evoluciona tu bienestar.</p><div class="row wrapf">${due.map(t=>t==="who5"?`<button class="btn sm" data-act="tool" data-v="who5">Bienestar · WHO-5</button>`:`<button class="btn sm" data-act="test" data-v="${t}">${TESTS[t].corto}</button>`).join("")}</div></div>`; }
   html+=buenaCard(false)+gratCard();
   html+=`<div class="card tip"><div class="k">Para este nivel</div><p style="margin:6px 0 0"><b>${N.t}.</b> ${N.p}</p></div>`;
   const prev=allEnts().filter(e=>e.k!==today()).slice(-3).reverse();
@@ -761,15 +778,39 @@ function vCalma(){
   <p class="sec-t">Para entenderte mejor</p>
   ${T("pens","🧠","#9A79E2","Revisar un pensamiento","Descubre las trampas de la mente y busca otra forma de verlo."+(pens?" Llevas "+pens+".":""))}
   ${T("buena","☀️","#FFBF3C","Una cosa buena al día","Elige algo pequeño que te siente bien y mira cómo te ha ido.")}
+  <p class="sec-t">Cuestionarios (cada 2 semanas)</p>
   ${T("who5","📋","#FF9EC4","Cuestionario de bienestar",lw?`Último resultado: ${lw.s} de 100, el ${fmtD(lw.k)}.`:"5 preguntas cada 2 semanas (WHO-5 de la OMS).")}
+  ${["phq9","gad7"].map(t=>{ const h=testHist(t), l=h[h.length-1], X=TESTS[t]; return T("test:"+t,X.ic,X.c,X.n,l?`Último: ${l.s} de ${X.max} (${banda(t,l.s).toLowerCase()}), el ${fmtD(l.k)}.`:X.desc); }).join("")}
   <p class="sec-t">Por si algún día lo necesitas</p>
   ${T("plan","🛟","#F06A55","Mi plan de seguridad",S.cfg.plan?"Ya lo tienes preparado. Toca para verlo.":"Prepáralo en un día tranquilo para tenerlo a mano en uno difícil.")}
   <p class="crisis">Si estás en peligro o piensas en hacerte daño, llama al <b>024</b> (gratis, 24 h) o al <b>112</b>.</p>`;
 }
 function openTool(id,o){
   const init={resp:{pat:"cuadrada",run:false,n:0,fin:false},ground:{i:0,taps:0},pens:{p:0,pi:null,txt:"",antes:null,dist:[],alt:null,altTxt:"",despues:null,saved:false},
-    who5:{i:0,r:[]},plan:{edit:!S.cfg.plan, d:JSON.parse(JSON.stringify(S.cfg.plan||{alertas:[],calmar:[]}))},buena:{},informe:{dias:14}}[id]||{};
+    who5:{i:0,r:[]},test:{i:0,r:[],dif:null,done:false},plan:{edit:!S.cfg.plan, d:JSON.parse(JSON.stringify(S.cfg.plan||{alertas:[],calmar:[]}))},buena:{},informe:{dias:14}}[id]||{};
   UI.done=null; UI.word=null; UI.tool=Object.assign({id},init,o||{}); renderLayer();
+}
+const banda=(t,s)=>TESTS[t].bands.find(b=>s<=b[0])[1];
+const testHist=t=>(S.cfg.tests||{})[t]||[];
+const testDue=t=>{ const h=testHist(t); return h.length? addDays(h[h.length-1].k,14)<=today() : diasHechos()>=3; };
+const alertaPHQ=()=>{ const h=testHist("phq9"), l=h[h.length-1]; return !!(l && l.r && l.r[8]>0 && addDays(l.k,7)>=today()); };
+function finTest(){
+  const T=UI.tool, s=T.r.reduce((a,b)=>a+b,0), tests=S.cfg.tests||(S.cfg.tests={}), h=(tests[T.t]||[]).filter(x=>x.k!==today());
+  h.push({k:today(), s, r:T.r.slice(), dif:T.dif}); tests[T.t]=h; saveCfg(); T.done=true; T.s=s;
+}
+function vTestRes(T){
+  const X=TESTS[T.t], s=T.s, h=testHist(T.t), prev=h.length>1?h[h.length-2]:null, b=banda(T.t,s), riesgo=T.t==="phq9"&&T.r[8]>0;
+  const msg = s>=15 ? `Te recomendamos <b>pedir cita pronto</b> con tu médica de cabecera o con tu psicóloga y enseñarle este resultado.`
+    : s>=10 ? `Es recomendable que <b>lo hables con tu psicóloga o tu médica</b>. Puedes llevarle el informe de la pestaña Camino.`
+    : s>=5 ? `Son ${X.que} leves. Sigue observándolo con la app; si duran o aumentan, coméntalo con un profesional.`
+    : `No aparecen ${X.que} relevantes estas dos semanas.`;
+  return `${riesgo?`<div class="alerta" style="margin-top:12px;padding:14px;border-radius:16px;background:color-mix(in srgb,#F06A55 18%,var(--surface))"><b style="font-family:var(--font-d);font-size:18px">Gracias por contarlo</b><p style="margin:6px 0">Has dicho que has tenido pensamientos de hacerte daño o de que estarías mejor muerta. Es importante y no tienes que llevarlo sola. Cuéntaselo a tu psicóloga o a alguien de confianza lo antes posible.</p><p style="margin:6px 0">Línea 024 (gratis, 24 h, confidencial): <span class="tel">024</span> · Si estás en peligro ahora: <span class="tel">112</span></p><button class="btn pri sm" data-act="tool" data-v="plan">Abrir mi plan de seguridad</button></div>`:""}
+  <p class="q" style="margin-top:12px">Resultado: ${s} de ${X.max}</p><div class="meter"><i style="width:${s/X.max*100}%"></i></div>
+  <p style="margin-top:10px"><b>Nivel: ${b.toLowerCase()}.</b> ${msg}</p>
+  ${T.dif!=null?`<p class="small">Dificultad en el día a día: ${DIFIC[T.dif].toLowerCase()}.</p>`:""}
+  ${prev?`<p class="small muted">La vez anterior (${fmtD(prev.k)}): ${prev.s}. ${s<prev.s?"Ha bajado, va mejor.":s>prev.s?"Ha subido.":"Está igual."}</p>`:""}
+  <p class="small muted">Es un cuestionario de cribado, no un diagnóstico. Solo un profesional puede valorarlo. Volverá a aparecer dentro de 2 semanas.</p>
+  <div class="foot"><span></span><button class="btn pri" data-act="closeTool">Listo</button></div>`;
 }
 function closeTool(){ const T=UI.tool; if(T&&T.to) clearTimeout(T.to); UI.tool=null; render(); }
 function breathTick(){
@@ -829,6 +870,13 @@ function vTool(){
     return head("Bienestar · "+(T.i+1)+" de 5")+prog(5,T.i)+`<p class="small muted" style="font-weight:700;margin:0">En las últimas dos semanas…</p><p class="q">${WHO5[T.i]}</p>
       <div class="who" style="margin-top:12px">${WHO_OP.map(([v,t])=>`<button class="${T.r[T.i]===v?"on":""}" data-act="whoAns" data-v="${v}">${t}</button>`).join("")}</div>
       <div class="foot">${T.i?`<button class="btn" data-act="whoBack">Atrás</button>`:"<span></span>"}<span></span></div>`;
+  }
+  if(T.id==="test"){ const X=TESTS[T.t], n=X.items.length;
+    if(T.done) return head(X.corto)+vTestRes(T);
+    if(T.i>=n) return head(X.corto)+prog(n+1,n)+`<p class="q">${DIFICQ}</p><div class="who" style="margin-top:12px">${DIFIC.map((t,j)=>`<button class="${T.dif===j?"on":""}" data-act="testDif" data-v="${j}">${t}</button>`).join("")}</div><div class="foot"><button class="btn" data-act="testBack">Atrás</button><span></span></div>`;
+    return head(X.corto+" · "+(T.i+1)+" de "+n)+prog(n+1,T.i)+(T.i===0?`<p class="hint" style="margin-top:4px">${X.intro}</p>`:"")+`<p class="small muted" style="font-weight:700;margin:0">${X.stem}</p><p class="q">${X.items[T.i]}</p>
+      <div class="who" style="margin-top:12px">${FREQ4.map(([v,t])=>`<button class="${T.r[T.i]===v?"on":""}" data-act="testAns" data-v="${v}">${t}</button>`).join("")}</div>
+      <div class="foot">${T.i?`<button class="btn" data-act="testBack">Atrás</button>`:"<span></span>"}<span></span></div>`;
   }
   if(T.id==="plan"){
     const d=T.d;
@@ -912,6 +960,10 @@ function informe(dias){
   const P=DD.filter(d=>d.plan); if(P.length){ L.push("ACTIVACIÓN CONDUCTUAL (una cosa buena al día)",`  - Elegidas: ${P.length} · Hechas: ${P.filter(d=>d.plan.done).length}`); P.filter(d=>d.plan.done).forEach(d=>L.push(`  - ${fmtD(d.k)}: ${ACTB[d.plan.a][1]} → ${d.plan.ef!=null?EFECTO[d.plan.ef]:"sin valorar"}`)); L.push(""); }
   const PE=DD.flatMap(d=>(d.pens||[]).map(p=>Object.assign({k:d.k},p))); if(PE.length){ L.push("REGISTROS DE PENSAMIENTO (TCC)"); PE.forEach(p=>L.push(`  - ${fmtD(p.k)}: «${p.pens}» · creencia ${p.antes}% → ${p.despues}% · distorsiones: ${(p.dist||[]).map(x=>DIST[x][1]).join(", ")||"—"} · alternativa: «${p.alt||"—"}»`)); L.push(""); }
   const W=(S.cfg.who5||[]).filter(w=>w.k>=addDays(desde,-14)); if(W.length){ L.push("ÍNDICE DE BIENESTAR WHO-5 (0-100; ≤50 bienestar bajo; ≤28 se recomienda valoración)"); W.forEach(w=>L.push(`  - ${fmtD(w.k)}: ${w.s}`)); L.push(""); }
+  ["phq9","gad7"].forEach(t=>{ const H=testHist(t).filter(w=>w.k>=addDays(desde,-14)); if(!H.length) return;
+    L.push(t==="phq9"?"PHQ-9 (0-27; 5 leve, 10 moderada, 15 moderadamente grave, 20 grave)":"GAD-7 (0-21; 5 leve, 10 moderada, 15 grave)");
+    H.forEach(w=>L.push(`  - ${fmtD(w.k)}: ${w.s} (${banda(t,w.s).toLowerCase()})${w.dif!=null?" · dificultad funcional: "+DIFIC[w.dif].toLowerCase():""}${t==="phq9"&&w.r&&w.r[8]>0?" · ÍTEM 9 POSITIVO ("+FREQ4[w.r[8]][1].toLowerCase()+")":""} · respuestas: ${(w.r||[]).join(" ")}`));
+    L.push(""); });
   const G=DD.flatMap(d=>d.buenas||[]); if(G.length) L.push("COSAS BUENAS ANOTADAS",fl(cnt(G).slice(0,8),k=>k),"");
   L.push("FRASES DEL DÍA"); if(!E.length) L.push("  (sin datos)");
   E.forEach(e=>{ const h=e.t?new Date(e.t):null; L.push(`  - ${fmtD(e.k)}${h?" "+pad(h.getHours())+":"+pad(h.getMinutes()):""}: ${e.frase}${e.txt?" | Con sus palabras: "+e.txt.replace(/\n/g," "):""}`); });
@@ -951,12 +1003,14 @@ function analisis(ents){
   else h+=`<div class="card"><h2>Qué te sienta bien</h2><p class="muted" style="margin:0">Cuando tengas unos 6 registros con el mapa y el paso de dónde estás y qué haces, aquí verás con quién, dónde y haciendo qué te sueles sentir mejor o peor.</p></div>`;
   const mo=momentos(ents); if(mo.length>1) h+=`<div class="card"><h2>Momento del día</h2>${mo.map(([k,a,n])=>`<div class="bar"><span class="t">${{"Mañana":"🌅","Tarde":"🌇","Noche":"🌙"}[k]} ${k} <span class="muted small">(${n})</span></span><span class="p"><i style="width:${a/6*100}%;background:var(--accent)"></i></span><b>${a.toFixed(1)}</b></div>`).join("")}<p class="small muted" style="margin:6px 0 0">Agrado medio, de 1 a 6.</p></div>`;
   const P=Object.values(S.days).filter(d=>d.plan&&d.plan.done), PE=Object.values(S.days).flatMap(d=>d.pens||[]), W=S.cfg.who5||[];
-  if(P.length||PE.length||W.length){ h+=`<div class="card"><h2>Lo que has hecho por ti</h2>`;
+  const TH=["phq9","gad7"].filter(t=>testHist(t).length);
+  if(P.length||PE.length||W.length||TH.length){ h+=`<div class="card"><h2>Lo que has hecho por ti</h2>`;
     if(P.length){ const ef={}; P.forEach(d=>{ if(d.plan.ef!=null){ const a=ACTB[d.plan.a][1]; (ef[a]=ef[a]||[]).push(d.plan.ef); } }); const best=Object.entries(ef).map(([a,v])=>[a,v.reduce((s,x)=>s+x,0)/v.length]).sort((a,b)=>b[1]-a[1])[0];
       h+=`<p>☀️ <b>${P.length}</b> ${P.length===1?"cosa buena hecha":"cosas buenas hechas"}${best&&best[1]>0?`. La que mejor te sienta: <b>${esc(best[0].toLowerCase())}</b>`:""}.</p>`; }
     if(PE.length){ const dc={}; PE.forEach(p=>(p.dist||[]).forEach(x=>dc[x]=(dc[x]||0)+1)); const top=Object.entries(dc).sort((a,b)=>b[1]-a[1])[0], baj=PE.filter(p=>p.despues<p.antes).length;
       h+=`<p>🧠 <b>${PE.length}</b> ${PE.length===1?"pensamiento revisado":"pensamientos revisados"}, ${baj} con menos fuerza al terminar.${top?` Tu trampa más frecuente: <b>${DIST[top[0]][1].toLowerCase()}</b>.`:""}</p>`; }
     if(W.length) h+=`<h3 style="margin-top:12px">Bienestar (WHO-5)</h3>`+W.slice(-6).map(w=>`<div class="bar"><span class="t">${fmtD(w.k)}</span><span class="p"><i style="width:${w.s}%;background:${w.s<=28?"#F06A55":w.s<=50?"#FFBF3C":"#4FC487"}"></i></span><b>${w.s}</b></div>`).join("");
+    TH.forEach(t=>{ const X=TESTS[t]; h+=`<h3 style="margin-top:12px">${X.n} (${t==="phq9"?"PHQ-9":"GAD-7"})</h3>`+testHist(t).slice(-6).map(w=>`<div class="bar"><span class="t">${fmtD(w.k)}</span><span class="p"><i style="width:${w.s/X.max*100}%;background:${w.s>=15?"#F06A55":w.s>=10?"#FF9A4C":w.s>=5?"#FFBF3C":"#4FC487"}"></i></span><b>${w.s}</b></div>`).join("")+`<p class="small muted" style="margin:2px 0 0">Más bajo es mejor. Máximo ${X.max}.</p>`; });
     h+=`</div>`; }
   h+=`<div class="card"><h2>Para tu psicóloga</h2><p class="small muted">Un informe con tus emociones, patrones, herramientas y frases, para llevarlo a consulta.</p><button class="btn pri sm" data-act="informe">Ver informe</button></div>`;
   h+=`<div class="card"><h2>Recordatorio diario</h2>${DOWNLOADS?`<p class="small muted">Descarga un aviso para tu calendario (iPhone, Google u Outlook). Se repetirá cada día a la hora que elijas.</p><div class="seg">${[9,14,18,21].map(x=>`<button class="btn sm" data-act="ics" data-v="${x}">${x}:00</button>`).join("")}</div>`:`<p class="small muted" style="margin:0">Abre la app desde claude.ai para descargar un aviso diario para tu calendario.</p>`}</div>`;
@@ -1026,7 +1080,7 @@ document.addEventListener("click",ev=>{
     case "delYes": { const [k,id]=v.split("|"); const D=S.days[k]; if(D){ D.ents=(D.ents||[]).filter(e=>e.id!==id); saveDay(k); } UI.confirmDel=null; render(); toast("Registro borrado"); break; }
     case "mapa": F.e.mx=Number(b.dataset.x); F.e.my=Number(b.dataset.y); F.e.en=EN_Y[F.e.my]; F.edited=false; F.alts=null; renderLayer(); break;
     case "set1": { const k=b.dataset.k; F.e[k]=F.e[k]===v?null:v; renderLayer(); break; }
-    case "tool": openTool(v); break;
+    case "tool": if(v.startsWith("test:")) openTool("test",{t:v.slice(5)}); else openTool(v); break;
     case "closeTool": closeTool(); break;
     case "respPat": UI.tool.pat=v; UI.tool.fin=false; renderLayer(); break;
     case "respGo": { const T=UI.tool; T.run=true; T.fin=false; T.n=0; T.ph=-1; renderLayer(); setTimeout(breathTick,60); break; }
@@ -1049,6 +1103,10 @@ document.addEventListener("click",ev=>{
       if(T.i>=WHO5.length){ const sc=T.r.reduce((a,b2)=>a+b2,0)*4, w=(S.cfg.who5||[]).filter(x=>x.k!==today()); w.push({k:today(), s:sc, r:T.r.slice()}); S.cfg.who5=w; saveCfg(); }
       renderLayer(); break; }
     case "whoBack": UI.tool.i--; renderLayer(); break;
+    case "test": openTool("test",{t:v}); break;
+    case "testAns": { const T=UI.tool, X=TESTS[T.t]; T.r[T.i]=Number(v); T.i++; if(T.i>=X.items.length && T.r.every(x=>x===0)) finTest(); renderLayer(); $(".sheet")?.scrollTo(0,0); break; }
+    case "testDif": UI.tool.dif=Number(v); finTest(); renderLayer(); $(".sheet")?.scrollTo(0,0); break;
+    case "testBack": UI.tool.i--; renderLayer(); break;
     case "planChip": { const d=UI.tool.d, k=b.dataset.k, arr=d[k]||(d[k]=[]), i=arr.indexOf(v); i>=0?arr.splice(i,1):arr.push(v); renderLayer(); break; }
     case "planEdit": UI.tool.edit=true; UI.tool.d=JSON.parse(JSON.stringify(S.cfg.plan||{alertas:[],calmar:[]})); renderLayer(); break;
     case "planCancel": UI.tool.edit=false; renderLayer(); break;
