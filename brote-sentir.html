@@ -559,11 +559,13 @@ let DB=null, BASE=null, SAMPLE=null, DOWNLOADS=null, synced=false, pendingRender
 
 function loadLocal(){ try{ const o=JSON.parse(localStorage.getItem(LS)||"null"); if(o){ if(o.cfg) S.cfg=Object.assign(S.cfg,o.cfg); if(o.days) S.days=o.days; } }catch(e){} }
 function saveLocal(){ try{ localStorage.setItem(LS, JSON.stringify({cfg:S.cfg, days:S.days})); }catch(e){} }
-const timers={};
+const timers={}, pendiente={}; // pendiente[path]: hay un cambio local que todavía no ha llegado a la nube
 function queue(path, body){
   saveLocal(); if(!DB) return;
-  clearTimeout(timers[path]);
-  timers[path]=setTimeout(()=>{ DB.doc(path).set(JSON.parse(JSON.stringify(body()))).catch(()=>toast("No se ha podido sincronizar. Queda guardado en este dispositivo.")); },400);
+  clearTimeout(timers[path]); const n=pendiente[path]=(pendiente[path]||0)+1;
+  timers[path]=setTimeout(()=>{ DB.doc(path).set(JSON.parse(JSON.stringify(body())))
+    .catch(()=>toast("No se ha podido sincronizar. Queda guardado en este dispositivo."))
+    .finally(()=>{ if(pendiente[path]===n) delete pendiente[path]; }); },400);
 }
 const saveCfg=()=>queue(BASE+"/sentir", ()=>S.cfg);
 const saveDay=k=>queue(BASE+"/sentir/dias/"+k, ()=>S.days[k]||{ents:[]});
@@ -580,13 +582,14 @@ async function initCloud(){
     DB=db; BASE="data/users/"+id;
     let firstCfg=true, firstDays=true;
     DB.doc(BASE+"/sentir").onSnapshot(s=>{
-      if(s.exists) S.cfg=Object.assign({nombre:"",mascota:"",lvl:null,juego:{ok:0,tot:0,racha:0}}, JSON.parse(JSON.stringify(s.data())));
+      if(pendiente[BASE+"/sentir"]){ /* cambio local en camino: se queda el local */ }
+      else if(s.exists) S.cfg=Object.assign({nombre:"",mascota:"",lvl:null,juego:{ok:0,tot:0,racha:0}}, JSON.parse(JSON.stringify(s.data())));
       else if(firstCfg) DB.doc(BASE+"/sentir").set(JSON.parse(JSON.stringify(S.cfg))).catch(()=>{});
       firstCfg=false; synced=true; UI.ready=true; saveLocal(); scheduleRender();
     },()=>{ synced=false; scheduleRender(); });
     DB.collection(BASE+"/sentir/dias").onSnapshot(q=>{
       const local=firstDays?JSON.parse(JSON.stringify(S.days)):null;
-      q.docChanges().forEach(ch=>{ if(ch.type==="removed") delete S.days[ch.doc.id]; else S.days[ch.doc.id]=JSON.parse(JSON.stringify(ch.doc.data())); });
+      q.docChanges().forEach(ch=>{ if(pendiente[BASE+"/sentir/dias/"+ch.doc.id]) return; if(ch.type==="removed") delete S.days[ch.doc.id]; else S.days[ch.doc.id]=JSON.parse(JSON.stringify(ch.doc.data())); });
       if(firstDays && local) Object.keys(local).forEach(k=>{ if(!S.days[k] && local[k].ents?.length){ S.days[k]=local[k]; DB.doc(BASE+"/sentir/dias/"+k).set(local[k]).catch(()=>{}); } });
       firstDays=false; saveLocal(); scheduleRender();
     },()=>{});
@@ -886,6 +889,14 @@ function vDecir(){
     :`<p class="small muted" style="text-align:center">Elige una opción en cada pieza para completar la frase.</p>`}`;
 }
 function vAfinar(){
+  const AF=S.cfg.afinar||{}, hechosT=PARES.filter(([a,b])=>AF[a+"|"+b]).length;
+  if(UI.parResumen){
+    const fila=([a,b])=>{ const r=AF[a+"|"+b]; return `<div class="ent"><div class="dot" style="--c:${findWord(r==="b"?b:a).f.c}">${findWord(r==="b"?b:a).f.e}</div><div class="tx"><div class="meta"><span>${a} o ${b}</span></div><div class="fr">${r==="a"?"Te pasa más: "+a.toLowerCase():r==="b"?"Te pasa más: "+b.toLowerCase():r==="ambas"?"Te pasan las dos":r==="ninguna"?"Ninguna de las dos":"Sin responder"}</div></div></div>`; };
+    return `<div class="card" style="text-align:center"><div class="done-art">🔍</div><h2>${hechosT===PARES.length?"Has afinado las "+PARES.length+" parejas":hechosT+" de "+PARES.length+" parejas respondidas"}</h2><p class="muted" style="margin:0">Estas son las palabras que más encajan contigo. Úsalas cuando te pase: «me siento…».</p></div>
+    <div class="card">${PARES.map(fila).join("")}</div>
+    <div class="row between"><button class="btn sm" data-act="parVolver">Volver a las parejas</button><button class="btn ghost sm" data-act="parReset">Empezar de nuevo</button></div>
+    ${UI.parBorrar?`<div class="card" style="margin-top:12px"><p style="margin:0 0 10px">¿Borrar todas tus respuestas de Afinar?</p><div class="row"><button class="btn sm" style="background:var(--warn);color:#fff" data-act="parResetSi">Borrar</button><button class="btn ghost sm" data-act="parResetNo">Cancelar</button></div></div>`:""}`;
+  }
   const i=UI.par||0, [a,b,dif]=PARES[i], A=findWord(a), B=findWord(b), r=(S.cfg.afinar||{})[a+"|"+b], hechos=Object.keys(S.cfg.afinar||{}).length;
   const box=(w,x)=>`<div class="wordbox" style="--c:${x.f.c};margin:0"><b class="w">${x.f.e} ${w}</b><p class="kv" style="margin-top:4px">${x.w[1]}</p><p class="kv"><span>En el cuerpo:</span> ${x.w[2]}</p></div>`;
   const msg={a:`Cuando te pase, prueba a decir «me siento ${a.toLowerCase()}».`,b:`Cuando te pase, prueba a decir «me siento ${b.toLowerCase()}».`,ambas:`Pueden ir juntas. Puedes decir «me siento ${a.toLowerCase()} y también ${b.toLowerCase()}».`,ninguna:"Apuntado. Quizá otra palabra de la misma familia encaje mejor: búscala en el Mapa."};
@@ -895,7 +906,8 @@ function vAfinar(){
   <h3 style="margin-top:16px">¿Cuál se parece más a lo que te suele pasar a ti?</h3>
   <div class="who">${AF_OP.map(([k,t])=>`<button class="${r===k?"on":""}" data-act="afinar" data-v="${k}">${t}</button>`).join("")}</div>
   ${r?`<p style="margin:12px 0 0;font-weight:600">${msg[r]}</p>`:""}</div>
-  <div class="row between"><button class="btn sm" data-act="par" data-v="-1" ${i?"":"disabled"}>‹ Anterior</button><button class="btn ${r?"pri":""} sm" data-act="par" data-v="1" ${i<PARES.length-1?"":"disabled"}>Siguiente ›</button></div>`;
+  <div class="row between"><button class="btn sm" data-act="par" data-v="-1" ${i?"":"disabled"}>‹ Anterior</button>${i<PARES.length-1?`<button class="btn ${r?"pri":""} sm" data-act="par" data-v="1">Siguiente ›</button>`:`<button class="btn ${r?"pri":""} sm" data-act="parFin">Ver mi resumen ›</button>`}</div>
+  ${hechosT?`<p style="text-align:center;margin-top:12px"><button class="btn ghost sm" data-act="parFin">Ver mi resumen (${hechosT} de ${PARES.length})</button></p>`:""}`;
 }
 function vMisDias(){
   const pend=allEnts().filter(e=>!e.word).reverse(), R=UI.rep||{};
@@ -1492,7 +1504,7 @@ document.addEventListener("click",ev=>{
       const D=S.days[k]||(S.days[k]={ents:[]}); D.ents=(D.ents||[]).concat([ent]); saveDay(k);
       M.saved=ent; render(); burst($("#mapPalabra .btn, #mapPalabra"),false);
       toast(lvl()>before?`Nivel ${lvl()} desbloqueado: ${NIVELES[lvl()].n}`:nueva?"Guardado. Palabra nueva en tu colección 📖":"Guardado en tu día"); break; }
-    case "prac": UI.prac=v; render(); window.scrollTo(0,0); break;
+    case "prac": UI.parResumen=false; UI.prac=v; render(); window.scrollTo(0,0); break;
     case "guion": UI.guion={sit:v,p:{},txt:"",edited:false}; render(); window.scrollTo(0,0); break;
     case "gBack": UI.guion=null; render(); break;
     case "gPieza": { const G=UI.guion, k=b.dataset.k; G.p[k]=G.p[k]===v?null:v; G.edited=false; render(); break; }
@@ -1500,7 +1512,12 @@ document.addEventListener("click",ev=>{
     case "gCopyCur": copiar(($("#gTxt")?.value||"").trim()); break;
     case "gCopy": { const x=(S.cfg.guiones||[]).find(y=>y.id===v); if(x) copiar(x.txt); break; }
     case "gDel": S.cfg.guiones=(S.cfg.guiones||[]).filter(y=>y.id!==v); saveCfg(); render(); break;
-    case "afinar": { const [a,b2]=PARES[UI.par||0]; S.cfg.afinar=Object.assign({},S.cfg.afinar||{},{[a+"|"+b2]:v}); saveCfg(); render(); break; }
+    case "afinar": { const [a,b2]=PARES[UI.par||0]; S.cfg.afinar=Object.assign({},S.cfg.afinar||{},{[a+"|"+b2]:v}); saveCfg(); render(); toast("Guardado"); break; }
+    case "parFin": UI.parResumen=true; UI.parBorrar=false; render(); window.scrollTo(0,0); if((S.cfg.afinar&&PARES.every(([a,b2])=>S.cfg.afinar[a+"|"+b2]))) setTimeout(()=>burst($(".done-art"),true),100); break;
+    case "parVolver": UI.parResumen=false; render(); window.scrollTo(0,0); break;
+    case "parReset": UI.parBorrar=true; render(); break;
+    case "parResetNo": UI.parBorrar=false; render(); break;
+    case "parResetSi": S.cfg.afinar={}; saveCfg(); UI.parBorrar=false; UI.parResumen=false; UI.par=0; render(); window.scrollTo(0,0); toast("Respuestas borradas"); break;
     case "par": UI.par=Math.max(0,Math.min(PARES.length-1,(UI.par||0)+Number(v))); render(); break;
     case "repFam": { const R=UI.rep=UI.rep||{}; R.fam=R.fam===v?null:v; R.word=null; render(); break; }
     case "repWord": { const R=UI.rep=UI.rep||{}; R.word=R.word===v?null:v; render(); break; }

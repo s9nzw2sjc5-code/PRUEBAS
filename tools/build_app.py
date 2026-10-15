@@ -10,7 +10,7 @@ import pathlib
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
 SALIDA = RAIZ / "docs"
-VERSION = "12"  # súbela cuando cambie la app para renovar la caché sin conexión
+VERSION = "13"  # súbela cuando cambie la app para renovar la caché sin conexión
 
 HEAD = """<!doctype html>
 <html lang="es">
