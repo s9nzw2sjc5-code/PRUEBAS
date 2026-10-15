@@ -331,7 +331,7 @@ const intensTxt=(f,i)=>{ let p=INT[i][1]; if(p.includes("/")) p=p.replace(/(\S+)
 const CAUSAS=[
  ["trabajo","💼","Trabajo","por algo del trabajo"],["pareja","💞","Pareja","por algo con mi pareja"],["familia","🏠","Familia","por algo de mi familia"],
  ["amistades","🫂","Amistades","por algo con mis amistades"],["cuerpo","🩺","Mi cuerpo","por cómo está mi cuerpo"],["descanso","😴","Descanso","porque he descansado poco"],
- ["dinero","💶","Dinero","por temas de dinero"],["casa","🧺","Casa y tareas","por las cosas de casa"],["ringo","🐕","Ringo","por Ringo"],
+ ["dinero","💶","Dinero","por temas de dinero"],["casa","🧺","Casa y tareas","por las cosas de casa"],["ringo","🐾","Mi mascota","por mi mascota"],
  ["redes","📱","Redes y noticias","por algo que he visto en redes"],["pensar","💭","Algo que pensé","por algo que he estado pensando"],["nose","🤷","No lo sé","y no sé muy bien por qué"]];
 const NECES=[
  ["descansar","😴","Descansar","descansar"],["escucha","👂","Que me escuchen","que me escuchen"],["abrazo","🤗","Un abrazo","un abrazo"],
@@ -362,7 +362,7 @@ const CIELO_X={sol:5,nubes:4,niebla:3,lluvia:2,tormenta:1,viento:2};
 const agrado=e=>e.mx||CIELO_X[e.w]||null;
 
 /* --- Contexto (como Daylio / How We Feel) --- */
-const CON=[["sola","🙋‍♀️","Sola","Estando sola"],["pareja","💞","Pareja","Con tu pareja"],["familia","🏠","Familia","Con tu familia"],["amistades","🫂","Amistades","Con amistades"],["compas","💼","Compañeros","Con compañeros"],["ringo","🐕","Ringo","Con Ringo"]];
+const CON=[["sola","🙋‍♀️","Sola","Estando sola"],["pareja","💞","Pareja","Con tu pareja"],["familia","🏠","Familia","Con tu familia"],["amistades","🫂","Amistades","Con amistades"],["compas","💼","Compañeros","Con compañeros"],["ringo","🐾","Mi mascota","Con tu mascota"]];
 const LUGAR=[["casa","🛋️","En casa","En casa"],["trabajo","🏢","Trabajo","En el trabajo"],["fuera","🌳","Fuera","Fuera de casa"],["camino","🚌","De camino","De camino"]];
 const HACER=[["trabajar","💻","Trabajar","Trabajando"],["descansar","🛌","Descansar","Descansando"],["pantallas","📱","Pantallas","Con pantallas"],["mover","🚶‍♀️","Moverme","Moviéndote"],["comer","🍽️","Comer","Comiendo"],["tareas","🧺","Tareas","Haciendo tareas"],["hablar","💬","Hablar con alguien","Hablando con alguien"],["gusta","🎨","Algo que me gusta","Haciendo algo que te gusta"]];
 const SUENO=[["s5","Menos de 6 h"],["s6","6–7 h"],["s7","7–8 h"],["s8","Más de 8 h"]];
@@ -398,9 +398,9 @@ const PENS=[
 const ALT_GEN=["Esto es un pensamiento, no un hecho.","Estoy en un momento difícil y puedo tratarme con cariño.","Puedo esperar a saber más antes de sacar conclusiones."];
 const PREG=["¿Qué pruebas tengo a favor y en contra?","¿Qué le diría a una amiga que pensara esto?","¿Cómo lo veré dentro de un mes?"];
 const CREE=[[10,"Casi nada"],[30,"Un poco"],[50,"A medias"],[70,"Bastante"],[90,"Totalmente"]];
-const ACTB=[["🐕","Paseo largo con Ringo"],["🎵","Escuchar canciones que me gustan"],["☀️","10 minutos al sol"],["📞","Escribir a alguien que quiero"],["🛁","Ducha o baño sin prisa"],["🍳","Cocinar algo rico"],["📖","Leer un rato"],["🧘‍♀️","Estirar 5 minutos"],["🌿","Ordenar un rincón pequeño"],["🎨","Hacer algo creativo"]];
+const ACTB=[["🚶‍♀️","Dar un paseo largo"],["🎵","Escuchar canciones que me gustan"],["☀️","10 minutos al sol"],["📞","Escribir a alguien que quiero"],["🛁","Ducha o baño sin prisa"],["🍳","Cocinar algo rico"],["📖","Leer un rato"],["🧘‍♀️","Estirar 5 minutos"],["🌿","Ordenar un rincón pequeño"],["🎨","Hacer algo creativo"]];
 const EFECTO=["Igual","Un poco mejor","Mucho mejor"];
-const BUENAS=["Un café tranquilo","Algo rico","Un rato con Ringo","Una charla bonita","Un mensaje de alguien","Me he reído","He descansado","He terminado algo","Ha hecho buen día","Un abrazo","He aprendido algo","Me he cuidado"];
+const BUENAS=["Un café tranquilo","Algo rico","Un rato al aire libre","Una charla bonita","Un mensaje de alguien","Me he reído","He descansado","He terminado algo","Ha hecho buen día","Un abrazo","He aprendido algo","Me he cuidado"];
 // WHO-5, índice de bienestar de la OMS (versión en español), periodo de 2 semanas
 const WHO5=["Me he sentido alegre y de buen ánimo","Me he sentido tranquila y relajada","Me he sentido activa y enérgica","Me he despertado fresca y descansada","Mi vida cotidiana ha estado llena de cosas que me interesan"];
 const WHO_OP=[[5,"Todo el tiempo"],[4,"La mayor parte del tiempo"],[3,"Más de la mitad del tiempo"],[2,"Menos de la mitad del tiempo"],[1,"De vez en cuando"],[0,"Nunca"]];
@@ -421,7 +421,7 @@ const DIFICQ="Si has marcado algún problema, ¿cuánto te ha costado por ello t
 const DIFIC=["Nada difícil","Algo difícil","Muy difícil","Extremadamente difícil"];
 // Plan de seguridad (modelo Stanley-Brown)
 const ALERTAS=["Duermo muy poco o demasiado","Me aíslo","Lloro mucho","Dejo de comer","Pienso que no puedo más","Bebo más de la cuenta","Todo me da igual"];
-const CALMAR=["Respirar despacio","Ducha caliente","Pasear a Ringo","Poner música","Salir a la calle","Tumbarme con una manta","Escribir lo que siento","Ver algo que me haga reír"];
+const CALMAR=["Respirar despacio","Ducha caliente","Dar un paseo","Poner música","Salir a la calle","Tumbarme con una manta","Escribir lo que siento","Ver algo que me haga reír"];
 
 const JUEGO=[
  ["Llevas toda la semana preparando una presentación y en la reunión nadie la menciona.","Decepcionada",["Decepcionada","Aliviada","Aburrida"],"Esperabas un reconocimiento que no ha llegado. La decepción aparece cuando lo esperado y lo real no coinciden."],
@@ -435,7 +435,7 @@ const JUEGO=[
  ["En una cena, todos hablan entre ellos y nadie te pregunta nada.","Sola",["Sola","Segura","Divertida"],"Puedes estar rodeada de gente y sentirte sola si no te sientes vista."],
  ["Le contestaste mal a una amiga porque estabas estresada.","Culpable",["Indignada","Culpable","Satisfecha"],"La culpa aparece cuando crees que has hecho daño. Te invita a reparar, no a castigarte."],
  ["El sábado por fin vas a ver a alguien a quien no ves desde hace meses.","Ilusionada",["Nerviosa","Ilusionada","Apática"],"Esperar algo bonito es ilusión. A veces viene junto con un poco de nervios, y es normal."],
- ["Paseas a Ringo al atardecer sin prisa y sin mirar el móvil.","Tranquila",["Tranquila","Frustrada","Insegura"],"Nada urge y el cuerpo se suelta: eso es calma."],
+ ["Das un paseo al atardecer, sin prisa y sin mirar el móvil.","Tranquila",["Tranquila","Frustrada","Insegura"],"Nada urge y el cuerpo se suelta: eso es calma."],
  ["Intentas montar un mueble, la pieza no encaja y ya van tres veces.","Frustrada",["Frustrada","Triste","Aliviada"],"La frustración sale cuando lo intentas y no consigues lo que quieres."],
  ["Te tropiezas delante de mucha gente en la calle.","Avergonzada",["Avergonzada","Orgullosa","Sola"],"Sentirte expuesta delante de otros es vergüenza. Se pasa rápido, aunque al principio queme."],
  ["Ves que ascienden a una compañera haciendo lo mismo que tú, y a ti no.","Indignada",["Agradecida","Indignada","Tranquila"],"Cuando algo te parece injusto, aparece la indignación, de la familia del enfado."],
@@ -443,8 +443,9 @@ const JUEGO=[
 
 /* ============ Estado y almacenamiento ============ */
 const LS="brote-sentir.v1";
-const S={cfg:{nombre:"Mari", lvl:null, juego:{ok:0,tot:0,racha:0}}, days:{}};
-const UI={tab:"hoy", flow:null, game:null, word:null, sample:undefined, confirmDel:null, nameEdit:false};
+function SUELTA_INI(){ return !window.claude; }
+const S={cfg:{nombre:"", mascota:"", lvl:null, juego:{ok:0,tot:0,racha:0}}, days:{}};
+const UI={ready:SUELTA_INI(), tab:"hoy", flow:null, game:null, word:null, sample:undefined, confirmDel:null, nameEdit:false};
 const SUELTA=!window.claude; // fuera de claude.ai: app independiente
 let DB=null, BASE=null, SAMPLE=null, DOWNLOADS=null, synced=false, pendingRender=false;
 
@@ -460,19 +461,20 @@ const saveCfg=()=>queue(BASE+"/sentir", ()=>S.cfg);
 const saveDay=k=>queue(BASE+"/sentir/dias/"+k, ()=>S.days[k]||{ents:[]});
 
 async function initCloud(){
-  if(!window.claude || !window.claude.use) return;
+  if(!window.claude || !window.claude.use){ UI.ready=true; render(); return; }
+  setTimeout(()=>{ if(!UI.ready){ UI.ready=true; scheduleRender(); } },4000);
   window.claude.use("sample").then(s=>{ SAMPLE=s; }).catch(()=>{});
   window.claude.use("downloads").then(d=>{ DOWNLOADS=d; if(d) scheduleRender(); }).catch(()=>{});
   try{
     const [db,user]=await Promise.all([window.claude.use("db"), window.claude.use("user")]);
-    if(!db||!user) return;
-    const id=await user.id(); if(!id) return;
+    if(!db||!user){ UI.ready=true; scheduleRender(); return; }
+    const id=await user.id(); if(!id){ UI.ready=true; scheduleRender(); return; }
     DB=db; BASE="data/users/"+id;
     let firstCfg=true, firstDays=true;
     DB.doc(BASE+"/sentir").onSnapshot(s=>{
-      if(s.exists) S.cfg=Object.assign({nombre:"Mari",lvl:null,juego:{ok:0,tot:0,racha:0}}, JSON.parse(JSON.stringify(s.data())));
+      if(s.exists) S.cfg=Object.assign({nombre:"",mascota:"",lvl:null,juego:{ok:0,tot:0,racha:0}}, JSON.parse(JSON.stringify(s.data())));
       else if(firstCfg) DB.doc(BASE+"/sentir").set(JSON.parse(JSON.stringify(S.cfg))).catch(()=>{});
-      firstCfg=false; synced=true; saveLocal(); scheduleRender();
+      firstCfg=false; synced=true; UI.ready=true; saveLocal(); scheduleRender();
     },()=>{ synced=false; scheduleRender(); });
     DB.collection(BASE+"/sentir/dias").onSnapshot(q=>{
       const local=firstDays?JSON.parse(JSON.stringify(S.days)):null;
@@ -523,7 +525,17 @@ function fraseParaOtros(e){
 
 /* ============ Render ============ */
 const TABS=[["hoy","☀️","Hoy"],["calma","🫧","Calma"],["palabras","📖","Palabras"],["juego","🎲","Practicar"],["camino","🌿","Camino"]];
+function aplicarMascota(){
+  const m=(S.cfg.mascota||"").trim(), c=byId(CAUSAS,"ringo"), k=byId(CON,"ringo");
+  c[2]=m||"Mi mascota"; c[3]=m?"por "+m:"por mi mascota";
+  k[2]=m||"Mi mascota"; k[3]=m?"Con "+m:"Con tu mascota";
+  ACTB[0][0]=m?"🐾":"🚶‍♀️"; ACTB[0][1]=m?"Paseo largo con "+m:"Dar un paseo largo";
+  BUENAS[2]=m?"Un rato con "+m:"Un rato al aire libre";
+  CALMAR[2]=m?"Pasear a "+m:"Dar un paseo";
+}
+const conMascota=c=>c[0]!=="ringo"||!!(S.cfg.mascota||"").trim();
 function render(){
+  aplicarMascota();
   $("#tabs").innerHTML=TABS.map(([id,i,t])=>`<button data-act="tab" data-v="${id}" class="${UI.tab===id?"on":""}" aria-current="${UI.tab===id?"page":"false"}"><span class="i">${i}</span>${t}</button>`).join("");
   const head=`<header class="top"><div class="brand"><span class="lg">🌱</span>Brote <small>Sentir</small></div><div class="sync ${synced?"on":""}"><i></i>${synced?"Guardado en tu cuenta":SUELTA?"Guardado en este móvil":"En este dispositivo"}</div></header>`;
   $("#app").innerHTML=head+({hoy:vHoy,calma:vCalma,palabras:vPalabras,juego:vJuego,camino:vCamino}[UI.tab])();
@@ -588,6 +600,7 @@ function renderLayer(){
   const ly=$("#layer"), kind=UI.flow?"flow":UI.tool?"tool:"+UI.tool.id:UI.done?"done":UI.word?"word":"", still=kind&&kind===renderLayer.kind, top=still?($(".sheet")?.scrollTop||0):0;
   renderLayer.kind=kind;
   if(UI.flow) ly.innerHTML=`<div class="sheet-bg" data-act="bgclose"><div class="sheet" role="dialog" aria-modal="true" aria-label="Cómo estoy">${vFlow()}</div></div>`;
+  else if(UI.ready && !S.cfg.intro) ly.innerHTML=`<div class="sheet-bg"><div class="sheet" role="dialog" aria-modal="true" aria-label="Bienvenida">${vBienvenida()}</div></div>`;
   else if(UI.tool) ly.innerHTML=`<div class="sheet-bg" data-act="bgclose"><div class="sheet" role="dialog" aria-modal="true">${vTool()}</div></div>`;
   else if(UI.done) ly.innerHTML=`<div class="sheet-bg" data-act="bgclose"><div class="sheet" role="dialog" aria-modal="true">${vDone()}</div></div>`;
   else if(UI.word) ly.innerHTML=`<div class="sheet-bg" data-act="bgclose"><div class="sheet" role="dialog" aria-modal="true">${vWord()}</div></div>`;
@@ -620,7 +633,7 @@ function vFlow(){
   if(s==="contexto"){ chosen=e.con.length||e.lugar||e.act.length||e.sueno; const first=!(S.days[today()]?.ents||[]).length;
     const grp=(t,arr,k,multi)=>`<h3>${t}</h3><div class="chips">${arr.map(c=>{ const on=multi?e[k].includes(c[0]):e[k]===c[0]; return `<button class="chip ${on?"on":""}" data-act="${multi?"tgl":"set1"}" data-k="${k}" data-v="${c[0]}" aria-pressed="${on}" style="padding:7px 11px;font-size:14px">${c[1]?c[1]+" ":""}${c[2]}</button>`; }).join("")}</div>`;
     body=`<p class="q">¿Dónde estás y qué haces?</p><p class="hint">Con esto podrás ver qué te sienta mejor. Toca lo que quieras, o salta este paso.</p><div class="ctx">
-    ${grp("Con quién",CON,"con",true)}${grp("Dónde",LUGAR,"lugar",false)}${grp("Qué estabas haciendo",HACER,"act",true)}${first?grp("¿Cuánto dormiste anoche?",SUENO.map(x=>[x[0],"",x[1]]),"sueno",false):""}</div>`;
+    ${grp("Con quién",CON.filter(conMascota),"con",true)}${grp("Dónde",LUGAR,"lugar",false)}${grp("Qué estabas haciendo",HACER,"act",true)}${first?grp("¿Cuánto dormiste anoche?",SUENO.map(x=>[x[0],"",x[1]]),"sueno",false):""}</div>`;
   }
   if(s==="familia"){ chosen=!!e.fam; const sug=e.mx?CUAD[cuad(e.mx,e.my)].fams:(SUG_CIELO[e.w]||[]), f=e.fam&&famById(e.fam);
     body=`<p class="q">¿A qué familia de emociones se parece?</p><p class="hint">${sug.length?"Con lo que has marcado, muchas personas lo llaman "+lista(sug.map(x=>famById(x).n.toLowerCase())).replace(/ y ([^ ]+)$/," o $1")+". Pero tú decides.":"Elige la que más se parezca. Si dudas, la primera que te venga."}</p>
@@ -636,7 +649,7 @@ function vFlow(){
   }
   if(s==="causa"){ chosen=!!e.causa;
     body=`<p class="q">¿Qué crees que lo ha provocado?</p><p class="hint">Elige lo que más pese. "No lo sé" también es una buena respuesta.</p>
-    <div class="grid3">${CAUSAS.map(c=>`<button class="tile ${e.causa===c[0]?"on":""}" data-act="set" data-k="causa" data-v="${c[0]}" aria-pressed="${e.causa===c[0]}" style="padding:12px 4px 10px"><span class="e" style="font-size:28px">${c[1]}</span><b style="font-size:13px">${c[2]}</b></button>`).join("")}</div>`;
+    <div class="grid3">${CAUSAS.filter(conMascota).map(c=>`<button class="tile ${e.causa===c[0]?"on":""}" data-act="set" data-k="causa" data-v="${c[0]}" aria-pressed="${e.causa===c[0]}" style="padding:12px 4px 10px"><span class="e" style="font-size:28px">${c[1]}</span><b style="font-size:13px">${c[2]}</b></button>`).join("")}</div>`;
   }
   if(s==="necesidad"){ chosen=!!e.nec; const x=e.word&&findWord(e.word);
     body=`<p class="q">¿Qué te pide esta emoción?</p><p class="hint">${x?`Cuando alguien se siente ${esc(e.word.toLowerCase())}, a menudo necesita: <b>${esc(x.w[3].toLowerCase())}</b>`:"Cada emoción nos pide algo. ¿Qué te vendría bien ahora?"}</p>
@@ -744,7 +757,8 @@ function vCamino(){
   html+=`<div class="card"><h2>Mis frases</h2><p class="small muted">Así ha ido cambiando tu manera de decirlo.</p>${ents.length?ents.slice().reverse().slice(0,30).map(e=>entRow(e)+(UI.confirmDel===e.id?`<div class="row" style="gap:6px;margin:-4px 0 10px 50px"><span class="small">¿Borrar este registro?</span><button class="btn sm" data-act="delYes" data-v="${e.k}|${e.id}" style="background:var(--warn);color:#fff">Borrar</button><button class="btn sm ghost" data-act="delNo">Cancelar</button></div>`:`<div style="margin:-6px 0 6px 50px"><button class="btn ghost sm" style="padding:2px 0;font-size:12px" data-act="del" data-v="${e.id}">Borrar</button></div>`)).join(""):`<p class="muted" style="margin:0">Todavía no hay frases. La primera aparecerá al terminar tu primer registro en Hoy.</p>`}</div>`;
   html+=`<div class="card"><h2>Copia de seguridad</h2><p class="small muted">${SUELTA?"Tus datos se guardan solo en este móvil. Descarga una copia de vez en cuando para no perderlos.":"Descarga tus datos para guardarlos o pasarlos a la app instalada en el móvil."}</p>
     <div class="row wrapf">${puedeGuardar()?`<button class="btn sm" data-act="backup">Descargar copia</button>`:""}<label class="btn sm" style="cursor:pointer">Restaurar copia<input type="file" id="restore" accept=".json,application/json" hidden></label></div></div>`;
-  html+=`<div class="card"><h2>Tu nombre</h2>${UI.nameEdit?`<div class="row"><input type="text" id="nombre" value="${esc(S.cfg.nombre||"")}" aria-label="Tu nombre"><button class="btn pri sm" data-act="saveName">Guardar</button></div>`:`<div class="row between"><span>Te saludo como <b>${esc(S.cfg.nombre||"—")}</b></span><button class="btn sm" data-act="editName">Cambiar</button></div>`}</div>`;
+  html+=`<div class="card"><h2>Sobre ti</h2>${UI.nameEdit?`<label class="small muted" for="nombre" style="font-weight:700">Tu nombre</label><input type="text" id="nombre" value="${esc(S.cfg.nombre||"")}"><label class="small muted" for="mascota" style="font-weight:700;display:block;margin-top:10px">Tu mascota</label><input type="text" id="mascota" value="${esc(S.cfg.mascota||"")}" placeholder="Déjalo vacío si no tienes"><div class="row" style="margin-top:12px"><button class="btn pri sm" data-act="saveName">Guardar</button></div>`
+    :`<div class="row between"><span>Te saludo como <b>${esc(S.cfg.nombre||"—")}</b>${S.cfg.mascota?`<br><span class="small muted">Mascota: ${esc(S.cfg.mascota)}</span>`:""}</span><button class="btn sm" data-act="editName">Cambiar</button></div>`}</div>`;
   html+=`<p class="crisis">Si lo estás pasando muy mal, llama al <b>024</b> (gratis, 24 h, en España) o al <b>112</b> si es una emergencia.</p>`;
   return html;
 }
@@ -815,6 +829,14 @@ function vTestRes(T){
   ${prev?`<p class="small muted">La vez anterior (${fmtD(prev.k)}): ${prev.s}. ${s<prev.s?"Ha bajado, va mejor.":s>prev.s?"Ha subido.":"Está igual."}</p>`:""}
   <p class="small muted">Es un cuestionario de cribado, no un diagnóstico. Solo un profesional puede valorarlo. Volverá a aparecer dentro de 2 semanas.</p>
   <div class="foot"><span></span><button class="btn pri" data-act="closeTool">Listo</button></div>`;
+}
+function vBienvenida(){
+  return `<div class="done-art" aria-hidden="true">🌱</div><p class="q" style="text-align:center">Te doy la bienvenida a Brote Sentir</p>
+  <p class="hint" style="text-align:center">Un minuto al día para aprender a reconocer lo que sientes, tocando en vez de escribiendo. Todo lo que registres es privado: solo lo ves tú.</p>
+  <h3>¿Cómo te llamas? <span class="muted small">(opcional)</span></h3><input type="text" id="bvNombre" value="${esc(S.cfg.nombre||"")}" placeholder="Tu nombre" aria-label="Tu nombre" autocomplete="given-name">
+  <h3 style="margin-top:16px">¿Tienes mascota? <span class="muted small">(opcional)</span></h3><input type="text" id="bvMascota" value="${esc(S.cfg.mascota||"")}" placeholder="Su nombre, por ejemplo Luna" aria-label="Nombre de tu mascota">
+  <p class="small muted" style="margin:8px 0 0">La usaré en algunas opciones, como «Pasear a Luna». Puedes cambiarlo cuando quieras en Camino.</p>
+  <div class="foot"><span></span><button class="btn pri" data-act="bvOk">Empezar</button></div>`;
 }
 function closeTool(){ const T=UI.tool; if(T&&T.to) clearTimeout(T.to); UI.tool=null; render(); }
 function breathTick(){
@@ -904,7 +926,7 @@ function vTool(){
       <div class="psec"><h3><span class="num">3</span>Personas o lugares que te distraen</h3>${inp("lugares","Por ejemplo: la cafetería de la esquina, mi hermana")}</div>
       <div class="psec"><h3><span class="num">4</span>Personas a las que puedes pedir ayuda</h3>${[0,1,2].map(i=>`<div class="inp2">${inp("p"+i+"n","Nombre")}${inp("p"+i+"t","Teléfono","tel")}</div>`).join("")}</div>
       <div class="psec"><h3><span class="num">5</span>Tu psicóloga o médica</h3>${inp("prof","Nombre y teléfono")}<p class="small muted" style="margin:8px 0 0">El 024 y el 112 ya aparecen siempre en tu plan.</p></div>
-      <div class="psec"><h3><span class="num">6</span>Lo que más te importa</h3>${inp("razon","Personas, Ringo, planes… (opcional)")}</div>
+      <div class="psec"><h3><span class="num">6</span>Lo que más te importa</h3>${inp("razon","Personas, mascotas, planes… (opcional)")}</div>
       <div class="foot">${S.cfg.plan?`<button class="btn" data-act="planCancel">Cancelar</button>`:"<span></span>"}<button class="btn pri" data-act="planSave">Guardar plan</button></div>`;
   }
   if(T.id==="buena") return head("Una cosa buena al día")+`<div style="margin-top:10px">${buenaCard(true)}</div><div class="foot"><span></span><button class="btn pri" data-act="closeTool">Listo</button></div>`;
@@ -1137,7 +1159,8 @@ document.addEventListener("click",ev=>{
     case "ics": guardar(`brote-sentir-recordatorio-${pad(Number(v))}h.ics`, ics(Number(v)), "Ábrelo para añadirlo a tu calendario"); break;
     case "backup": guardar(`brote-sentir-copia-${today()}.json`, JSON.stringify({app:"brote-sentir",v:1,cfg:S.cfg,days:S.days},null,1), "Copia guardada"); break;
     case "editName": UI.nameEdit=true; render(); setTimeout(()=>$("#nombre")?.focus(),30); break;
-    case "saveName": S.cfg.nombre=($("#nombre")?.value||"").trim(); UI.nameEdit=false; saveCfg(); render(); break;
+    case "saveName": S.cfg.nombre=($("#nombre")?.value||"").trim(); S.cfg.mascota=($("#mascota")?.value||"").trim(); UI.nameEdit=false; saveCfg(); render(); break;
+    case "bvOk": S.cfg.nombre=($("#bvNombre")?.value||"").trim(); S.cfg.mascota=($("#bvMascota")?.value||"").trim(); S.cfg.intro=true; saveCfg(); render(); break;
   }
 });
 document.addEventListener("change",ev=>{
