@@ -1,0 +1,715 @@
+<title>Brote Sentir</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: una columna tipo app móvil, check-in paso a paso en hoja inferior, navegación flotante (mismo lenguaje visual que Brote) */
+:root{
+  --bg:#F6F3FC; --surface:#FFFFFF; --surface-2:#F1EDF8; --ink:#241F38; --muted:#6F6888; --line:#E8E3F2;
+  --accent:#5B4BDB; --accent-ink:#FFFFFF; --soft:#ECE7FE; --tint:46%;
+  --ok:#25B073; --warn:#F06A55; --body:#E3DDF0; --hot:#F06A55;
+  --shadow:0 14px 34px -16px rgba(70,45,160,.35); --shadow-s:0 6px 18px -10px rgba(70,45,160,.3);
+  --blob1:#E4DBFF; --blob2:#FFE3D2; --blob3:#D6F3E5;
+  --font-d:"Bricolage Grotesque","Avenir Next",system-ui,sans-serif;
+  --font-b:"Figtree",-apple-system,"Segoe UI",system-ui,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#14121E; --surface:#1F1C2D; --surface-2:#2A263D; --ink:#EFECFB; --muted:#A49EBE; --line:#332E4A;
+    --accent:#9D8DFF; --accent-ink:#14121E; --soft:#2D2850; --tint:24%; --body:#3A3452; --hot:#FF8A75;
+    --shadow:0 14px 34px -16px rgba(0,0,0,.6); --shadow-s:0 6px 18px -10px rgba(0,0,0,.5);
+    --blob1:#2A2350; --blob2:#3A2630; --blob3:#1E3A30; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#14121E; --surface:#1F1C2D; --surface-2:#2A263D; --ink:#EFECFB; --muted:#A49EBE; --line:#332E4A;
+  --accent:#9D8DFF; --accent-ink:#14121E; --soft:#2D2850; --tint:24%; --body:#3A3452; --hot:#FF8A75;
+  --shadow:0 14px 34px -16px rgba(0,0,0,.6); --shadow-s:0 6px 18px -10px rgba(0,0,0,.5);
+  --blob1:#2A2350; --blob2:#3A2630; --blob3:#1E3A30; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0; color:var(--ink); font-family:var(--font-b); font-size:16px; line-height:1.45; -webkit-font-smoothing:antialiased;
+  background:radial-gradient(520px 380px at 0% 0%, var(--blob1), transparent 70%), radial-gradient(460px 360px at 100% 8%, var(--blob2), transparent 70%), radial-gradient(500px 400px at 50% 100%, var(--blob3), transparent 70%), var(--bg);
+  background-attachment:fixed; min-height:100vh}
+button,input,textarea{font:inherit; color:inherit}
+button{cursor:pointer; -webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px}
+.wrap{max-width:560px; margin:0 auto; padding-block:14px 120px; padding-left:max(16px, env(safe-area-inset-left,0px)); padding-right:max(16px, env(safe-area-inset-right,0px))}
+header.top{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:4px 2px 14px}
+.brand{font-family:var(--font-d); font-weight:700; font-size:22px; letter-spacing:-.02em; display:flex; align-items:center; gap:8px}
+.brand .lg{width:32px;height:32px;border-radius:11px;display:grid;place-items:center;background:linear-gradient(135deg,#4FC487,#9BE3BF);font-size:17px;box-shadow:var(--shadow-s)}
+.brand small{font-family:var(--font-b); font-size:13px; font-weight:700; color:var(--muted); letter-spacing:0}
+.sync{font-size:12px; color:var(--muted); display:flex; align-items:center; gap:6px; background:var(--surface); padding:5px 10px; border-radius:999px; box-shadow:var(--shadow-s)}
+.sync i{width:7px;height:7px;border-radius:50%;background:var(--muted)}
+.sync.on i{background:var(--ok)}
+h1{font-family:var(--font-d); font-weight:700; font-size:28px; line-height:1.08; letter-spacing:-.025em; margin:0; text-wrap:balance}
+h2{font-family:var(--font-d); font-weight:700; font-size:20px; letter-spacing:-.015em; margin:0 0 10px; text-wrap:balance}
+h3{font-size:15px; font-weight:700; margin:0 0 8px}
+p{margin:0 0 8px}
+.muted{color:var(--muted)} .small{font-size:13px}
+.card{background:var(--surface); border-radius:24px; padding:18px; margin:0 0 14px; box-shadow:var(--shadow)}
+.row{display:flex; align-items:center; gap:10px}
+.between{justify-content:space-between}
+.wrapf{flex-wrap:wrap}
+.btn{border:0; background:var(--surface-2); border-radius:999px; padding:11px 18px; font-weight:700; font-size:15px; transition:transform .12s}
+.btn:active{transform:scale(.96)}
+.btn.pri{background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 70%,#E06BD0)); color:#fff; box-shadow:0 8px 20px -8px color-mix(in srgb,var(--accent) 70%,transparent)}
+.btn.ghost{background:transparent; color:var(--muted)}
+.btn.sm{padding:7px 13px; font-size:13px}
+.btn.big{padding:15px 22px; font-size:16.5px}
+.btn:disabled{opacity:.5; cursor:default}
+.chip{border:2px solid transparent; background:var(--surface-2); border-radius:999px; padding:9px 14px; font-size:15px; font-weight:600; transition:transform .12s, background .2s}
+.chip:active{transform:scale(.95)}
+.chip.on{background:var(--soft); border-color:var(--accent); font-weight:800}
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+textarea{width:100%; background:var(--surface-2); border:1.5px solid transparent; border-radius:14px; padding:12px 14px; font-size:16px; min-height:90px; resize:vertical}
+textarea:focus,input:focus{border-color:var(--accent); outline:none}
+input[type=text]{width:100%; background:var(--surface-2); border:1.5px solid transparent; border-radius:12px; padding:10px 12px; font-size:16px}
+
+/* Inicio */
+.hero{position:relative; overflow:hidden; border-radius:30px; padding:20px 18px; margin:0 0 16px; box-shadow:var(--shadow);
+  background:linear-gradient(155deg, color-mix(in srgb,var(--mc,#9A79E2) 45%,var(--surface)) 0%, color-mix(in srgb,var(--mc,#9A79E2) 14%,var(--surface)) 60%, var(--surface) 100%)}
+.hero-top{display:flex; gap:10px; align-items:flex-end}
+.hero-tx{flex:1; min-width:0}
+.hero .sub{font-weight:600; margin:8px 0 14px; color:color-mix(in srgb,var(--ink) 78%,transparent)}
+.plant-wrap{width:104px; flex:none; margin:-6px -4px -4px 0}
+.plant{width:100%; height:auto; display:block; overflow:visible}
+.sway{transform-origin:60px 116px; transform-box:view-box; animation:sway 5s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+.lvl{display:inline-flex; align-items:center; gap:6px; background:color-mix(in srgb,var(--surface) 75%,transparent); border-radius:999px; padding:5px 11px; font-size:13px; font-weight:800}
+.frase{font-family:var(--font-d); font-size:22px; line-height:1.25; font-weight:700; letter-spacing:-.01em; margin:4px 0 0; text-wrap:pretty}
+.ent{display:flex; gap:12px; padding:12px 0; border-top:1px solid var(--line)}
+.ent:first-child{border-top:0; padding-top:2px}
+.ent .dot{width:38px; height:38px; border-radius:13px; display:grid; place-items:center; font-size:20px; flex:none; background:color-mix(in srgb,var(--c) 30%,var(--surface))}
+.ent .tx{flex:1; min-width:0}
+.ent .meta{font-size:12.5px; color:var(--muted); font-weight:600; display:flex; justify-content:space-between; gap:8px}
+.ent .fr{margin-top:2px; font-weight:600}
+.ent .own{margin-top:6px; font-size:14px; color:var(--muted); white-space:pre-wrap; border-left:3px solid var(--line); padding-left:10px}
+.tip{background:linear-gradient(135deg,var(--soft),color-mix(in srgb,#FFC9A8 30%,var(--surface)))}
+.tip .k{font-size:12.5px; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:.04em}
+
+/* Hoja del check-in */
+.sheet-bg{position:fixed; inset:0; background:rgba(20,12,50,.45); z-index:10; display:flex; align-items:flex-end; justify-content:center}
+.sheet{background:var(--surface); width:100%; max-width:560px; max-height:92vh; overflow:auto; border-radius:28px 28px 0 0;
+  padding-block:16px calc(18px + env(safe-area-inset-bottom,0px)); padding-left:max(18px, env(safe-area-inset-left,0px)); padding-right:max(18px, env(safe-area-inset-right,0px)); animation:up .3s ease-out}
+@keyframes up{from{transform:translateY(40px); opacity:.5}}
+.prog{display:flex; gap:4px; margin:4px 0 14px}
+.prog i{flex:1; height:6px; border-radius:6px; background:var(--surface-2); transition:background .3s}
+.prog i.on{background:linear-gradient(90deg,#8E7CF0,#5B9BEF)}
+.q{font-family:var(--font-d); font-size:25px; font-weight:700; line-height:1.15; letter-spacing:-.015em; margin:4px 0 4px; text-wrap:balance}
+.hint{color:var(--muted); font-size:14.5px; margin:0 0 16px}
+.foot{display:flex; justify-content:space-between; align-items:center; gap:10px; margin-top:20px; position:sticky; bottom:0; background:var(--surface); padding-top:10px}
+.grid3{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+.grid2{display:grid; grid-template-columns:repeat(2,1fr); gap:8px}
+.tile{border:2px solid transparent; background:var(--surface-2); border-radius:20px; padding:14px 6px 12px; display:flex; flex-direction:column; align-items:center; gap:4px; text-align:center; transition:transform .15s, background .2s}
+.tile:active{transform:scale(.95)}
+.tile .e{font-size:34px; line-height:1.1; transition:transform .25s cubic-bezier(.3,1.6,.5,1)}
+.tile b{font-size:14px}
+.tile small{font-size:11.5px; color:var(--muted); font-weight:600; line-height:1.25}
+.tile.on{background:color-mix(in srgb,var(--c,var(--accent)) 26%,var(--surface)); border-color:var(--c,var(--accent))}
+.tile.on .e{transform:scale(1.15)}
+.tile.sug{box-shadow:inset 0 0 0 2px color-mix(in srgb,var(--c) 45%,transparent)}
+.sugt{display:inline-block; font-size:10.5px; font-weight:800; color:var(--accent); text-transform:uppercase; letter-spacing:.04em}
+.bodywrap{display:flex; gap:14px; align-items:flex-start}
+.bodymap{width:130px; flex:none}
+.bodymap svg{width:100%; display:block}
+.bodymap .z{fill:var(--body); cursor:pointer; transition:fill .2s; stroke:var(--surface); stroke-width:2}
+.bodymap .z.on{fill:var(--hot)}
+.bodyside{flex:1; min-width:0}
+.bat{display:grid; grid-template-columns:repeat(5,1fr); gap:8px}
+.bat button{border:2px solid transparent; border-radius:16px; background:var(--surface-2); padding:12px 0 10px; display:flex; flex-direction:column; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--muted)}
+.bat button.on{border-color:var(--accent); background:var(--soft); color:var(--ink)}
+.bat .cell{width:22px; height:36px; border-radius:6px; border:2.5px solid currentColor; position:relative; padding:2px; display:flex; flex-direction:column-reverse; gap:2px}
+.bat .cell::before{content:""; position:absolute; top:-6px; left:6px; width:6px; height:3px; border-radius:2px; background:currentColor}
+.bat .cell i{height:4.4px; border-radius:2px; background:transparent}
+.bat .cell i.f{background:var(--c)}
+.intens{display:flex; align-items:flex-end; justify-content:space-between; gap:6px; margin-top:6px}
+.intens button{border:0; background:none; display:flex; flex-direction:column; align-items:center; gap:6px; font-size:12px; font-weight:700; color:var(--muted); flex:1; padding:4px 0}
+.intens .b{border-radius:50%; background:color-mix(in srgb,var(--c) 30%,var(--surface-2)); transition:transform .2s}
+.intens button.on{color:var(--ink)}
+.intens button.on .b{background:var(--c); transform:scale(1.08); box-shadow:0 6px 16px -6px var(--c)}
+.wordbox{margin-top:12px; padding:14px; border-radius:16px; background:color-mix(in srgb,var(--c) 16%,var(--surface)); font-size:14.5px}
+.wordbox b.w{font-family:var(--font-d); font-size:19px}
+.wordbox .kv{margin:6px 0 0} .wordbox .kv span{font-weight:800; color:color-mix(in srgb,var(--ink) 70%,transparent)}
+.build{font-family:var(--font-d); font-size:21px; line-height:1.55; font-weight:700}
+.slot{display:inline; border:0; border-bottom:3px dashed var(--accent); background:var(--soft); color:var(--ink); border-radius:8px 8px 2px 2px; padding:0 6px; font:inherit}
+.starters{display:flex; flex-wrap:wrap; gap:6px; margin:8px 0}
+.alt{display:block; width:100%; text-align:left; border:2px solid transparent; background:var(--surface-2); border-radius:14px; padding:12px; font-weight:600; margin-top:8px}
+.alt.on{border-color:var(--accent); background:var(--soft)}
+.done-art{font-size:56px; text-align:center; margin:6px 0}
+.unlock{margin-top:14px; padding:14px; border-radius:18px; background:linear-gradient(135deg,color-mix(in srgb,#FFC877 var(--tint),var(--surface)),color-mix(in srgb,#FF9EC4 var(--tint),var(--surface)))}
+
+/* Palabras */
+.fam{margin-bottom:14px}
+.fam-h{display:flex; align-items:center; gap:10px; margin-bottom:10px}
+.fam-h .e{width:40px; height:40px; border-radius:14px; display:grid; place-items:center; font-size:22px; background:color-mix(in srgb,var(--c) 30%,var(--surface))}
+.fam-h b{font-family:var(--font-d); font-size:19px}
+.words{display:flex; flex-wrap:wrap; gap:6px}
+.wd{border:0; border-radius:999px; padding:8px 13px; font-weight:700; font-size:14px; background:var(--surface-2); color:var(--muted)}
+.wd.got{background:color-mix(in srgb,var(--c) 30%,var(--surface)); color:var(--ink)}
+.wd.got::after{content:" ✓"}
+.meter{height:9px; border-radius:9px; background:var(--surface-2); overflow:hidden; margin:8px 0 4px}
+.meter i{display:block; height:100%; border-radius:9px; background:linear-gradient(90deg,#4FC487,#FFBF3C,#FF9EC4,#9A79E2)}
+
+/* Juego */
+.scen{font-family:var(--font-d); font-size:21px; line-height:1.3; font-weight:700; margin:10px 0 16px; text-wrap:pretty}
+.opt{display:flex; align-items:center; gap:10px; width:100%; text-align:left; border:2px solid transparent; background:var(--surface-2); border-radius:16px; padding:13px 14px; font-weight:700; font-size:16px; margin-bottom:8px}
+.opt.ok{border-color:var(--ok); background:color-mix(in srgb,var(--ok) 16%,var(--surface))}
+.opt.no{border-color:var(--warn); background:color-mix(in srgb,var(--warn) 12%,var(--surface))}
+.opt:disabled{cursor:default; opacity:1}
+.opt:disabled:not(.ok):not(.no){opacity:.55}
+.why{padding:12px 14px; border-radius:14px; background:var(--soft); font-size:14.5px; margin-top:6px}
+.score{display:flex; gap:10px}
+.score div{flex:1; text-align:center; background:var(--surface-2); border-radius:16px; padding:10px}
+.score b{display:block; font-family:var(--font-d); font-size:26px; font-variant-numeric:tabular-nums}
+.score span{font-size:12px; color:var(--muted); font-weight:700}
+
+/* Mi camino */
+.path{display:flex; flex-direction:column; gap:0}
+.stage{display:flex; gap:12px; position:relative; padding-bottom:16px}
+.stage:not(:last-child)::before{content:""; position:absolute; left:21px; top:44px; bottom:0; width:3px; background:var(--line); border-radius:3px}
+.stage.done:not(:last-child)::before{background:#4FC487}
+.stage .ic{width:45px; height:45px; border-radius:50%; display:grid; place-items:center; font-size:22px; background:var(--surface-2); flex:none; filter:grayscale(1); opacity:.6}
+.stage.done .ic,.stage.cur .ic{filter:none; opacity:1; background:color-mix(in srgb,#4FC487 25%,var(--surface))}
+.stage.cur .ic{box-shadow:0 0 0 3px var(--surface), 0 0 0 5px #4FC487}
+.stage .tx{flex:1; min-width:0; padding-top:2px}
+.stage .tx b{font-family:var(--font-d); font-size:17px}
+.stage .tx p{font-size:14px; color:var(--muted); margin:2px 0 0}
+.cal{display:grid; grid-template-columns:repeat(7,1fr); gap:6px}
+.cal .h{font-size:11px; color:var(--muted); text-align:center; font-weight:800}
+.cal .c{aspect-ratio:1; max-width:100%; border-radius:50%; background:var(--surface-2); display:grid; place-items:center; font-size:15px; color:var(--muted)}
+.cal .c.t{box-shadow:0 0 0 2px var(--surface), 0 0 0 4px var(--ink)}
+.cal .c.fut{opacity:.35}
+.bar{display:grid; grid-template-columns:minmax(0,1fr) 110px 30px; gap:10px; align-items:center; font-size:14px; margin:8px 0}
+.bar .t{overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight:600}
+.bar .p{height:10px; border-radius:10px; background:var(--surface-2); overflow:hidden}
+.bar .p i{display:block; height:100%; border-radius:10px}
+.bar b{text-align:right; font-family:var(--font-d); font-variant-numeric:tabular-nums}
+.seg{display:flex; gap:6px; flex-wrap:wrap}
+.crisis{font-size:13px; color:var(--muted); padding:8px 4px 0}
+
+nav.tabs{position:fixed; left:0; right:0; bottom:0; z-index:5; padding-block:0 calc(10px + env(safe-area-inset-bottom,0px)); padding-left:max(12px, env(safe-area-inset-left,0px)); padding-right:max(12px, env(safe-area-inset-right,0px)); pointer-events:none}
+nav.tabs .in{pointer-events:auto; max-width:536px; margin:0 auto; display:grid; grid-template-columns:repeat(4,1fr); background:color-mix(in srgb,var(--surface) 88%,transparent); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border-radius:26px; padding:6px; box-shadow:0 16px 40px -14px rgba(50,30,130,.45)}
+nav.tabs button{background:none; border:0; padding:7px 0 6px; border-radius:20px; display:flex; flex-direction:column; align-items:center; gap:2px; font-size:11.5px; font-weight:700; color:var(--muted)}
+nav.tabs button .i{font-size:20px; line-height:1; filter:grayscale(1); opacity:.6}
+nav.tabs button.on{color:var(--accent); background:var(--soft)}
+nav.tabs button.on .i{filter:none; opacity:1}
+.toast{position:fixed; left:50%; bottom:calc(96px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%); background:var(--ink); color:var(--bg); padding:11px 18px; border-radius:999px; font-size:14px; font-weight:700; z-index:20; box-shadow:var(--shadow); max-width:calc(100% - 32px); text-align:center}
+.confetti{position:fixed; width:9px; height:9px; border-radius:2px; pointer-events:none; z-index:30; animation:conf .95s cubic-bezier(.2,.7,.3,1) forwards}
+@keyframes conf{to{transform:translate(var(--dx),var(--dy)) rotate(540deg); opacity:0}}
+@media (max-width:380px){ .grid3{grid-template-columns:repeat(2,1fr)} .bodymap{width:110px} .bar{grid-template-columns:minmax(0,1fr) 80px 28px} }
+@media (prefers-reduced-motion: reduce){ *{transition:none!important; animation:none!important} }
+</style>
+
+<div class="wrap" id="app"></div>
+<nav class="tabs" aria-label="Secciones"><div class="in" id="tabs"></div></nav>
+<div id="layer"></div>
+
+<script>
+/* ============ Utilidades ============ */
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const pad = n => String(n).padStart(2,"0");
+const key = d => d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate());
+const fromKey = k => { const [y,m,d]=k.split("-").map(Number); return new Date(y,m-1,d); };
+const addDays = (k,n) => { const d=fromKey(k); d.setDate(d.getDate()+n); return key(d); };
+const today = () => key(new Date());
+const uid = () => Math.random().toString(36).slice(2,10);
+const MESES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+const lista = a => a.length<2 ? (a[0]||"") : a.slice(0,-1).join(", ")+" y "+a[a.length-1];
+const cap = s => s ? s[0].toUpperCase()+s.slice(1) : s;
+
+/* ============ Contenido ============ */
+const CIELO=[
+  {id:"sol",e:"☀️",t:"Sol",d:"Ligera, con luz",f:"hace sol",c:"#FFBF3C"},
+  {id:"nubes",e:"⛅",t:"Algunas nubes",d:"Bien, pero con algo",f:"hay algunas nubes",c:"#AAB3C4"},
+  {id:"niebla",e:"🌫️",t:"Niebla",d:"Confusa, no lo veo claro",f:"hay niebla",c:"#B9A9E0"},
+  {id:"lluvia",e:"🌧️",t:"Lluvia",d:"Pesada, con pena",f:"llueve",c:"#6C9BEA"},
+  {id:"tormenta",e:"⛈️",t:"Tormenta",d:"Mucho movimiento dentro",f:"hay tormenta",c:"#7A5BD6"},
+  {id:"viento",e:"🌬️",t:"Viento",d:"Inquieta, acelerada",f:"hace mucho viento",c:"#4FB8AE"}];
+const ZONAS={cabeza:"la cabeza",garganta:"la garganta",hombros:"los hombros",pecho:"el pecho",estomago:"el estómago",manos:"las manos",piernas:"las piernas"};
+const SENS=["Tensión","Presión","Un nudo","Calor","Frío","Hormigueo","Pesadez","Ligereza","Vacío","Temblor","Corazón rápido"];
+const ENERGIA=[null,["Sin batería","Estoy sin batería."],["Poca","Tengo poca energía."],["A medias","Tengo la energía a medias."],["Buena","Tengo buena energía."],["A tope","Tengo mucha energía."]];
+
+// Familias de emociones con palabras: d = qué es, c = cómo se nota en el cuerpo, n = qué suele necesitar
+const FAMILIAS=[
+ {id:"alegria",n:"Alegría",e:"😊",c:"#FFBF3C",g:"f",sug:"Algo va bien o te ha gustado.",w:[
+  ["Contenta","Te sientes bien con cómo van las cosas.","Ligereza, ganas de sonreír.","Disfrutarlo sin prisa."],
+  ["Ilusionada","Esperas algo bonito que va a pasar.","Cosquilleo en el pecho, energía.","Imaginarlo y prepararlo."],
+  ["Agradecida","Notas que alguien o algo te ha hecho bien.","Calor en el pecho.","Decírselo a quien toca."],
+  ["Orgullosa","Valoras algo que has hecho tú.","Espalda recta, pecho abierto.","Reconocértelo sin quitarle importancia."],
+  ["Aliviada","Algo que te preocupaba ya ha pasado.","Los hombros bajan, respiras hondo.","Descansar un poco."],
+  ["Divertida","Algo te hace gracia y te lo pasas bien.","Risa, cuerpo suelto.","Más ratos así."]]},
+ {id:"calma",n:"Calma",e:"😌",c:"#4FC487",g:"f",sug:"Estás a gusto, sin prisa.",w:[
+  ["Tranquila","Nada te urge ahora mismo.","Respiración lenta, cuerpo suelto.","Cuidar este momento."],
+  ["Segura","Confías en ti o en lo que te rodea.","Pies firmes, pecho estable.","Recordar de dónde viene esa seguridad."],
+  ["Conectada","Te sientes cerca de alguien o de algo.","Calidez, cuerpo abierto.","Compartir tiempo con esa persona."],
+  ["Satisfecha","Lo que tienes o has hecho te basta.","Cuerpo relajado, como después de comer.","Pararte a notarlo."],
+  ["En paz","Aceptas las cosas como están.","Silencio por dentro.","Nada en especial: solo estar."]]},
+ {id:"tristeza",n:"Tristeza",e:"😢",c:"#6C9BEA",g:"f",sug:"Has perdido algo o algo no salió como querías.",w:[
+  ["Triste","Algo te duele o echas algo de menos.","Pesadez, nudo en la garganta, ganas de llorar.","Consuelo y permiso para estar así."],
+  ["Sola","Te falta compañía o sentir que alguien te entiende.","Vacío en el pecho.","Conectar con alguien de confianza."],
+  ["Decepcionada","Esperabas algo y no ha pasado.","Bajón de energía, hombros caídos.","Ponerle nombre a lo que esperabas."],
+  ["Nostálgica","Echas de menos algo del pasado.","Calor y pena a la vez.","Recordarlo con cariño."],
+  ["Desanimada","Te faltan las ganas de seguir con algo.","Cuerpo lento, pesado.","Un paso muy pequeño y descanso."],
+  ["Vacía","No sientes casi nada, como apagada.","Vacío en el pecho o el estómago.","Cuidados básicos: dormir, comer, compañía."],
+  ["Dolida","Alguien ha hecho o dicho algo que te ha herido.","Pinchazo en el pecho.","Que reconozcan lo que te ha dolido."]]},
+ {id:"miedo",n:"Miedo",e:"😰",c:"#9A79E2",g:"m",sug:"Algo te parece una amenaza o no sabes qué va a pasar.",w:[
+  ["Preocupada","Le das vueltas a algo que podría salir mal.","Cabeza llena, estómago encogido.","Separar lo que puedes hacer de lo que no."],
+  ["Ansiosa","Te anticipas a cosas y no puedes parar.","Corazón rápido, respiración corta.","Respirar lento y volver al ahora."],
+  ["Insegura","Dudas de ti o de lo que va a pasar.","Cuerpo encogido, voz baja.","Que alguien te dé apoyo y recordar lo que sí sabes."],
+  ["Abrumada","Hay demasiado a la vez.","Presión en el pecho, bloqueo.","Hacer una lista y elegir solo una cosa."],
+  ["Nerviosa","Algo importante se acerca.","Mariposas, manos inquietas.","Prepararte y moverte un poco."],
+  ["Asustada","Sientes peligro, de verdad o imaginado.","Frío, temblor, ganas de huir.","Sentirte a salvo y acompañada."]]},
+ {id:"enfado",n:"Enfado",e:"😤",c:"#F06A55",g:"m",sug:"Algo te parece injusto o te han pasado un límite.",w:[
+  ["Molesta","Algo te ha sentado mal, aunque sea pequeño.","Mandíbula apretada.","Decirlo con calma."],
+  ["Frustrada","Lo intentas y no sale como quieres.","Tensión en hombros y manos.","Una pausa y otra forma de probar."],
+  ["Irritable","Todo te salta más fácil de lo normal.","Calor, poca paciencia.","Descanso y menos estímulos."],
+  ["Resentida","Algo pasado sigue doliendo y no se ha hablado.","Peso en el pecho, rabia guardada.","Hablarlo o soltarlo por escrito."],
+  ["Celosa","Temes perder a alguien o algo que te importa.","Nudo en el estómago, calor.","Hablar de tu miedo, no solo del enfado."],
+  ["Indignada","Ves algo injusto, contigo o con otras personas.","Calor en la cara, energía fuerte.","Usar esa energía para actuar o poner un límite."]]},
+ {id:"verguenza",n:"Vergüenza",e:"😳",c:"#E58BB4",g:"f",sug:"Te preocupa lo que piensen de ti o crees que has fallado.",w:[
+  ["Avergonzada","Te sientes expuesta delante de otros.","Cara caliente, ganas de esconderte.","Recordar que a todo el mundo le pasa."],
+  ["Culpable","Crees que has hecho daño o algo mal.","Peso en el estómago.","Reparar si se puede, y perdonarte."],
+  ["Ridícula","Sientes que has quedado mal.","Calor, ganas de desaparecer.","Reírte un poco de ello si puedes."],
+  ["Insuficiente","Sientes que no llegas o no vales lo bastante.","Cuerpo pequeño, hombros hacia dentro.","Tratarte como tratarías a una amiga."]]},
+ {id:"cansancio",n:"Cansancio",e:"🥱",c:"#98A3B8",g:"m",sug:"Tu cuerpo o tu cabeza han hecho mucho.",w:[
+  ["Cansada","Te falta energía física.","Cuerpo pesado, párpados caídos.","Dormir o tumbarte un rato."],
+  ["Agotada","Llevas mucho tiempo dando de más.","Todo cuesta el doble.","Parar de verdad y pedir ayuda."],
+  ["Apática","Nada te apetece ni te importa mucho.","Cuerpo apagado.","Una cosa pequeña que antes te gustaba."],
+  ["Aburrida","Te falta algo que te interese.","Inquietud, desgana.","Algo nuevo, aunque sea mínimo."],
+  ["Saturada","Hay demasiado ruido, gente o tareas.","Cabeza llena, ganas de silencio.","Silencio, pantallas fuera, espacio."]]}];
+const famById = id => FAMILIAS.find(f=>f.id===id);
+const findWord = w => { for(const f of FAMILIAS){ const x=f.w.find(y=>y[0]===w); if(x) return {f,w:x}; } return null; };
+const ALL_WORDS = FAMILIAS.reduce((n,f)=>n+f.w.length,0);
+const SUG_CIELO={sol:["alegria","calma"],nubes:["calma","tristeza","cansancio"],niebla:["miedo","cansancio"],lluvia:["tristeza","cansancio"],tormenta:["enfado","miedo"],viento:["miedo","enfado"]};
+const INT=[null,["Un poco","un poco de "],["Algo","algo de "],["Bastante","bastante "],["Mucho","mucho/mucha "],["Muchísimo","muchísimo/muchísima "]];
+const intensTxt=(f,i)=>{ let p=INT[i][1]; if(p.includes("/")) p=p.replace(/(\S+)\/(\S+)/, f.g==="f"?"$2":"$1"); return p+f.n.toLowerCase(); };
+
+const CAUSAS=[
+ ["trabajo","💼","Trabajo","por algo del trabajo"],["pareja","💞","Pareja","por algo con mi pareja"],["familia","🏠","Familia","por algo de mi familia"],
+ ["amistades","🫂","Amistades","por algo con mis amistades"],["cuerpo","🩺","Mi cuerpo","por cómo está mi cuerpo"],["descanso","😴","Descanso","porque he descansado poco"],
+ ["dinero","💶","Dinero","por temas de dinero"],["casa","🧺","Casa y tareas","por las cosas de casa"],["ringo","🐕","Ringo","por Ringo"],
+ ["redes","📱","Redes y noticias","por algo que he visto en redes"],["pensar","💭","Algo que pensé","por algo que he estado pensando"],["nose","🤷","No lo sé","y no sé muy bien por qué"]];
+const NECES=[
+ ["descansar","😴","Descansar","descansar"],["escucha","👂","Que me escuchen","que me escuchen"],["abrazo","🤗","Un abrazo","un abrazo"],
+ ["espacio","🌿","Un rato para mí","un rato para mí"],["limite","✋","Poner un límite","poner un límite"],["mover","🚶‍♀️","Moverme","moverme un poco"],
+ ["llorar","💧","Llorar un rato","llorar un rato"],["hablar","💬","Hablarlo","hablarlo con alguien"],["ordenar","🗂️","Ordenar ideas","ordenar mis ideas"],
+ ["comer","🍲","Comer algo rico","comer algo rico"],["reir","😄","Reírme","reírme un rato"],["ayuda","🤝","Que me ayuden","que me echen una mano"]];
+const byId=(arr,id)=>arr.find(x=>x[0]===id);
+
+// Niveles: se desbloquean según los días que registras
+const NIVELES=[null,
+ {n:"Semilla",e:"🌰",dias:0,t:"Notar",p:"Eliges cómo está tu cielo por dentro, dónde lo notas en el cuerpo y tu energía."},
+ {n:"Raíz",e:"🌱",dias:3,t:"Ponerle familia",p:"Aprendes a decir qué tipo de emoción es (alegría, miedo, tristeza…) y con qué fuerza."},
+ {n:"Tallo",e:"🌿",dias:7,t:"Ponerle nombre",p:"Eliges la palabra exacta y qué lo ha provocado. Te explico cada palabra."},
+ {n:"Hojas",e:"🍃",dias:14,t:"Saber qué necesitas",p:"Descubres qué te pide esa emoción: descanso, compañía, un límite…"},
+ {n:"Flor",e:"🌸",dias:21,t:"Decirlo a tu manera",p:"Montas tu frase, la cambias como quieras y puedes preparar cómo decírselo a alguien."}];
+
+const STARTERS=["Ha empezado cuando…","Lo que más me pesa es…","Me gustaría…","Me ha ayudado…","Ahora mismo pienso que…"];
+
+const JUEGO=[
+ ["Llevas toda la semana preparando una presentación y en la reunión nadie la menciona.","Decepcionada",["Decepcionada","Aliviada","Aburrida"],"Esperabas un reconocimiento que no ha llegado. La decepción aparece cuando lo esperado y lo real no coinciden."],
+ ["Mañana tienes una cita médica y no paras de pensar en qué te dirán.","Preocupada",["Enfadada","Preocupada","Satisfecha"],"Darle vueltas a algo que podría salir mal es preocupación, de la familia del miedo."],
+ ["Por fin te confirman que el resultado de una prueba ha salido bien.","Aliviada",["Orgullosa","Aliviada","Nostálgica"],"El alivio llega cuando desaparece una preocupación."],
+ ["Tu pareja quedó en llamarte y se le olvidó por tercera vez.","Molesta",["Molesta","Tranquila","Avergonzada"],"Algo te ha sentado mal y se repite. Es enfado en versión suave; si siguiera, podría convertirse en resentimiento."],
+ ["Tienes cinco tareas urgentes, el móvil no para y no sabes por dónde empezar.","Abrumada",["Aburrida","Abrumada","Ilusionada"],"Cuando hay demasiado a la vez, el cuerpo se bloquea: eso es sentirse abrumada."],
+ ["Encuentras unas fotos de un verano con tus amigas de hace años.","Nostálgica",["Nostálgica","Celosa","Irritable"],"Echar de menos algo bonito del pasado, con cariño y algo de pena, es nostalgia."],
+ ["Terminas un proyecto difícil que al principio creías que no podrías hacer.","Orgullosa",["Culpable","Orgullosa","Asustada"],"Valorar lo que has logrado tú es orgullo, y es sano sentirlo."],
+ ["Llevas un mes durmiendo poco, trabajando mucho y cuidando de todo.","Agotada",["Aburrida","Agotada","Contenta"],"Más allá del cansancio de un día: dar de más durante mucho tiempo agota."],
+ ["En una cena, todos hablan entre ellos y nadie te pregunta nada.","Sola",["Sola","Segura","Divertida"],"Puedes estar rodeada de gente y sentirte sola si no te sientes vista."],
+ ["Le contestaste mal a una amiga porque estabas estresada.","Culpable",["Indignada","Culpable","Satisfecha"],"La culpa aparece cuando crees que has hecho daño. Te invita a reparar, no a castigarte."],
+ ["El sábado por fin vas a ver a alguien a quien no ves desde hace meses.","Ilusionada",["Nerviosa","Ilusionada","Apática"],"Esperar algo bonito es ilusión. A veces viene junto con un poco de nervios, y es normal."],
+ ["Paseas a Ringo al atardecer sin prisa y sin mirar el móvil.","Tranquila",["Tranquila","Frustrada","Insegura"],"Nada urge y el cuerpo se suelta: eso es calma."],
+ ["Intentas montar un mueble, la pieza no encaja y ya van tres veces.","Frustrada",["Frustrada","Triste","Aliviada"],"La frustración sale cuando lo intentas y no consigues lo que quieres."],
+ ["Te tropiezas delante de mucha gente en la calle.","Avergonzada",["Avergonzada","Orgullosa","Sola"],"Sentirte expuesta delante de otros es vergüenza. Se pasa rápido, aunque al principio queme."],
+ ["Ves que ascienden a una compañera haciendo lo mismo que tú, y a ti no.","Indignada",["Agradecida","Indignada","Tranquila"],"Cuando algo te parece injusto, aparece la indignación, de la familia del enfado."],
+ ["Una amiga se presenta en tu casa con tu comida favorita porque sabía que tenías un mal día.","Agradecida",["Agradecida","Culpable","Saturada"],"Notar que alguien te ha cuidado es agradecimiento. Decirlo en voz alta lo hace más grande."]];
+
+/* ============ Estado y almacenamiento ============ */
+const LS="brote-sentir.v1";
+const S={cfg:{nombre:"Mari", lvl:null, juego:{ok:0,tot:0,racha:0}}, days:{}};
+const UI={tab:"hoy", flow:null, game:null, word:null, sample:undefined, confirmDel:null, nameEdit:false};
+let DB=null, BASE=null, SAMPLE=null, synced=false, pendingRender=false;
+
+function loadLocal(){ try{ const o=JSON.parse(localStorage.getItem(LS)||"null"); if(o){ if(o.cfg) S.cfg=Object.assign(S.cfg,o.cfg); if(o.days) S.days=o.days; } }catch(e){} }
+function saveLocal(){ try{ localStorage.setItem(LS, JSON.stringify({cfg:S.cfg, days:S.days})); }catch(e){} }
+const timers={};
+function queue(path, body){
+  saveLocal(); if(!DB) return;
+  clearTimeout(timers[path]);
+  timers[path]=setTimeout(()=>{ DB.doc(path).set(JSON.parse(JSON.stringify(body()))).catch(()=>toast("No se ha podido sincronizar. Queda guardado en este dispositivo.")); },400);
+}
+const saveCfg=()=>queue(BASE+"/sentir", ()=>S.cfg);
+const saveDay=k=>queue(BASE+"/sentir/dias/"+k, ()=>S.days[k]||{ents:[]});
+
+async function initCloud(){
+  if(!window.claude || !window.claude.use) return;
+  window.claude.use("sample").then(s=>{ SAMPLE=s; }).catch(()=>{});
+  try{
+    const [db,user]=await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+    if(!db||!user) return;
+    const id=await user.id(); if(!id) return;
+    DB=db; BASE="data/users/"+id;
+    let firstCfg=true, firstDays=true;
+    DB.doc(BASE+"/sentir").onSnapshot(s=>{
+      if(s.exists) S.cfg=Object.assign({nombre:"Mari",lvl:null,juego:{ok:0,tot:0,racha:0}}, JSON.parse(JSON.stringify(s.data())));
+      else if(firstCfg) DB.doc(BASE+"/sentir").set(JSON.parse(JSON.stringify(S.cfg))).catch(()=>{});
+      firstCfg=false; synced=true; saveLocal(); scheduleRender();
+    },()=>{ synced=false; scheduleRender(); });
+    DB.collection(BASE+"/sentir/dias").onSnapshot(q=>{
+      const local=firstDays?JSON.parse(JSON.stringify(S.days)):null;
+      q.docChanges().forEach(ch=>{ if(ch.type==="removed") delete S.days[ch.doc.id]; else S.days[ch.doc.id]=JSON.parse(JSON.stringify(ch.doc.data())); });
+      if(firstDays && local) Object.keys(local).forEach(k=>{ if(!S.days[k] && local[k].ents?.length){ S.days[k]=local[k]; DB.doc(BASE+"/sentir/dias/"+k).set(local[k]).catch(()=>{}); } });
+      firstDays=false; saveLocal(); scheduleRender();
+    },()=>{});
+  }catch(e){}
+}
+function scheduleRender(){
+  const a=document.activeElement;
+  if(a && (a.tagName==="TEXTAREA" || a.tagName==="INPUT")){ pendingRender=true; return; }
+  render();
+}
+document.addEventListener("focusout",()=>{ if(pendingRender){ pendingRender=false; setTimeout(render,0); } });
+
+/* ============ Lógica ============ */
+const allEnts=()=>Object.keys(S.days).sort().flatMap(k=>(S.days[k].ents||[]).map(e=>Object.assign({k},e)));
+const diasHechos=()=>Object.keys(S.days).filter(k=>(S.days[k].ents||[]).length).length;
+function autoLvl(){ const d=diasHechos(); let l=1; for(let i=1;i<NIVELES.length;i++) if(d>=NIVELES[i].dias) l=i; return l; }
+const lvl=()=>S.cfg.lvl||autoLvl();
+const palabrasUsadas=()=>{ const s={}; allEnts().forEach(e=>{ if(e.word) s[e.word]=(s[e.word]||0)+1; }); return s; };
+function colorDe(e){ if(e.fam) return famById(e.fam).c; const c=CIELO.find(x=>x.id===e.w); return c?c.c:"#AAB3C4"; }
+function iconoDe(e){ if(e.fam) return famById(e.fam).e; const c=CIELO.find(x=>x.id===e.w); return c?c.e:"🌱"; }
+function racha(){ let n=0,k=today(); if(!(S.days[k]?.ents||[]).length) k=addDays(k,-1); while((S.days[k]?.ents||[]).length){ n++; k=addDays(k,-1); } return n; }
+
+function pasos(L){ return ["cielo","cuerpo","energia"].concat(L>=2?["familia"]:[], L>=3?["palabra","causa"]:[], L>=4?["necesidad"]:[], ["frase"]); }
+
+// Construye la frase a partir de lo elegido, con más piezas según el nivel
+function fraseAuto(e){
+  const p=[], L=e.lvl, c=CIELO.find(x=>x.id===e.w), f=e.fam&&famById(e.fam), causa=e.causa&&byId(CAUSAS,e.causa), nec=e.nec&&byId(NECES,e.nec);
+  if(L>=3 && e.word) p.push(`Me siento ${e.word.toLowerCase()}${causa?" "+causa[3]:""}.`);
+  else if(L>=2 && f) p.push(`Siento ${intensTxt(f,e.int||3)}${L>=3&&causa?" "+causa[3]:""}.`);
+  else if(c) p.push(`Por dentro ${c.f}.`);
+  if(L>=3 && e.word && f && e.int) p[p.length-1]=p[p.length-1].replace(/^Me siento /, "Me siento "+(e.int<=2?"un poco ":e.int>=4?"muy ":""));
+  if(e.zonas?.length){ p.push(`Lo noto en ${lista(e.zonas.map(z=>ZONAS[z]))}${e.sens?.length?": "+lista(e.sens.map(s=>s.toLowerCase())):""}.`); }
+  else if(e.sens?.length) p.push(`Noto ${lista(e.sens.map(s=>s.toLowerCase()))}.`);
+  if(L<4 && e.en) p.push(ENERGIA[e.en][1]);
+  if(L>=4 && nec) p.push(`Necesito ${nec[3]}.`);
+  return p.join(" ") || "Hoy me he parado a escucharme.";
+}
+function fraseParaOtros(e){
+  const causa=e.causa&&byId(CAUSAS,e.causa), nec=e.nec&&byId(NECES,e.nec), f=e.fam&&famById(e.fam);
+  const em=e.word?e.word.toLowerCase():(f?f.n.toLowerCase():"un poco removida");
+  const base=`Oye, hoy me siento ${em}${causa&&causa[0]!=="nose"?" "+causa[3]:""}.`;
+  return nec ? `${base} Me vendría bien ${nec[3]}. ¿Me ayudas con eso?` : `${base} Solo quería contártelo.`;
+}
+
+/* ============ Render ============ */
+const TABS=[["hoy","☀️","Hoy"],["palabras","📖","Palabras"],["juego","🎲","Practicar"],["camino","🌿","Mi camino"]];
+function render(){
+  $("#tabs").innerHTML=TABS.map(([id,i,t])=>`<button data-act="tab" data-v="${id}" class="${UI.tab===id?"on":""}" aria-current="${UI.tab===id?"page":"false"}"><span class="i">${i}</span>${t}</button>`).join("");
+  const head=`<header class="top"><div class="brand"><span class="lg">🌱</span>Brote <small>Sentir</small></div><div class="sync ${synced?"on":""}"><i></i>${synced?"Guardado en tu cuenta":"En este dispositivo"}</div></header>`;
+  $("#app").innerHTML=head+({hoy:vHoy,palabras:vPalabras,juego:vJuego,camino:vCamino}[UI.tab])();
+  renderLayer();
+}
+
+function plant(L){
+  const r=(L-1)/4, n=L-1, base=114, h=26+r*66, top=base-h;
+  let leaves="";
+  for(let i=0;i<Math.max(0,n);i++){ const y=base-16-i*(h-18)/4.3, sd=i%2?1:-1;
+    leaves+=`<path style="fill:${i%2?"#4FC487":"#38B074"}" d="M60 ${y} q ${sd*20} -18 ${sd*34} -6 q ${-sd*12} 16 ${-sd*34} 6z"/>`; }
+  let crown=`<ellipse cx="60" cy="${top-3}" rx="5" ry="7" style="fill:#7ED9A6"/>`;
+  if(L>=5){ let pet=""; for(let i=0;i<6;i++){ const a=i*Math.PI/3; pet+=`<circle cx="${60+Math.cos(a)*9}" cy="${top+Math.sin(a)*9}" r="7" style="fill:${i%2?"#FFBF3C":"#FF9EC4"}"/>`; } crown=pet+`<circle cx="60" cy="${top}" r="6" style="fill:#F06A55"/>`; }
+  return `<svg class="plant" viewBox="0 0 120 150" aria-hidden="true"><g class="sway"><path d="M60 ${base} C 56 ${base-h*.4}, 65 ${base-h*.7}, 60 ${top}" style="fill:none;stroke:#2E9E63;stroke-width:5;stroke-linecap:round"/>${leaves}${crown}</g>
+    <path d="M36 116 h48 l-6 30 h-36z" style="fill:var(--accent)"/><rect x="31" y="108" width="58" height="12" rx="6" style="fill:color-mix(in srgb,var(--accent) 75%,#fff)"/><ellipse cx="60" cy="148" rx="30" ry="3" style="fill:rgba(0,0,0,.12)"/></svg>`;
+}
+
+/* ---------- HOY ---------- */
+function vHoy(){
+  const L=lvl(), N=NIVELES[L], hoyE=S.days[today()]?.ents||[], ult=hoyE[hoyE.length-1];
+  const hr=new Date().getHours(), saludo=(hr<13?"Buenos días":hr<21?"Buenas tardes":"Buenas noches")+(S.cfg.nombre?", "+esc(S.cfg.nombre):"");
+  const d=diasHechos(), sig=NIVELES[L+1], falta=sig&&!S.cfg.lvl?Math.max(0,sig.dias-d):null;
+  let html=`<section class="hero" style="--mc:${ult?colorDe(ult):"#9A79E2"}">
+    <div class="hero-top"><div class="hero-tx">
+      <span class="lvl">${N.e} Nivel ${L} · ${N.n}</span>
+      <h1 style="margin-top:10px">${saludo}</h1>
+      <p class="sub">${ult?"Ya te has escuchado hoy. Puedes volver cuando cambie algo.":"¿Te paras un minuto a mirar cómo estás? Solo hay que tocar, no escribir."}</p>
+    </div><div class="plant-wrap">${plant(L)}</div></div>
+    <button class="btn pri big" data-act="start" style="width:100%">${ult?"Añadir otro momento":"Empezar · 1 minuto"}</button>
+    ${falta!=null&&sig?`<p class="small" style="margin:12px 0 0;text-align:center;font-weight:600">${falta?`${falta===1?"Falta 1 día":"Faltan "+falta+" días"} para el nivel ${sig.e} ${sig.n}: ${sig.t.toLowerCase()}`:`Mañana se abre el nivel ${sig.e} ${sig.n}`}</p>`:""}
+  </section>`;
+  if(hoyE.length){
+    html+=`<div class="card"><h2>Hoy lo has dicho así</h2>${hoyE.slice().reverse().map(e=>entRow(Object.assign({k:today()},e))).join("")}</div>`;
+    if(ult && ult.int>=4 && ["miedo","enfado","tristeza","verguenza","cansancio"].includes(ult.fam)) html+=ayudaCard(ult);
+  }
+  html+=`<div class="card tip"><div class="k">Para este nivel</div><p style="margin:6px 0 0"><b>${N.t}.</b> ${N.p}</p></div>`;
+  const prev=allEnts().filter(e=>e.k!==today()).slice(-3).reverse();
+  if(prev.length) html+=`<div class="card"><h2>Días anteriores</h2>${prev.map(entRow).join("")}<button class="btn sm" data-act="tab" data-v="camino" style="margin-top:6px">Ver todo mi camino</button></div>`;
+  html+=`<p class="crisis">Brote Sentir te ayuda a conocer lo que sientes, pero no sustituye a un profesional. Si lo estás pasando muy mal, llama al <b>024</b> (gratis, 24 h, en España) o al <b>112</b> si es una emergencia.</p>`;
+  return html;
+}
+function entRow(e){
+  const d=fromKey(e.k), hora=e.t?new Date(e.t):null;
+  return `<div class="ent" style="--c:${colorDe(e)}"><div class="dot">${iconoDe(e)}</div><div class="tx">
+    <div class="meta"><span>${e.k===today()?"Hoy":d.getDate()+" de "+MESES[d.getMonth()]}${hora?" · "+pad(hora.getHours())+":"+pad(hora.getMinutes()):""}</span><span>${NIVELES[e.lvl||1].e}</span></div>
+    <div class="fr">${esc(e.frase)}</div>${e.txt?`<div class="own">${esc(e.txt)}</div>`:""}</div></div>`;
+}
+function ayudaCard(e){
+  const x=e.word&&findWord(e.word), f=famById(e.fam);
+  return `<div class="card" style="background:color-mix(in srgb,${f.c} 16%,var(--surface))"><h2>Algo que puede ayudarte ahora</h2>
+    <p>${x?`Cuando te sientes <b>${esc(e.word.toLowerCase())}</b>, muchas veces ayuda: ${esc(x.w[3].toLowerCase())}`:`Una emoción fuerte es como una ola: sube, llega arriba y baja. No tienes que hacer nada con ella, solo dejarla pasar.`}</p>
+    <p class="small muted" style="margin:0">Prueba ahora: suelta el aire despacio, como si soplaras una vela sin apagarla. Tres veces.</p></div>`;
+}
+
+/* ---------- CHECK-IN ---------- */
+function startFlow(){ const L=lvl(); UI.flow={i:0, L, e:{lvl:L, zonas:[], sens:[], int:3}, alts:null, altBusy:false, own:false}; renderLayer(); }
+function renderLayer(){
+  const ly=$("#layer"), kind=UI.flow?"flow":UI.done?"done":UI.word?"word":"", still=kind&&kind===renderLayer.kind, top=still?($(".sheet")?.scrollTop||0):0;
+  renderLayer.kind=kind;
+  if(UI.flow) ly.innerHTML=`<div class="sheet-bg" data-act="bgclose"><div class="sheet" role="dialog" aria-modal="true" aria-label="Cómo estoy">${vFlow()}</div></div>`;
+  else if(UI.done) ly.innerHTML=`<div class="sheet-bg" data-act="bgclose"><div class="sheet" role="dialog" aria-modal="true">${vDone()}</div></div>`;
+  else if(UI.word) ly.innerHTML=`<div class="sheet-bg" data-act="bgclose"><div class="sheet" role="dialog" aria-modal="true">${vWord()}</div></div>`;
+  else ly.innerHTML="";
+  const sh=$(".sheet"); if(sh&&still){ sh.style.animation="none"; sh.scrollTop=top; }
+}
+function vFlow(){
+  const F=UI.flow, st=pasos(F.L), s=st[F.i], e=F.e;
+  const prog=`<div class="row between"><button class="btn ghost sm" data-act="close">Cerrar</button><span class="small muted" style="font-weight:700">${F.i+1} de ${st.length}</span></div><div class="prog">${st.map((_,j)=>`<i class="${j<=F.i?"on":""}"></i>`).join("")}</div>`;
+  let body="", chosen=false;
+  if(s==="cielo"){ chosen=!!e.w;
+    body=`<p class="q">Si tu estado de hoy fuera un cielo, ¿cómo sería?</p><p class="hint">No hace falta saber qué emoción es. Elige lo que más se parezca.</p>
+    <div class="grid3">${CIELO.map(c=>`<button class="tile ${e.w===c.id?"on":""}" style="--c:${c.c}" data-act="set" data-k="w" data-v="${c.id}" aria-pressed="${e.w===c.id}"><span class="e">${c.e}</span><b>${c.t}</b><small>${c.d}</small></button>`).join("")}</div>`;
+  }
+  if(s==="cuerpo"){ chosen=e.zonas.length||e.sens.length;
+    body=`<p class="q">¿Dónde lo notas en el cuerpo?</p><p class="hint">Toca las zonas. Las emociones casi siempre se notan en algún sitio.</p>
+    <div class="bodywrap"><div class="bodymap">${bodySvg(e.zonas)}</div><div class="bodyside">
+      <h3>¿Cómo es?</h3><div class="chips">${SENS.map(x=>`<button class="chip ${e.sens.includes(x)?"on":""}" data-act="tgl" data-k="sens" data-v="${x}" aria-pressed="${e.sens.includes(x)}" style="padding:7px 11px;font-size:14px">${x}</button>`).join("")}</div>
+      <button class="chip ${e.nada?"on":""}" data-act="nada" style="margin-top:10px;padding:7px 11px;font-size:14px">No noto nada especial</button>
+    </div></div>
+    <p class="small muted" style="margin:12px 0 0">${e.zonas.length?"Has marcado: "+lista(e.zonas.map(z=>ZONAS[z])):"Puedes marcar varias zonas."}</p>`;
+  }
+  if(s==="energia"){ chosen=!!e.en;
+    body=`<p class="q">¿Cuánta batería te queda?</p><p class="hint">Piensa en el cuerpo y en la cabeza a la vez.</p>
+    <div class="bat">${[1,2,3,4,5].map(n=>`<button class="${e.en===n?"on":""}" data-act="set" data-k="en" data-v="${n}" aria-pressed="${e.en===n}"><span class="cell" style="--c:${["","#F06A55","#FF9A4C","#FFBF3C","#7FCF70","#25B073"][n]}">${[1,2,3,4,5].map(j=>`<i class="${j<=n?"f":""}"></i>`).join("")}</span>${ENERGIA[n][0]}</button>`).join("")}</div>`;
+  }
+  if(s==="familia"){ chosen=!!e.fam; const sug=SUG_CIELO[e.w]||[], f=e.fam&&famById(e.fam);
+    body=`<p class="q">¿A qué familia de emociones se parece?</p><p class="hint">${sug.length?"Con el cielo que has elegido, muchas personas lo llaman "+lista(sug.map(x=>famById(x).n.toLowerCase())).replace(/ y ([^ ]+)$/," o $1")+". Pero tú decides.":"Elige la que más se parezca. Si dudas, la primera que te venga."}</p>
+    <div class="grid2">${FAMILIAS.map(x=>`<button class="tile ${e.fam===x.id?"on":""} ${sug.includes(x.id)&&e.fam!==x.id?"sug":""}" style="--c:${x.c}" data-act="fam" data-v="${x.id}" aria-pressed="${e.fam===x.id}">${sug.includes(x.id)?`<span class="sugt">Quizá</span>`:""}<span class="e">${x.e}</span><b>${x.n}</b><small>${x.sug}</small></button>`).join("")}</div>
+    ${f?`<h3 style="margin-top:18px">¿Con qué fuerza?</h3><div class="intens" style="--c:${f.c}">${[1,2,3,4,5].map(n=>`<button class="${e.int===n?"on":""}" data-act="set" data-k="int" data-v="${n}" aria-pressed="${e.int===n}"><span class="b" style="width:${14+n*7}px;height:${14+n*7}px"></span>${INT[n][0]}</button>`).join("")}</div>`:""}`;
+  }
+  if(s==="palabra"){ const f=e.fam&&famById(e.fam); chosen=!!e.word;
+    if(!f) body=`<p class="q">¿Qué palabra lo describe mejor?</p><p class="hint">Vuelve un paso atrás y elige una familia para ver sus palabras.</p>`;
+    else { const x=e.word&&f.w.find(w=>w[0]===e.word);
+      body=`<p class="q">Dentro de la ${f.n.toLowerCase()}, ¿qué palabra encaja mejor?</p><p class="hint">Toca una palabra para ver qué significa. Puedes cambiarla las veces que quieras.</p>
+      <div class="chips">${f.w.map(w=>`<button class="chip ${e.word===w[0]?"on":""}" style="${e.word===w[0]?`background:color-mix(in srgb,${f.c} 28%,var(--surface));border-color:${f.c}`:""}" data-act="set" data-k="word" data-v="${w[0]}" aria-pressed="${e.word===w[0]}">${w[0]}</button>`).join("")}</div>
+      ${x?`<div class="wordbox" style="--c:${f.c}"><b class="w">${x[0]}</b><p class="kv" style="margin-top:4px">${x[1]}</p><p class="kv"><span>En el cuerpo:</span> ${x[2]}</p></div>`:`<p class="small muted" style="margin-top:12px">Si ninguna encaja del todo, elige la más cercana. Poco a poco irás afinando.</p>`}`; }
+  }
+  if(s==="causa"){ chosen=!!e.causa;
+    body=`<p class="q">¿Qué crees que lo ha provocado?</p><p class="hint">Elige lo que más pese. "No lo sé" también es una buena respuesta.</p>
+    <div class="grid3">${CAUSAS.map(c=>`<button class="tile ${e.causa===c[0]?"on":""}" data-act="set" data-k="causa" data-v="${c[0]}" aria-pressed="${e.causa===c[0]}" style="padding:12px 4px 10px"><span class="e" style="font-size:28px">${c[1]}</span><b style="font-size:13px">${c[2]}</b></button>`).join("")}</div>`;
+  }
+  if(s==="necesidad"){ chosen=!!e.nec; const x=e.word&&findWord(e.word);
+    body=`<p class="q">¿Qué te pide esta emoción?</p><p class="hint">${x?`Cuando alguien se siente ${esc(e.word.toLowerCase())}, a menudo necesita: <b>${esc(x.w[3].toLowerCase())}</b>`:"Cada emoción nos pide algo. ¿Qué te vendría bien ahora?"}</p>
+    <div class="grid3">${NECES.map(c=>`<button class="tile ${e.nec===c[0]?"on":""}" data-act="set" data-k="nec" data-v="${c[0]}" aria-pressed="${e.nec===c[0]}" style="padding:12px 4px 10px"><span class="e" style="font-size:28px">${c[1]}</span><b style="font-size:13px">${c[2]}</b></button>`).join("")}</div>`;
+  }
+  if(s==="frase"){ chosen=true;
+    if(e.frase==null || !F.edited) e.frase=fraseAuto(e);
+    body=`<p class="q">${F.L>=5?"Tu frase de hoy. Hazla tuya.":"Esto es lo que has dicho hoy"}</p>
+    <p class="hint">${F.L>=5?"Puedes dejarla así o cambiar las palabras que quieras.":F.L>=3?"Lo has dicho tú, tocando. Léela en voz baja: ¿suena a ti?":"Lo has dicho sin escribir nada. Con los días, la frase irá creciendo contigo."}</p>
+    ${F.L>=5?`<textarea id="frase" data-txt="frase" aria-label="Tu frase">${esc(e.frase)}</textarea>`:`<div class="card" style="background:color-mix(in srgb,${colorDe(e)} 18%,var(--surface));box-shadow:none;margin:0"><p class="frase">${esc(e.frase)}</p></div>`}
+    ${F.L>=4&&SAMPLE?`<button class="btn sm" data-act="alts" style="margin-top:12px" ${F.altBusy?"disabled":""}>${F.altBusy?"Buscando otras formas…":"✨ Otras formas de decirlo"}</button>`:""}
+    ${F.alts?F.alts.map((a,j)=>`<button class="alt ${e.frase===a?"on":""}" data-act="useAlt" data-v="${j}">${esc(a)}</button>`).join(""):""}
+    ${F.L>=5?`<h3 style="margin-top:18px">Para decírselo a alguien</h3><div class="card" style="background:var(--surface-2);box-shadow:none;margin:0 0 8px;padding:14px"><p style="margin:0;font-weight:600">${esc(fraseParaOtros(e))}</p></div><button class="btn sm" data-act="copy">Copiar</button>`:""}
+    ${F.L>=3?`<div style="margin-top:18px">${F.own||e.txt?`<h3>Con tus palabras (opcional)</h3><div class="starters">${STARTERS.map(t=>`<button class="chip" style="padding:5px 10px;font-size:13px" data-act="starter" data-v="${t}">${t}</button>`).join("")}</div><textarea id="own" data-txt="txt" placeholder="Una palabra ya es mucho.">${esc(e.txt||"")}</textarea>`:`<button class="btn sm" data-act="own">+ Añadir algo con mis palabras (opcional)</button>`}</div>`
+      :`<p class="small muted" style="margin-top:14px">En el nivel ${NIVELES[3].e} ${NIVELES[3].n} podrás añadir tus propias palabras si quieres. Hoy no hace falta.</p>`}`;
+  }
+  const last=F.i===st.length-1;
+  return prog+body+`<div class="foot">${F.i?`<button class="btn" data-act="back">Atrás</button>`:"<span></span>"}
+    ${last?`<button class="btn pri" data-act="save">Guardar</button>`:`<button class="btn ${chosen?"pri":""}" data-act="next">${chosen?"Siguiente":"Saltar"}</button>`}</div>`;
+}
+function bodySvg(sel){
+  const z=(id,shape)=>shape.replace("<", `<`).replace(/^<(\w+)/, `<$1 class="z ${sel.includes(id)?"on":""}" data-act="zona" data-v="${id}" role="button" tabindex="0" aria-pressed="${sel.includes(id)}" aria-label="${ZONAS[id]}"`);
+  return `<svg viewBox="0 0 120 230" aria-label="Mapa del cuerpo">
+    ${z("piernas",`<path d="M42 150 h36 l-2 72 h-13 l-3-58 l-3 58 h-13z"/>`)}
+    ${z("manos",`<path d="M16 76 q-6 40 -2 74 l10 0 q2-34 8-62z M104 76 q6 40 2 74 l-10 0 q-2-34 -8-62z M19 152 a8 9 0 1 0 0.1 0z M101 152 a8 9 0 1 0 0.1 0z"/>`)}
+    ${z("estomago",`<path d="M38 108 h44 l-3 44 h-38z"/>`)}
+    ${z("pecho",`<path d="M34 70 h52 l-4 38 h-44z"/>`)}
+    ${z("hombros",`<path d="M20 64 q4-10 20-12 h40 q16 2 20 12 l-4 10 h-72z"/>`)}
+    ${z("garganta",`<rect x="51" y="38" width="18" height="14" rx="5"/>`)}
+    ${z("cabeza",`<circle cx="60" cy="22" r="17"/>`)}
+  </svg>`;
+}
+function next(){ const F=UI.flow; F.i=Math.min(pasos(F.L).length-1,F.i+1); renderLayer(); $(".sheet")?.scrollTo(0,0); }
+function saveEntry(){
+  const F=UI.flow, e=F.e, k=today(), before=lvl(), wordsBefore=palabrasUsadas();
+  if(F.L>=5){ const t=$("#frase"); if(t) e.frase=t.value.trim()||fraseAuto(e); } else e.frase=fraseAuto(e);
+  const own=$("#own"); if(own) e.txt=own.value.trim();
+  const ent={id:uid(), t:Date.now(), lvl:e.lvl, w:e.w||null, zonas:e.zonas, sens:e.sens, en:e.en||null, fam:e.fam||null, int:e.fam?e.int:null, word:e.word||null, causa:e.causa||null, nec:e.nec||null, frase:e.frase, txt:e.txt||""};
+  Object.keys(ent).forEach(x=>{ if(ent[x]==null||ent[x]==="") delete ent[x]; });
+  const D=S.days[k]||(S.days[k]={ents:[]}); D.ents=(D.ents||[]).concat([ent]);
+  saveDay(k);
+  const after=lvl(), nueva=ent.word&&!wordsBefore[ent.word];
+  UI.flow=null; UI.done={ent, up:after>before?after:null, nueva};
+  render(); setTimeout(()=>burst($(".done-art"), !!UI.done?.up),120);
+}
+function vDone(){
+  const {ent,up,nueva}=UI.done;
+  return `<div class="done-art" aria-hidden="true">${up?NIVELES[up].e:"🌱"}</div>
+  <p class="q" style="text-align:center">Gracias por escucharte</p>
+  <div class="card" style="background:color-mix(in srgb,${colorDe(ent)} 18%,var(--surface));box-shadow:none;margin:12px 0"><p class="frase">${esc(ent.frase)}</p></div>
+  ${nueva?`<p style="text-align:center;font-weight:700">📖 Palabra nueva en tu colección: <b>${esc(ent.word)}</b></p>`:""}
+  <p class="small muted" style="text-align:center">${diasHechos()} ${diasHechos()===1?"día":"días"} escuchándote${racha()>1?" · "+racha()+" seguidos":""}</p>
+  ${up?`<div class="unlock"><b style="font-family:var(--font-d);font-size:19px">Nivel ${up} desbloqueado: ${NIVELES[up].n}</b><p style="margin:6px 0 0">${NIVELES[up].p}</p></div>`:""}
+  <div class="foot"><span></span><button class="btn pri" data-act="closeDone">Listo</button></div>`;
+}
+
+/* ---------- PALABRAS ---------- */
+function vPalabras(){
+  const u=palabrasUsadas(), n=Object.keys(u).length, L=lvl();
+  let html=`<h1 style="margin:0 0 6px">Tus palabras</h1><p class="muted">Cada vez que eliges una palabra para lo que sientes, se guarda aquí. Toca cualquiera para ver qué significa.</p>
+  <div class="card"><div class="row between"><b>${n} de ${ALL_WORDS} palabras descubiertas</b><span class="small muted">${Math.round(n/ALL_WORDS*100)}%</span></div><div class="meter"><i style="width:${n/ALL_WORDS*100}%"></i></div>
+  ${L<3?`<p class="small muted" style="margin:6px 0 0">Empezarás a coleccionar palabras en el nivel ${NIVELES[3].e} ${NIVELES[3].n}. Mientras tanto, puedes leerlas y practicar.</p>`:""}</div>`;
+  FAMILIAS.forEach(f=>{ html+=`<div class="card fam" style="--c:${f.c}"><div class="fam-h"><span class="e">${f.e}</span><div><b>${f.n}</b><div class="small muted">${f.sug}</div></div></div>
+    <div class="words">${f.w.map(w=>`<button class="wd ${u[w[0]]?"got":""}" data-act="word" data-v="${w[0]}">${w[0]}</button>`).join("")}</div></div>`; });
+  return html;
+}
+function vWord(){
+  const x=findWord(UI.word); if(!x) return "";
+  const n=palabrasUsadas()[UI.word]||0;
+  return `<div class="row between"><span class="lvl" style="background:color-mix(in srgb,${x.f.c} 25%,var(--surface))">${x.f.e} ${x.f.n}</span><button class="btn ghost sm" data-act="closeWord">Cerrar</button></div>
+  <p class="q" style="margin-top:14px">${x.w[0]}</p>
+  <div class="wordbox" style="--c:${x.f.c}"><p class="kv" style="margin:0"><span>Qué es:</span> ${x.w[1]}</p><p class="kv"><span>En el cuerpo:</span> ${x.w[2]}</p><p class="kv"><span>Suele necesitar:</span> ${x.w[3]}</p></div>
+  <p class="small muted" style="margin-top:12px">Para usarla: «Me siento ${x.w[0].toLowerCase()} porque…»</p>
+  <p class="small" style="font-weight:700">${n?`La has usado ${n} ${n===1?"vez":"veces"}.`:"Aún no la has usado."}</p>`;
+}
+
+/* ---------- PRACTICAR ---------- */
+function newGame(){ const done=UI.game?.idx; let i; do{ i=Math.floor(Math.random()*JUEGO.length); }while(JUEGO.length>1 && i===done); UI.game={idx:i, pick:null, opts:JUEGO[i][2].slice().sort(()=>Math.random()-.5)}; }
+function vJuego(){
+  if(!UI.game) newGame();
+  const G=UI.game, s=JUEGO[G.idx], J=S.cfg.juego||{ok:0,tot:0,racha:0};
+  return `<h1 style="margin:0 0 6px">Practicar</h1><p class="muted">Pequeñas situaciones para entrenar el ojo. Ponerle nombre a lo que sienten otros ayuda a encontrar el nombre de lo tuyo.</p>
+  <div class="score" style="margin:14px 0"><div><b>${J.ok}</b><span>Aciertos</span></div><div><b>${J.racha}</b><span>Seguidos</span></div><div><b>${J.tot}</b><span>Jugadas</span></div></div>
+  <div class="card"><span class="small muted" style="font-weight:800;text-transform:uppercase;letter-spacing:.04em">¿Cómo se sentiría?</span>
+  <p class="scen">${esc(s[0])}</p>
+  ${G.opts.map(o=>{ const x=findWord(o), cls=G.pick?(o===s[1]?"ok":o===G.pick?"no":""):""; return `<button class="opt ${cls}" data-act="pick" data-v="${o}" ${G.pick?"disabled":""}><span style="font-size:22px">${x?x.f.e:"🙂"}</span>${o}</button>`; }).join("")}
+  ${G.pick?`<div class="why"><b>${G.pick===s[1]?"¡Eso es!":"Casi. Era "+s[1].toLowerCase()+"."}</b> ${esc(s[3])}</div><div class="row" style="margin-top:12px;justify-content:space-between"><button class="btn sm" data-act="word" data-v="${s[1]}">Ver la palabra</button><button class="btn pri" data-act="newGame">Otra situación</button></div>`:""}
+  </div>
+  <p class="small muted">No hay respuestas perfectas: la misma situación puede sentirse distinto según la persona. Aquí elegimos la más habitual.</p>`;
+}
+
+/* ---------- MI CAMINO ---------- */
+function vCamino(){
+  const L=lvl(), d=diasHechos(), ents=allEnts();
+  let html=`<h1 style="margin:0 0 6px">Mi camino</h1><p class="muted">${d?`Llevas ${d} ${d===1?"día":"días"} escuchándote${racha()>1?", "+racha()+" seguidos":""}.`:"Aquí verás cómo crece tu forma de expresarte."}</p>`;
+  html+=`<div class="card"><h2>Niveles</h2><div class="path">${NIVELES.slice(1).map((N,j)=>{ const i=j+1, cls=i<L?"done":i===L?"cur":"";
+    return `<div class="stage ${cls}"><span class="ic">${N.e}</span><div class="tx"><b>${N.n} · ${N.t}</b>${i>L?`<span class="small muted"> · desde el día ${N.dias}</span>`:""}<p>${N.p}</p></div></div>`; }).join("")}</div>
+    <h3 style="margin-top:6px">Ir a mi ritmo</h3><p class="small muted">${S.cfg.lvl?`Has fijado el nivel ${S.cfg.lvl} a mano.`:"El nivel sube solo según los días que te registras."}</p>
+    <div class="seg"><button class="btn sm" data-act="lvl" data-v="-1" ${L<=1?"disabled":""}>Más sencillo</button><button class="btn sm" data-act="lvl" data-v="1" ${L>=5?"disabled":""}>Un paso más</button>${S.cfg.lvl?`<button class="btn sm ghost" data-act="lvl" data-v="0">Volver a automático</button>`:""}</div></div>`;
+  html+=`<div class="card"><h2>Últimas 5 semanas</h2>${calendario()}</div>`;
+  if(ents.length>=3) html+=`<div class="card"><h2>Lo que más se repite</h2>${patrones(ents)}</div>`;
+  else html+=`<div class="card"><h2>Lo que más se repite</h2><p class="muted" style="margin:0">Cuando tengas 3 registros, aquí verás qué emociones, zonas del cuerpo y causas aparecen más.</p></div>`;
+  html+=`<div class="card"><h2>Mis frases</h2><p class="small muted">Así ha ido cambiando tu manera de decirlo.</p>${ents.length?ents.slice().reverse().slice(0,30).map(e=>entRow(e)+(UI.confirmDel===e.id?`<div class="row" style="gap:6px;margin:-4px 0 10px 50px"><span class="small">¿Borrar este registro?</span><button class="btn sm" data-act="delYes" data-v="${e.k}|${e.id}" style="background:var(--warn);color:#fff">Borrar</button><button class="btn sm ghost" data-act="delNo">Cancelar</button></div>`:`<div style="margin:-6px 0 6px 50px"><button class="btn ghost sm" style="padding:2px 0;font-size:12px" data-act="del" data-v="${e.id}">Borrar</button></div>`)).join(""):`<p class="muted" style="margin:0">Todavía no hay frases. La primera aparecerá al terminar tu primer registro en Hoy.</p>`}</div>`;
+  html+=`<div class="card"><h2>Tu nombre</h2>${UI.nameEdit?`<div class="row"><input type="text" id="nombre" value="${esc(S.cfg.nombre||"")}" aria-label="Tu nombre"><button class="btn pri sm" data-act="saveName">Guardar</button></div>`:`<div class="row between"><span>Te saludo como <b>${esc(S.cfg.nombre||"—")}</b></span><button class="btn sm" data-act="editName">Cambiar</button></div>`}</div>`;
+  html+=`<p class="crisis">Si lo estás pasando muy mal, llama al <b>024</b> (gratis, 24 h, en España) o al <b>112</b> si es una emergencia.</p>`;
+  return html;
+}
+function calendario(){
+  const t=today(), dt=fromKey(t), dow=(dt.getDay()+6)%7, start=addDays(t,-(28+dow));
+  let s=`<div class="cal">${["L","M","X","J","V","S","D"].map(x=>`<span class="h">${x}</span>`).join("")}`;
+  for(let i=0;i<35;i++){ const k=addDays(start,i), E=S.days[k]?.ents||[], e=E[E.length-1], fut=k>t;
+    s+=`<span class="c ${k===t?"t":""} ${fut?"fut":""}" style="${e?`background:color-mix(in srgb,${colorDe(e)} 45%,var(--surface))`:""}" title="${fromKey(k).getDate()} de ${MESES[fromKey(k).getMonth()]}">${e?iconoDe(e):""}</span>`; }
+  return s+`</div><div class="row wrapf small muted" style="gap:10px;margin-top:12px">${FAMILIAS.map(f=>`<span><i style="display:inline-block;width:10px;height:10px;border-radius:50%;background:${f.c};margin-right:4px"></i>${f.n}</span>`).join("")}</div>`;
+}
+function patrones(ents){
+  const cnt=(arr)=>{ const m={}; arr.forEach(x=>{ if(x) m[x]=(m[x]||0)+1; }); return Object.entries(m).sort((a,b)=>b[1]-a[1]).slice(0,4); };
+  const bars=(rows,lab,col)=>{ const max=rows[0]?.[1]||1; return rows.map(([k,v])=>`<div class="bar"><span class="t">${lab(k)}</span><span class="p"><i style="width:${v/max*100}%;background:${col(k)}"></i></span><b>${v}</b></div>`).join(""); };
+  let h="";
+  const fam=cnt(ents.map(e=>e.fam)); if(fam.length) h+=`<h3>Emociones</h3>`+bars(fam,k=>famById(k).e+" "+famById(k).n,k=>famById(k).c);
+  else { const c=cnt(ents.map(e=>e.w)); h+=`<h3>Tu cielo</h3>`+bars(c,k=>{const x=CIELO.find(y=>y.id===k); return x.e+" "+x.t;},k=>CIELO.find(y=>y.id===k).c); }
+  const z=cnt(ents.flatMap(e=>e.zonas||[])); if(z.length) h+=`<h3 style="margin-top:14px">Dónde lo notas</h3>`+bars(z,k=>cap(ZONAS[k]),()=>"var(--hot)");
+  const c=cnt(ents.map(e=>e.causa)); if(c.length) h+=`<h3 style="margin-top:14px">Qué lo provoca</h3>`+bars(c,k=>byId(CAUSAS,k)[1]+" "+byId(CAUSAS,k)[2],()=>"var(--accent)");
+  const n=cnt(ents.map(e=>e.nec)); if(n.length) h+=`<h3 style="margin-top:14px">Qué necesitas</h3>`+bars(n,k=>byId(NECES,k)[1]+" "+byId(NECES,k)[2],()=>"#4FC487");
+  return h;
+}
+
+/* ============ Efectos ============ */
+function burst(el,big){
+  if(!el || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const rc=el.getBoundingClientRect(), cx=rc.left+rc.width/2, cy=rc.top+rc.height/2, cols=["#FFBF3C","#4FC487","#9A79E2","#F06A55","#6C9BEA","#FF9EC4"], n=big?44:18;
+  for(let i=0;i<n;i++){ const s=document.createElement("i"); s.className="confetti"; const a=Math.random()*Math.PI*2, d=(big?90:40)+Math.random()*(big?140:50);
+    s.style.cssText=`left:${cx}px;top:${cy}px;background:${cols[i%cols.length]};--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d-20}px;border-radius:${i%3?"2px":"50%"}`;
+    document.body.appendChild(s); setTimeout(()=>s.remove(),1000); }
+}
+let tt; function toast(m){ let t=$(".toast"); if(!t){ t=document.createElement("div"); t.className="toast"; t.setAttribute("role","status"); document.body.appendChild(t); } t.textContent=m; clearTimeout(tt); tt=setTimeout(()=>t.remove(),2600); }
+
+async function pedirAlternativas(){
+  const F=UI.flow; if(!SAMPLE||F.altBusy) return;
+  F.altBusy=true; renderLayer();
+  const e=F.e, f=e.fam&&famById(e.fam);
+  const datos=`Emoción: ${e.word||f?.n||"no indicada"}. Intensidad (1-5): ${e.int||"?"}. Causa: ${e.causa?byId(CAUSAS,e.causa)[2]:"no indicada"}. Dónde lo nota: ${e.zonas.map(z=>ZONAS[z]).join(", ")||"no indicado"}. Sensaciones: ${e.sens.join(", ")||"ninguna"}. Necesidad: ${e.nec?byId(NECES,e.nec)[2]:"no indicada"}. Frase actual: "${e.frase}"`;
+  const prompt=`Eres una ayuda amable para una mujer adulta en España que está aprendiendo a poner palabras a sus emociones y le cuesta expresarse. Con estos datos, escribe 3 maneras distintas, sencillas y naturales de decir cómo se siente, en primera persona y en femenino, en español de España. Cada una de 1 o 2 frases cortas, sin tecnicismos, sin diagnósticos y sin consejos. Varía el tono: una muy directa, una más suave y una con alguna imagen o comparación cotidiana.\n\n${datos}\n\nResponde solo con JSON: {"opciones":["...","...","..."]}`;
+  try{
+    const r=await SAMPLE.json(prompt,{modelTier:"quick"});
+    const o=(r&&Array.isArray(r.opciones)?r.opciones:[]).filter(x=>typeof x==="string").slice(0,3);
+    if(UI.flow===F){ F.alts=o.length?o:null; if(!o.length) toast("No han llegado sugerencias. Prueba otra vez en un momento."); }
+  }catch(err){
+    if(err&&err.code==="not_granted"){ SAMPLE=null; toast("Sin permiso para pedir sugerencias. Tu frase sigue igual."); }
+    else toast("No se han podido traer sugerencias ahora.");
+  }
+  F.altBusy=false; if(UI.flow===F) renderLayer();
+}
+
+/* ============ Eventos ============ */
+document.addEventListener("click",ev=>{
+  const b=ev.target.closest("[data-act]"); if(!b) return;
+  const a=b.dataset.act, v=b.dataset.v, F=UI.flow;
+  if(a==="bgclose"){ if(ev.target===b){ if(UI.flow) return; UI.done=null; UI.word=null; renderLayer(); } return; }
+  switch(a){
+    case "tab": UI.tab=v; UI.confirmDel=null; render(); window.scrollTo(0,0); break;
+    case "start": startFlow(); break;
+    case "close": UI.flow=null; renderLayer(); break;
+    case "closeDone": UI.done=null; render(); break;
+    case "closeWord": UI.word=null; renderLayer(); break;
+    case "next": next(); break;
+    case "back": F.i=Math.max(0,F.i-1); renderLayer(); break;
+    case "set": { const k=b.dataset.k; const val=["en","int"].includes(k)?Number(v):v; F.e[k]=F.e[k]===val&&!["int"].includes(k)?null:val; F.edited=false; F.alts=null;
+      renderLayer();
+      if(["w","en","causa","nec"].includes(k) && F.e[k]!=null) setTimeout(next,260);
+      break; }
+    case "fam": F.e.fam=F.e.fam===v?null:v; if(F.e.word && !(famById(F.e.fam)?.w.some(w=>w[0]===F.e.word))) F.e.word=null; F.edited=false; F.alts=null; renderLayer(); break;
+    case "tgl": { const arr=F.e[b.dataset.k]; const i=arr.indexOf(v); i>=0?arr.splice(i,1):arr.push(v); F.e.nada=false; renderLayer(); break; }
+    case "zona": { const i=F.e.zonas.indexOf(v); i>=0?F.e.zonas.splice(i,1):F.e.zonas.push(v); F.e.nada=false; renderLayer(); break; }
+    case "nada": F.e.nada=!F.e.nada; if(F.e.nada){ F.e.zonas=[]; F.e.sens=[]; } renderLayer(); break;
+    case "own": F.own=true; renderLayer(); setTimeout(()=>$("#own")?.focus(),50); break;
+    case "starter": { const t=$("#own"); if(t){ t.value=(t.value?t.value.trimEnd()+" ":"")+v.replace("…"," "); F.e.txt=t.value; t.focus(); } break; }
+    case "alts": pedirAlternativas(); break;
+    case "useAlt": F.e.frase=F.alts[Number(v)]; F.edited=true; renderLayer(); break;
+    case "copy": { const txt=fraseParaOtros(F.e); try{ navigator.clipboard.writeText(txt).then(()=>toast("Copiada"),()=>toast("No se ha podido copiar. Mantén pulsado el texto para copiarlo.")); }catch(e){ toast("Mantén pulsado el texto para copiarlo."); } break; }
+    case "save": saveEntry(); break;
+    case "word": UI.word=v; renderLayer(); break;
+    case "pick": { const G=UI.game, s=JUEGO[G.idx]; G.pick=v; const J=S.cfg.juego||(S.cfg.juego={ok:0,tot:0,racha:0}); J.tot++; if(v===s[1]){ J.ok++; J.racha++; } else J.racha=0; saveCfg(); render(); if(v===s[1]) burst($(".opt.ok"),false); break; }
+    case "newGame": newGame(); render(); break;
+    case "lvl": { const n=Number(v); S.cfg.lvl = n===0?null:Math.max(1,Math.min(5,lvl()+n)); if(S.cfg.lvl===autoLvl()) S.cfg.lvl=null; saveCfg(); render(); toast("Ahora estás en el nivel "+lvl()+": "+NIVELES[lvl()].n); break; }
+    case "del": UI.confirmDel=v; render(); break;
+    case "delNo": UI.confirmDel=null; render(); break;
+    case "delYes": { const [k,id]=v.split("|"); const D=S.days[k]; if(D){ D.ents=(D.ents||[]).filter(e=>e.id!==id); if(!D.ents.length){ delete S.days[k]; saveLocal(); if(DB) DB.doc(BASE+"/sentir/dias/"+k).delete().catch(()=>{}); } else saveDay(k); } UI.confirmDel=null; render(); toast("Registro borrado"); break; }
+    case "editName": UI.nameEdit=true; render(); setTimeout(()=>$("#nombre")?.focus(),30); break;
+    case "saveName": S.cfg.nombre=($("#nombre")?.value||"").trim(); UI.nameEdit=false; saveCfg(); render(); break;
+  }
+});
+document.addEventListener("input",ev=>{
+  const t=ev.target; if(!UI.flow) return;
+  if(t.dataset.txt==="frase"){ UI.flow.e.frase=t.value; UI.flow.edited=true; }
+  if(t.dataset.txt==="txt"){ UI.flow.e.txt=t.value; }
+});
+document.addEventListener("keydown",ev=>{
+  const t=ev.target;
+  if((ev.key==="Enter"||ev.key===" ") && t.classList && t.classList.contains("z")){ ev.preventDefault(); t.dispatchEvent(new MouseEvent("click",{bubbles:true})); }
+  if(ev.key==="Escape" && !UI.flow && (UI.done||UI.word)){ UI.done=null; UI.word=null; render(); }
+});
+
+loadLocal(); render(); initCloud();
+</script>
