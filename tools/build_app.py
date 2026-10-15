@@ -10,7 +10,7 @@ import pathlib
 
 RAIZ = pathlib.Path(__file__).resolve().parent.parent
 SALIDA = RAIZ / "docs"
-VERSION = "7"  # súbela cuando cambie la app para renovar la caché sin conexión
+VERSION = "8"  # súbela cuando cambie la app para renovar la caché sin conexión
 
 HEAD = """<!doctype html>
 <html lang="es">
@@ -104,7 +104,7 @@ def icono(lado):
     return im.resize((lado, lado), Image.LANCZOS)
 
 
-COMPARTIR = '<script>window.BROTE_LS="brote-sentir-compartida.v1";window.BROTE_SIN_MASCOTA=true</script>'
+COMPARTIR = '<script>window.BROTE_LS="brote-sentir-compartida.v1";window.BROTE_ANONIMA=true</script>'
 
 
 def generar(destino, pagina, iconos, cache, extra=""):
