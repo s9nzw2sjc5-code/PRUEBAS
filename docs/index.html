@@ -460,7 +460,8 @@ const JUEGO=[
  ["Una amiga se presenta en tu casa con tu comida favorita porque sabía que tenías un mal día.","Agradecida",["Agradecida","Culpable","Saturada"],"Notar que alguien te ha cuidado es agradecimiento. Decirlo en voz alta lo hace más grande."]];
 
 /* ============ Estado y almacenamiento ============ */
-const LS=window.BROTE_LS||"brote-sentir.v1"; // la copia para compartir usa su propio almacenamiento
+const LS=window.BROTE_LS||"brote-sentir.v1";
+const CON_MASCOTA=!window.BROTE_SIN_MASCOTA; // la copia para compartir no pregunta por mascotas // la copia para compartir usa su propio almacenamiento
 function SUELTA_INI(){ return !window.claude; }
 const S={cfg:{nombre:"", mascota:"", lvl:null, juego:{ok:0,tot:0,racha:0}}, days:{}};
 const UI={ready:SUELTA_INI(), tab:"hoy", flow:null, game:null, word:null, sample:undefined, confirmDel:null, nameEdit:false};
@@ -775,7 +776,7 @@ function vCamino(){
   html+=`<div class="card"><h2>Mis frases</h2><p class="small muted">Así ha ido cambiando tu manera de decirlo.</p>${ents.length?ents.slice().reverse().slice(0,30).map(e=>entRow(e)+(UI.confirmDel===e.id?`<div class="row" style="gap:6px;margin:-4px 0 10px 50px"><span class="small">¿Borrar este registro?</span><button class="btn sm" data-act="delYes" data-v="${e.k}|${e.id}" style="background:var(--warn);color:#fff">Borrar</button><button class="btn sm ghost" data-act="delNo">Cancelar</button></div>`:`<div style="margin:-6px 0 6px 50px"><button class="btn ghost sm" style="padding:2px 0;font-size:12px" data-act="del" data-v="${e.id}">Borrar</button></div>`)).join(""):`<p class="muted" style="margin:0">Todavía no hay frases. La primera aparecerá al terminar tu primer registro en Hoy.</p>`}</div>`;
   html+=`<div class="card"><h2>Copia de seguridad</h2><p class="small muted">${SUELTA?"Tus datos se guardan solo en este móvil. Descarga una copia de vez en cuando para no perderlos.":"Descarga tus datos para guardarlos o pasarlos a la app instalada en el móvil."}</p>
     <div class="row wrapf">${puedeGuardar()?`<button class="btn sm" data-act="backup">Descargar copia</button>`:""}<label class="btn sm" style="cursor:pointer">Restaurar copia<input type="file" id="restore" accept=".json,application/json" hidden></label></div></div>`;
-  html+=`<div class="card"><h2>Sobre ti</h2>${UI.nameEdit?`<label class="small muted" for="nombre" style="font-weight:700">Tu nombre</label><input type="text" id="nombre" value="${esc(S.cfg.nombre||"")}"><label class="small muted" for="mascota" style="font-weight:700;display:block;margin-top:10px">Tu mascota</label><input type="text" id="mascota" value="${esc(S.cfg.mascota||"")}" placeholder="Déjalo vacío si no tienes"><div class="row" style="margin-top:12px"><button class="btn pri sm" data-act="saveName">Guardar</button></div>`
+  html+=`<div class="card"><h2>Sobre ti</h2>${UI.nameEdit?`<label class="small muted" for="nombre" style="font-weight:700">Tu nombre</label><input type="text" id="nombre" value="${esc(S.cfg.nombre||"")}">${CON_MASCOTA?`<label class="small muted" for="mascota" style="font-weight:700;display:block;margin-top:10px">Tu mascota</label><input type="text" id="mascota" value="${esc(S.cfg.mascota||"")}" placeholder="Déjalo vacío si no tienes">`:""}<div class="row" style="margin-top:12px"><button class="btn pri sm" data-act="saveName">Guardar</button></div>`
     :`<div class="row between"><span>Te saludo como <b>${esc(S.cfg.nombre||"—")}</b>${S.cfg.mascota?`<br><span class="small muted">Mascota: ${esc(S.cfg.mascota)}</span>`:""}</span><button class="btn sm" data-act="editName">Cambiar</button></div>`}</div>`;
   html+=`<p class="crisis">Si lo estás pasando muy mal, llama al <b>024</b> (gratis, 24 h, en España) o al <b>112</b> si es una emergencia.</p>`;
   return html;
@@ -852,8 +853,8 @@ function vBienvenida(){
   return `<div class="done-art" aria-hidden="true">🌱</div><p class="q" style="text-align:center">Te doy la bienvenida a Brote Sentir</p>
   <p class="hint" style="text-align:center">Un minuto al día para aprender a reconocer lo que sientes, tocando en vez de escribiendo. Todo lo que registres es privado: solo lo ves tú.</p>
   <h3>¿Cómo te llamas? <span class="muted small">(opcional)</span></h3><input type="text" id="bvNombre" value="${esc(S.cfg.nombre||"")}" placeholder="Tu nombre" aria-label="Tu nombre" autocomplete="given-name">
-  <h3 style="margin-top:16px">¿Tienes mascota? <span class="muted small">(opcional)</span></h3><input type="text" id="bvMascota" value="${esc(S.cfg.mascota||"")}" placeholder="Su nombre, por ejemplo Luna" aria-label="Nombre de tu mascota">
-  <p class="small muted" style="margin:8px 0 0">La usaré en algunas opciones, como «Pasear a Luna». Puedes cambiarlo cuando quieras en Camino.</p>
+  ${CON_MASCOTA?`<h3 style="margin-top:16px">¿Tienes mascota? <span class="muted small">(opcional)</span></h3><input type="text" id="bvMascota" value="${esc(S.cfg.mascota||"")}" placeholder="Su nombre, por ejemplo Luna" aria-label="Nombre de tu mascota">
+  <p class="small muted" style="margin:8px 0 0">La usaré en algunas opciones, como «Pasear a Luna». Puedes cambiarlo cuando quieras en Camino.</p>`:`<p class="small muted" style="margin:8px 0 0">Puedes cambiarlo cuando quieras en Camino.</p>`}
   <div class="foot"><span></span><button class="btn pri" data-act="bvOk">Empezar</button></div>`;
 }
 function closeTool(){ const T=UI.tool; if(T&&T.to) clearTimeout(T.to); UI.tool=null; render(); }
@@ -1177,8 +1178,8 @@ document.addEventListener("click",ev=>{
     case "ics": guardar(`brote-sentir-recordatorio-${pad(Number(v))}h.ics`, ics(Number(v)), "Ábrelo para añadirlo a tu calendario"); break;
     case "backup": guardar(`brote-sentir-copia-${today()}.json`, JSON.stringify({app:"brote-sentir",v:1,cfg:S.cfg,days:S.days},null,1), "Copia guardada"); break;
     case "editName": UI.nameEdit=true; render(); setTimeout(()=>$("#nombre")?.focus(),30); break;
-    case "saveName": S.cfg.nombre=($("#nombre")?.value||"").trim(); S.cfg.mascota=($("#mascota")?.value||"").trim(); UI.nameEdit=false; saveCfg(); render(); break;
-    case "bvOk": S.cfg.nombre=($("#bvNombre")?.value||"").trim(); S.cfg.mascota=($("#bvMascota")?.value||"").trim(); S.cfg.intro=true; saveCfg(); render(); break;
+    case "saveName": S.cfg.nombre=($("#nombre")?.value||"").trim(); if(CON_MASCOTA) S.cfg.mascota=($("#mascota")?.value||"").trim(); UI.nameEdit=false; saveCfg(); render(); break;
+    case "bvOk": S.cfg.nombre=($("#bvNombre")?.value||"").trim(); if(CON_MASCOTA) S.cfg.mascota=($("#bvMascota")?.value||"").trim(); S.cfg.intro=true; saveCfg(); render(); break;
   }
 });
 document.addEventListener("change",ev=>{
