@@ -402,7 +402,7 @@ const ACTB=[["🐕","Paseo largo con Ringo"],["🎵","Escuchar canciones que me 
 const EFECTO=["Igual","Un poco mejor","Mucho mejor"];
 const BUENAS=["Un café tranquilo","Algo rico","Un rato con Ringo","Una charla bonita","Un mensaje de alguien","Me he reído","He descansado","He terminado algo","Ha hecho buen día","Un abrazo","He aprendido algo","Me he cuidado"];
 // WHO-5, índice de bienestar de la OMS (versión en español), periodo de 2 semanas
-const WHO5=["Me he sentido alegre y de buen humor","Me he sentido tranquila y relajada","Me he sentido activa y con energía","Me he despertado fresca y descansada","Mi vida diaria ha estado llena de cosas que me interesan"];
+const WHO5=["Me he sentido alegre y de buen ánimo","Me he sentido tranquila y relajada","Me he sentido activa y enérgica","Me he despertado fresca y descansada","Mi vida cotidiana ha estado llena de cosas que me interesan"];
 const WHO_OP=[[5,"Todo el tiempo"],[4,"La mayor parte del tiempo"],[3,"Más de la mitad del tiempo"],[2,"Menos de la mitad del tiempo"],[1,"De vez en cuando"],[0,"Nunca"]];
 // PHQ-9 y GAD-7 (versiones en español; uso libre, Pfizer). Periodo: últimas 2 semanas
 const FREQ4=[[0,"Nunca"],[1,"Varios días"],[2,"Más de la mitad de los días"],[3,"Casi todos los días"]];
@@ -767,6 +767,7 @@ function patrones(ents){
 /* ============ Herramientas (pestaña Calma) ============ */
 const fmtD=k=>{ const d=fromKey(k); return d.getDate()+" de "+MESES[d.getMonth()]; };
 const dayW=k=>S.days[k]||(S.days[k]={ents:[]});
+const who5Banda=s=>s<=28?"Muy bajo":s<=50?"Bajo":"Adecuado";
 const who5Due=()=>{ const w=S.cfg.who5||[]; return w.length? addDays(w[w.length-1].k,14)<=today() : diasHechos()>=1; };
 function vCalma(){
   const pens=Object.values(S.days).flatMap(d=>d.pens||[]).length, w=S.cfg.who5||[], lw=w[w.length-1];
@@ -779,7 +780,7 @@ function vCalma(){
   ${T("pens","🧠","#9A79E2","Revisar un pensamiento","Descubre las trampas de la mente y busca otra forma de verlo."+(pens?" Llevas "+pens+".":""))}
   ${T("buena","☀️","#FFBF3C","Una cosa buena al día","Elige algo pequeño que te siente bien y mira cómo te ha ido.")}
   <p class="sec-t">Cuestionarios (cada 2 semanas)</p>
-  ${T("who5","📋","#FF9EC4","Cuestionario de bienestar",lw?`Último resultado: ${lw.s} de 100, el ${fmtD(lw.k)}.`:"5 preguntas cada 2 semanas (WHO-5 de la OMS).")}
+  ${T("who5","🌤️","#FF9EC4","Bienestar",lw?`Último: ${lw.s} de 100 (${who5Banda(lw.s).toLowerCase()}), el ${fmtD(lw.k)}.`:"5 preguntas sobre tu bienestar de las últimas 2 semanas (WHO-5).")}
   ${["phq9","gad7"].map(t=>{ const h=testHist(t), l=h[h.length-1], X=TESTS[t]; return T("test:"+t,X.ic,X.c,X.n,l?`Último: ${l.s} de ${X.max} (${banda(t,l.s).toLowerCase()}), el ${fmtD(l.k)}.`:X.desc); }).join("")}
   <p class="sec-t">Por si algún día lo necesitas</p>
   ${T("plan","🛟","#F06A55","Mi plan de seguridad",S.cfg.plan?"Ya lo tienes preparado. Toca para verlo.":"Prepáralo en un día tranquilo para tenerlo a mano en uno difícil.")}
@@ -859,15 +860,18 @@ function vTool(){
     return head("Revisar un pensamiento")+prog(5,T.p)+b+`<div class="foot">${T.p?`<button class="btn" data-act="pensBack">Atrás</button>`:"<span></span>"}${T.p<4?`<button class="btn pri" data-act="pensNext">Siguiente</button>`:`<button class="btn pri" data-act="pensSave" ${T.despues==null?"disabled":""}>Guardar</button>`}</div>`;
   }
   if(T.id==="who5"){
-    if(T.i>=WHO5.length){ const s=T.r.reduce((a,b)=>a+b,0)*4, w=S.cfg.who5||[], prev=w.length>1?w[w.length-2]:null;
-      const msg=s<=28?`Tu bienestar está <b>muy bajo</b> estas semanas. Te recomendamos hablarlo pronto con tu médica de cabecera o con un psicólogo. Si lo pasas muy mal, llama al <b>024</b>.`
-        :s<=50?`Tu bienestar está <b>bajo</b> estas semanas. Puede ayudarte hablarlo con un profesional y cuidar descanso, movimiento y compañía.`
-        :`Tu bienestar está en un <b>rango adecuado</b>. Sigue cuidándote.`;
-      return head("Cuestionario de bienestar")+`<p class="q" style="margin-top:10px">Tu resultado: ${s} de 100</p><div class="meter"><i style="width:${s}%"></i></div>
-        <p style="margin-top:12px">${msg}</p>${prev?`<p class="small muted">La vez anterior (${fmtD(prev.k)}): ${prev.s}. ${s>prev.s?"Ha subido.":s<prev.s?"Ha bajado.":"Está igual."}</p>`:""}
-        <p class="small muted">Es el índice WHO-5 de la Organización Mundial de la Salud. Sirve para seguir tu bienestar en el tiempo, no es un diagnóstico. Volverá a aparecer dentro de 2 semanas.</p>
+    if(T.i>=WHO5.length){ const s=T.r.reduce((a,b)=>a+b,0)*4, w=S.cfg.who5||[], prev=w.length>1?w[w.length-2]:null, bajos=T.r.map((v,j)=>v<=1?j:-1).filter(j=>j>=0), d=prev?s-prev.s:0;
+      const msg=s<=28?`Te recomendamos <b>pedir cita pronto</b> con tu médica de cabecera o con tu psicóloga y enseñarle este resultado. Si lo pasas muy mal, llama al <b class="tel">024</b>.`
+        :s<=50?`Es recomendable que <b>lo hables con tu psicóloga o tu médica</b>. Puedes llevarle el informe de la pestaña Camino.`
+        :bajos.length?`En general tu bienestar está bien, pero hay algún aspecto bajo. Si sigue así, coméntalo con un profesional.`
+        :`Tu bienestar está en un rango adecuado. Sigue cuidándote.`;
+      return head("Bienestar · WHO-5")+`<p class="q" style="margin-top:12px">Resultado: ${s} de 100</p><div class="meter"><i style="width:${s}%"></i></div>
+        <p style="margin-top:10px"><b>Nivel: ${who5Banda(s).toLowerCase()}.</b> ${msg}</p>
+        ${bajos.length?`<p class="small">Puntúan bajo: ${lista(bajos.map(j=>"«"+WHO5[j].toLowerCase()+"»"))}.</p>`:""}
+        ${prev?`<p class="small muted">La vez anterior (${fmtD(prev.k)}): ${prev.s}. ${d>=10?"Ha subido bastante, va mejor.":d<=-10?"Ha bajado bastante. Merece la pena comentarlo.":d>0?"Ha subido un poco.":d<0?"Ha bajado un poco.":"Está igual."}</p>`:""}
+        <p class="small muted">Es el índice de bienestar WHO-5 de la Organización Mundial de la Salud. Más alto es mejor. Es un cuestionario de cribado, no un diagnóstico. Volverá a aparecer dentro de 2 semanas.</p>
         <div class="foot"><span></span><button class="btn pri" data-act="closeTool">Listo</button></div>`; }
-    return head("Bienestar · "+(T.i+1)+" de 5")+prog(5,T.i)+`<p class="small muted" style="font-weight:700;margin:0">En las últimas dos semanas…</p><p class="q">${WHO5[T.i]}</p>
+    return head("Bienestar · WHO-5 · "+(T.i+1)+" de 5")+prog(5,T.i)+(T.i===0?`<p class="hint" style="margin-top:4px">El WHO-5 es el cuestionario de bienestar de la Organización Mundial de la Salud. Responde pensando en las últimas dos semanas.</p>`:"")+`<p class="small muted" style="font-weight:700;margin:0">Durante las últimas dos semanas…</p><p class="q">${WHO5[T.i]}</p>
       <div class="who" style="margin-top:12px">${WHO_OP.map(([v,t])=>`<button class="${T.r[T.i]===v?"on":""}" data-act="whoAns" data-v="${v}">${t}</button>`).join("")}</div>
       <div class="foot">${T.i?`<button class="btn" data-act="whoBack">Atrás</button>`:"<span></span>"}<span></span></div>`;
   }
@@ -959,7 +963,8 @@ function informe(dias){
   const co=correlaciones(E); if(co&&co.rows.length){ L.push("CONTEXTOS ASOCIADOS AL ESTADO (diferencia con su media de agrado)"); co.rows.forEach(([t,d,n])=>L.push(`  - ${tagLabel(t).replace(/^\S+\s/,"")}: ${d>0?"+":""}${d.toFixed(1)} (n=${n})`)); L.push(""); }
   const P=DD.filter(d=>d.plan); if(P.length){ L.push("ACTIVACIÓN CONDUCTUAL (una cosa buena al día)",`  - Elegidas: ${P.length} · Hechas: ${P.filter(d=>d.plan.done).length}`); P.filter(d=>d.plan.done).forEach(d=>L.push(`  - ${fmtD(d.k)}: ${ACTB[d.plan.a][1]} → ${d.plan.ef!=null?EFECTO[d.plan.ef]:"sin valorar"}`)); L.push(""); }
   const PE=DD.flatMap(d=>(d.pens||[]).map(p=>Object.assign({k:d.k},p))); if(PE.length){ L.push("REGISTROS DE PENSAMIENTO (TCC)"); PE.forEach(p=>L.push(`  - ${fmtD(p.k)}: «${p.pens}» · creencia ${p.antes}% → ${p.despues}% · distorsiones: ${(p.dist||[]).map(x=>DIST[x][1]).join(", ")||"—"} · alternativa: «${p.alt||"—"}»`)); L.push(""); }
-  const W=(S.cfg.who5||[]).filter(w=>w.k>=addDays(desde,-14)); if(W.length){ L.push("ÍNDICE DE BIENESTAR WHO-5 (0-100; ≤50 bienestar bajo; ≤28 se recomienda valoración)"); W.forEach(w=>L.push(`  - ${fmtD(w.k)}: ${w.s}`)); L.push(""); }
+  const W=(S.cfg.who5||[]).filter(w=>w.k>=addDays(desde,-14)); if(W.length){ L.push("WHO-5 · ÍNDICE DE BIENESTAR (0-100, más alto es mejor; ≤50 bienestar bajo; ≤28 se recomienda valoración; cambio de 10 puntos relevante)");
+    W.forEach((w,n)=>{ const pr=n?W[n-1]:null, low=(w.r||[]).filter(v=>v<=1).length; L.push(`  - ${fmtD(w.k)}: ${w.s} (${who5Banda(w.s).toLowerCase()}) · puntuación bruta ${w.s/4}/25${pr?` · cambio ${w.s-pr.s>0?"+":""}${w.s-pr.s}`:""}${low?` · ítems con 0-1: ${low}`:""} · respuestas: ${(w.r||[]).join(" ")}`); }); L.push(""); }
   ["phq9","gad7"].forEach(t=>{ const H=testHist(t).filter(w=>w.k>=addDays(desde,-14)); if(!H.length) return;
     L.push(t==="phq9"?"PHQ-9 (0-27; 5 leve, 10 moderada, 15 moderadamente grave, 20 grave)":"GAD-7 (0-21; 5 leve, 10 moderada, 15 grave)");
     H.forEach(w=>L.push(`  - ${fmtD(w.k)}: ${w.s} (${banda(t,w.s).toLowerCase()})${w.dif!=null?" · dificultad funcional: "+DIFIC[w.dif].toLowerCase():""}${t==="phq9"&&w.r&&w.r[8]>0?" · ÍTEM 9 POSITIVO ("+FREQ4[w.r[8]][1].toLowerCase()+")":""} · respuestas: ${(w.r||[]).join(" ")}`));
@@ -1009,7 +1014,7 @@ function analisis(ents){
       h+=`<p>☀️ <b>${P.length}</b> ${P.length===1?"cosa buena hecha":"cosas buenas hechas"}${best&&best[1]>0?`. La que mejor te sienta: <b>${esc(best[0].toLowerCase())}</b>`:""}.</p>`; }
     if(PE.length){ const dc={}; PE.forEach(p=>(p.dist||[]).forEach(x=>dc[x]=(dc[x]||0)+1)); const top=Object.entries(dc).sort((a,b)=>b[1]-a[1])[0], baj=PE.filter(p=>p.despues<p.antes).length;
       h+=`<p>🧠 <b>${PE.length}</b> ${PE.length===1?"pensamiento revisado":"pensamientos revisados"}, ${baj} con menos fuerza al terminar.${top?` Tu trampa más frecuente: <b>${DIST[top[0]][1].toLowerCase()}</b>.`:""}</p>`; }
-    if(W.length) h+=`<h3 style="margin-top:12px">Bienestar (WHO-5)</h3>`+W.slice(-6).map(w=>`<div class="bar"><span class="t">${fmtD(w.k)}</span><span class="p"><i style="width:${w.s}%;background:${w.s<=28?"#F06A55":w.s<=50?"#FFBF3C":"#4FC487"}"></i></span><b>${w.s}</b></div>`).join("");
+    if(W.length) h+=`<h3 style="margin-top:12px">Bienestar (WHO-5)</h3><p class="small muted" style="margin:0 0 4px">Más alto es mejor. Máximo 100.</p>`+W.slice(-6).map(w=>`<div class="bar"><span class="t">${fmtD(w.k)}</span><span class="p"><i style="width:${w.s}%;background:${w.s<=28?"#F06A55":w.s<=50?"#FFBF3C":"#4FC487"}"></i></span><b>${w.s}</b></div>`).join("");
     TH.forEach(t=>{ const X=TESTS[t]; h+=`<h3 style="margin-top:12px">${X.n} (${t==="phq9"?"PHQ-9":"GAD-7"})</h3>`+testHist(t).slice(-6).map(w=>`<div class="bar"><span class="t">${fmtD(w.k)}</span><span class="p"><i style="width:${w.s/X.max*100}%;background:${w.s>=15?"#F06A55":w.s>=10?"#FF9A4C":w.s>=5?"#FFBF3C":"#4FC487"}"></i></span><b>${w.s}</b></div>`).join("")+`<p class="small muted" style="margin:2px 0 0">Más bajo es mejor. Máximo ${X.max}.</p>`; });
     h+=`</div>`; }
   h+=`<div class="card"><h2>Para tu psicóloga</h2><p class="small muted">Un informe con tus emociones, patrones, herramientas y frases, para llevarlo a consulta.</p><button class="btn pri sm" data-act="informe">Ver informe</button></div>`;
