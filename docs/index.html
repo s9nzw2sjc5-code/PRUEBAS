@@ -583,7 +583,7 @@ function fraseParaOtros(e){
 }
 
 /* ============ Render ============ */
-const TABS=[["hoy","☀️","Hoy"],["calma","🫧","Calma"],["palabras","📖","Palabras"],["juego","💬","Practicar"],["camino","🌿","Camino"]];
+const TABS=[["hoy","☀️","Hoy"],["calma","🫧","Calma"],["palabras","🧭","Mapa"],["juego","💬","Practicar"],["camino","🌿","Camino"]];
 function aplicarMascota(){
   const m=(S.cfg.mascota||"").trim(), c=byId(CAUSAS,"ringo"), k=byId(CON,"ringo");
   c[2]=m||"Mi mascota"; c[3]=m?"por "+m:"por mi mascota";
@@ -597,7 +597,7 @@ function render(){
   aplicarMascota();
   $("#tabs").innerHTML=TABS.map(([id,i,t])=>`<button data-act="tab" data-v="${id}" class="${UI.tab===id?"on":""}" aria-current="${UI.tab===id?"page":"false"}"><span class="i">${i}</span>${t}</button>`).join("");
   const head=`<header class="top"><div class="brand"><span class="lg">🌱</span>Brote <small>Sentir</small></div><div class="sync ${synced?"on":""}"><i></i>${synced?"Guardado en tu cuenta":SUELTA?"Guardado en este móvil":"En este dispositivo"}</div></header>`;
-  $("#app").innerHTML=head+({hoy:vHoy,calma:vCalma,palabras:vPalabras,juego:vPracticar,camino:vCamino}[UI.tab])();
+  $("#app").innerHTML=head+({hoy:vHoy,calma:vCalma,palabras:vMapa,juego:vPracticar,camino:vCamino}[UI.tab])();
   renderLayer();
 }
 
@@ -767,14 +767,40 @@ function vDone(){
 }
 
 /* ---------- PALABRAS ---------- */
-function vPalabras(){
-  const u=palabrasUsadas(), n=Object.keys(u).length, L=lvl();
-  let html=`<h1 style="margin:0 0 6px">Tus palabras</h1><p class="muted">Cada vez que eliges una palabra para lo que sientes, se guarda aquí. Toca cualquiera para ver qué significa.</p>
-  <div class="card"><div class="row between"><b>${n} de ${ALL_WORDS} palabras descubiertas</b><span class="small muted">${Math.round(n/ALL_WORDS*100)}%</span></div><div class="meter"><i style="width:${n/ALL_WORDS*100}%"></i></div>
-  ${L<3?`<p class="small muted" style="margin:6px 0 0">Empezarás a coleccionar palabras en el nivel ${NIVELES[3].e} ${NIVELES[3].n}. Mientras tanto, puedes leerlas y practicar.</p>`:""}</div>`;
-  FAMILIAS.forEach(f=>{ html+=`<div class="card fam" style="--c:${f.c}"><div class="fam-h"><span class="e">${f.e}</span><div><b>${f.n}</b><div class="small muted">${f.sug}</div></div></div>
-    <div class="words">${f.w.map(w=>`<button class="wd ${u[w[0]]?"got":""}" data-act="word" data-v="${w[0]}">${w[0]}</button>`).join("")}</div></div>`; });
-  return html;
+/* ---------- MAPA: mapa de colores + rueda de emociones ---------- */
+function arcPath(a0,a1,r0,r1){
+  const p=(a,r)=>[(100+r*Math.cos(a)).toFixed(2),(100+r*Math.sin(a)).toFixed(2)], lg=a1-a0>Math.PI?1:0;
+  const [x0,y0]=p(a0,r1),[x1,y1]=p(a1,r1),[x2,y2]=p(a1,r0),[x3,y3]=p(a0,r0);
+  return `M${x0} ${y0}A${r1} ${r1} 0 ${lg} 1 ${x1} ${y1}L${x2} ${y2}A${r0} ${r0} 0 ${lg} 0 ${x3} ${y3}Z`;
+}
+function rueda(sug,sel){
+  const N=FAMILIAS.length, st=2*Math.PI/N; let g="";
+  FAMILIAS.forEach((f,i)=>{
+    const a0=-Math.PI/2+i*st+.02, a1=a0+st-.04, am=(a0+a1)/2, on=sel===f.id, hi=sug.includes(f.id), dim=sel?!on:(sug.length&&!hi), r1=on?99:hi?95:90, cx=100+66*Math.cos(am), cy=100+66*Math.sin(am);
+    g+=`<path d="${arcPath(a0,a1,40,r1)}" data-act="mapFam" data-v="${f.id}" role="button" tabindex="0" aria-label="${f.n}" aria-pressed="${on}" style="fill:${f.c};opacity:${dim?.32:1};cursor:pointer;transition:opacity .2s"/>`;
+    g+=`<text x="${cx}" y="${cy+1}" text-anchor="middle" style="font-size:18px;pointer-events:none;opacity:${dim?.5:1}">${f.e}</text><text x="${cx}" y="${cy+15}" text-anchor="middle" style="font-size:7.5px;font-weight:800;fill:#241F38;pointer-events:none;opacity:${dim?.5:1}">${f.n}</text>`;
+  });
+  const F=sel&&famById(sel);
+  return `<div style="max-width:300px;margin:0 auto"><svg viewBox="-4 -4 208 208" style="width:100%;display:block" aria-label="Rueda de emociones">${g}<circle cx="100" cy="100" r="37" style="fill:var(--surface)"/>
+    <text x="100" y="${F?98:103}" text-anchor="middle" style="font-family:var(--font-d);font-weight:700;font-size:${F?13:10}px;fill:var(--ink)">${F?F.n:"Toca una familia"}</text>${F?`<text x="100" y="112" text-anchor="middle" style="font-size:8px;fill:var(--muted)">${F.w.length} palabras</text>`:""}</svg></div>`;
+}
+function vMapa(){
+  const M=UI.mapa||{}, q=M.mx&&cuad(M.mx,M.my), Q=q&&CUAD[q], fam=M.fam&&famById(M.fam), x=M.word&&findWord(M.word), u=palabrasUsadas(), n=Object.keys(u).length;
+  let cells=""; for(let y=6;y>=1;y--) for(let xx=1;xx<=6;xx++){ const qq=cuad(xx,y), dd=Math.max(Math.abs(xx-3.5),Math.abs(y-3.5)), on=M.mx===xx&&M.my===y;
+    cells+=`<button style="--cc:color-mix(in srgb,${CUAD[qq].c} ${28+dd*26}%,var(--surface))" class="${on?"on":""}" data-act="mapCell" data-x="${xx}" data-y="${y}" aria-pressed="${on}" aria-label="${CUAD[qq].d}, agrado ${xx} y energía ${y} de 6"></button>`; }
+  let h=`<h1 style="margin:0 0 6px">¿Cómo me siento ahora?</h1><p class="muted">Tres toques: dónde estás, qué familia de emoción es y qué palabra encaja.</p>`;
+  h+=`<div class="card"><h2>1. ¿Dónde estás?</h2><p class="hint">Hacia arriba, más energía. Hacia la derecha, más agradable.</p>
+    <div class="meter-wrap"><span class="ylab">Energía →</span><div class="mm">${cells}</div><div class="xlab"><span>Desagradable</span><span>Agradable</span></div></div>
+    ${Q?`<div class="qbox" style="--c:${Q.c}"><b>Zona ${Q.n.toLowerCase()}:</b> ${Q.d.toLowerCase()}. Aquí suelen estar ${Q.ej}.</div>`:""}</div>`;
+  h+=`<div class="card" id="mapRueda"><h2>2. ¿Qué familia es?</h2><p class="hint">${Q?"Las de tu zona están resaltadas, pero puedes tocar cualquiera.":"Si no sabes dónde estás, elige directamente en la rueda."}</p>${rueda(Q?Q.fams:[],M.fam)}</div>`;
+  if(fam) h+=`<div class="card" id="mapPalabra"><h2>3. ¿Qué palabra encaja?</h2><p class="hint">Toca una para ver qué significa.</p>
+    <div class="chips">${fam.w.map(w=>`<button class="chip ${M.word===w[0]?"on":""}" style="${M.word===w[0]?`background:color-mix(in srgb,${fam.c} 28%,var(--surface));border-color:${fam.c}`:""}" data-act="mapWord" data-v="${w[0]}" aria-pressed="${M.word===w[0]}">${w[0]}${u[w[0]]?" ✓":""}</button>`).join("")}</div>
+    ${x?`<div class="wordbox" style="--c:${x.f.c}"><b class="w">${x.w[0]}</b><p class="kv" style="margin-top:4px">${x.w[1]}</p><p class="kv"><span>En el cuerpo:</span> ${x.w[2]}</p><p class="kv"><span>Suele necesitar:</span> ${x.w[3]}</p><p class="kv"><span>Para decirlo:</span> «Me siento ${x.w[0].toLowerCase()}»</p></div>
+      ${M.saved?`<p style="margin:12px 0 0;font-weight:700">✓ Guardado en tu día</p>${sugTool(M.saved)}<button class="btn sm" data-act="mapReset" style="margin-top:10px">Empezar de nuevo</button>`
+        :`<div class="row wrapf" style="margin-top:12px"><button class="btn pri sm" data-act="mapSave">Guardar en mi día</button><button class="btn ghost sm" data-act="mapReset">Empezar de nuevo</button></div>`}`:""}</div>`;
+  h+=`<div class="card"><div class="row between"><div><h2 style="margin:0">Tus palabras</h2><span class="small muted">${n} de ${ALL_WORDS} descubiertas</span></div><button class="btn sm" data-act="dicc">${UI.dicc?"Ocultar":"Ver todas"}</button></div><div class="meter"><i style="width:${n/ALL_WORDS*100}%"></i></div>
+    ${UI.dicc?FAMILIAS.map(f=>`<div class="fam" style="--c:${f.c};margin-top:14px"><div class="fam-h"><span class="e">${f.e}</span><div><b>${f.n}</b><div class="small muted">${f.sug}</div></div></div><div class="words">${f.w.map(w=>`<button class="wd ${u[w[0]]?"got":""}" data-act="word" data-v="${w[0]}">${w[0]}</button>`).join("")}</div></div>`).join(""):""}</div>`;
+  return h;
 }
 function vWord(){
   const x=findWord(UI.word); if(!x) return "";
@@ -813,7 +839,7 @@ function vDecir(){
 function vAfinar(){
   const i=UI.par||0, [a,b,dif]=PARES[i], A=findWord(a), B=findWord(b), r=(S.cfg.afinar||{})[a+"|"+b], hechos=Object.keys(S.cfg.afinar||{}).length;
   const box=(w,x)=>`<div class="wordbox" style="--c:${x.f.c};margin:0"><b class="w">${x.f.e} ${w}</b><p class="kv" style="margin-top:4px">${x.w[1]}</p><p class="kv"><span>En el cuerpo:</span> ${x.w[2]}</p></div>`;
-  const msg={a:`Cuando te pase, prueba a decir «me siento ${a.toLowerCase()}».`,b:`Cuando te pase, prueba a decir «me siento ${b.toLowerCase()}».`,ambas:`Pueden ir juntas. Puedes decir «me siento ${a.toLowerCase()} y también ${b.toLowerCase()}».`,ninguna:"Apuntado. Quizá otra palabra de la misma familia encaje mejor: búscala en Palabras."};
+  const msg={a:`Cuando te pase, prueba a decir «me siento ${a.toLowerCase()}».`,b:`Cuando te pase, prueba a decir «me siento ${b.toLowerCase()}».`,ambas:`Pueden ir juntas. Puedes decir «me siento ${a.toLowerCase()} y también ${b.toLowerCase()}».`,ninguna:"Apuntado. Quizá otra palabra de la misma familia encaje mejor: búscala en el Mapa."};
   return `<p class="small muted" style="font-weight:700">Pareja ${i+1} de ${PARES.length} · ${hechos} respondidas</p>
   <div class="card"><h2>${a} o ${b}</h2><div style="display:grid;gap:10px">${box(a,A)}${box(b,B)}</div>
   <div class="why" style="margin-top:12px"><b>La diferencia:</b> ${dif}</div>
@@ -1211,6 +1237,18 @@ document.addEventListener("click",ev=>{
     case "copy": { const txt=fraseParaOtros(F.e); try{ navigator.clipboard.writeText(txt).then(()=>toast("Copiada"),()=>toast("No se ha podido copiar. Mantén pulsado el texto para copiarlo.")); }catch(e){ toast("Mantén pulsado el texto para copiarlo."); } break; }
     case "save": saveEntry(); break;
     case "word": UI.word=v; renderLayer(); break;
+    case "mapCell": { const M=UI.mapa=UI.mapa||{}; M.mx=Number(b.dataset.x); M.my=Number(b.dataset.y); M.saved=null; const fs=CUAD[cuad(M.mx,M.my)].fams; if(M.fam&&!fs.includes(M.fam)){ M.fam=fs.length===1?fs[0]:null; M.word=null; } else if(!M.fam&&fs.length===1) M.fam=fs[0]; render(); break; }
+    case "mapFam": { const M=UI.mapa=UI.mapa||{}; M.fam=M.fam===v?null:v; M.word=null; M.saved=null; render(); if(M.fam) setTimeout(()=>$("#mapPalabra")?.scrollIntoView({behavior:"smooth",block:"nearest"}),30); break; }
+    case "mapWord": { const M=UI.mapa=UI.mapa||{}; M.word=M.word===v?null:v; M.saved=null; render(); break; }
+    case "mapReset": UI.mapa={}; render(); window.scrollTo(0,0); break;
+    case "dicc": UI.dicc=!UI.dicc; render(); break;
+    case "mapSave": { const M=UI.mapa||{}; if(!M.word) break; const k=today(), before=lvl(), nueva=!palabrasUsadas()[M.word];
+      const ent={id:uid(), t:Date.now(), lvl:before, fam:M.fam, word:M.word, int:3, rapido:true};
+      if(M.mx){ ent.mx=M.mx; ent.my=M.my; ent.en=EN_Y[M.my]; }
+      ent.frase=fraseAuto(Object.assign({zonas:[],sens:[]},ent,{lvl:Math.max(3,before)}));
+      const D=S.days[k]||(S.days[k]={ents:[]}); D.ents=(D.ents||[]).concat([ent]); saveDay(k);
+      M.saved=ent; render(); burst($("#mapPalabra .btn, #mapPalabra"),false);
+      toast(lvl()>before?`Nivel ${lvl()} desbloqueado: ${NIVELES[lvl()].n}`:nueva?"Guardado. Palabra nueva en tu colección 📖":"Guardado en tu día"); break; }
     case "prac": UI.prac=v; render(); window.scrollTo(0,0); break;
     case "guion": UI.guion={sit:v,p:{},txt:"",edited:false}; render(); window.scrollTo(0,0); break;
     case "gBack": UI.guion=null; render(); break;
@@ -1309,7 +1347,7 @@ document.addEventListener("input",ev=>{
 });
 document.addEventListener("keydown",ev=>{
   const t=ev.target;
-  if((ev.key==="Enter"||ev.key===" ") && t.classList && t.classList.contains("z")){ ev.preventDefault(); t.dispatchEvent(new MouseEvent("click",{bubbles:true})); }
+  if((ev.key==="Enter"||ev.key===" ") && t.getAttribute && (t.classList.contains("z")||t.getAttribute("role")==="button")){ ev.preventDefault(); t.dispatchEvent(new MouseEvent("click",{bubbles:true})); }
   if(ev.key==="Escape" && !UI.flow && !UI.tool && (UI.done||UI.word)){ UI.done=null; UI.word=null; render(); }
 });
 
