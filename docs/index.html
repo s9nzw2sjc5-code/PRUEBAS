@@ -218,12 +218,12 @@ nav.tabs button.on .i{filter:none; opacity:1}
 .confetti{position:fixed; width:9px; height:9px; border-radius:2px; pointer-events:none; z-index:30; animation:conf .95s cubic-bezier(.2,.7,.3,1) forwards}
 @keyframes conf{to{transform:translate(var(--dx),var(--dy)) rotate(540deg); opacity:0}}
 /* Mapa de emociones, contexto y herramientas */
-.meter-wrap{display:grid; grid-template-columns:auto minmax(0,1fr); gap:6px 8px; align-items:stretch; max-width:340px; margin:0 auto}
-.ylab{writing-mode:vertical-rl; transform:rotate(180deg); font-size:11.5px; font-weight:800; color:var(--muted); text-align:center; letter-spacing:.04em; text-transform:uppercase}
-.mm{display:grid; grid-template-columns:repeat(6,1fr); gap:4px; aspect-ratio:1; max-width:100%}
-.mm button{border:0; border-radius:10px; background:var(--cc); padding:0; transition:transform .15s}
-.mm button.on{transform:scale(1.14); box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--ink); position:relative; z-index:1}
-.xlab{grid-column:2; display:flex; justify-content:space-between; font-size:11.5px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.04em}
+.mmap{max-width:340px; margin:0 auto}
+.mm{display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:5px; padding:8px; border-radius:18px; background:var(--surface-2)}
+.mm button{-webkit-appearance:none; appearance:none; display:block; width:100%; aspect-ratio:1/1; min-height:36px; margin:0; padding:0; border:0; border-radius:10px; font-size:18px; line-height:1; transition:transform .15s}
+.mm button.on{opacity:1!important; transform:scale(1.12); box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--ink); position:relative; z-index:1}
+.mm-ax{display:flex; justify-content:space-between; align-items:center; gap:8px; font-size:11.5px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.04em; padding:6px 4px}
+.mm-ax.top{justify-content:center}
 .qbox{margin-top:14px; padding:12px 14px; border-radius:14px; background:color-mix(in srgb,var(--c) 18%,var(--surface)); font-size:14.5px}
 .ctx h3{margin:16px 0 8px} .ctx h3:first-child{margin-top:0}
 .tool{display:flex; gap:14px; align-items:center; width:100%; text-align:left; border:0; background:var(--surface); border-radius:22px; padding:16px; margin:0 0 10px; box-shadow:var(--shadow-s)}
@@ -378,6 +378,12 @@ const cuad=(x,y)=> y>=4?(x>=4?"amarillo":"rojo"):(x>=4?"verde":"azul");
 const EN_Y=[null,1,2,3,3,4,5];
 const CIELO_X={sol:5,nubes:4,niebla:3,lluvia:2,tormenta:1,viento:2};
 const agrado=e=>e.mx||CIELO_X[e.w]||null;
+const ESQ={"1,6":"😤","6,6":"😄","1,1":"😢","6,1":"😌"};
+function mapaHTML(sx,sy,act){
+  let c=""; for(let y=6;y>=1;y--) for(let x=1;x<=6;x++){ const q=cuad(x,y), dd=Math.max(Math.abs(x-3.5),Math.abs(y-3.5)), on=sx===x&&sy===y;
+    c+=`<button style="background:${CUAD[q].c};opacity:${(.4+dd*.24).toFixed(2)}" class="${on?"on":""}" data-act="${act}" data-x="${x}" data-y="${y}" aria-pressed="${on}" aria-label="${CUAD[q].d}, agrado ${x} y energía ${y} de 6">${ESQ[x+","+y]||""}</button>`; }
+  return `<div class="mmap"><div class="mm-ax top">⚡ Más energía</div><div class="mm" role="group" aria-label="Mapa de emociones">${c}</div><div class="mm-ax"><span>← Desagradable</span><span>🪫 Menos</span><span>Agradable →</span></div></div>`;
+}
 
 /* --- Contexto (como Daylio / How We Feel) --- */
 const CON=[["sola","🙋‍♀️","Sola","Estando sola"],["pareja","💞","Pareja","Con tu pareja"],["familia","🏠","Familia","Con tu familia"],["amistades","🫂","Amistades","Con amistades"],["compas","💼","Compañeros","Con compañeros"],["ringo","🐾","Mi mascota","Con tu mascota"]];
@@ -683,10 +689,8 @@ function vFlow(){
     <p class="small muted" style="margin:12px 0 0">${e.zonas.length?"Has marcado: "+lista(e.zonas.map(z=>ZONAS[z])):"Puedes marcar varias zonas."}</p>`;
   }
   if(s==="mapa"){ chosen=!!e.mx; const Q=e.mx&&CUAD[cuad(e.mx,e.my)];
-    let cells=""; for(let y=6;y>=1;y--) for(let x=1;x<=6;x++){ const q=cuad(x,y), dd=Math.max(Math.abs(x-3.5),Math.abs(y-3.5)), on=e.mx===x&&e.my===y;
-      cells+=`<button style="--cc:color-mix(in srgb,${CUAD[q].c} ${28+dd*26}%,var(--surface))" class="${on?"on":""}" data-act="mapa" data-x="${x}" data-y="${y}" aria-pressed="${on}" aria-label="${CUAD[q].d}, agrado ${x} y energía ${y} de 6"></button>`; }
     body=`<p class="q">¿Dónde estás en el mapa?</p><p class="hint">Hacia arriba, más energía. Hacia la derecha, más agradable. Toca el cuadrado que más se parezca a ti ahora.</p>
-    <div class="meter-wrap"><span class="ylab">Energía →</span><div class="mm">${cells}</div><div class="xlab"><span>Desagradable</span><span>Agradable</span></div></div>
+    ${mapaHTML(e.mx,e.my,"mapa")}
     ${Q?`<div class="qbox" style="--c:${Q.c}"><b>Zona ${Q.n.toLowerCase()}:</b> ${Q.d.toLowerCase()}. Aquí suelen estar ${Q.ej}.</div>`:`<p class="small muted" style="margin-top:14px;text-align:center">Es el mapa de emociones que usan muchos psicólogos (Universidad de Yale).</p>`}`;
   }
   if(s==="contexto"){ chosen=e.con.length||e.lugar||e.act.length||e.sueno; const first=!(S.days[today()]?.ents||[]).length;
@@ -786,11 +790,9 @@ function rueda(sug,sel){
 }
 function vMapa(){
   const M=UI.mapa||{}, q=M.mx&&cuad(M.mx,M.my), Q=q&&CUAD[q], fam=M.fam&&famById(M.fam), x=M.word&&findWord(M.word), u=palabrasUsadas(), n=Object.keys(u).length;
-  let cells=""; for(let y=6;y>=1;y--) for(let xx=1;xx<=6;xx++){ const qq=cuad(xx,y), dd=Math.max(Math.abs(xx-3.5),Math.abs(y-3.5)), on=M.mx===xx&&M.my===y;
-    cells+=`<button style="--cc:color-mix(in srgb,${CUAD[qq].c} ${28+dd*26}%,var(--surface))" class="${on?"on":""}" data-act="mapCell" data-x="${xx}" data-y="${y}" aria-pressed="${on}" aria-label="${CUAD[qq].d}, agrado ${xx} y energía ${y} de 6"></button>`; }
   let h=`<h1 style="margin:0 0 6px">¿Cómo me siento ahora?</h1><p class="muted">Tres toques: dónde estás, qué familia de emoción es y qué palabra encaja.</p>`;
   h+=`<div class="card"><h2>1. ¿Dónde estás?</h2><p class="hint">Hacia arriba, más energía. Hacia la derecha, más agradable.</p>
-    <div class="meter-wrap"><span class="ylab">Energía →</span><div class="mm">${cells}</div><div class="xlab"><span>Desagradable</span><span>Agradable</span></div></div>
+    ${mapaHTML(M.mx,M.my,"mapCell")}
     ${Q?`<div class="qbox" style="--c:${Q.c}"><b>Zona ${Q.n.toLowerCase()}:</b> ${Q.d.toLowerCase()}. Aquí suelen estar ${Q.ej}.</div>`:""}</div>`;
   h+=`<div class="card" id="mapRueda"><h2>2. ¿Qué familia es?</h2><p class="hint">${Q?"Las de tu zona están resaltadas, pero puedes tocar cualquiera.":"Si no sabes dónde estás, elige directamente en la rueda."}</p>${rueda(Q?Q.fams:[],M.fam)}</div>`;
   if(fam) h+=`<div class="card" id="mapPalabra"><h2>3. ¿Qué palabra encaja?</h2><p class="hint">Toca una para ver qué significa.</p>
