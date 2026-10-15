@@ -445,6 +445,7 @@ const JUEGO=[
 const LS="brote-sentir.v1";
 const S={cfg:{nombre:"Mari", lvl:null, juego:{ok:0,tot:0,racha:0}}, days:{}};
 const UI={tab:"hoy", flow:null, game:null, word:null, sample:undefined, confirmDel:null, nameEdit:false};
+const SUELTA=!window.claude; // fuera de claude.ai: app independiente
 let DB=null, BASE=null, SAMPLE=null, DOWNLOADS=null, synced=false, pendingRender=false;
 
 function loadLocal(){ try{ const o=JSON.parse(localStorage.getItem(LS)||"null"); if(o){ if(o.cfg) S.cfg=Object.assign(S.cfg,o.cfg); if(o.days) S.days=o.days; } }catch(e){} }
@@ -524,7 +525,7 @@ function fraseParaOtros(e){
 const TABS=[["hoy","☀️","Hoy"],["calma","🫧","Calma"],["palabras","📖","Palabras"],["juego","🎲","Practicar"],["camino","🌿","Camino"]];
 function render(){
   $("#tabs").innerHTML=TABS.map(([id,i,t])=>`<button data-act="tab" data-v="${id}" class="${UI.tab===id?"on":""}" aria-current="${UI.tab===id?"page":"false"}"><span class="i">${i}</span>${t}</button>`).join("");
-  const head=`<header class="top"><div class="brand"><span class="lg">🌱</span>Brote <small>Sentir</small></div><div class="sync ${synced?"on":""}"><i></i>${synced?"Guardado en tu cuenta":"En este dispositivo"}</div></header>`;
+  const head=`<header class="top"><div class="brand"><span class="lg">🌱</span>Brote <small>Sentir</small></div><div class="sync ${synced?"on":""}"><i></i>${synced?"Guardado en tu cuenta":SUELTA?"Guardado en este móvil":"En este dispositivo"}</div></header>`;
   $("#app").innerHTML=head+({hoy:vHoy,calma:vCalma,palabras:vPalabras,juego:vJuego,camino:vCamino}[UI.tab])();
   renderLayer();
 }
@@ -741,6 +742,8 @@ function vCamino(){
   if(ents.length>=3) html+=`<div class="card"><h2>Lo que más se repite</h2>${patrones(ents)}</div>`;
   else html+=`<div class="card"><h2>Lo que más se repite</h2><p class="muted" style="margin:0">Cuando tengas 3 registros, aquí verás qué emociones, zonas del cuerpo y causas aparecen más.</p></div>`;
   html+=`<div class="card"><h2>Mis frases</h2><p class="small muted">Así ha ido cambiando tu manera de decirlo.</p>${ents.length?ents.slice().reverse().slice(0,30).map(e=>entRow(e)+(UI.confirmDel===e.id?`<div class="row" style="gap:6px;margin:-4px 0 10px 50px"><span class="small">¿Borrar este registro?</span><button class="btn sm" data-act="delYes" data-v="${e.k}|${e.id}" style="background:var(--warn);color:#fff">Borrar</button><button class="btn sm ghost" data-act="delNo">Cancelar</button></div>`:`<div style="margin:-6px 0 6px 50px"><button class="btn ghost sm" style="padding:2px 0;font-size:12px" data-act="del" data-v="${e.id}">Borrar</button></div>`)).join(""):`<p class="muted" style="margin:0">Todavía no hay frases. La primera aparecerá al terminar tu primer registro en Hoy.</p>`}</div>`;
+  html+=`<div class="card"><h2>Copia de seguridad</h2><p class="small muted">${SUELTA?"Tus datos se guardan solo en este móvil. Descarga una copia de vez en cuando para no perderlos.":"Descarga tus datos para guardarlos o pasarlos a la app instalada en el móvil."}</p>
+    <div class="row wrapf">${puedeGuardar()?`<button class="btn sm" data-act="backup">Descargar copia</button>`:""}<label class="btn sm" style="cursor:pointer">Restaurar copia<input type="file" id="restore" accept=".json,application/json" hidden></label></div></div>`;
   html+=`<div class="card"><h2>Tu nombre</h2>${UI.nameEdit?`<div class="row"><input type="text" id="nombre" value="${esc(S.cfg.nombre||"")}" aria-label="Tu nombre"><button class="btn pri sm" data-act="saveName">Guardar</button></div>`:`<div class="row between"><span>Te saludo como <b>${esc(S.cfg.nombre||"—")}</b></span><button class="btn sm" data-act="editName">Cambiar</button></div>`}</div>`;
   html+=`<p class="crisis">Si lo estás pasando muy mal, llama al <b>024</b> (gratis, 24 h, en España) o al <b>112</b> si es una emergencia.</p>`;
   return html;
@@ -909,7 +912,7 @@ function vTool(){
     return head("Informe para tu psicóloga")+`<p class="hint" style="margin-top:10px">Un resumen de tus registros para llevarlo a consulta. Solo lo verá quien tú quieras.</p>
       <div class="chips">${[14,30,90].map(n=>`<button class="chip ${T.dias===n?"on":""}" data-act="infDias" data-v="${n}">Últimos ${n} días</button>`).join("")}</div>
       <div class="report" id="report">${esc(txt)}</div>
-      <div class="foot"><button class="btn" data-act="infCopy">Copiar</button>${DOWNLOADS?`<button class="btn pri" data-act="infDown">Descargar</button>`:"<span></span>"}</div>`; }
+      <div class="foot"><button class="btn" data-act="infCopy">Copiar</button>${puedeGuardar()?`<button class="btn pri" data-act="infDown">Descargar</button>`:"<span></span>"}</div>`; }
   return "";
 }
 function buenaCard(inSheet){
@@ -978,11 +981,17 @@ function informe(dias){
 function ics(h){
   const now=new Date(), d=key(now).replace(/-/g,"");
   return ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Brote Sentir//ES","BEGIN:VEVENT","UID:brote-sentir-"+uid()+"-"+d,"DTSTAMP:"+now.toISOString().replace(/[-:]/g,"").slice(0,15)+"Z",
-    "DTSTART:"+d+"T"+pad(h)+"0000","DURATION:PT5M","RRULE:FREQ=DAILY","SUMMARY:🌱 Un minuto para escucharme","DESCRIPTION:Abre Brote Sentir: https://claude.ai/artifact/AHtyDo5i2PhTyzmECRd5V1",
+    "DTSTART:"+d+"T"+pad(h)+"0000","DURATION:PT5M","RRULE:FREQ=DAILY","SUMMARY:🌱 Un minuto para escucharme","DESCRIPTION:Abre Brote Sentir: "+(SUELTA?location.origin+location.pathname:"https://claude.ai/artifact/AHtyDo5i2PhTyzmECRd5V1"),
     "BEGIN:VALARM","ACTION:DISPLAY","DESCRIPTION:¿Cómo estás ahora?","TRIGGER:PT0M","END:VALARM","END:VEVENT","END:VCALENDAR"].join("\r\n");
 }
+const puedeGuardar=()=>!!DOWNLOADS||SUELTA;
+function guardarSuelta(filename,data,ok){
+  try{ const u=URL.createObjectURL(new Blob([data],{type:/\.ics$/.test(filename)?"text/calendar":/\.json$/.test(filename)?"application/json":"text/plain;charset=utf-8"}));
+    const a=document.createElement("a"); a.href=u; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000); toast(ok); }
+  catch(e){ toast("No se ha podido guardar el archivo."); }
+}
 async function guardar(filename,data,ok){
-  if(!DOWNLOADS) return;
+  if(!DOWNLOADS){ if(SUELTA) guardarSuelta(filename,data,ok); return; }
   try{ const r=await DOWNLOADS.save({filename,data}); if(r&&r.status==="saved") toast(ok); }
   catch(e){ const c=e&&e.code;
     if(["unavailable","not_granted","capability_disabled","capability_removed"].includes(c)){ DOWNLOADS=null; render(); toast("Aquí no se pueden guardar archivos. Usa Copiar."); }
@@ -1018,7 +1027,7 @@ function analisis(ents){
     TH.forEach(t=>{ const X=TESTS[t]; h+=`<h3 style="margin-top:12px">${X.n} (${t==="phq9"?"PHQ-9":"GAD-7"})</h3>`+testHist(t).slice(-6).map(w=>`<div class="bar"><span class="t">${fmtD(w.k)}</span><span class="p"><i style="width:${w.s/X.max*100}%;background:${w.s>=15?"#F06A55":w.s>=10?"#FF9A4C":w.s>=5?"#FFBF3C":"#4FC487"}"></i></span><b>${w.s}</b></div>`).join("")+`<p class="small muted" style="margin:2px 0 0">Más bajo es mejor. Máximo ${X.max}.</p>`; });
     h+=`</div>`; }
   h+=`<div class="card"><h2>Para tu psicóloga</h2><p class="small muted">Un informe con tus emociones, patrones, herramientas y frases, para llevarlo a consulta.</p><button class="btn pri sm" data-act="informe">Ver informe</button></div>`;
-  h+=`<div class="card"><h2>Recordatorio diario</h2>${DOWNLOADS?`<p class="small muted">Descarga un aviso para tu calendario (iPhone, Google u Outlook). Se repetirá cada día a la hora que elijas.</p><div class="seg">${[9,14,18,21].map(x=>`<button class="btn sm" data-act="ics" data-v="${x}">${x}:00</button>`).join("")}</div>`:`<p class="small muted" style="margin:0">Abre la app desde claude.ai para descargar un aviso diario para tu calendario.</p>`}</div>`;
+  h+=`<div class="card"><h2>Recordatorio diario</h2>${puedeGuardar()?`<p class="small muted">Descarga un aviso para tu calendario (iPhone, Google u Outlook). Se repetirá cada día a la hora que elijas.</p><div class="seg">${[9,14,18,21].map(x=>`<button class="btn sm" data-act="ics" data-v="${x}">${x}:00</button>`).join("")}</div>`:`<p class="small muted" style="margin:0">Abre la app desde claude.ai para descargar un aviso diario para tu calendario.</p>`}</div>`;
   h+=`<div class="card"><h2>Mi plan de seguridad</h2><div class="row between"><span class="small muted">${S.cfg.plan?"Preparado.":"Aún sin preparar."}</span><button class="btn sm" data-act="tool" data-v="plan">${S.cfg.plan?"Ver":"Preparar"}</button></div></div>`;
   return h;
 }
@@ -1126,9 +1135,29 @@ document.addEventListener("click",ev=>{
     case "infCopy": { const txt=informe(UI.tool.dias); try{ navigator.clipboard.writeText(txt).then(()=>toast("Informe copiado"),()=>toast("No se ha podido copiar. Mantén pulsado el texto para seleccionarlo.")); }catch(e){ toast("Mantén pulsado el texto para seleccionarlo."); } break; }
     case "infDown": guardar(`brote-sentir-informe-${today()}.txt`, informe(UI.tool.dias), "Informe guardado"); break;
     case "ics": guardar(`brote-sentir-recordatorio-${pad(Number(v))}h.ics`, ics(Number(v)), "Ábrelo para añadirlo a tu calendario"); break;
+    case "backup": guardar(`brote-sentir-copia-${today()}.json`, JSON.stringify({app:"brote-sentir",v:1,cfg:S.cfg,days:S.days},null,1), "Copia guardada"); break;
     case "editName": UI.nameEdit=true; render(); setTimeout(()=>$("#nombre")?.focus(),30); break;
     case "saveName": S.cfg.nombre=($("#nombre")?.value||"").trim(); UI.nameEdit=false; saveCfg(); render(); break;
   }
+});
+document.addEventListener("change",ev=>{
+  const t=ev.target; if(t.id!=="restore"||!t.files||!t.files[0]) return;
+  const fr=new FileReader();
+  fr.onload=()=>{ try{
+      const o=JSON.parse(fr.result); if(!o||o.app!=="brote-sentir"||!o.days) throw 0;
+      let n=0;
+      Object.entries(o.days).forEach(([k,d])=>{ const cur=S.days[k]; if(!cur){ S.days[k]=d; n+=(d.ents||[]).length; }
+        else { const ids=new Set((cur.ents||[]).map(e=>e.id)); (d.ents||[]).forEach(e=>{ if(!ids.has(e.id)){ (cur.ents=cur.ents||[]).push(e); n++; } });
+          ["plan","buenas","pens"].forEach(x=>{ if(cur[x]==null&&d[x]!=null) cur[x]=d[x]; }); }
+        if(DB) DB.doc(BASE+"/sentir/dias/"+k).set(JSON.parse(JSON.stringify(S.days[k]))).catch(()=>{}); });
+      const c=o.cfg||{}, mergeHist=(a,b)=>{ const m={}; (a||[]).concat(b||[]).forEach(x=>{ m[x.k]=x; }); return Object.values(m).sort((x,y)=>x.k<y.k?-1:1); };
+      S.cfg.who5=mergeHist(S.cfg.who5,c.who5);
+      const tests=S.cfg.tests||{}; Object.keys(c.tests||{}).forEach(t=>{ tests[t]=mergeHist(tests[t],c.tests[t]); }); S.cfg.tests=tests;
+      if(!S.cfg.plan&&c.plan) S.cfg.plan=c.plan;
+      saveCfg(); saveLocal(); render(); toast(n?`Copia restaurada: ${n} registros añadidos`:"Copia restaurada. No había registros nuevos.");
+    }catch(e){ toast("Ese archivo no es una copia de Brote Sentir."); }
+    t.value=""; };
+  fr.readAsText(t.files[0]);
 });
 document.addEventListener("input",ev=>{
   const t=ev.target;
