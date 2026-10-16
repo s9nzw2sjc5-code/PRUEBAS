@@ -1,0 +1,1064 @@
+<title>Taller de Recortes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Anton&family=Bebas+Neue&family=Pacifico&family=Lobster&family=Fredoka:wght@500;700&family=Montserrat:wght@500;800&family=Caveat:wght@600&display=swap">
+<style>
+/* Mesa de trabajo de imprenta: barra superior, herramientas a la izquierda, lienzo en el centro, capas a la derecha. */
+:root {
+  --bg: #eef0f4;
+  --panel: #ffffff;
+  --panel-2: #f5f6f9;
+  --linea: #d9dce4;
+  --fg: #1b1e27;
+  --fg-suave: #5b6070;
+  --acento: #d1006f;
+  --acento-fg: #ffffff;
+  --acento-suave: #fde6f1;
+  --ok: #1f7a4d;
+  --aviso: #9a5b00;
+  --error: #b42318;
+  --tablero-a: #e3e5eb;
+  --tablero-b: #d6d9e1;
+  --sombra: 0 1px 2px rgb(20 24 36 / 0.08), 0 8px 24px rgb(20 24 36 / 0.08);
+  --f-titulo: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-texto: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --f-dato: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --radio: 8px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12141a; --panel: #1b1e26; --panel-2: #22262f; --linea: #323745;
+    --fg: #eceef3; --fg-suave: #a2a8b8; --acento: #ff4fa3; --acento-fg: #1a0510;
+    --acento-suave: #3a1328; --ok: #5fd39a; --aviso: #f0b45a; --error: #ff8a80;
+    --tablero-a: #262a33; --tablero-b: #2e333d;
+    --sombra: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.35);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12141a; --panel: #1b1e26; --panel-2: #22262f; --linea: #323745;
+  --fg: #eceef3; --fg-suave: #a2a8b8; --acento: #ff4fa3; --acento-fg: #1a0510;
+  --acento-suave: #3a1328; --ok: #5fd39a; --aviso: #f0b45a; --error: #ff8a80;
+  --tablero-a: #262a33; --tablero-b: #2e333d;
+  --sombra: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.35);
+  color-scheme: dark;
+}
+html, body { height: 100%; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--f-texto); font-size: 14px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 12px 24px;
+  box-sizing: border-box;
+}
+*, *::before, *::after { box-sizing: border-box; }
+button, input, select, textarea { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+
+.barra { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-bottom: 12px; }
+.marca { display: flex; align-items: baseline; gap: 10px; margin-right: auto; min-width: 0; }
+.marca h1 { font-family: var(--f-titulo); font-weight: 700; font-size: 22px; margin: 0; letter-spacing: -0.01em; }
+.marca .oficina { font-family: var(--f-dato); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--acento); }
+.grupo { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  border: 1px solid var(--linea); background: var(--panel); color: var(--fg);
+  border-radius: 6px; padding: 7px 11px; cursor: pointer; line-height: 1.2; min-height: 34px;
+}
+.btn:hover:not(:disabled) { border-color: var(--fg-suave); }
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn.primario { background: var(--acento); border-color: var(--acento); color: var(--acento-fg); font-weight: 600; }
+.btn.primario:hover:not(:disabled) { filter: brightness(1.08); border-color: var(--acento); }
+.btn.peligro { color: var(--error); }
+.btn.activo { background: var(--acento-suave); border-color: var(--acento); color: var(--fg); }
+.btn.mini { min-height: 28px; padding: 4px 8px; font-size: 13px; }
+.btn.ancho { width: 100%; }
+select.campo, input.campo, textarea.campo {
+  border: 1px solid var(--linea); background: var(--panel); border-radius: 6px; padding: 7px 9px; min-height: 34px; width: 100%;
+}
+textarea.campo { resize: vertical; min-height: 64px; line-height: 1.45; }
+input[type="color"].campo { padding: 2px; height: 34px; }
+input[type="range"] { width: 100%; accent-color: var(--acento); }
+input[type="checkbox"] { accent-color: var(--acento); width: 16px; height: 16px; }
+
+.mesa {
+  display: grid; gap: 12px;
+  grid-template-columns: minmax(250px, 290px) minmax(0, 1fr) minmax(250px, 300px);
+  grid-template-areas: "herr lienzo capas";
+  align-items: start;
+}
+.panel { background: var(--panel); border: 1px solid var(--linea); border-radius: var(--radio); min-width: 0; }
+.panel-cab { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--linea); }
+.panel-cab h2 { font-family: var(--f-titulo); font-size: 15px; font-weight: 700; margin: 0; }
+.panel-cuerpo { padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+.etiqueta { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-suave); font-weight: 600; }
+.campo-grupo { display: flex; flex-direction: column; gap: 5px; }
+.fila { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.fila > * { min-width: 0; }
+.dos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.ayuda { color: var(--fg-suave); font-size: 12.5px; line-height: 1.45; margin: 0; }
+.dato { font-family: var(--f-dato); font-variant-numeric: tabular-nums; }
+
+.herramientas { grid-area: herr; }
+.pestanas { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--linea); }
+.pestana { border: 0; background: transparent; padding: 10px 6px; cursor: pointer; color: var(--fg-suave); font-weight: 600; border-bottom: 2px solid transparent; }
+.pestana[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--acento); }
+.rejilla-btn { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.formas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.forma-btn { aspect-ratio: 1; padding: 6px; }
+.forma-btn svg { width: 100%; height: 100%; fill: currentColor; }
+
+.lienzo-zona { grid-area: lienzo; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.lienzo-marco {
+  position: relative; border-radius: var(--radio); border: 1px solid var(--linea);
+  background-color: var(--tablero-a);
+  background-image:
+    linear-gradient(45deg, var(--tablero-b) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--tablero-b) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--tablero-b) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--tablero-b) 75%);
+  background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0;
+  display: flex; align-items: center; justify-content: center; padding: 20px; min-height: 360px;
+}
+.lienzo-marco.soltando { outline: 3px dashed var(--acento); outline-offset: -8px; }
+.lienzo-pie { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: space-between; }
+.leyenda { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 12px; color: var(--fg-suave); }
+.leyenda i { display: inline-block; width: 14px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 5px; }
+.aviso-ejemplo { background: var(--acento-suave); border: 1px solid var(--acento); border-radius: 6px; padding: 8px 10px; font-size: 13px; display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+
+.capas { grid-area: capas; display: flex; flex-direction: column; gap: 12px; }
+.lista-capas { list-style: none; margin: 0; padding: 6px; display: flex; flex-direction: column; gap: 2px; max-height: 360px; overflow-y: auto; }
+.capa { display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 6px; padding: 5px 6px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; }
+.capa:hover { background: var(--panel-2); }
+.capa.sel { background: var(--acento-suave); border-color: var(--acento); }
+.capa.recortada { margin-left: 18px; }
+.capa.recortada .capa-nombre::before { content: "↳ "; color: var(--acento); font-weight: 700; }
+.capa.oculta .capa-nombre { opacity: 0.45; text-decoration: line-through; }
+.capa-nombre { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
+.capa-tipo { width: 26px; height: 26px; border-radius: 4px; background: var(--panel-2); border: 1px solid var(--linea); display: grid; place-items: center; font-family: var(--f-dato); font-size: 10px; color: var(--fg-suave); overflow: hidden; }
+.capa-acc { display: flex; gap: 2px; }
+.icono-btn { border: 0; background: transparent; width: 26px; height: 26px; border-radius: 5px; cursor: pointer; display: grid; place-items: center; color: var(--fg-suave); }
+.icono-btn:hover { background: var(--panel); color: var(--fg); }
+.icono-btn.on { color: var(--acento); }
+.icono-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.vacio { color: var(--fg-suave); font-size: 13px; padding: 10px; text-align: center; }
+
+.chips { display: flex; flex-direction: column; gap: 6px; }
+.chip { text-align: left; border: 1px solid var(--linea); background: var(--panel-2); border-radius: 6px; padding: 8px 10px; cursor: pointer; display: flex; gap: 8px; align-items: center; justify-content: space-between; }
+.chip:hover { border-color: var(--acento); }
+.chip small { font-family: var(--f-dato); color: var(--fg-suave); font-size: 11px; white-space: nowrap; }
+.estado { font-size: 13px; padding: 8px 10px; border-radius: 6px; background: var(--panel-2); border: 1px solid var(--linea); line-height: 1.45; }
+.estado.error { color: var(--error); border-color: currentColor; }
+.estado.ok { color: var(--ok); border-color: currentColor; }
+
+.cola { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.cola li { display: grid; grid-template-columns: 44px 1fr auto auto; gap: 8px; align-items: center; border: 1px solid var(--linea); border-radius: 6px; padding: 5px; background: var(--panel-2); }
+.cola img { width: 44px; height: 44px; object-fit: contain; background: repeating-conic-gradient(var(--tablero-a) 0 25%, var(--tablero-b) 0 50%) 0 0 / 10px 10px; border-radius: 4px; }
+.cola input { width: 56px; }
+.confirmar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; font-size: 13px; }
+[hidden] { display: none !important; }
+
+@media (max-width: 1080px) {
+  .mesa { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "lienzo lienzo" "herr capas"; }
+}
+@media (max-width: 680px) {
+  .mesa { grid-template-columns: minmax(0, 1fr); grid-template-areas: "lienzo" "herr" "capas"; }
+  .lienzo-marco { padding: 10px; min-height: 260px; }
+  .marca h1 { font-size: 19px; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+</style>
+
+<header class="barra">
+  <div class="marca">
+    <h1>Taller de Recortes</h1>
+    <span class="oficina">Oficina FAKTORINGO</span>
+  </div>
+  <div class="grupo">
+    <label class="etiqueta" for="producto">Producto</label>
+    <select id="producto" class="campo" style="width:auto"></select>
+  </div>
+  <div class="grupo">
+    <button class="btn" id="deshacer" title="Deshacer (Ctrl+Z)">Deshacer</button>
+    <button class="btn" id="rehacer" title="Rehacer (Ctrl+Y)">Rehacer</button>
+    <button class="btn" id="nuevo">Nuevo diseño</button>
+  </div>
+  <div class="confirmar" id="confirmar-nuevo" hidden>
+    <span>¿Borrar todo el diseño?</span>
+    <button class="btn mini peligro" id="nuevo-si">Sí, borrar</button>
+    <button class="btn mini" id="nuevo-no">Cancelar</button>
+  </div>
+</header>
+
+<main class="mesa">
+  <section class="panel herramientas" aria-label="Herramientas">
+    <div class="pestanas" role="tablist">
+      <button class="pestana" role="tab" id="tab-anadir" aria-selected="true" aria-controls="p-anadir">Añadir</button>
+      <button class="pestana" role="tab" id="tab-generar" aria-selected="false" aria-controls="p-generar">Generar</button>
+      <button class="pestana" role="tab" id="tab-exportar" aria-selected="false" aria-controls="p-exportar">Imprimir</button>
+    </div>
+
+    <div class="panel-cuerpo" id="p-anadir" role="tabpanel">
+      <div class="campo-grupo">
+        <span class="etiqueta">Fotos</span>
+        <button class="btn primario ancho" id="btn-foto">Subir foto</button>
+        <button class="btn ancho" id="btn-meter" disabled title="Selecciona una forma o un texto primero">Meter foto en la forma seleccionada</button>
+        <p class="ayuda">Como un marco de Canva: la foto queda recortada por la forma. Arrástrala para encuadrarla. Si mueves la forma, la foto la acompaña.</p>
+        <input type="file" id="archivo" accept="image/png,image/jpeg,image/webp" multiple hidden>
+      </div>
+      <div class="campo-grupo">
+        <span class="etiqueta">Formas y marcos</span>
+        <div class="formas" id="formas"></div>
+      </div>
+      <div class="campo-grupo">
+        <span class="etiqueta">Texto</span>
+        <div class="rejilla-btn">
+          <button class="btn" id="btn-texto">Texto</button>
+          <button class="btn" id="btn-texto-grande">Título grande</button>
+        </div>
+      </div>
+      <div class="campo-grupo">
+        <label class="etiqueta" for="color-fondo">Fondo del diseño</label>
+        <div class="fila">
+          <input type="color" id="color-fondo" class="campo" value="#ffffff" style="width:56px">
+          <button class="btn mini" id="quitar-fondo">Sin fondo</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-cuerpo" id="p-generar" role="tabpanel" hidden>
+      <div class="campo-grupo">
+        <label class="etiqueta" for="encargo">¿Qué necesitas?</label>
+        <textarea id="encargo" class="campo" rows="3">Chapas para el cumpleaños de Lucía, 6 años, temática de unicornios y arcoíris</textarea>
+      </div>
+      <div class="rejilla-btn">
+        <button class="btn primario" id="gen-frases">Frases</button>
+        <button class="btn" id="gen-ilustracion">Ilustración</button>
+      </div>
+      <div class="campo-grupo">
+        <label class="etiqueta" for="tipo-ilustracion">Tipo de ilustración</label>
+        <select id="tipo-ilustracion" class="campo">
+          <option value="ilustracion">Dibujo central</option>
+          <option value="patron">Patrón de fondo</option>
+          <option value="marco">Marco decorativo</option>
+        </select>
+      </div>
+      <button class="btn mini" id="gen-parar" hidden>Parar</button>
+      <div class="estado" id="gen-estado" hidden></div>
+      <div class="chips" id="frases"></div>
+      <p class="ayuda" id="gen-nota">Claude escribe las frases y dibuja ilustraciones vectoriales. Pulsa una frase para ponerla en el diseño.</p>
+    </div>
+
+    <div class="panel-cuerpo" id="p-exportar" role="tabpanel" hidden>
+      <div id="exp-hoja">
+        <div class="campo-grupo">
+          <span class="etiqueta">Hoja de impresión</span>
+          <p class="ayuda" id="exp-explica"></p>
+        </div>
+        <div class="dos" id="exp-ajustes-chapa">
+          <div class="campo-grupo">
+            <label class="etiqueta" for="hoja">Hoja</label>
+            <select id="hoja" class="campo"><option>A4</option><option>A3</option></select>
+          </div>
+          <div class="campo-grupo">
+            <span class="etiqueta">Por hoja</span>
+            <span class="dato" id="por-hoja" style="padding-top:8px">–</span>
+          </div>
+          <div class="campo-grupo">
+            <label class="etiqueta" for="margen">Margen mm</label>
+            <input id="margen" class="campo dato" type="number" min="0" max="30" step="0.5" value="5">
+          </div>
+          <div class="campo-grupo">
+            <label class="etiqueta" for="separacion">Separación mm</label>
+            <input id="separacion" class="campo dato" type="number" min="0" max="20" step="0.5" value="2">
+          </div>
+        </div>
+        <label class="fila" id="op-corte"><input type="checkbox" id="linea-corte" checked> Línea de corte</label>
+        <label class="fila" id="op-espejo"><input type="checkbox" id="espejo"> Imprimir en espejo (sublimación)</label>
+        <div class="rejilla-btn">
+          <button class="btn" id="anadir-cola">Añadir a la hoja</button>
+          <button class="btn" id="llenar-hoja">Hoja llena de este</button>
+        </div>
+        <ul class="cola" id="cola"></ul>
+        <button class="btn primario ancho" id="descargar-pdf">Descargar PDF</button>
+      </div>
+      <div class="campo-grupo">
+        <span class="etiqueta">Solo este diseño</span>
+        <button class="btn ancho" id="descargar-png">Descargar PNG</button>
+      </div>
+      <div class="estado" id="exp-estado" hidden></div>
+    </div>
+  </section>
+
+  <section class="lienzo-zona" aria-label="Lienzo">
+    <div class="aviso-ejemplo" id="aviso-ejemplo" hidden>
+      <span>Diseño de ejemplo: la palabra <b>HOLA</b> recorta un degradado, como una máscara de recorte de Photoshop.</span>
+      <button class="btn mini" id="cerrar-ejemplo">Empezar en blanco</button>
+    </div>
+    <div class="lienzo-marco" id="marco"><canvas id="lienzo"></canvas></div>
+    <div class="lienzo-pie">
+      <div class="leyenda" id="leyenda"></div>
+      <label class="fila" style="font-size:13px"><input type="checkbox" id="ver-guias" checked> Guías</label>
+    </div>
+  </section>
+
+  <aside class="capas">
+    <section class="panel" aria-label="Capas">
+      <div class="panel-cab">
+        <h2>Capas</h2>
+        <span class="ayuda">arriba = delante</span>
+      </div>
+      <ul class="lista-capas" id="lista-capas"></ul>
+    </section>
+    <section class="panel" aria-label="Propiedades">
+      <div class="panel-cab"><h2 id="prop-titulo">Propiedades</h2></div>
+      <div class="panel-cuerpo" id="propiedades"><p class="vacio">Selecciona algo en el lienzo o en la lista de capas.</p></div>
+    </section>
+  </aside>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(() => {
+"use strict";
+
+/* ---------- Productos (unidades de lienzo: 10 por milímetro) ---------- */
+const U = 10;
+const PX300 = 300 / 25.4 / U; // multiplicador para exportar a 300 ppp
+const PRODUCTOS = {
+  chapa: { nombre: "Chapa 58 mm", ancho: 700, alto: 700, forma: "circulo", mm: true, hoja: "chapas",
+    leyenda: [["#1b1e27", "Corte 70 mm"], ["#e6007e", "Cara visible 58 mm"], ["#0096d6", "Zona segura 50 mm"]] },
+  taza: { nombre: "Taza 20 × 9,5 cm", ancho: 2000, alto: 950, forma: "rect", mm: true, hoja: "taza",
+    leyenda: [["#0096d6", "Margen seguro 5 mm"], ["#e6007e", "Centro (lado contrario al asa)"]] },
+  cartel: { nombre: "Cartel A4", ancho: 2100, alto: 2970, forma: "rect", mm: true, hoja: "cartel",
+    leyenda: [["#0096d6", "Margen seguro 5 mm"]] },
+  post: { nombre: "Publicación 1080 × 1080", ancho: 1080, alto: 1080, forma: "rect", mm: false, hoja: null,
+    leyenda: [["#0096d6", "Zona segura"]] },
+};
+const FUENTES = ["Anton", "Bebas Neue", "Pacifico", "Lobster", "Fredoka", "Montserrat", "Caveat", "IBM Plex Sans"];
+const FORMAS = {
+  circulo: { nombre: "Círculo", d: "M 50 0 C 77.6 0 100 22.4 100 50 C 100 77.6 77.6 100 50 100 C 22.4 100 0 77.6 0 50 C 0 22.4 22.4 0 50 0 Z" },
+  corazon: { nombre: "Corazón", d: "M 50 25 C 52 12 60 2 74 2 C 90 2 100 14 98 32 C 96 52 72 70 50 96 C 28 70 4 52 2 32 C 0 14 10 2 26 2 C 40 2 48 12 50 25 Z" },
+  estrella: { nombre: "Estrella", d: "M 50 2 L 61.8 36.2 L 98 36.9 L 69.1 58.6 L 79.4 93.1 L 50 72.5 L 20.6 93.1 L 30.9 58.6 L 2 36.9 L 38.2 36.2 Z" },
+  redondeado: { nombre: "Rectángulo", d: "M 14 0 L 86 0 C 94 0 100 6 100 14 L 100 86 C 100 94 94 100 86 100 L 14 100 C 6 100 0 94 0 86 L 0 14 C 0 6 6 0 14 0 Z" },
+  hexagono: { nombre: "Hexágono", d: "M 50 0 L 93.3 25 L 93.3 75 L 50 100 L 6.7 75 L 6.7 25 Z" },
+};
+
+/* ---------- Estado ---------- */
+const $ = (id) => document.getElementById(id);
+let productoId = "chapa";
+let P = PRODUCTOS[productoId];
+let zoom = 1;
+let exportando = false;
+let cargando = false;
+let historia = [];
+let futuro = [];
+let cola = [];
+let contador = 1;
+let sample = null;
+let control = null;
+let downloads = null;
+const HOJAS = { A4: [210, 297], A3: [297, 420] };
+const almacen = {
+  leer(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  guardar(k, v) { try { localStorage.setItem(k, v); } catch { /* sin espacio: se ignora */ } },
+};
+
+const canvas = new fabric.Canvas("lienzo", {
+  preserveObjectStacking: true, backgroundColor: null, selectionColor: "rgba(209,0,111,0.08)",
+  selectionBorderColor: "#d1006f", controlsAboveOverlay: true,
+});
+fabric.Object.prototype.set({ transparentCorners: false, cornerColor: "#ffffff", cornerStrokeColor: "#d1006f", borderColor: "#d1006f", cornerSize: 11, cornerStyle: "circle" });
+
+const objetos = () => canvas.getObjects();
+const datos = (o) => (o.data = o.data || {});
+const nombre = (o) => datos(o).nombre || o.type;
+
+/* ---------- Producto y tamaño del lienzo ---------- */
+function prepararProducto() {
+  P = PRODUCTOS[productoId];
+  canvas.clipPath = P.forma === "circulo"
+    ? new fabric.Circle({ radius: P.ancho / 2, left: 0, top: 0 })
+    : new fabric.Rect({ width: P.ancho, height: P.alto, left: 0, top: 0 });
+  const fondo = objetos().find((o) => datos(o).fondo);
+  if (fondo) fondo.set({ width: P.ancho, height: P.alto, left: 0, top: 0 });
+  $("leyenda").innerHTML = P.leyenda.map(([c, t]) => `<span><i style="border-color:${c}"></i>${t}</span>`).join("");
+  ajustarTamano();
+  pintarExportar();
+}
+
+function ajustarTamano() {
+  const marco = $("marco");
+  const anchoDisp = Math.max(200, marco.clientWidth - 40);
+  const altoDisp = Math.max(240, Math.min(window.innerHeight * 0.72, 760));
+  zoom = Math.min(anchoDisp / P.ancho, altoDisp / P.alto);
+  canvas.setDimensions({ width: Math.round(P.ancho * zoom), height: Math.round(P.alto * zoom) });
+  canvas.setZoom(zoom);
+  canvas.requestRenderAll();
+}
+window.addEventListener("resize", () => ajustarTamano());
+
+/* ---------- Guías (no se imprimen) ---------- */
+canvas.on("after:render", (opt) => {
+  if (exportando || !$("ver-guias").checked) return;
+  const ctx = (opt && opt.ctx) || canvas.getContext();
+  const v = canvas.viewportTransform;
+  ctx.save();
+  ctx.transform(v[0], v[1], v[2], v[3], v[4], v[5]);
+  ctx.lineWidth = 1.5 / zoom;
+  const circulo = (r, color, discontinua) => {
+    ctx.beginPath(); ctx.setLineDash(discontinua ? [10 / zoom, 6 / zoom] : []);
+    ctx.strokeStyle = color; ctx.arc(P.ancho / 2, P.alto / 2, r, 0, Math.PI * 2); ctx.stroke();
+  };
+  const marcoSeguro = (m) => { ctx.setLineDash([]); ctx.strokeStyle = "#0096d6"; ctx.strokeRect(m, m, P.ancho - 2 * m, P.alto - 2 * m); };
+  if (productoId === "chapa") { circulo(349, "#1b1e27", true); circulo(290, "#e6007e"); circulo(250, "#0096d6"); }
+  if (productoId === "taza") {
+    marcoSeguro(50);
+    ctx.strokeStyle = "#e6007e"; ctx.setLineDash([10 / zoom, 6 / zoom]);
+    ctx.beginPath(); ctx.moveTo(P.ancho / 2, 0); ctx.lineTo(P.ancho / 2, P.alto); ctx.stroke();
+  }
+  if (productoId === "cartel") marcoSeguro(50);
+  if (productoId === "post") marcoSeguro(54);
+  ctx.restore();
+});
+$("ver-guias").addEventListener("change", () => canvas.requestRenderAll());
+
+/* ---------- Máscaras de recorte (estilo Photoshop) ----------
+   Una capa marcada como "recortada" solo se ve dentro de la primera capa
+   normal que tenga debajo (la base). Varias capas seguidas pueden recortarse
+   a la misma base. */
+function baseDe(obj) {
+  const lista = objetos();
+  for (let i = lista.indexOf(obj) - 1; i >= 0; i--) {
+    if (!datos(lista[i]).recortada) return lista[i];
+  }
+  return null;
+}
+function recortadasSobre(base) {
+  const lista = objetos();
+  const res = [];
+  for (let i = lista.indexOf(base) + 1; i < lista.length && datos(lista[i]).recortada; i++) res.push(lista[i]);
+  return res;
+}
+function aplicarRecortes() {
+  for (const o of objetos()) {
+    if (!datos(o).recortada) { o.clipPath = null; continue; }
+    const base = baseDe(o);
+    if (!base) { datos(o).recortada = false; o.clipPath = null; continue; }
+    base.clone((copia) => {
+      copia.set({ absolutePositioned: true, visible: true, opacity: 1, clipPath: null, shadow: null });
+      if (copia.type === "textbox" || copia.type === "i-text" || copia.type === "text") copia.set({ fill: "#000" });
+      o.clipPath = copia;
+      o.dirty = true;
+      canvas.requestRenderAll();
+    }, ["data"]);
+  }
+  canvas.requestRenderAll();
+}
+
+/* Al mover una base, sus capas recortadas la acompañan (como un marco). */
+canvas.on("mouse:down", (e) => { if (e.target) e.target.__ultimo = { left: e.target.left, top: e.target.top }; });
+canvas.on("object:moving", (e) => {
+  const t = e.target;
+  if (!t || t.type === "activeSelection" || datos(t).recortada) return;
+  const prev = t.__ultimo || { left: t.left, top: t.top };
+  const dx = t.left - prev.left, dy = t.top - prev.top;
+  for (const hijo of recortadasSobre(t)) {
+    hijo.set({ left: hijo.left + dx, top: hijo.top + dy }); hijo.setCoords();
+    if (hijo.clipPath) hijo.clipPath.set({ left: hijo.clipPath.left + dx, top: hijo.clipPath.top + dy });
+  }
+  t.__ultimo = { left: t.left, top: t.top };
+});
+canvas.on("object:modified", (e) => {
+  if (e.target && e.target.type === "activeSelection") canvas.discardActiveObject();
+  aplicarRecortes(); cambio();
+});
+
+/* ---------- Historia y guardado ---------- */
+const PROPS = ["data", "selectable", "evented"];
+function instantanea() { return JSON.stringify({ producto: productoId, lienzo: canvas.toJSON(PROPS) }); }
+let temporizador = null;
+function cambio() {
+  if (cargando) return;
+  clearTimeout(temporizador);
+  temporizador = setTimeout(() => {
+    const s = instantanea();
+    if (historia[historia.length - 1] !== s) { historia.push(s); if (historia.length > 30) historia.shift(); futuro = []; }
+    almacen.guardar("taller-recortes-borrador", s);
+    pintarBotonesHistoria();
+  }, 200);
+  pintarCapas(); pintarPropiedades();
+}
+function cargar(s, alTerminar) {
+  const d = JSON.parse(s);
+  cargando = true;
+  productoId = PRODUCTOS[d.producto] ? d.producto : "chapa";
+  $("producto").value = productoId;
+  canvas.loadFromJSON(d.lienzo, () => {
+    canvas.clipPath = null;
+    prepararProducto();
+    aplicarRecortes();
+    cargando = false;
+    pintarCapas(); pintarPropiedades(); pintarBotonesHistoria();
+    if (alTerminar) alTerminar();
+  });
+}
+function pintarBotonesHistoria() { $("deshacer").disabled = historia.length < 2; $("rehacer").disabled = futuro.length === 0; }
+$("deshacer").onclick = () => { if (historia.length < 2) return; futuro.push(historia.pop()); cargar(historia[historia.length - 1]); };
+$("rehacer").onclick = () => { if (!futuro.length) return; const s = futuro.pop(); historia.push(s); cargar(s); };
+
+["object:added", "object:removed"].forEach((ev) => canvas.on(ev, () => cambio()));
+canvas.on("selection:created", () => { pintarCapas(); pintarPropiedades(); });
+canvas.on("selection:updated", () => { pintarCapas(); pintarPropiedades(); });
+canvas.on("selection:cleared", () => { pintarCapas(); pintarPropiedades(); });
+canvas.on("text:changed", () => { aplicarRecortes(); cambio(); });
+
+/* ---------- Añadir elementos ---------- */
+function centrar(obj) { obj.setPositionByOrigin(new fabric.Point(P.ancho / 2, P.alto / 2), "center", "center"); obj.setCoords(); }
+function anadir(obj, nombreCapa, indice) {
+  datos(obj).nombre = nombreCapa;
+  if (typeof indice === "number") canvas.insertAt(obj, indice); else canvas.add(obj);
+  canvas.setActiveObject(obj);
+  aplicarRecortes();
+  canvas.requestRenderAll();
+}
+const ladoMenor = () => Math.min(P.ancho, P.alto);
+
+function anadirForma(clave) {
+  const f = FORMAS[clave];
+  const forma = new fabric.Path(f.d, { fill: "#c9cdd8", strokeWidth: 0 });
+  const lado = ladoMenor() * 0.6;
+  forma.scale(lado / 100);
+  centrar(forma);
+  anadir(forma, `${f.nombre} ${contador++}`);
+}
+
+async function anadirTexto(texto = "Escribe aquí", opciones = {}) {
+  const fuente = opciones.fuente && FUENTES.includes(opciones.fuente) ? opciones.fuente : "Fredoka";
+  try { await document.fonts.load(`40px "${fuente}"`); } catch { /* usa la de reserva */ }
+  const t = new fabric.Textbox(texto, {
+    width: P.ancho * 0.8, fontFamily: fuente, fontSize: opciones.tamano || ladoMenor() * 0.11,
+    fill: opciones.color || "#1b1e27", textAlign: "center", fontWeight: opciones.negrita ? 700 : 500,
+  });
+  centrar(t);
+  anadir(t, texto.slice(0, 24));
+  return t;
+}
+
+function leerArchivo(archivo) {
+  return new Promise((ok, mal) => {
+    const r = new FileReader();
+    r.onload = () => ok(r.result); r.onerror = () => mal(r.error);
+    r.readAsDataURL(archivo);
+  });
+}
+function cargarImagen(url) { return new Promise((ok) => fabric.Image.fromURL(url, ok)); }
+
+/* Mete una foto recortada dentro de la forma "base". */
+async function meterFoto(url, base, nombreFoto) {
+  const img = await cargarImagen(url);
+  const caja = base.getBoundingRect(true, true);
+  const escala = Math.max(caja.width / img.width, caja.height / img.height);
+  img.scale(escala);
+  img.setPositionByOrigin(new fabric.Point(caja.left + caja.width / 2, caja.top + caja.height / 2), "center", "center");
+  datos(img).recortada = true;
+  const lista = objetos();
+  let indice = lista.indexOf(base) + 1;
+  while (indice < lista.length && datos(lista[indice]).recortada) indice++;
+  anadir(img, nombreFoto, indice);
+}
+
+async function anadirFotos(archivos, enForma) {
+  for (const archivo of archivos) {
+    if (!/^image\/(png|jpeg|webp)$/.test(archivo.type)) continue;
+    const url = await leerArchivo(archivo);
+    const nombreFoto = (archivo.name || "Foto").replace(/\.[^.]+$/, "").slice(0, 24) || "Foto";
+    if (enForma) { await meterFoto(url, enForma, nombreFoto); continue; }
+    const img = await cargarImagen(url);
+    const escala = Math.max(P.ancho / img.width, P.alto / img.height);
+    img.scale(escala);
+    centrar(img);
+    anadir(img, nombreFoto);
+  }
+}
+
+let modoArchivo = null;
+let reemplazo = null;
+$("btn-foto").onclick = () => { modoArchivo = null; reemplazo = null; $("archivo").multiple = true; $("archivo").click(); };
+$("btn-meter").onclick = () => {
+  const sel = canvas.getActiveObject();
+  if (!sel) return;
+  modoArchivo = datos(sel).recortada ? baseDe(sel) : sel;
+  reemplazo = null;
+  $("archivo").multiple = false; $("archivo").click();
+};
+$("archivo").onchange = async (e) => {
+  const archivos = [...e.target.files];
+  e.target.value = "";
+  await anadirFotos(archivos, modoArchivo);
+  if (reemplazo && archivos.length) { canvas.remove(reemplazo); aplicarRecortes(); }
+  modoArchivo = null; reemplazo = null;
+};
+$("btn-texto").onclick = () => anadirTexto();
+$("btn-texto-grande").onclick = () => anadirTexto("TÍTULO", { fuente: "Anton", tamano: ladoMenor() * 0.24 });
+$("formas").innerHTML = Object.entries(FORMAS).map(([k, f]) =>
+  `<button class="btn forma-btn" data-forma="${k}" title="${f.nombre}" aria-label="${f.nombre}"><svg viewBox="-4 -4 108 108"><path d="${f.d}"/></svg></button>`).join("");
+$("formas").addEventListener("click", (e) => { const b = e.target.closest("[data-forma]"); if (b) anadirForma(b.dataset.forma); });
+
+function ponerFondo(color) {
+  let fondo = objetos().find((o) => datos(o).fondo);
+  if (!color) { if (fondo) canvas.remove(fondo); return; }
+  if (!fondo) {
+    fondo = new fabric.Rect({ left: 0, top: 0, width: P.ancho, height: P.alto, selectable: false, evented: false });
+    datos(fondo).fondo = true; datos(fondo).nombre = "Fondo";
+    canvas.insertAt(fondo, 0);
+  }
+  fondo.set({ fill: color });
+  aplicarRecortes(); canvas.requestRenderAll(); cambio();
+}
+$("color-fondo").addEventListener("input", (e) => ponerFondo(e.target.value));
+$("quitar-fondo").onclick = () => ponerFondo(null);
+
+/* Soltar o pegar fotos sobre el lienzo */
+const marco = $("marco");
+marco.addEventListener("dragover", (e) => { e.preventDefault(); marco.classList.add("soltando"); });
+marco.addEventListener("dragleave", () => marco.classList.remove("soltando"));
+marco.addEventListener("drop", (e) => {
+  e.preventDefault(); marco.classList.remove("soltando");
+  const sel = canvas.getActiveObject();
+  const destino = sel && sel.type !== "image" && !datos(sel).fondo ? (datos(sel).recortada ? baseDe(sel) : sel) : null;
+  anadirFotos([...e.dataTransfer.files], destino);
+});
+document.addEventListener("paste", (e) => {
+  if (e.target.closest && e.target.closest("input, textarea")) return;
+  const archivos = [...(e.clipboardData?.files || [])];
+  if (archivos.length) anadirFotos(archivos, null);
+});
+
+/* ---------- Capas ---------- */
+const ICONOS = {
+  ojo: '<svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
+  recorte: '<svg viewBox="0 0 24 24"><path d="M6 4v10a4 4 0 0 0 4 4h10"/><path d="M16 14l4 4-4 4"/></svg>',
+  subir: '<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>',
+  bajar: '<svg viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>',
+  borrar: '<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>',
+};
+const TIPOS = { image: "FOTO", textbox: "Aa", path: "◆", group: "SVG", rect: "▭", circle: "●" };
+
+function pintarCapas() {
+  const lista = objetos();
+  const activo = canvas.getActiveObject();
+  const sel = new Set(activo ? (activo.type === "activeSelection" ? activo.getObjects() : [activo]) : []);
+  if (!lista.length) { $("lista-capas").innerHTML = '<li class="vacio">Todavía no hay capas. Sube una foto o añade una forma.</li>'; return; }
+  $("lista-capas").innerHTML = lista.map((o, i) => ({ o, i })).reverse().map(({ o, i }) => {
+    const d = datos(o);
+    const clases = ["capa", sel.has(o) ? "sel" : "", d.recortada ? "recortada" : "", o.visible === false ? "oculta" : ""].join(" ");
+    const puedeRecortar = i > 0 && !d.fondo;
+    return `<li class="${clases}" data-i="${i}">
+      <span class="capa-tipo">${TIPOS[o.type] || "·"}</span>
+      <span class="capa-nombre" title="${escapar(nombre(o))}">${escapar(nombre(o))}</span>
+      <span class="capa-acc">
+        ${puedeRecortar ? `<button class="icono-btn ${d.recortada ? "on" : ""}" data-acc="recorte" title="${d.recortada ? "Quitar máscara de recorte" : "Recortar a la capa de abajo"}" aria-label="Máscara de recorte">${ICONOS.recorte}</button>` : ""}
+        <button class="icono-btn ${o.visible === false ? "" : "on"}" data-acc="ojo" title="Mostrar u ocultar" aria-label="Mostrar u ocultar">${ICONOS.ojo}</button>
+      </span></li>`;
+  }).join("");
+}
+function escapar(s) { return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
+
+$("lista-capas").addEventListener("click", (e) => {
+  const li = e.target.closest("[data-i]");
+  if (!li) return;
+  const o = objetos()[Number(li.dataset.i)];
+  if (!o) return;
+  const acc = e.target.closest("[data-acc]")?.dataset.acc;
+  if (acc === "ojo") { o.visible = o.visible === false; canvas.requestRenderAll(); cambio(); return; }
+  if (acc === "recorte") { datos(o).recortada = !datos(o).recortada; if (!datos(o).recortada) o.clipPath = null; aplicarRecortes(); cambio(); return; }
+  if (o.selectable === false) return;
+  canvas.setActiveObject(o); canvas.requestRenderAll();
+});
+
+/* ---------- Propiedades ---------- */
+function pintarPropiedades() {
+  const o = canvas.getActiveObject();
+  const cont = $("propiedades");
+  const meter = $("btn-meter");
+  meter.disabled = !o || o.type === "image" || o.type === "activeSelection";
+  if (!o) { $("prop-titulo").textContent = "Propiedades"; cont.innerHTML = '<p class="vacio">Selecciona algo en el lienzo o en la lista de capas.</p>'; return; }
+  if (o.type === "activeSelection") { $("prop-titulo").textContent = "Varios elementos"; cont.innerHTML = '<button class="btn peligro" data-p="borrar">Borrar selección</button>'; return; }
+  const d = datos(o);
+  $("prop-titulo").textContent = nombre(o);
+  const esTexto = o.type === "textbox";
+  const colorActual = typeof o.fill === "string" && /^#[0-9a-f]{6}$/i.test(o.fill) ? o.fill : "#1b1e27";
+  let html = `<div class="campo-grupo"><label class="etiqueta" for="p-nombre">Nombre de la capa</label><input id="p-nombre" class="campo" value="${escapar(nombre(o))}"></div>`;
+  if (esTexto) {
+    html += `<div class="campo-grupo"><label class="etiqueta" for="p-texto">Texto</label><textarea id="p-texto" class="campo" rows="2">${escapar(o.text)}</textarea></div>
+      <div class="dos"><div class="campo-grupo"><label class="etiqueta" for="p-fuente">Fuente</label><select id="p-fuente" class="campo">${FUENTES.map((f) => `<option ${f === o.fontFamily ? "selected" : ""}>${f}</option>`).join("")}</select></div>
+      <div class="campo-grupo"><label class="etiqueta" for="p-tam">Tamaño</label><input id="p-tam" class="campo dato" type="number" min="10" max="2000" value="${Math.round(o.fontSize)}"></div></div>`;
+  }
+  if (o.type !== "image") {
+    html += `<div class="campo-grupo"><label class="etiqueta" for="p-color">Color</label><input id="p-color" type="color" class="campo" value="${colorActual}" ${o.type === "group" ? "disabled" : ""}></div>`;
+  }
+  html += `<div class="campo-grupo"><label class="etiqueta" for="p-opac">Opacidad <span class="dato" id="p-opac-v">${Math.round((o.opacity ?? 1) * 100)} %</span></label><input id="p-opac" type="range" min="0" max="100" value="${Math.round((o.opacity ?? 1) * 100)}"></div>`;
+  if (d.recortada && o.type === "image") html += `<button class="btn" data-p="encajar">Encajar en el marco</button>`;
+  if (d.recortada && o.type === "image") html += `<button class="btn" data-p="cambiar">Cambiar foto</button>`;
+  html += `<div class="rejilla-btn">
+      <button class="btn" data-p="subir">Traer adelante</button><button class="btn" data-p="bajar">Enviar atrás</button>
+      <button class="btn" data-p="espejo">Voltear</button><button class="btn" data-p="duplicar">Duplicar</button>
+    </div>
+    <button class="btn peligro" data-p="borrar">Borrar capa</button>`;
+  cont.innerHTML = html;
+
+  $("p-nombre").oninput = (e) => { d.nombre = e.target.value || o.type; pintarCapas(); cambio(); };
+  if (esTexto) {
+    $("p-texto").oninput = (e) => { o.set("text", e.target.value); canvas.requestRenderAll(); aplicarRecortes(); cambio(); };
+    $("p-fuente").onchange = async (e) => { try { await document.fonts.load(`40px "${e.target.value}"`); } catch {} o.set("fontFamily", e.target.value); canvas.requestRenderAll(); aplicarRecortes(); cambio(); };
+    $("p-tam").onchange = (e) => { o.set("fontSize", Math.max(10, Number(e.target.value) || 10)); canvas.requestRenderAll(); aplicarRecortes(); cambio(); };
+  }
+  if ($("p-color")) $("p-color").oninput = (e) => { o.set("fill", e.target.value); canvas.requestRenderAll(); aplicarRecortes(); cambio(); };
+  $("p-opac").oninput = (e) => { o.set("opacity", Number(e.target.value) / 100); $("p-opac-v").textContent = `${e.target.value} %`; canvas.requestRenderAll(); cambio(); };
+}
+$("propiedades").addEventListener("click", (e) => {
+  const acc = e.target.closest("[data-p]")?.dataset.p;
+  const o = canvas.getActiveObject();
+  if (!acc || !o) return;
+  if (acc === "borrar") borrarSeleccion();
+  if (acc === "subir") { canvas.bringForward(o); aplicarRecortes(); cambio(); }
+  if (acc === "bajar") { canvas.sendBackwards(o); aplicarRecortes(); cambio(); }
+  if (acc === "espejo") { o.set("flipX", !o.flipX); canvas.requestRenderAll(); aplicarRecortes(); cambio(); }
+  if (acc === "duplicar") o.clone((c) => { c.set({ left: o.left + 30, top: o.top + 30 }); datos(c).nombre = `${nombre(o)} copia`; anadir(c, datos(c).nombre, objetos().indexOf(o) + 1); }, PROPS);
+  if (acc === "encajar") {
+    const base = baseDe(o); if (!base) return;
+    const caja = base.getBoundingRect(true, true);
+    o.scale(Math.max(caja.width / o.width, caja.height / o.height));
+    o.setPositionByOrigin(new fabric.Point(caja.left + caja.width / 2, caja.top + caja.height / 2), "center", "center");
+    o.setCoords(); canvas.requestRenderAll(); cambio();
+  }
+  if (acc === "cambiar") {
+    modoArchivo = baseDe(o); reemplazo = o; $("archivo").multiple = false;
+    $("archivo").click();
+  }
+});
+function borrarSeleccion() {
+  const o = canvas.getActiveObject();
+  if (!o) return;
+  const lista = o.type === "activeSelection" ? o.getObjects() : [o];
+  canvas.discardActiveObject();
+  lista.forEach((x) => canvas.remove(x));
+  aplicarRecortes(); canvas.requestRenderAll();
+}
+document.addEventListener("keydown", (e) => {
+  const enCampo = e.target.closest && e.target.closest("input, textarea, select");
+  const editando = canvas.getActiveObject()?.isEditing;
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z" && !enCampo && !editando) { e.preventDefault(); (e.shiftKey ? $("rehacer") : $("deshacer")).click(); }
+  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "y" && !enCampo && !editando) { e.preventDefault(); $("rehacer").click(); }
+  if ((e.key === "Delete" || e.key === "Backspace") && !enCampo && !editando && canvas.getActiveObject()) { e.preventDefault(); borrarSeleccion(); }
+});
+
+/* ---------- Pestañas ---------- */
+const PESTANAS = [["tab-anadir", "p-anadir"], ["tab-generar", "p-generar"], ["tab-exportar", "p-exportar"]];
+PESTANAS.forEach(([t, p]) => $(t).addEventListener("click", () => {
+  PESTANAS.forEach(([t2, p2]) => { $(t2).setAttribute("aria-selected", String(t2 === t)); $(p2).hidden = p2 !== p; });
+  almacen.guardar("taller-recortes-pestana", t);
+}));
+
+/* ---------- Producto, nuevo y ejemplo ---------- */
+$("producto").innerHTML = Object.entries(PRODUCTOS).map(([k, p]) => `<option value="${k}">${p.nombre}</option>`).join("");
+$("producto").onchange = (e) => { productoId = e.target.value; cola = []; pintarCola(); prepararProducto(); aplicarRecortes(); cambio(); };
+$("nuevo").onclick = () => { $("confirmar-nuevo").hidden = false; };
+$("nuevo-no").onclick = () => { $("confirmar-nuevo").hidden = true; };
+$("nuevo-si").onclick = () => { $("confirmar-nuevo").hidden = true; vaciar(); };
+$("cerrar-ejemplo").onclick = () => vaciar();
+function vaciar() {
+  canvas.discardActiveObject();
+  objetos().slice().forEach((o) => canvas.remove(o));
+  $("aviso-ejemplo").hidden = true;
+  ponerFondo("#ffffff");
+  $("color-fondo").value = "#ffffff";
+}
+
+async function ejemplo() {
+  cargando = true;
+  ponerFondo("#ffd23f");
+  $("color-fondo").value = "#ffd23f";
+  try { await document.fonts.load('200px "Anton"'); } catch {}
+  const palabra = new fabric.Textbox("HOLA", { width: 640, fontFamily: "Anton", fontSize: 270, textAlign: "center", fill: "#1b1e27" });
+  centrar(palabra); palabra.top -= 30; palabra.setCoords();
+  datos(palabra).nombre = "Ejemplo: HOLA (base)";
+  const degradado = new fabric.Rect({ width: 700, height: 380, left: 0, top: 150 });
+  degradado.set("fill", new fabric.Gradient({ type: "linear", gradientUnits: "percentage", coords: { x1: 0, y1: 0, x2: 1, y2: 1 },
+    colorStops: [{ offset: 0, color: "#d1006f" }, { offset: 0.5, color: "#ff7a00" }, { offset: 1, color: "#3a3dff" }] }));
+  datos(degradado).nombre = "Ejemplo: degradado"; datos(degradado).recortada = true;
+  const pie = new fabric.Textbox("¡Feliz día!", { width: 420, fontFamily: "Pacifico", fontSize: 58, textAlign: "center", fill: "#1b1e27" });
+  try { await document.fonts.load('58px "Pacifico"'); } catch {}
+  centrar(pie); pie.top = 470; pie.setCoords(); datos(pie).nombre = "Ejemplo: ¡Feliz día!";
+  canvas.add(palabra, degradado, pie);
+  aplicarRecortes();
+  $("aviso-ejemplo").hidden = false;
+  cargando = false;
+  cambio();
+}
+
+/* ---------- Claude: frases e ilustraciones ---------- */
+(async () => {
+  sample = window.claude?.use ? await window.claude.use("sample") : null;
+  if (!sample) {
+    $("gen-frases").disabled = true; $("gen-ilustracion").disabled = true;
+    $("gen-nota").textContent = "La generación con Claude solo funciona al abrir esta página dentro de Claude.";
+  }
+})();
+function estadoGen(texto, tipo) { const e = $("gen-estado"); e.hidden = !texto; e.textContent = texto || ""; e.className = "estado" + (tipo ? " " + tipo : ""); }
+function mensajeError(e) {
+  const c = e && e.code;
+  if (c === "cancelled") return "";
+  if (c === "not_granted" || c === "sampling_disabled") return "No hay permiso para usar Claude desde esta página.";
+  if (c === "rate_limited") return "Demasiadas peticiones seguidas. Espera un momento y vuelve a probar.";
+  if (c === "refused") return "Claude no ha querido hacer ese encargo. Prueba a describirlo de otra forma.";
+  if (c === "invalid_json") return "La respuesta no tenía el formato esperado. Vuelve a probar.";
+  return "No se ha podido generar. Vuelve a probar.";
+}
+function ocupado(si) {
+  $("gen-frases").disabled = si || !sample; $("gen-ilustracion").disabled = si || !sample; $("gen-parar").hidden = !si;
+}
+$("gen-parar").onclick = () => control?.abort();
+
+$("gen-frases").onclick = async () => {
+  const encargo = $("encargo").value.trim();
+  if (!encargo) { estadoGen("Escribe primero qué necesitas.", "error"); return; }
+  control = new AbortController(); ocupado(true); estadoGen("Pensando frases…");
+  try {
+    const lista = await sample.json(
+      `Eres redactor creativo de una pequeña tienda en España que personaliza ${P.nombre.toLowerCase()} y otros productos impresos.\n` +
+      `Encargo del cliente: ${encargo}\n\n` +
+      `Propón 6 textos cortos y distintos para imprimir en el producto (máximo 40 caracteres cada uno, en castellano, con gracia y sin faltas).\n` +
+      `Responde SOLO con un array JSON de 6 objetos con esta forma: {"texto": "...", "fuente": una de ${JSON.stringify(FUENTES)}, "color": "#rrggbb"}.`,
+      { signal: control.signal, cache: false, modelTier: "default" });
+    const frases = Array.isArray(lista) ? lista.filter((f) => f && typeof f.texto === "string").slice(0, 8) : [];
+    if (!frases.length) throw { code: "invalid_json" };
+    $("frases").innerHTML = frases.map((f, i) =>
+      `<button class="chip" data-f="${i}"><span style="font-family:'${FUENTES.includes(f.fuente) ? f.fuente : "Fredoka"}'">${escapar(f.texto)}</span><small>${escapar(f.fuente || "")}</small></button>`).join("");
+    $("frases").onclick = (e) => {
+      const b = e.target.closest("[data-f]"); if (!b) return;
+      const f = frases[Number(b.dataset.f)];
+      const color = /^#[0-9a-f]{6}$/i.test(f.color || "") ? f.color : "#1b1e27";
+      anadirTexto(f.texto.slice(0, 80), { fuente: f.fuente, color, tamano: ladoMenor() * 0.09 });
+    };
+    estadoGen("");
+  } catch (e) { estadoGen(mensajeError(e), "error"); }
+  finally { ocupado(false); }
+};
+
+function limpiarSVG(texto) {
+  const m = texto.match(/<svg[\s\S]*<\/svg>/i);
+  if (!m) return null;
+  const doc = new DOMParser().parseFromString(m[0], "image/svg+xml");
+  if (doc.querySelector("parsererror")) return null;
+  doc.querySelectorAll("script, foreignObject, image, iframe, animate, animateTransform, animateMotion, set, style").forEach((n) => n.remove());
+  doc.querySelectorAll("*").forEach((n) => {
+    [...n.attributes].forEach((a) => {
+      const v = a.value.trim().toLowerCase();
+      if (/^on/i.test(a.name) || ((a.name === "href" || a.name === "xlink:href") && !v.startsWith("#"))) n.removeAttribute(a.name);
+    });
+  });
+  return new XMLSerializer().serializeToString(doc.documentElement);
+}
+
+$("gen-ilustracion").onclick = async () => {
+  const encargo = $("encargo").value.trim();
+  if (!encargo) { estadoGen("Escribe primero qué necesitas.", "error"); return; }
+  const tipo = $("tipo-ilustracion").value;
+  const forma = P.forma === "circulo" ? "circular (chapa redonda)" : `rectangular de proporción ${P.ancho}:${P.alto}`;
+  const pide = {
+    ilustracion: "un dibujo central bonito y reconocible, con fondo transparente",
+    patron: "un patrón decorativo que cubra todo el lienzo, pensado como fondo",
+    marco: "un marco decorativo alrededor del borde, con el centro vacío y transparente para poner una foto o un texto",
+  }[tipo];
+  const vb = P.forma === "circulo" ? "0 0 600 600" : `0 0 ${Math.round(600 * P.ancho / Math.max(P.ancho, P.alto))} ${Math.round(600 * P.alto / Math.max(P.ancho, P.alto))}`;
+  control = new AbortController(); ocupado(true); estadoGen("Dibujando… puede tardar un minuto.");
+  try {
+    const { text } = await sample(
+      `Dibuja ${pide} para un diseño ${forma} de una tienda que personaliza productos impresos.\n` +
+      `Tema: ${encargo}\n\n` +
+      `Reglas: responde SOLO con un SVG válido. Usa viewBox="${vb}". Estilo ilustración plana y alegre, colores sólidos (máximo 8), formas limpias. ` +
+      `Prohibido: texto, <text>, <image>, <script>, <style>, filtros, máscaras y enlaces externos. Máximo 80 elementos.`,
+      { signal: control.signal, cache: false, onText: () => estadoGen("Dibujando…") });
+    const svg = limpiarSVG(text);
+    if (!svg) throw { code: "invalid_json" };
+    await new Promise((ok) => fabric.loadSVGFromString(svg, (objs, opts) => {
+      const grupo = fabric.util.groupSVGElements(objs, opts);
+      const ancho = grupo.width * (grupo.scaleX || 1), alto = grupo.height * (grupo.scaleY || 1);
+      const factor = tipo === "ilustracion" ? 0.6 : 1;
+      grupo.scale(Math.min(P.ancho * factor / ancho, P.alto * factor / alto) * (grupo.scaleX || 1));
+      centrar(grupo);
+      const nombreG = { ilustracion: "Ilustración", patron: "Patrón", marco: "Marco" }[tipo];
+      const fondo = objetos().find((o) => datos(o).fondo);
+      anadir(grupo, `${nombreG} ${contador++}`, tipo === "patron" ? (fondo ? 1 : 0) : undefined);
+      ok();
+    }));
+    estadoGen("");
+  } catch (e) { estadoGen(mensajeError(e), "error"); }
+  finally { ocupado(false); }
+};
+
+/* ---------- Exportar ---------- */
+(async () => { downloads = window.claude?.use ? await window.claude.use("downloads") : null; pintarExportar(); })();
+
+function renderizarPNG() {
+  canvas.discardActiveObject();
+  exportando = true;
+  const mult = (P.mm ? PX300 : 1) / zoom;
+  const url = canvas.toDataURL({ format: "png", multiplier: mult, enableRetinaScaling: false });
+  exportando = false;
+  canvas.requestRenderAll();
+  return url;
+}
+function espejar(url) {
+  return new Promise((ok) => {
+    const img = new Image();
+    img.onload = () => {
+      const c = document.createElement("canvas"); c.width = img.width; c.height = img.height;
+      const ctx = c.getContext("2d"); ctx.translate(c.width, 0); ctx.scale(-1, 1); ctx.drawImage(img, 0, 0);
+      ok(c.toDataURL("image/png"));
+    };
+    img.src = url;
+  });
+}
+function dataUrlABlob(url) {
+  const [cab, b64] = url.split(",");
+  const bin = atob(b64); const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new Blob([bytes], { type: cab.match(/:(.*?);/)[1] });
+}
+function estadoExp(texto, tipo) { const e = $("exp-estado"); e.hidden = !texto; e.textContent = texto || ""; e.className = "estado" + (tipo ? " " + tipo : ""); }
+async function guardar(nombreArchivo, datosArchivo) {
+  if (!downloads) { estadoExp("Las descargas solo funcionan al abrir esta página dentro de Claude.", "error"); return; }
+  try { await downloads.save({ filename: nombreArchivo, data: datosArchivo }); estadoExp(`Descargado: ${nombreArchivo}`, "ok"); }
+  catch (e) { if (e?.code !== "declined") estadoExp("No se ha podido descargar el archivo.", "error"); else estadoExp(""); }
+}
+
+/* Cuántos círculos caben en la hoja: cuadrícula o tresbolillo, lo que meta más. */
+function calcularRejilla(anchoHoja, altoHoja, d, margen, sep) {
+  const EPS = 1e-6, paso = d + sep;
+  const cuadricula = () => {
+    const cols = Math.floor((anchoHoja - 2 * margen + sep + EPS) / paso), filas = Math.floor((altoHoja - 2 * margen + sep + EPS) / paso);
+    const r = []; for (let f = 0; f < filas; f++) for (let c = 0; c < cols; c++) r.push({ x: c * paso, y: f * paso }); return r;
+  };
+  const tresbolillo = (W, H) => {
+    const pasoFila = paso * Math.sqrt(3) / 2, utilW = W - 2 * margen, utilH = H - 2 * margen;
+    if (utilH + EPS < d) return [];
+    const filas = Math.floor((utilH - d + EPS) / pasoFila) + 1, r = [];
+    for (let f = 0; f < filas; f++) {
+      const des = f % 2 ? paso / 2 : 0, cols = Math.floor((utilW - des + sep + EPS) / paso);
+      for (let c = 0; c < cols; c++) r.push({ x: des + c * paso, y: f * pasoFila });
+    }
+    return r;
+  };
+  const opciones = [cuadricula(), tresbolillo(anchoHoja, altoHoja), tresbolillo(altoHoja, anchoHoja).map(({ x, y }) => ({ x: y, y: x }))];
+  const mejor = opciones.reduce((a, b) => (b.length > a.length ? b : a));
+  if (!mejor.length) return [];
+  const maxX = Math.max(...mejor.map((p) => p.x)) + d, maxY = Math.max(...mejor.map((p) => p.y)) + d;
+  const dx = (anchoHoja - maxX) / 2, dy = (altoHoja - maxY) / 2;
+  return mejor.map(({ x, y }) => ({ x: x + dx, y: y + dy }));
+}
+function posicionesChapa() {
+  const [w, h] = HOJAS[$("hoja").value];
+  return calcularRejilla(w, h, 70, Math.max(0, Number($("margen").value) || 0), Math.max(0, Number($("separacion").value) || 0));
+}
+
+function pintarExportar() {
+  const hoja = P.hoja;
+  $("exp-hoja").hidden = !hoja;
+  $("exp-ajustes-chapa").hidden = hoja !== "chapas";
+  $("op-corte").hidden = hoja !== "chapas";
+  $("op-espejo").hidden = hoja !== "taza";
+  $("llenar-hoja").hidden = hoja !== "chapas";
+  $("exp-explica").textContent = {
+    chapas: "Añade cada diseño con las copias que quieras. Se reparten en hojas con línea de corte, a tamaño real.",
+    taza: "Cada diseño ocupa una página de 20 × 9,5 cm a tamaño real.",
+    cartel: "Cada diseño ocupa una página A4.",
+  }[hoja] || "";
+  if (hoja === "chapas") $("por-hoja").textContent = `${posicionesChapa().length} chapas`;
+  const sinDescargas = !downloads;
+  ["descargar-pdf", "descargar-png", "llenar-hoja"].forEach((id) => { $(id).disabled = sinDescargas; });
+  $("descargar-pdf").disabled = sinDescargas || cola.length === 0;
+  if (sinDescargas) estadoExp("Las descargas solo funcionan al abrir esta página dentro de Claude.");
+}
+["hoja", "margen", "separacion"].forEach((id) => $(id).addEventListener("input", pintarExportar));
+
+function pintarCola() {
+  $("cola").innerHTML = cola.map((c, i) => `<li><img src="${c.url}" alt=""><span class="ayuda">${escapar(c.nombre)}</span>
+    <input class="campo dato" type="number" min="1" max="500" value="${c.copias}" data-copias="${i}" aria-label="Copias">
+    <button class="icono-btn" data-quitar="${i}" aria-label="Quitar de la hoja">${ICONOS.borrar}</button></li>`).join("");
+  pintarExportar();
+}
+$("cola").addEventListener("input", (e) => { const i = e.target.dataset.copias; if (i !== undefined) cola[Number(i)].copias = Math.max(1, Math.min(500, Number(e.target.value) || 1)); });
+$("cola").addEventListener("click", (e) => { const b = e.target.closest("[data-quitar]"); if (b) { cola.splice(Number(b.dataset.quitar), 1); pintarCola(); } });
+$("anadir-cola").onclick = () => {
+  const url = renderizarPNG();
+  const textos = objetos().filter((o) => o.type === "textbox").map((o) => o.text.replace(/\s+/g, " ")).join(" · ");
+  cola.push({ url, copias: 1, nombre: textos.slice(0, 40) || `Diseño ${cola.length + 1}` });
+  pintarCola();
+  estadoExp(`Añadido a la hoja (${cola.length} ${cola.length === 1 ? "diseño" : "diseños"}).`, "ok");
+};
+$("llenar-hoja").onclick = () => generarPDF([{ url: renderizarPNG(), copias: posicionesChapa().length }]);
+$("descargar-pdf").onclick = () => generarPDF(cola);
+$("descargar-png").onclick = async () => {
+  let url = renderizarPNG();
+  if (P.hoja === "taza" && $("espejo").checked) url = await espejar(url);
+  guardar(`${productoId}-${fecha()}.png`, dataUrlABlob(url));
+};
+const fecha = () => new Date().toISOString().slice(0, 10);
+
+async function generarPDF(items) {
+  if (!items.length) return;
+  const { jsPDF } = window.jspdf;
+  let doc;
+  if (P.hoja === "chapas") {
+    const hoja = $("hoja").value, pos = posicionesChapa();
+    if (!pos.length) { estadoExp("Con ese margen no cabe ninguna chapa.", "error"); return; }
+    doc = new jsPDF({ unit: "mm", format: hoja.toLowerCase(), orientation: "p" });
+    let hueco = 0;
+    items.forEach((it, k) => {
+      for (let n = 0; n < it.copias; n++) {
+        if (hueco === pos.length) { doc.addPage(hoja.toLowerCase(), "p"); hueco = 0; }
+        const p = pos[hueco++];
+        doc.addImage(it.url, "PNG", p.x, p.y, 70, 70, `d${k}`, "NONE");
+        if ($("linea-corte").checked) { doc.setDrawColor(0); doc.setLineWidth(0.15); doc.circle(p.x + 35, p.y + 35, 35, "S"); }
+      }
+    });
+  } else {
+    const w = P.ancho / U, h = P.alto / U;
+    doc = new jsPDF({ unit: "mm", format: [w, h], orientation: w > h ? "l" : "p" });
+    let primera = true;
+    for (const [k, it] of items.entries()) {
+      const url = P.hoja === "taza" && $("espejo").checked ? await espejar(it.url) : it.url;
+      for (let n = 0; n < it.copias; n++) {
+        if (!primera) doc.addPage([w, h], w > h ? "l" : "p");
+        primera = false;
+        doc.addImage(url, "PNG", 0, 0, w, h, `d${k}`, "NONE");
+      }
+    }
+  }
+  await guardar(`${productoId}-hoja-${fecha()}.pdf`, doc.output("arraybuffer"));
+}
+
+/* ---------- Arranque ---------- */
+async function arrancar() {
+  const pest = almacen.leer("taller-recortes-pestana");
+  if (pest && $(pest)) $(pest).click();
+  const borrador = almacen.leer("taller-recortes-borrador");
+  $("producto").value = productoId;
+  prepararProducto();
+  if (borrador) {
+    try { cargar(borrador, () => { historia = [instantanea()]; pintarBotonesHistoria(); }); return; } catch { /* borrador dañado: ejemplo */ }
+  }
+  await ejemplo();
+  historia = [instantanea()];
+  pintarBotonesHistoria();
+}
+if (window.ResizeObserver) new ResizeObserver(() => ajustarTamano()).observe($("marco"));
+arrancar();
+})();
+</script>
