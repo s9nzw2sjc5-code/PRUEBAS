@@ -2,46 +2,46 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Anton&family=Bebas+Neue&family=Pacifico&family=Lobster&family=Fredoka:wght@500;700&family=Montserrat:wght@500;800&family=Caveat:wght@600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Anton&family=Bebas+Neue&family=Pacifico&family=Lobster&family=Fredoka:wght@500;700&family=Montserrat:wght@500;800&family=Caveat:wght@600&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;700&family=Oswald:wght@500;700&family=Abril+Fatface&family=Righteous&family=Permanent+Marker&family=Dancing+Script:wght@700&family=Archivo+Black&family=Rubik:wght@400;700&display=swap">
 <style>
-/* Mesa de trabajo de imprenta: barra superior, herramientas a la izquierda, lienzo en el centro, capas a la derecha. */
+/* Estudio de imprenta: carril de recursos a la izquierda, lienzo con tira de páginas en el centro, propiedades y capas a la derecha. */
 :root {
-  --bg: #eef0f4;
+  --bg: #eceef3;
   --panel: #ffffff;
-  --panel-2: #f5f6f9;
-  --linea: #d9dce4;
+  --panel-2: #f4f5f8;
+  --linea: #d8dbe3;
   --fg: #1b1e27;
-  --fg-suave: #5b6070;
+  --fg-suave: #5a5f70;
   --acento: #d1006f;
   --acento-fg: #ffffff;
-  --acento-suave: #fde6f1;
+  --acento-suave: #fde5f0;
   --ok: #1f7a4d;
-  --aviso: #9a5b00;
   --error: #b42318;
-  --tablero-a: #e3e5eb;
-  --tablero-b: #d6d9e1;
-  --sombra: 0 1px 2px rgb(20 24 36 / 0.08), 0 8px 24px rgb(20 24 36 / 0.08);
+  --tablero-a: #e2e4ea;
+  --tablero-b: #d5d8e0;
+  --velo: rgb(14 16 22 / 0.72);
+  --sombra: 0 1px 2px rgb(20 24 36 / 0.08), 0 10px 30px rgb(20 24 36 / 0.12);
   --f-titulo: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
   --f-texto: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
-  --f-dato: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --f-dato: "IBM Plex Mono", ui-monospace, Menlo, monospace;
   --radio: 8px;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #12141a; --panel: #1b1e26; --panel-2: #22262f; --linea: #323745;
-    --fg: #eceef3; --fg-suave: #a2a8b8; --acento: #ff4fa3; --acento-fg: #1a0510;
-    --acento-suave: #3a1328; --ok: #5fd39a; --aviso: #f0b45a; --error: #ff8a80;
-    --tablero-a: #262a33; --tablero-b: #2e333d;
-    --sombra: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.35);
+    --bg: #111319; --panel: #1a1d25; --panel-2: #222630; --linea: #313645;
+    --fg: #eceef3; --fg-suave: #a1a7b7; --acento: #ff4fa3; --acento-fg: #1a0510;
+    --acento-suave: #3a1328; --ok: #5fd39a; --error: #ff8a80;
+    --tablero-a: #262a33; --tablero-b: #2e333d; --velo: rgb(0 0 0 / 0.78);
+    --sombra: 0 1px 2px rgb(0 0 0 / 0.4), 0 10px 30px rgb(0 0 0 / 0.4);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #12141a; --panel: #1b1e26; --panel-2: #22262f; --linea: #323745;
-  --fg: #eceef3; --fg-suave: #a2a8b8; --acento: #ff4fa3; --acento-fg: #1a0510;
-  --acento-suave: #3a1328; --ok: #5fd39a; --aviso: #f0b45a; --error: #ff8a80;
-  --tablero-a: #262a33; --tablero-b: #2e333d;
-  --sombra: 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px rgb(0 0 0 / 0.35);
+  --bg: #111319; --panel: #1a1d25; --panel-2: #222630; --linea: #313645;
+  --fg: #eceef3; --fg-suave: #a1a7b7; --acento: #ff4fa3; --acento-fg: #1a0510;
+  --acento-suave: #3a1328; --ok: #5fd39a; --error: #ff8a80;
+  --tablero-a: #262a33; --tablero-b: #2e333d; --velo: rgb(0 0 0 / 0.78);
+  --sombra: 0 1px 2px rgb(0 0 0 / 0.4), 0 10px 30px rgb(0 0 0 / 0.4);
   color-scheme: dark;
 }
 html, body { height: 100%; }
@@ -50,100 +50,126 @@ body {
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
   padding-block: 12px 24px;
-  box-sizing: border-box;
 }
 *, *::before, *::after { box-sizing: border-box; }
 button, input, select, textarea { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; }
+[hidden] { display: none !important; }
 
-.barra { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-bottom: 12px; }
+.barra { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 12px; }
 .marca { display: flex; align-items: baseline; gap: 10px; margin-right: auto; min-width: 0; }
 .marca h1 { font-family: var(--f-titulo); font-weight: 700; font-size: 22px; margin: 0; letter-spacing: -0.01em; }
 .marca .oficina { font-family: var(--f-dato); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--acento); }
 .grupo { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.medida { font-family: var(--f-dato); font-size: 12px; color: var(--fg-suave); }
 
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
   border: 1px solid var(--linea); background: var(--panel); color: var(--fg);
-  border-radius: 6px; padding: 7px 11px; cursor: pointer; line-height: 1.2; min-height: 34px;
+  border-radius: 6px; padding: 7px 11px; cursor: pointer; line-height: 1.2; min-height: 34px; text-align: center;
 }
 .btn:hover:not(:disabled) { border-color: var(--fg-suave); }
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
 .btn.primario { background: var(--acento); border-color: var(--acento); color: var(--acento-fg); font-weight: 600; }
-.btn.primario:hover:not(:disabled) { filter: brightness(1.08); border-color: var(--acento); }
+.btn.primario:hover:not(:disabled) { filter: brightness(1.08); }
 .btn.peligro { color: var(--error); }
-.btn.activo { background: var(--acento-suave); border-color: var(--acento); color: var(--fg); }
+.btn.activo { background: var(--acento-suave); border-color: var(--acento); }
 .btn.mini { min-height: 28px; padding: 4px 8px; font-size: 13px; }
 .btn.ancho { width: 100%; }
-select.campo, input.campo, textarea.campo {
-  border: 1px solid var(--linea); background: var(--panel); border-radius: 6px; padding: 7px 9px; min-height: 34px; width: 100%;
-}
+.campo { border: 1px solid var(--linea); background: var(--panel); border-radius: 6px; padding: 6px 9px; min-height: 34px; width: 100%; min-width: 0; }
 textarea.campo { resize: vertical; min-height: 64px; line-height: 1.45; }
-input[type="color"].campo { padding: 2px; height: 34px; }
+input[type="color"].campo { padding: 2px; height: 34px; width: 46px; flex: none; }
 input[type="range"] { width: 100%; accent-color: var(--acento); }
-input[type="checkbox"] { accent-color: var(--acento); width: 16px; height: 16px; }
+input[type="checkbox"] { accent-color: var(--acento); width: 16px; height: 16px; flex: none; }
 
 .mesa {
-  display: grid; gap: 12px;
-  grid-template-columns: minmax(250px, 290px) minmax(0, 1fr) minmax(250px, 300px);
-  grid-template-areas: "herr lienzo capas";
-  align-items: start;
+  display: grid; gap: 12px; align-items: start;
+  grid-template-columns: 68px minmax(250px, 300px) minmax(0, 1fr) minmax(250px, 300px);
+  grid-template-areas: "carril panel lienzo lado";
 }
 .panel { background: var(--panel); border: 1px solid var(--linea); border-radius: var(--radio); min-width: 0; }
 .panel-cab { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; border-bottom: 1px solid var(--linea); }
 .panel-cab h2 { font-family: var(--f-titulo); font-size: 15px; font-weight: 700; margin: 0; }
-.panel-cuerpo { padding: 12px; display: flex; flex-direction: column; gap: 12px; }
+.panel-cuerpo { padding: 12px; display: flex; flex-direction: column; gap: 14px; }
 .etiqueta { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--fg-suave); font-weight: 600; }
-.campo-grupo { display: flex; flex-direction: column; gap: 5px; }
+.campo-grupo { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
 .fila { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-.fila > * { min-width: 0; }
 .dos { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.tres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
 .ayuda { color: var(--fg-suave); font-size: 12.5px; line-height: 1.45; margin: 0; }
 .dato { font-family: var(--f-dato); font-variant-numeric: tabular-nums; }
+.separa { border: 0; border-top: 1px solid var(--linea); margin: 0; }
 
-.herramientas { grid-area: herr; }
-.pestanas { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--linea); }
-.pestana { border: 0; background: transparent; padding: 10px 6px; cursor: pointer; color: var(--fg-suave); font-weight: 600; border-bottom: 2px solid transparent; }
-.pestana[aria-selected="true"] { color: var(--fg); border-bottom-color: var(--acento); }
-.rejilla-btn { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-.formas { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
-.forma-btn { aspect-ratio: 1; padding: 6px; }
-.forma-btn svg { width: 100%; height: 100%; fill: currentColor; }
+.carril { grid-area: carril; display: flex; flex-direction: column; gap: 4px; padding: 6px; }
+.carril-btn { border: 0; background: transparent; border-radius: 8px; padding: 8px 2px; cursor: pointer; color: var(--fg-suave); display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; }
+.carril-btn svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.carril-btn:hover { background: var(--panel-2); color: var(--fg); }
+.carril-btn[aria-selected="true"] { background: var(--acento-suave); color: var(--fg); }
+.carril-btn[aria-selected="true"] svg { stroke: var(--acento); }
+.recursos { grid-area: panel; max-height: calc(100vh - 90px); overflow-y: auto; position: sticky; top: env(safe-area-inset-top, 0px); }
+
+.rejilla { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+.rejilla.tres-col { grid-template-columns: repeat(3, 1fr); }
+.rejilla.dos-col { grid-template-columns: repeat(2, 1fr); }
+.recurso { aspect-ratio: 1; border: 1px solid var(--linea); background: var(--panel-2); border-radius: 6px; cursor: pointer; padding: 8px; display: grid; place-items: center; color: var(--fg); }
+.recurso:hover { border-color: var(--acento); }
+.recurso svg { width: 100%; height: 100%; }
+.recurso.forma svg { fill: currentColor; }
+.recurso.icono svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.muestra { aspect-ratio: 1; border-radius: 6px; border: 1px solid var(--linea); cursor: pointer; padding: 0; }
+.plantilla { border: 1px solid var(--linea); border-radius: 6px; background: var(--panel-2); cursor: pointer; padding: 6px; display: flex; flex-direction: column; gap: 6px; text-align: left; }
+.plantilla:hover { border-color: var(--acento); }
+.plantilla img, .plantilla .hueco-img { width: 100%; border-radius: 4px; background: var(--tablero-a); display: block; aspect-ratio: var(--ratio, 1); object-fit: contain; }
+.plantilla span { font-size: 12px; font-weight: 600; }
+.estilo-texto { border: 1px solid var(--linea); border-radius: 6px; background: var(--panel-2); cursor: pointer; padding: 10px; text-align: left; color: var(--fg); }
+.estilo-texto:hover { border-color: var(--acento); }
 
 .lienzo-zona { grid-area: lienzo; display: flex; flex-direction: column; gap: 8px; min-width: 0; }
 .lienzo-marco {
   position: relative; border-radius: var(--radio); border: 1px solid var(--linea);
   background-color: var(--tablero-a);
-  background-image:
-    linear-gradient(45deg, var(--tablero-b) 25%, transparent 25%),
-    linear-gradient(-45deg, var(--tablero-b) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, var(--tablero-b) 75%),
-    linear-gradient(-45deg, transparent 75%, var(--tablero-b) 75%);
+  background-image: linear-gradient(45deg, var(--tablero-b) 25%, transparent 25%), linear-gradient(-45deg, var(--tablero-b) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, var(--tablero-b) 75%), linear-gradient(-45deg, transparent 75%, var(--tablero-b) 75%);
   background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0;
   display: flex; align-items: center; justify-content: center; padding: 20px; min-height: 360px;
 }
 .lienzo-marco.soltando { outline: 3px dashed var(--acento); outline-offset: -8px; }
+.lienzo-marco.dibujando { cursor: crosshair; outline: 2px solid var(--acento); outline-offset: -2px; }
 .lienzo-pie { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; justify-content: space-between; }
 .leyenda { display: flex; flex-wrap: wrap; gap: 6px 12px; font-size: 12px; color: var(--fg-suave); }
 .leyenda i { display: inline-block; width: 14px; height: 0; border-top: 2px solid; vertical-align: middle; margin-right: 5px; }
-.aviso-ejemplo { background: var(--acento-suave); border: 1px solid var(--acento); border-radius: 6px; padding: 8px 10px; font-size: 13px; display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+.paginas { display: flex; gap: 8px; overflow-x: auto; padding: 4px 2px 8px; align-items: stretch; }
+.pagina { flex: none; width: 92px; border: 2px solid transparent; border-radius: 8px; background: var(--panel); padding: 4px; cursor: pointer; display: flex; flex-direction: column; gap: 4px; }
+.pagina.actual { border-color: var(--acento); }
+.pagina img { width: 100%; height: 70px; object-fit: contain; background: var(--tablero-a); border-radius: 4px; display: block; }
+.pagina .num { font-family: var(--f-dato); font-size: 11px; color: var(--fg-suave); display: flex; justify-content: space-between; }
+.pagina-nueva { flex: none; width: 92px; border: 1px dashed var(--linea); border-radius: 8px; background: transparent; cursor: pointer; color: var(--fg-suave); font-weight: 600; }
+.pagina-nueva:hover { border-color: var(--acento); color: var(--fg); }
 
-.capas { grid-area: capas; display: flex; flex-direction: column; gap: 12px; }
-.lista-capas { list-style: none; margin: 0; padding: 6px; display: flex; flex-direction: column; gap: 2px; max-height: 360px; overflow-y: auto; }
-.capa { display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 6px; padding: 5px 6px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; }
+.lado { grid-area: lado; display: flex; flex-direction: column; gap: 12px; }
+.lista-capas { list-style: none; margin: 0; padding: 6px; display: flex; flex-direction: column; gap: 2px; max-height: 300px; overflow-y: auto; }
+.capa { display: grid; grid-template-columns: 26px 1fr auto; align-items: center; gap: 6px; padding: 4px 6px; border-radius: 6px; border: 1px solid transparent; cursor: pointer; }
 .capa:hover { background: var(--panel-2); }
 .capa.sel { background: var(--acento-suave); border-color: var(--acento); }
 .capa.recortada { margin-left: 18px; }
 .capa.recortada .capa-nombre::before { content: "↳ "; color: var(--acento); font-weight: 700; }
 .capa.oculta .capa-nombre { opacity: 0.45; text-decoration: line-through; }
 .capa-nombre { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-size: 13px; }
-.capa-tipo { width: 26px; height: 26px; border-radius: 4px; background: var(--panel-2); border: 1px solid var(--linea); display: grid; place-items: center; font-family: var(--f-dato); font-size: 10px; color: var(--fg-suave); overflow: hidden; }
-.capa-acc { display: flex; gap: 2px; }
-.icono-btn { border: 0; background: transparent; width: 26px; height: 26px; border-radius: 5px; cursor: pointer; display: grid; place-items: center; color: var(--fg-suave); }
+.capa-tipo { width: 26px; height: 26px; border-radius: 4px; background: var(--panel-2); border: 1px solid var(--linea); display: grid; place-items: center; font-family: var(--f-dato); font-size: 10px; color: var(--fg-suave); }
+.capa-acc { display: flex; gap: 1px; }
+.icono-btn { border: 0; background: transparent; width: 26px; height: 26px; border-radius: 5px; cursor: pointer; display: grid; place-items: center; color: var(--fg-suave); padding: 0; }
 .icono-btn:hover { background: var(--panel); color: var(--fg); }
 .icono-btn.on { color: var(--acento); }
 .icono-btn svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.vacio { color: var(--fg-suave); font-size: 13px; padding: 10px; text-align: center; }
+.vacio { color: var(--fg-suave); font-size: 13px; padding: 10px; text-align: center; margin: 0; }
+details.seccion { border-top: 1px solid var(--linea); }
+details.seccion:first-of-type { border-top: 0; }
+details.seccion > summary { cursor: pointer; padding: 10px 12px; font-weight: 600; font-size: 13px; list-style: none; display: flex; justify-content: space-between; }
+details.seccion > summary::-webkit-details-marker { display: none; }
+details.seccion > summary::after { content: "+"; color: var(--fg-suave); }
+details.seccion[open] > summary::after { content: "–"; }
+details.seccion > div { padding: 0 12px 12px; display: flex; flex-direction: column; gap: 10px; }
+.deslizador { display: grid; grid-template-columns: 74px 1fr 44px; align-items: center; gap: 8px; font-size: 12.5px; }
+.deslizador span:last-child { text-align: right; font-family: var(--f-dato); font-size: 11.5px; color: var(--fg-suave); }
 
 .chips { display: flex; flex-direction: column; gap: 6px; }
 .chip { text-align: left; border: 1px solid var(--linea); background: var(--panel-2); border-radius: 6px; padding: 8px 10px; cursor: pointer; display: flex; gap: 8px; align-items: center; justify-content: space-between; }
@@ -152,21 +178,29 @@ input[type="checkbox"] { accent-color: var(--acento); width: 16px; height: 16px;
 .estado { font-size: 13px; padding: 8px 10px; border-radius: 6px; background: var(--panel-2); border: 1px solid var(--linea); line-height: 1.45; }
 .estado.error { color: var(--error); border-color: currentColor; }
 .estado.ok { color: var(--ok); border-color: currentColor; }
+progress { width: 100%; accent-color: var(--acento); }
 
 .cola { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
-.cola li { display: grid; grid-template-columns: 44px 1fr auto auto; gap: 8px; align-items: center; border: 1px solid var(--linea); border-radius: 6px; padding: 5px; background: var(--panel-2); }
-.cola img { width: 44px; height: 44px; object-fit: contain; background: repeating-conic-gradient(var(--tablero-a) 0 25%, var(--tablero-b) 0 50%) 0 0 / 10px 10px; border-radius: 4px; }
-.cola input { width: 56px; }
+.cola li { display: grid; grid-template-columns: 44px 1fr 60px auto; gap: 8px; align-items: center; border: 1px solid var(--linea); border-radius: 6px; padding: 5px; background: var(--panel-2); }
+.cola img { width: 44px; height: 44px; object-fit: contain; background: var(--tablero-a); border-radius: 4px; }
 .confirmar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; font-size: 13px; }
-[hidden] { display: none !important; }
+.aviso-ejemplo { background: var(--acento-suave); border: 1px solid var(--acento); border-radius: 6px; padding: 8px 10px; font-size: 13px; display: flex; gap: 10px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
 
-@media (max-width: 1080px) {
-  .mesa { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); grid-template-areas: "lienzo lienzo" "herr capas"; }
+.velo { position: fixed; inset: 0; background: var(--velo); z-index: 50; display: flex; align-items: center; justify-content: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); }
+.reproductor { background: var(--panel); border-radius: 12px; padding: 14px; display: flex; flex-direction: column; gap: 10px; max-width: 100%; max-height: 100%; box-shadow: var(--sombra); }
+.reproductor canvas { max-width: min(80vw, 520px); max-height: 66vh; width: auto; height: auto; display: block; margin: 0 auto; background: #000; border-radius: 6px; }
+
+@media (max-width: 1240px) {
+  .mesa { grid-template-columns: 68px minmax(250px, 300px) minmax(0, 1fr); grid-template-areas: "carril panel lienzo" "lado lado lado"; }
+  .lado { display: grid; grid-template-columns: 1fr 1fr; align-items: start; }
 }
-@media (max-width: 680px) {
-  .mesa { grid-template-columns: minmax(0, 1fr); grid-template-areas: "lienzo" "herr" "capas"; }
+@media (max-width: 860px) {
+  .mesa { grid-template-columns: minmax(0, 1fr); grid-template-areas: "lienzo" "carril" "panel" "lado"; }
+  .carril { flex-direction: row; overflow-x: auto; }
+  .carril-btn { min-width: 64px; }
+  .recursos { position: static; max-height: none; }
+  .lado { grid-template-columns: minmax(0, 1fr); }
   .lienzo-marco { padding: 10px; min-height: 260px; }
-  .marca h1 { font-size: 19px; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
@@ -177,116 +211,159 @@ input[type="checkbox"] { accent-color: var(--acento); width: 16px; height: 16px;
     <span class="oficina">Oficina FAKTORINGO</span>
   </div>
   <div class="grupo">
-    <label class="etiqueta" for="producto">Producto</label>
+    <label class="etiqueta" for="producto">Formato</label>
     <select id="producto" class="campo" style="width:auto"></select>
+    <span class="medida" id="medida"></span>
   </div>
   <div class="grupo">
     <button class="btn" id="deshacer" title="Deshacer (Ctrl+Z)">Deshacer</button>
     <button class="btn" id="rehacer" title="Rehacer (Ctrl+Y)">Rehacer</button>
-    <button class="btn" id="nuevo">Nuevo diseño</button>
+    <button class="btn" id="nuevo">Nuevo</button>
   </div>
   <div class="confirmar" id="confirmar-nuevo" hidden>
-    <span>¿Borrar todo el diseño?</span>
+    <span>¿Borrar todas las páginas?</span>
     <button class="btn mini peligro" id="nuevo-si">Sí, borrar</button>
     <button class="btn mini" id="nuevo-no">Cancelar</button>
   </div>
 </header>
 
 <main class="mesa">
-  <section class="panel herramientas" aria-label="Herramientas">
-    <div class="pestanas" role="tablist">
-      <button class="pestana" role="tab" id="tab-anadir" aria-selected="true" aria-controls="p-anadir">Añadir</button>
-      <button class="pestana" role="tab" id="tab-generar" aria-selected="false" aria-controls="p-generar">Generar</button>
-      <button class="pestana" role="tab" id="tab-exportar" aria-selected="false" aria-controls="p-exportar">Imprimir</button>
+  <nav class="panel carril" role="tablist" aria-label="Recursos" id="carril"></nav>
+
+  <section class="panel recursos" aria-label="Panel de recursos">
+    <div class="panel-cuerpo" data-panel="plantillas">
+      <div class="campo-grupo">
+        <span class="etiqueta">Plantillas para este formato</span>
+        <p class="ayuda">Se aplican a la página actual. Luego cambia textos, colores y fotos.</p>
+      </div>
+      <div class="rejilla dos-col" id="lista-plantillas"></div>
     </div>
 
-    <div class="panel-cuerpo" id="p-anadir" role="tabpanel">
+    <div class="panel-cuerpo" data-panel="elementos" hidden>
+      <div class="campo-grupo"><span class="etiqueta">Marcos para fotos</span>
+        <div class="rejilla" id="lista-marcos"></div>
+        <p class="ayuda">Selecciona un marco y sube o arrastra una foto: queda recortada por la forma.</p>
+      </div>
+      <div class="campo-grupo"><span class="etiqueta">Formas</span><div class="rejilla" id="lista-formas"></div></div>
+      <div class="campo-grupo"><span class="etiqueta">Líneas</span><div class="rejilla" id="lista-lineas"></div></div>
+      <div class="campo-grupo"><span class="etiqueta">Iconos</span><div class="rejilla" id="lista-iconos"></div></div>
+      <div class="campo-grupo"><span class="etiqueta">Insignias</span><div class="rejilla tres-col" id="lista-insignias"></div></div>
       <div class="campo-grupo">
-        <span class="etiqueta">Fotos</span>
-        <button class="btn primario ancho" id="btn-foto">Subir foto</button>
-        <button class="btn ancho" id="btn-meter" disabled title="Selecciona una forma o un texto primero">Meter foto en la forma seleccionada</button>
-        <p class="ayuda">Como un marco de Canva: la foto queda recortada por la forma. Arrástrala para encuadrarla. Si mueves la forma, la foto la acompaña.</p>
-        <input type="file" id="archivo" accept="image/png,image/jpeg,image/webp" multiple hidden>
+        <span class="etiqueta">Dibujo a mano</span>
+        <div class="fila"><input type="color" id="dibujo-color" class="campo" value="#d1006f" aria-label="Color del pincel">
+          <input type="range" id="dibujo-grosor" min="2" max="60" value="10" aria-label="Grosor del pincel" style="flex:1"></div>
+        <button class="btn ancho" id="btn-dibujar">Empezar a dibujar</button>
+      </div>
+    </div>
+
+    <div class="panel-cuerpo" data-panel="texto" hidden>
+      <button class="btn primario ancho" id="btn-texto">Añadir un cuadro de texto</button>
+      <div class="campo-grupo"><span class="etiqueta">Estilos</span><div class="chips" id="lista-estilos"></div></div>
+      <div class="campo-grupo"><span class="etiqueta">Combinaciones</span><div class="chips" id="lista-combos"></div></div>
+    </div>
+
+    <div class="panel-cuerpo" data-panel="fondos" hidden>
+      <div class="campo-grupo">
+        <label class="etiqueta" for="color-fondo">Color de fondo</label>
+        <div class="fila"><input type="color" id="color-fondo" class="campo" value="#ffffff"><button class="btn mini" id="quitar-fondo">Transparente</button></div>
+        <div class="rejilla" id="lista-colores" style="grid-template-columns:repeat(8,1fr)"></div>
+      </div>
+      <div class="campo-grupo"><span class="etiqueta">Degradados</span><div class="rejilla" id="lista-degradados"></div></div>
+      <div class="campo-grupo"><span class="etiqueta">Patrones</span>
+        <div class="fila"><input type="color" id="patron-c1" class="campo" value="#ffe3ef" aria-label="Color de fondo del patrón"><input type="color" id="patron-c2" class="campo" value="#d1006f" aria-label="Color del dibujo del patrón"><span class="ayuda">colores del patrón</span></div>
+        <div class="rejilla" id="lista-patrones"></div>
+      </div>
+      <button class="btn ancho" id="foto-fondo">Usar una foto de fondo</button>
+    </div>
+
+    <div class="panel-cuerpo" data-panel="subir" hidden>
+      <button class="btn primario ancho" id="btn-foto">Subir fotos o SVG</button>
+      <button class="btn ancho" id="btn-meter" disabled>Meter foto en la forma seleccionada</button>
+      <p class="ayuda">Arrastra fotos sobre el lienzo o pégalas con Ctrl+V. Si sueltas una foto encima de un marco o una forma, entra dentro. Los SVG se importan como vectores editables.</p>
+      <input type="file" id="archivo" accept="image/png,image/jpeg,image/webp,image/svg+xml,.svg" multiple hidden>
+      <div class="campo-grupo"><span class="etiqueta">Fotos de esta página</span><div class="rejilla tres-col" id="lista-subidas"></div></div>
+    </div>
+
+    <div class="panel-cuerpo" data-panel="ia" hidden>
+      <div class="campo-grupo">
+        <label class="etiqueta" for="encargo">Encargo</label>
+        <textarea id="encargo" class="campo" rows="3">Jornada de puertas abiertas de la oficina FAKTORINGO el viernes 14 de noviembre a las 18:00, con picoteo y sorteo</textarea>
       </div>
       <div class="campo-grupo">
-        <span class="etiqueta">Formas y marcos</span>
-        <div class="formas" id="formas"></div>
-      </div>
-      <div class="campo-grupo">
-        <span class="etiqueta">Texto</span>
-        <div class="rejilla-btn">
-          <button class="btn" id="btn-texto">Texto</button>
-          <button class="btn" id="btn-texto-grande">Título grande</button>
+        <span class="etiqueta">Diseño completo</span>
+        <div class="dos">
+          <button class="btn primario" id="ia-diseno">Una página</button>
+          <button class="btn" id="ia-serie">Serie animada</button>
         </div>
+        <p class="ayuda">«Serie animada» crea de 3 a 5 páginas con animaciones: sirve como carrusel, historia o vídeo.</p>
       </div>
       <div class="campo-grupo">
-        <label class="etiqueta" for="color-fondo">Fondo del diseño</label>
+        <span class="etiqueta">Piezas sueltas</span>
+        <div class="dos">
+          <button class="btn" id="ia-frases">Frases</button>
+          <button class="btn" id="ia-texto-ig">Texto para Instagram</button>
+        </div>
         <div class="fila">
-          <input type="color" id="color-fondo" class="campo" value="#ffffff" style="width:56px">
-          <button class="btn mini" id="quitar-fondo">Sin fondo</button>
+          <select id="tipo-ilustracion" class="campo" style="flex:1"><option value="ilustracion">Dibujo central</option><option value="patron">Patrón de fondo</option><option value="marco">Marco decorativo</option></select>
+          <button class="btn" id="ia-ilustracion">Dibujar</button>
         </div>
       </div>
-    </div>
-
-    <div class="panel-cuerpo" id="p-generar" role="tabpanel" hidden>
-      <div class="campo-grupo">
-        <label class="etiqueta" for="encargo">¿Qué necesitas?</label>
-        <textarea id="encargo" class="campo" rows="3">Chapas para el cumpleaños de Lucía, 6 años, temática de unicornios y arcoíris</textarea>
-      </div>
-      <div class="rejilla-btn">
-        <button class="btn primario" id="gen-frases">Frases</button>
-        <button class="btn" id="gen-ilustracion">Ilustración</button>
-      </div>
-      <div class="campo-grupo">
-        <label class="etiqueta" for="tipo-ilustracion">Tipo de ilustración</label>
-        <select id="tipo-ilustracion" class="campo">
-          <option value="ilustracion">Dibujo central</option>
-          <option value="patron">Patrón de fondo</option>
-          <option value="marco">Marco decorativo</option>
-        </select>
-      </div>
-      <button class="btn mini" id="gen-parar" hidden>Parar</button>
-      <div class="estado" id="gen-estado" hidden></div>
+      <button class="btn mini" id="ia-parar" hidden>Parar</button>
+      <div class="estado" id="ia-estado" hidden></div>
       <div class="chips" id="frases"></div>
-      <p class="ayuda" id="gen-nota">Claude escribe las frases y dibuja ilustraciones vectoriales. Pulsa una frase para ponerla en el diseño.</p>
+      <div class="campo-grupo" id="bloque-pie" hidden>
+        <label class="etiqueta" for="pie-ig">Texto y etiquetas</label>
+        <textarea id="pie-ig" class="campo" rows="7"></textarea>
+        <button class="btn mini" id="copiar-pie">Copiar</button>
+      </div>
+      <p class="ayuda" id="ia-nota">Claude diseña páginas completas, escribe frases y textos para publicar, y dibuja ilustraciones vectoriales.</p>
     </div>
 
-    <div class="panel-cuerpo" id="p-exportar" role="tabpanel" hidden>
-      <div id="exp-hoja">
-        <div class="campo-grupo">
-          <span class="etiqueta">Hoja de impresión</span>
-          <p class="ayuda" id="exp-explica"></p>
-        </div>
-        <div class="dos" id="exp-ajustes-chapa">
-          <div class="campo-grupo">
-            <label class="etiqueta" for="hoja">Hoja</label>
-            <select id="hoja" class="campo"><option>A4</option><option>A3</option></select>
-          </div>
-          <div class="campo-grupo">
-            <span class="etiqueta">Por hoja</span>
-            <span class="dato" id="por-hoja" style="padding-top:8px">–</span>
-          </div>
-          <div class="campo-grupo">
-            <label class="etiqueta" for="margen">Margen mm</label>
-            <input id="margen" class="campo dato" type="number" min="0" max="30" step="0.5" value="5">
-          </div>
-          <div class="campo-grupo">
-            <label class="etiqueta" for="separacion">Separación mm</label>
-            <input id="separacion" class="campo dato" type="number" min="0" max="20" step="0.5" value="2">
-          </div>
-        </div>
-        <label class="fila" id="op-corte"><input type="checkbox" id="linea-corte" checked> Línea de corte</label>
-        <label class="fila" id="op-espejo"><input type="checkbox" id="espejo"> Imprimir en espejo (sublimación)</label>
-        <div class="rejilla-btn">
-          <button class="btn" id="anadir-cola">Añadir a la hoja</button>
-          <button class="btn" id="llenar-hoja">Hoja llena de este</button>
-        </div>
-        <ul class="cola" id="cola"></ul>
-        <button class="btn primario ancho" id="descargar-pdf">Descargar PDF</button>
-      </div>
+    <div class="panel-cuerpo" data-panel="exportar" hidden>
       <div class="campo-grupo">
-        <span class="etiqueta">Solo este diseño</span>
-        <button class="btn ancho" id="descargar-png">Descargar PNG</button>
+        <span class="etiqueta">Imagen</span>
+        <div class="tres">
+          <button class="btn mini" id="png-actual">PNG</button>
+          <button class="btn mini" id="jpg-actual">JPG</button>
+          <button class="btn mini" id="svg-actual">SVG</button>
+        </div>
+        <p class="ayuda">De la página actual. Para imprimir sale a 300 ppp.</p>
+        <div class="dos">
+          <button class="btn mini" id="zip-todas">Todas en ZIP</button>
+          <button class="btn mini" id="pdf-todas">PDF de todas</button>
+        </div>
+      </div>
+      <hr class="separa">
+      <div class="campo-grupo">
+        <span class="etiqueta">Vídeo para Instagram</span>
+        <p class="ayuda" id="video-info"></p>
+        <div class="fila"><button class="btn mini" id="elegir-musica">Añadir música</button><span class="ayuda" id="musica-nombre">Sin música</span><button class="btn mini" id="quitar-musica" hidden>Quitar</button></div>
+        <input type="file" id="archivo-musica" accept="audio/*" hidden>
+        <div class="dos">
+          <button class="btn" id="video-ver">Vista previa</button>
+          <button class="btn primario" id="video-exportar">Exportar vídeo</button>
+        </div>
+        <p class="ayuda">El vídeo se graba en tiempo real: deja la pestaña visible mientras se graba.</p>
+      </div>
+      <hr class="separa">
+      <div class="campo-grupo" id="bloque-hoja">
+        <span class="etiqueta">Hoja de impresión</span>
+        <p class="ayuda" id="hoja-explica"></p>
+        <div class="dos">
+          <div class="campo-grupo"><label class="etiqueta" for="hoja">Papel</label><select id="hoja" class="campo"><option>A4</option><option>A3</option></select></div>
+          <div class="campo-grupo"><span class="etiqueta">Caben</span><span class="dato" id="por-hoja" style="padding-top:8px">–</span></div>
+          <div class="campo-grupo"><label class="etiqueta" for="margen">Margen mm</label><input id="margen" class="campo dato" type="number" min="0" max="30" step="0.5" value="5"></div>
+          <div class="campo-grupo"><label class="etiqueta" for="separacion">Separación mm</label><input id="separacion" class="campo dato" type="number" min="0" max="20" step="0.5" value="2"></div>
+        </div>
+        <label class="fila"><input type="checkbox" id="linea-corte" checked> Línea de corte</label>
+        <label class="fila" id="op-espejo"><input type="checkbox" id="espejo"> Imprimir en espejo (sublimación)</label>
+        <div class="dos">
+          <button class="btn" id="anadir-cola">Añadir esta página</button>
+          <button class="btn" id="anadir-todas">Añadir todas</button>
+        </div>
+        <button class="btn" id="llenar-hoja">Hoja llena de esta página</button>
+        <ul class="cola" id="cola"></ul>
+        <button class="btn primario ancho" id="descargar-hoja">Descargar hoja en PDF</button>
       </div>
       <div class="estado" id="exp-estado" hidden></div>
     </div>
@@ -294,7 +371,7 @@ input[type="checkbox"] { accent-color: var(--acento); width: 16px; height: 16px;
 
   <section class="lienzo-zona" aria-label="Lienzo">
     <div class="aviso-ejemplo" id="aviso-ejemplo" hidden>
-      <span>Diseño de ejemplo: la palabra <b>HOLA</b> recorta un degradado, como una máscara de recorte de Photoshop.</span>
+      <span>Diseño de ejemplo hecho con una plantilla. Pulsa «Vista previa» en Exportar para verlo animado.</span>
       <button class="btn mini" id="cerrar-ejemplo">Empezar en blanco</button>
     </div>
     <div class="lienzo-marco" id="marco"><canvas id="lienzo"></canvas></div>
@@ -302,173 +379,417 @@ input[type="checkbox"] { accent-color: var(--acento); width: 16px; height: 16px;
       <div class="leyenda" id="leyenda"></div>
       <label class="fila" style="font-size:13px"><input type="checkbox" id="ver-guias" checked> Guías</label>
     </div>
+    <div class="paginas" id="paginas" aria-label="Páginas"></div>
   </section>
 
-  <aside class="capas">
-    <section class="panel" aria-label="Capas">
-      <div class="panel-cab">
-        <h2>Capas</h2>
-        <span class="ayuda">arriba = delante</span>
-      </div>
-      <ul class="lista-capas" id="lista-capas"></ul>
-    </section>
+  <aside class="lado">
     <section class="panel" aria-label="Propiedades">
-      <div class="panel-cab"><h2 id="prop-titulo">Propiedades</h2></div>
-      <div class="panel-cuerpo" id="propiedades"><p class="vacio">Selecciona algo en el lienzo o en la lista de capas.</p></div>
+      <div class="panel-cab"><h2 id="prop-titulo">Página</h2></div>
+      <div id="propiedades"></div>
+    </section>
+    <section class="panel" aria-label="Capas">
+      <div class="panel-cab"><h2>Capas</h2><span class="ayuda">arriba = delante</span></div>
+      <ul class="lista-capas" id="lista-capas"></ul>
     </section>
   </aside>
 </main>
 
+<div class="velo" id="velo" hidden>
+  <div class="reproductor" role="dialog" aria-modal="true" aria-labelledby="repro-titulo">
+    <div class="fila" style="justify-content:space-between"><strong id="repro-titulo">Vista previa</strong><span class="dato ayuda" id="repro-tiempo">0,0 s</span></div>
+    <div id="repro-hueco"></div>
+    <progress id="repro-progreso" max="1" value="0"></progress>
+    <div class="fila" style="justify-content:flex-end"><button class="btn" id="repro-otra" hidden>Ver otra vez</button><button class="btn" id="repro-cerrar">Cerrar</button></div>
+  </div>
+</div>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
 (() => {
 "use strict";
 
-/* ---------- Productos (unidades de lienzo: 10 por milímetro) ---------- */
-const U = 10;
-const PX300 = 300 / 25.4 / U; // multiplicador para exportar a 300 ppp
-const PRODUCTOS = {
-  chapa: { nombre: "Chapa 58 mm", ancho: 700, alto: 700, forma: "circulo", mm: true, hoja: "chapas",
-    leyenda: [["#1b1e27", "Corte 70 mm"], ["#e6007e", "Cara visible 58 mm"], ["#0096d6", "Zona segura 50 mm"]] },
-  taza: { nombre: "Taza 20 × 9,5 cm", ancho: 2000, alto: 950, forma: "rect", mm: true, hoja: "taza",
-    leyenda: [["#0096d6", "Margen seguro 5 mm"], ["#e6007e", "Centro (lado contrario al asa)"]] },
-  cartel: { nombre: "Cartel A4", ancho: 2100, alto: 2970, forma: "rect", mm: true, hoja: "cartel",
-    leyenda: [["#0096d6", "Margen seguro 5 mm"]] },
-  post: { nombre: "Publicación 1080 × 1080", ancho: 1080, alto: 1080, forma: "rect", mm: false, hoja: null,
-    leyenda: [["#0096d6", "Zona segura"]] },
-};
-const FUENTES = ["Anton", "Bebas Neue", "Pacifico", "Lobster", "Fredoka", "Montserrat", "Caveat", "IBM Plex Sans"];
-const FORMAS = {
-  circulo: { nombre: "Círculo", d: "M 50 0 C 77.6 0 100 22.4 100 50 C 100 77.6 77.6 100 50 100 C 22.4 100 0 77.6 0 50 C 0 22.4 22.4 0 50 0 Z" },
-  corazon: { nombre: "Corazón", d: "M 50 25 C 52 12 60 2 74 2 C 90 2 100 14 98 32 C 96 52 72 70 50 96 C 28 70 4 52 2 32 C 0 14 10 2 26 2 C 40 2 48 12 50 25 Z" },
-  estrella: { nombre: "Estrella", d: "M 50 2 L 61.8 36.2 L 98 36.9 L 69.1 58.6 L 79.4 93.1 L 50 72.5 L 20.6 93.1 L 30.9 58.6 L 2 36.9 L 38.2 36.2 Z" },
-  redondeado: { nombre: "Rectángulo", d: "M 14 0 L 86 0 C 94 0 100 6 100 14 L 100 86 C 100 94 94 100 86 100 L 14 100 C 6 100 0 94 0 86 L 0 14 C 0 6 6 0 14 0 Z" },
-  hexagono: { nombre: "Hexágono", d: "M 50 0 L 93.3 25 L 93.3 75 L 50 100 L 6.7 75 L 6.7 25 Z" },
-};
-
-/* ---------- Estado ---------- */
+/* ============================== Utilidades ============================== */
 const $ = (id) => document.getElementById(id);
-let productoId = "chapa";
+const escapar = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const esColor = (c) => typeof c === "string" && /^#[0-9a-f]{6}$/i.test(c);
+const limitar = (v, a, b) => Math.max(a, Math.min(b, v));
+const almacen = {
+  leer(k) { try { return localStorage.getItem(k); } catch { return null; } },
+  guardar(k, v) { try { localStorage.setItem(k, v); return true; } catch { return false; } },
+};
+const fecha = () => new Date().toISOString().slice(0, 10);
+const coma = (n, d = 1) => Number(n).toFixed(d).replace(".", ",");
+const copiarDatos = (o) => JSON.parse(JSON.stringify(o || {}));
+function leerArchivo(archivo) {
+  return new Promise((ok, mal) => { const r = new FileReader(); r.onload = () => ok(r.result); r.onerror = () => mal(r.error); r.readAsDataURL(archivo); });
+}
+function imagenDe(url) {
+  return new Promise((ok, mal) => { const i = new Image(); i.onload = () => ok(i); i.onerror = () => mal(new Error("imagen")); i.src = url; });
+}
+function dataUrlABlob(url) {
+  const [cab, b64] = url.split(",");
+  const bin = atob(b64); const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new Blob([bytes], { type: cab.match(/:(.*?);/)[1] });
+}
+/* Reduce las fotos enormes: 3600 px de lado bastan para un A4 a 300 ppp. */
+async function prepararFoto(archivo) {
+  const url = await leerArchivo(archivo);
+  const img = await imagenDe(url);
+  const lado = Math.max(img.naturalWidth, img.naturalHeight);
+  if (lado <= 3600) return url;
+  const k = 3600 / lado;
+  const c = document.createElement("canvas");
+  c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k);
+  c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+  return archivo.type === "image/png" ? c.toDataURL("image/png") : c.toDataURL("image/jpeg", 0.92);
+}
+
+/* ============================== Formatos ============================== */
+const PX300 = 300 / 25.4 / 10; // 10 unidades por mm → píxeles a 300 ppp
+const PRODUCTOS = {
+  chapa: { grupo: "Imprimir", nombre: "Chapa 58 mm", ancho: 700, alto: 700, mm: true, forma: "circulo", impresion: { w: 70, h: 70, circulo: true },
+    leyenda: [["#1b1e27", "Corte 70 mm"], ["#e6007e", "Cara visible 58 mm"], ["#0096d6", "Zona segura 50 mm"]] },
+  taza: { grupo: "Imprimir", nombre: "Taza 20 × 9,5 cm", ancho: 2000, alto: 950, mm: true, impresion: { w: 200, h: 95, espejo: true },
+    leyenda: [["#0096d6", "Margen seguro 5 mm"], ["#e6007e", "Centro (lado contrario al asa)"]] },
+  a5: { grupo: "Imprimir", nombre: "Flyer A5", ancho: 1480, alto: 2100, mm: true, impresion: { w: 148, h: 210 }, leyenda: [["#0096d6", "Margen seguro 5 mm"]] },
+  a4: { grupo: "Imprimir", nombre: "Cartel A4", ancho: 2100, alto: 2970, mm: true, impresion: { w: 210, h: 297 }, leyenda: [["#0096d6", "Margen seguro 5 mm"]] },
+  a3: { grupo: "Imprimir", nombre: "Cartel A3", ancho: 2970, alto: 4200, mm: true, impresion: { w: 297, h: 420 }, leyenda: [["#0096d6", "Margen seguro 5 mm"]] },
+  igPost: { grupo: "Instagram", nombre: "Post cuadrado", ancho: 1080, alto: 1080, leyenda: [] },
+  igVertical: { grupo: "Instagram", nombre: "Post vertical 4:5", ancho: 1080, alto: 1350, leyenda: [] },
+  igHistoria: { grupo: "Instagram", nombre: "Historia / Reel", ancho: 1080, alto: 1920, leyenda: [["#0096d6", "Zonas tapadas por la interfaz de Instagram"]] },
+};
+const HOJAS = { A4: [210, 297], A3: [297, 420] };
+
+/* ============================== Recursos ============================== */
+const FUENTES = ["Anton", "Bebas Neue", "Oswald", "Archivo Black", "Abril Fatface", "Playfair Display", "Montserrat", "Poppins", "Rubik", "Righteous", "Fredoka", "Pacifico", "Lobster", "Dancing Script", "Caveat", "Permanent Marker", "IBM Plex Sans"];
+function estallido(puntas, interior) {
+  let d = "";
+  for (let i = 0; i < puntas * 2; i++) {
+    const r = i % 2 ? 50 * interior : 50, a = (Math.PI * i) / puntas - Math.PI / 2;
+    d += `${i ? "L" : "M"} ${(50 + r * Math.cos(a)).toFixed(2)} ${(50 + r * Math.sin(a)).toFixed(2)} `;
+  }
+  return d + "Z";
+}
+const FORMAS = {
+  cuadrado: { nombre: "Cuadrado", d: "M 0 0 L 100 0 L 100 100 L 0 100 Z" },
+  redondeado: { nombre: "Rectángulo redondeado", d: "M 14 0 L 86 0 C 94 0 100 6 100 14 L 100 86 C 100 94 94 100 86 100 L 14 100 C 6 100 0 94 0 86 L 0 14 C 0 6 6 0 14 0 Z" },
+  circulo: { nombre: "Círculo", d: "M 50 0 C 77.6 0 100 22.4 100 50 C 100 77.6 77.6 100 50 100 C 22.4 100 0 77.6 0 50 C 0 22.4 22.4 0 50 0 Z" },
+  triangulo: { nombre: "Triángulo", d: "M 50 4 L 97 94 L 3 94 Z" },
+  rombo: { nombre: "Rombo", d: "M 50 0 L 100 50 L 50 100 L 0 50 Z" },
+  estrella: { nombre: "Estrella", d: "M 50 2 L 61.8 36.2 L 98 36.9 L 69.1 58.6 L 79.4 93.1 L 50 72.5 L 20.6 93.1 L 30.9 58.6 L 2 36.9 L 38.2 36.2 Z" },
+  corazon: { nombre: "Corazón", d: "M 50 25 C 52 12 60 2 74 2 C 90 2 100 14 98 32 C 96 52 72 70 50 96 C 28 70 4 52 2 32 C 0 14 10 2 26 2 C 40 2 48 12 50 25 Z" },
+  hexagono: { nombre: "Hexágono", d: "M 50 0 L 93.3 25 L 93.3 75 L 50 100 L 6.7 75 L 6.7 25 Z" },
+  arco: { nombre: "Arco", d: "M 0 100 L 0 50 C 0 22.4 22.4 0 50 0 C 77.6 0 100 22.4 100 50 L 100 100 Z" },
+  mancha: { nombre: "Mancha", d: "M 52 3 C 75 2 97 18 98 45 C 99 70 82 96 52 97 C 24 98 3 80 2 52 C 1 25 26 4 52 3 Z" },
+  gota: { nombre: "Gota", d: "M 50 0 C 50 0 90 45 90 65 C 90 87 72 100 50 100 C 28 100 10 87 10 65 C 10 45 50 0 50 0 Z" },
+  nube: { nombre: "Nube", d: "M 25 80 C 10 80 2 70 2 58 C 2 46 12 38 24 39 C 27 22 40 12 55 14 C 68 16 77 26 79 38 C 91 38 98 47 98 58 C 98 70 89 80 77 80 Z" },
+  flecha: { nombre: "Flecha", d: "M 0 35 L 60 35 L 60 10 L 100 50 L 60 90 L 60 65 L 0 65 Z" },
+  burbuja: { nombre: "Bocadillo", d: "M 10 5 L 90 5 C 95 5 98 8 98 13 L 98 62 C 98 67 95 70 90 70 L 45 70 L 25 92 L 28 70 L 10 70 C 5 70 2 67 2 62 L 2 13 C 2 8 5 5 10 5 Z" },
+  cinta: { nombre: "Cinta", d: "M 0 25 L 100 25 L 88 50 L 100 75 L 0 75 L 12 50 Z" },
+  estallido: { nombre: "Estallido", d: estallido(16, 0.78) },
+  sello: { nombre: "Sello", d: estallido(24, 0.9) },
+  destello: { nombre: "Destello", d: "M 50 0 C 54 30 70 46 100 50 C 70 54 54 70 50 100 C 46 70 30 54 0 50 C 30 46 46 30 50 0 Z" },
+};
+const MARCOS = ["circulo", "redondeado", "arco", "mancha", "corazon", "estrella", "hexagono", "cuadrado"];
+const FORMAS_LISTA = ["cuadrado", "redondeado", "circulo", "triangulo", "rombo", "estrella", "corazon", "hexagono", "gota", "nube", "flecha", "burbuja", "cinta", "estallido", "sello", "destello"];
+
+/* Iconos de trazo (24 × 24) al estilo de Feather Icons (licencia MIT). */
+const ICONOS = {
+  corazon: '<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>',
+  estrella: '<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>',
+  telefono: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>',
+  ubicacion: '<path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
+  reloj: '<circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>',
+  calendario: '<rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/>',
+  correo: '<path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>',
+  camara: '<path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/>',
+  carrito: '<circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>',
+  regalo: '<polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/>',
+  musica: '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>',
+  sol: '<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>',
+  luna: '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>',
+  hecho: '<path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>',
+  flecha: '<line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>',
+  rayo: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+  premio: '<circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/>',
+  cafe: '<path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/><line x1="6" y1="1" x2="6" y2="4"/><line x1="10" y1="1" x2="10" y2="4"/><line x1="14" y1="1" x2="14" y2="4"/>',
+  sonrisa: '<circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>',
+  pulgar: '<path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/>',
+  personas: '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+  campana: '<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>',
+  etiqueta: '<path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/>',
+  web: '<circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>',
+  envio: '<rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>',
+  porcentaje: '<line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/>',
+  casa: '<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>',
+  maletin: '<rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+  tijeras: '<circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/>',
+};
+const NOMBRES_ICONO = { corazon: "Corazón", estrella: "Estrella", telefono: "Teléfono", ubicacion: "Ubicación", reloj: "Reloj", calendario: "Calendario", correo: "Correo", camara: "Cámara", carrito: "Carrito", regalo: "Regalo", musica: "Música", sol: "Sol", luna: "Luna", hecho: "Hecho", flecha: "Flecha", rayo: "Rayo", premio: "Premio", cafe: "Café", sonrisa: "Sonrisa", pulgar: "Me gusta", personas: "Personas", campana: "Campana", etiqueta: "Etiqueta", web: "Web", envio: "Envío", porcentaje: "Porcentaje", casa: "Casa", maletin: "Maletín", tijeras: "Tijeras" };
+const svgIcono = (k, color) => `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ICONOS[k]}</g></svg>`;
+
+const PALETA = ["#ffffff", "#f4f1ea", "#1b1e27", "#d1006f", "#ff4fa3", "#ff7a00", "#ffd23f", "#2ec4b6", "#0096d6", "#3a3dff", "#7b2cbf", "#1f7a4d", "#9be564", "#e63946", "#ffb4a2", "#cdb4db"];
+const DEGRADADOS = [
+  ["#ff4fa3", "#ffd23f", 45], ["#3a3dff", "#2ec4b6", 135], ["#7b2cbf", "#ff4fa3", 90], ["#ff7a00", "#e63946", 160],
+  ["#0f2027", "#2c5364", 90], ["#f4f1ea", "#ffb4a2", 120], ["#9be564", "#2ec4b6", 60], ["#1b1e27", "#7b2cbf", 135],
+];
+const PATRONES = { puntos: "Puntos", rayas: "Rayas", cuadros: "Cuadros", ondas: "Ondas", confeti: "Confeti", lunares: "Lunares", rombos: "Rombos", cruces: "Cruces" };
+const ESTILOS_TEXTO = [
+  { nombre: "Título impactante", fuente: "Anton", tam: 0.13, mayus: true },
+  { nombre: "Título elegante", fuente: "Playfair Display", tam: 0.1, negrita: true },
+  { nombre: "Subtítulo", fuente: "Montserrat", tam: 0.055, negrita: true, espaciado: 120, mayus: true },
+  { nombre: "Texto normal", fuente: "Poppins", tam: 0.04 },
+  { nombre: "A mano", fuente: "Caveat", tam: 0.09 },
+  { nombre: "Caligrafía", fuente: "Dancing Script", tam: 0.09 },
+  { nombre: "Retro", fuente: "Righteous", tam: 0.09, color: "#ff7a00", sombraDura: true },
+  { nombre: "Con contorno", fuente: "Archivo Black", tam: 0.1, color: "#ffffff", contorno: "#1b1e27", mayus: true },
+  { nombre: "Resaltado", fuente: "Montserrat", tam: 0.05, color: "#ffffff", resaltado: "#d1006f", negrita: true },
+  { nombre: "Rotulador", fuente: "Permanent Marker", tam: 0.08 },
+  { nombre: "Con sombra", fuente: "Bebas Neue", tam: 0.12, sombra: true },
+];
+const COMBOS = [
+  { nombre: "Título + subtítulo", elementos: [
+    { t: "texto", texto: "GRAN TÍTULO", fuente: "Anton", tam: 0.12, x: 0.5, y: 0.45 },
+    { t: "texto", texto: "Un subtítulo que lo explica", fuente: "Poppins", tam: 0.04, x: 0.5, y: 0.56 }] },
+  { nombre: "Fecha y lugar", elementos: [
+    { t: "icono", icono: "calendario", x: 0.3, y: 0.45, tam: 0.06 },
+    { t: "texto", texto: "Viernes 14 · 18:00", fuente: "Montserrat", negrita: true, tam: 0.045, x: 0.56, y: 0.45, w: 0.45, alinear: "left" },
+    { t: "icono", icono: "ubicacion", x: 0.3, y: 0.55, tam: 0.06 },
+    { t: "texto", texto: "Calle Mayor 12", fuente: "Montserrat", negrita: true, tam: 0.045, x: 0.56, y: 0.55, w: 0.45, alinear: "left" }] },
+  { nombre: "Cita", elementos: [
+    { t: "texto", texto: "«Lo bien hecho bien parece»", fuente: "Playfair Display", negrita: true, tam: 0.06, x: 0.5, y: 0.45, w: 0.8 },
+    { t: "linea", x1: 0.42, y1: 0.56, x2: 0.58, y2: 0.56, grosor: 0.004 },
+    { t: "texto", texto: "Refrán", fuente: "Montserrat", tam: 0.035, x: 0.5, y: 0.61, espaciado: 150, mayus: true }] },
+  { nombre: "Oferta", elementos: [
+    { t: "forma", forma: "estallido", color: "#ffd23f", x: 0.5, y: 0.5, w: 0.4 },
+    { t: "texto", texto: "-30%", fuente: "Anton", tam: 0.11, x: 0.5, y: 0.49, color: "#1b1e27" }] },
+];
+const ANIMACIONES = { ninguna: "Ninguna", aparecer: "Aparecer", subir: "Deslizar hacia arriba", bajar: "Deslizar hacia abajo", izquierda: "Entrar por la izquierda", derecha: "Entrar por la derecha", zoom: "Acercar", rebote: "Rebote", girar: "Girar", escribir: "Máquina de escribir" };
+const CONTINUAS = { ninguna: "Ninguna", latido: "Latido", flotar: "Flotar", balanceo: "Balanceo", parpadeo: "Parpadeo" };
+const TRANSICIONES = { corte: "Corte", fundido: "Fundido", deslizar: "Deslizar" };
+
+/* ============================== Plantillas (coordenadas relativas) ============================== */
+const TODOS = Object.keys(PRODUCTOS);
+const CARTELES_IG = ["a5", "a4", "a3", "igPost", "igVertical", "igHistoria"];
+const PLANTILLAS = [
+  { nombre: "Evento", para: CARTELES_IG, paginas: [{
+    fondo: { degradado: ["#3a3dff", "#7b2cbf", 135] }, elementos: [
+      { t: "forma", forma: "circulo", color: "#ff4fa3", x: 0.88, y: 0.1, w: 0.42, opacidad: 0.5, anim: { continua: "flotar" } },
+      { t: "forma", forma: "circulo", color: "#2ec4b6", x: 0.08, y: 0.92, w: 0.36, opacidad: 0.45 },
+      { t: "texto", texto: "JORNADA DE PUERTAS ABIERTAS", fuente: "Montserrat", negrita: true, tam: 0.032, color: "#ffd23f", x: 0.5, y: 0.14, espaciado: 200, anim: { entrada: "aparecer" } },
+      { t: "marco", forma: "arco", x: 0.5, y: 0.38, w: 0.58, h: 0.3, anim: { entrada: "zoom", retardo: 0.2 } },
+      { t: "texto", texto: "Ven a conocernos", fuente: "Anton", tam: 0.11, color: "#ffffff", x: 0.5, y: 0.63, w: 0.9, mayus: true, anim: { entrada: "subir", retardo: 0.5 } },
+      { t: "icono", icono: "calendario", color: "#ffd23f", x: 0.28, y: 0.76, tam: 0.05, anim: { entrada: "aparecer", retardo: 0.9 } },
+      { t: "texto", texto: "Viernes 14 · 18:00", fuente: "Poppins", negrita: true, tam: 0.04, color: "#ffffff", x: 0.57, y: 0.76, w: 0.5, alinear: "left", anim: { entrada: "derecha", retardo: 0.9 } },
+      { t: "icono", icono: "ubicacion", color: "#ffd23f", x: 0.28, y: 0.84, tam: 0.05, anim: { entrada: "aparecer", retardo: 1.1 } },
+      { t: "texto", texto: "Oficina FAKTORINGO", fuente: "Poppins", negrita: true, tam: 0.04, color: "#ffffff", x: 0.57, y: 0.84, w: 0.5, alinear: "left", anim: { entrada: "derecha", retardo: 1.1 } },
+    ] }] },
+  { nombre: "Rebajas", para: CARTELES_IG, paginas: [{
+    fondo: { color: "#ffd23f" }, elementos: [
+      { t: "forma", forma: "estallido", color: "#e63946", x: 0.72, y: 0.3, w: 0.42, anim: { entrada: "rebote", continua: "latido" } },
+      { t: "texto", texto: "-30%", fuente: "Anton", tam: 0.12, color: "#ffffff", x: 0.72, y: 0.3, w: 0.4, anim: { entrada: "rebote" } },
+      { t: "texto", texto: "REBAJAS", fuente: "Archivo Black", tam: 0.16, color: "#1b1e27", x: 0.5, y: 0.58, w: 0.95, anim: { entrada: "izquierda", retardo: 0.3 } },
+      { t: "texto", texto: "En toda la tienda hasta el domingo", fuente: "Poppins", tam: 0.045, color: "#1b1e27", x: 0.5, y: 0.7, w: 0.8, anim: { entrada: "aparecer", retardo: 0.7 } },
+      { t: "forma", forma: "redondeado", color: "#1b1e27", x: 0.5, y: 0.84, w: 0.5, h: 0.07, anim: { entrada: "subir", retardo: 1 } },
+      { t: "texto", texto: "COMPRA YA", fuente: "Montserrat", negrita: true, tam: 0.04, color: "#ffd23f", x: 0.5, y: 0.84, espaciado: 150, anim: { entrada: "subir", retardo: 1 } },
+    ] }] },
+  { nombre: "Cumpleaños", para: TODOS, paginas: [{
+    fondo: { patron: ["confeti", "#fff4f9", "#d1006f"] }, elementos: [
+      { t: "marco", forma: "mancha", x: 0.5, y: 0.4, w: 0.55, anim: { entrada: "zoom" } },
+      { t: "texto", texto: "¡Feliz cumpleaños!", fuente: "Pacifico", tam: 0.09, color: "#d1006f", x: 0.5, y: 0.75, w: 0.9, anim: { entrada: "subir", retardo: 0.4 } },
+      { t: "texto", texto: "LUCÍA · 6 AÑOS", fuente: "Montserrat", negrita: true, tam: 0.045, color: "#1b1e27", x: 0.5, y: 0.86, espaciado: 200, anim: { entrada: "aparecer", retardo: 0.8 } },
+    ] }] },
+  { nombre: "Frase", para: TODOS, paginas: [{
+    fondo: { color: "#1b1e27" }, elementos: [
+      { t: "texto", texto: "“", fuente: "Playfair Display", tam: 0.3, color: "#ff4fa3", x: 0.5, y: 0.25 },
+      { t: "texto", texto: "Lo bien hecho bien parece", fuente: "Playfair Display", negrita: true, tam: 0.09, color: "#ffffff", x: 0.5, y: 0.48, w: 0.8, anim: { entrada: "escribir", dur: 1.6 } },
+      { t: "linea", x1: 0.42, y1: 0.66, x2: 0.58, y2: 0.66, color: "#ff4fa3", grosor: 0.005 },
+      { t: "texto", texto: "REFRÁN", fuente: "Montserrat", tam: 0.035, color: "#a1a7b7", x: 0.5, y: 0.72, espaciado: 300, anim: { entrada: "aparecer", retardo: 1.8 } },
+    ] }] },
+  { nombre: "Aviso de oficina", para: CARTELES_IG, paginas: [{
+    fondo: { color: "#ffffff" }, elementos: [
+      { t: "forma", forma: "cuadrado", color: "#d1006f", x: 0.5, y: 0.09, w: 1, h: 0.18 },
+      { t: "icono", icono: "campana", color: "#ffffff", x: 0.5, y: 0.09, tam: 0.09, anim: { continua: "balanceo" } },
+      { t: "texto", texto: "AVISO", fuente: "Anton", tam: 0.13, color: "#1b1e27", x: 0.5, y: 0.3, anim: { entrada: "zoom" } },
+      { t: "texto", texto: "El lunes la oficina abre a las 10:00 por mantenimiento del sistema. Gracias por vuestra paciencia.", fuente: "Poppins", tam: 0.045, color: "#1b1e27", x: 0.5, y: 0.5, w: 0.78, anim: { entrada: "aparecer", retardo: 0.4 } },
+      { t: "linea", x1: 0.3, y1: 0.7, x2: 0.7, y2: 0.7, color: "#d1006f", grosor: 0.004 },
+      { t: "texto", texto: "FAKTORINGO", fuente: "Montserrat", negrita: true, tam: 0.04, color: "#d1006f", x: 0.5, y: 0.9, espaciado: 300 },
+    ] }] },
+  { nombre: "Producto nuevo", para: CARTELES_IG, paginas: [{
+    fondo: { color: "#f4f1ea" }, elementos: [
+      { t: "marco", forma: "redondeado", x: 0.5, y: 0.38, w: 0.8, h: 0.5, anim: { entrada: "zoom" } },
+      { t: "forma", forma: "sello", color: "#2ec4b6", x: 0.83, y: 0.15, w: 0.22, anim: { entrada: "rebote", retardo: 0.5, continua: "balanceo" } },
+      { t: "texto", texto: "NUEVO", fuente: "Archivo Black", tam: 0.04, color: "#ffffff", x: 0.83, y: 0.15, anim: { entrada: "rebote", retardo: 0.5 } },
+      { t: "texto", texto: "Taza personalizada", fuente: "Playfair Display", negrita: true, tam: 0.08, color: "#1b1e27", x: 0.5, y: 0.73, w: 0.9, anim: { entrada: "subir", retardo: 0.3 } },
+      { t: "texto", texto: "Con tu foto y tu frase · 12,90 €", fuente: "Poppins", tam: 0.045, color: "#5a5f70", x: 0.5, y: 0.82, w: 0.9, anim: { entrada: "aparecer", retardo: 0.6 } },
+    ] }] },
+  { nombre: "Chapa con nombre", para: ["chapa"], paginas: [{
+    fondo: { degradado: ["#ff4fa3", "#ffd23f", 45] }, elementos: [
+      { t: "forma", forma: "estrella", color: "#ffffff", x: 0.5, y: 0.34, w: 0.2, opacidad: 0.9 },
+      { t: "texto", texto: "LUCÍA", fuente: "Anton", tam: 0.24, color: "#ffffff", contorno: "#1b1e27", x: 0.5, y: 0.56 },
+      { t: "texto", texto: "¡6 años!", fuente: "Pacifico", tam: 0.08, color: "#1b1e27", x: 0.5, y: 0.73 },
+    ] }] },
+  { nombre: "Chapa con foto", para: ["chapa"], paginas: [{
+    fondo: { color: "#2ec4b6" }, elementos: [
+      { t: "marco", forma: "circulo", x: 0.5, y: 0.43, w: 0.62 },
+      { t: "forma", forma: "cinta", color: "#d1006f", x: 0.5, y: 0.76, w: 0.74, h: 0.16 },
+      { t: "texto", texto: "¡MI EQUIPO!", fuente: "Archivo Black", tam: 0.07, color: "#ffffff", x: 0.5, y: 0.76 },
+    ] }] },
+  { nombre: "Taza foto y frase", para: ["taza"], paginas: [{
+    fondo: { color: "#ffffff" }, elementos: [
+      { t: "marco", forma: "redondeado", x: 0.25, y: 0.5, w: 0.4, h: 0.8 },
+      { t: "marco", forma: "redondeado", x: 0.75, y: 0.5, w: 0.4, h: 0.8 },
+      { t: "texto", texto: "La mejor abuela del mundo", fuente: "Dancing Script", tam: 0.14, color: "#d1006f", x: 0.5, y: 0.5, w: 0.18 },
+    ] }] },
+  { nombre: "Taza de oficina", para: ["taza"], paginas: [{
+    fondo: { patron: ["puntos", "#fff4f9", "#ffb4a2"] }, elementos: [
+      { t: "icono", icono: "cafe", color: "#1b1e27", x: 0.5, y: 0.3, tam: 0.3 },
+      { t: "texto", texto: "PRIMERO CAFÉ, LUEGO EXCEL", fuente: "Archivo Black", tam: 0.11, color: "#1b1e27", x: 0.5, y: 0.72, w: 0.45 },
+    ] }] },
+  { nombre: "Carrusel de consejos", para: ["igPost", "igVertical", "igHistoria"], paginas: [
+    { duracion: 4, fondo: { color: "#3a3dff" }, elementos: [
+      { t: "texto", texto: "3 CONSEJOS", fuente: "Anton", tam: 0.15, color: "#ffffff", x: 0.5, y: 0.42, anim: { entrada: "zoom" } },
+      { t: "texto", texto: "para regalar algo único", fuente: "Caveat", tam: 0.09, color: "#ffd23f", x: 0.5, y: 0.56, anim: { entrada: "aparecer", retardo: 0.5 } },
+      { t: "icono", icono: "flecha", color: "#ffffff", x: 0.5, y: 0.8, tam: 0.08, anim: { continua: "flotar" } }] },
+    { duracion: 4, fondo: { color: "#ffffff" }, elementos: [
+      { t: "texto", texto: "1", fuente: "Anton", tam: 0.3, color: "#3a3dff", x: 0.5, y: 0.3, anim: { entrada: "rebote" } },
+      { t: "texto", texto: "Usa una foto con buena luz", fuente: "Poppins", negrita: true, tam: 0.07, color: "#1b1e27", x: 0.5, y: 0.58, w: 0.8, anim: { entrada: "subir", retardo: 0.4 } }] },
+    { duracion: 4, fondo: { color: "#ffffff" }, elementos: [
+      { t: "texto", texto: "2", fuente: "Anton", tam: 0.3, color: "#3a3dff", x: 0.5, y: 0.3, anim: { entrada: "rebote" } },
+      { t: "texto", texto: "Añade una frase que solo entendáis vosotros", fuente: "Poppins", negrita: true, tam: 0.07, color: "#1b1e27", x: 0.5, y: 0.58, w: 0.8, anim: { entrada: "subir", retardo: 0.4 } }] },
+    { duracion: 4, fondo: { color: "#ffd23f" }, elementos: [
+      { t: "texto", texto: "3", fuente: "Anton", tam: 0.3, color: "#3a3dff", x: 0.5, y: 0.3, anim: { entrada: "rebote" } },
+      { t: "texto", texto: "Pídelo con tiempo: lo hacemos en 48 h", fuente: "Poppins", negrita: true, tam: 0.07, color: "#1b1e27", x: 0.5, y: 0.58, w: 0.8, anim: { entrada: "subir", retardo: 0.4 } }] },
+  ] },
+];
+
+/* ============================== Estado ============================== */
+let productoId = "igPost";
 let P = PRODUCTOS[productoId];
+let doc = null; // { paginas: [{ id, lienzo, duracion, transicion, miniatura }], actual }
 let zoom = 1;
 let exportando = false;
 let cargando = false;
 let historia = [];
 let futuro = [];
-let cola = [];
-let contador = 1;
+const colas = {};
+let musica = null;
 let sample = null;
-let control = null;
 let downloads = null;
-const HOJAS = { A4: [210, 297], A3: [297, 420] };
-const almacen = {
-  leer(k) { try { return localStorage.getItem(k); } catch { return null; } },
-  guardar(k, v) { try { localStorage.setItem(k, v); } catch { /* sin espacio: se ignora */ } },
-};
+let control = null;
+let contador = 1;
+let guiaV = false, guiaH = false;
+let idPag = 1;
+const PROPS = ["data", "selectable", "evented", "lockMovementX", "lockMovementY", "hasControls"];
+const nuevaPaginaVacia = () => ({ id: idPag++, lienzo: null, duracion: 5, transicion: "fundido", miniatura: "" });
 
-const canvas = new fabric.Canvas("lienzo", {
-  preserveObjectStacking: true, backgroundColor: null, selectionColor: "rgba(209,0,111,0.08)",
-  selectionBorderColor: "#d1006f", controlsAboveOverlay: true,
-});
+fabric.textureSize = 4096;
+const canvas = new fabric.Canvas("lienzo", { preserveObjectStacking: true, backgroundColor: null, selectionColor: "rgba(209,0,111,0.08)", selectionBorderColor: "#d1006f", controlsAboveOverlay: true });
 fabric.Object.prototype.set({ transparentCorners: false, cornerColor: "#ffffff", cornerStrokeColor: "#d1006f", borderColor: "#d1006f", cornerSize: 11, cornerStyle: "circle" });
-
 const objetos = () => canvas.getObjects();
 const datos = (o) => (o.data = o.data || {});
 const nombre = (o) => datos(o).nombre || o.type;
+const ladoMenor = () => Math.min(P.ancho, P.alto);
 
-/* ---------- Producto y tamaño del lienzo ---------- */
+/* ============================== Lienzo y guías ============================== */
+const recortePagina = () => (P.forma === "circulo" ? new fabric.Circle({ radius: P.ancho / 2, left: 0, top: 0 }) : new fabric.Rect({ width: P.ancho, height: P.alto, left: 0, top: 0 }));
 function prepararProducto() {
   P = PRODUCTOS[productoId];
-  canvas.clipPath = P.forma === "circulo"
-    ? new fabric.Circle({ radius: P.ancho / 2, left: 0, top: 0 })
-    : new fabric.Rect({ width: P.ancho, height: P.alto, left: 0, top: 0 });
+  canvas.clipPath = recortePagina();
   const fondo = objetos().find((o) => datos(o).fondo);
-  if (fondo) fondo.set({ width: P.ancho, height: P.alto, left: 0, top: 0 });
+  if (fondo) { fondo.set({ width: P.ancho, height: P.alto, left: 0, top: 0, scaleX: 1, scaleY: 1 }); fondo.setCoords(); }
   $("leyenda").innerHTML = P.leyenda.map(([c, t]) => `<span><i style="border-color:${c}"></i>${t}</span>`).join("");
+  $("medida").textContent = P.mm ? `${coma(P.ancho / 100)} × ${coma(P.alto / 100)} cm` : `${P.ancho} × ${P.alto} px`;
   ajustarTamano();
   pintarExportar();
+  pintarPlantillas();
 }
-
 function ajustarTamano() {
-  const marco = $("marco");
-  const anchoDisp = Math.max(200, marco.clientWidth - 40);
-  const altoDisp = Math.max(240, Math.min(window.innerHeight * 0.72, 760));
+  const anchoDisp = Math.max(200, $("marco").clientWidth - 40);
+  const altoDisp = Math.max(260, Math.min(window.innerHeight * 0.66, 760));
   zoom = Math.min(anchoDisp / P.ancho, altoDisp / P.alto);
   canvas.setDimensions({ width: Math.round(P.ancho * zoom), height: Math.round(P.alto * zoom) });
   canvas.setZoom(zoom);
   canvas.requestRenderAll();
 }
-window.addEventListener("resize", () => ajustarTamano());
-
-/* ---------- Guías (no se imprimen) ---------- */
+window.addEventListener("resize", ajustarTamano);
 canvas.on("after:render", (opt) => {
-  if (exportando || !$("ver-guias").checked) return;
+  if (exportando) return;
   const ctx = (opt && opt.ctx) || canvas.getContext();
   const v = canvas.viewportTransform;
   ctx.save();
   ctx.transform(v[0], v[1], v[2], v[3], v[4], v[5]);
   ctx.lineWidth = 1.5 / zoom;
-  const circulo = (r, color, discontinua) => {
-    ctx.beginPath(); ctx.setLineDash(discontinua ? [10 / zoom, 6 / zoom] : []);
-    ctx.strokeStyle = color; ctx.arc(P.ancho / 2, P.alto / 2, r, 0, Math.PI * 2); ctx.stroke();
-  };
-  const marcoSeguro = (m) => { ctx.setLineDash([]); ctx.strokeStyle = "#0096d6"; ctx.strokeRect(m, m, P.ancho - 2 * m, P.alto - 2 * m); };
-  if (productoId === "chapa") { circulo(349, "#1b1e27", true); circulo(290, "#e6007e"); circulo(250, "#0096d6"); }
-  if (productoId === "taza") {
-    marcoSeguro(50);
-    ctx.strokeStyle = "#e6007e"; ctx.setLineDash([10 / zoom, 6 / zoom]);
-    ctx.beginPath(); ctx.moveTo(P.ancho / 2, 0); ctx.lineTo(P.ancho / 2, P.alto); ctx.stroke();
+  if ($("ver-guias").checked) {
+    const circ = (r, color, disc) => { ctx.beginPath(); ctx.setLineDash(disc ? [10 / zoom, 6 / zoom] : []); ctx.strokeStyle = color; ctx.arc(P.ancho / 2, P.alto / 2, r, 0, Math.PI * 2); ctx.stroke(); };
+    const seguro = (m) => { ctx.setLineDash([]); ctx.strokeStyle = "#0096d6"; ctx.strokeRect(m, m, P.ancho - 2 * m, P.alto - 2 * m); };
+    if (productoId === "chapa") { circ(349, "#1b1e27", true); circ(290, "#e6007e"); circ(250, "#0096d6"); }
+    if (productoId === "taza") { seguro(50); ctx.strokeStyle = "#e6007e"; ctx.setLineDash([10 / zoom, 6 / zoom]); ctx.beginPath(); ctx.moveTo(P.ancho / 2, 0); ctx.lineTo(P.ancho / 2, P.alto); ctx.stroke(); }
+    if (["a5", "a4", "a3"].includes(productoId)) seguro(50);
+    if (productoId === "igHistoria") {
+      ctx.fillStyle = "rgba(0,150,214,0.14)"; ctx.fillRect(0, 0, P.ancho, 250); ctx.fillRect(0, P.alto - 340, P.ancho, 340);
+      ctx.setLineDash([10 / zoom, 6 / zoom]); ctx.strokeStyle = "#0096d6";
+      ctx.beginPath(); ctx.moveTo(0, 250); ctx.lineTo(P.ancho, 250); ctx.moveTo(0, P.alto - 340); ctx.lineTo(P.ancho, P.alto - 340); ctx.stroke();
+    }
   }
-  if (productoId === "cartel") marcoSeguro(50);
-  if (productoId === "post") marcoSeguro(54);
+  if (guiaV || guiaH) {
+    ctx.setLineDash([]); ctx.strokeStyle = "#ff4fa3"; ctx.beginPath();
+    if (guiaV) { ctx.moveTo(P.ancho / 2, 0); ctx.lineTo(P.ancho / 2, P.alto); }
+    if (guiaH) { ctx.moveTo(0, P.alto / 2); ctx.lineTo(P.ancho, P.alto / 2); }
+    ctx.stroke();
+  }
   ctx.restore();
 });
 $("ver-guias").addEventListener("change", () => canvas.requestRenderAll());
 
-/* ---------- Máscaras de recorte (estilo Photoshop) ----------
-   Una capa marcada como "recortada" solo se ve dentro de la primera capa
-   normal que tenga debajo (la base). Varias capas seguidas pueden recortarse
-   a la misma base. */
-function baseDe(obj) {
-  const lista = objetos();
-  for (let i = lista.indexOf(obj) - 1; i >= 0; i--) {
-    if (!datos(lista[i]).recortada) return lista[i];
-  }
+/* ============================== Máscaras de recorte ==============================
+   Una capa "recortada" solo se ve dentro de la primera capa normal que tiene
+   debajo (su base), como Alt+clic en Photoshop. Varias seguidas comparten base. */
+function baseDe(obj, lista = objetos()) {
+  for (let i = lista.indexOf(obj) - 1; i >= 0; i--) if (!datos(lista[i]).recortada) return lista[i];
   return null;
 }
-function recortadasSobre(base) {
-  const lista = objetos();
+function recortadasSobre(base, lista = objetos()) {
   const res = [];
   for (let i = lista.indexOf(base) + 1; i < lista.length && datos(lista[i]).recortada; i++) res.push(lista[i]);
   return res;
 }
-function aplicarRecortes() {
-  for (const o of objetos()) {
-    if (!datos(o).recortada) { o.clipPath = null; continue; }
-    const base = baseDe(o);
-    if (!base) { datos(o).recortada = false; o.clipPath = null; continue; }
-    base.clone((copia) => {
-      copia.set({ absolutePositioned: true, visible: true, opacity: 1, clipPath: null, shadow: null });
-      if (copia.type === "textbox" || copia.type === "i-text" || copia.type === "text") copia.set({ fill: "#000" });
-      o.clipPath = copia;
-      o.dirty = true;
-      canvas.requestRenderAll();
-    }, ["data"]);
-  }
-  canvas.requestRenderAll();
+function copiaParaRecorte(base) {
+  return new Promise((ok) => base.clone((c) => {
+    c.set({ absolutePositioned: true, visible: true, opacity: 1, clipPath: null, shadow: null, globalCompositeOperation: "source-over" });
+    if (c.type === "textbox") c.set({ fill: "#000", stroke: null });
+    ok(c);
+  }));
 }
-
-/* Al mover una base, sus capas recortadas la acompañan (como un marco). */
+async function aplicarRecortes(lienzo = canvas) {
+  const lista = lienzo.getObjects();
+  const tareas = [];
+  for (const o of lista) {
+    if (!datos(o).recortada) { o.clipPath = null; continue; }
+    const base = baseDe(o, lista);
+    if (!base) { datos(o).recortada = false; o.clipPath = null; continue; }
+    tareas.push(copiaParaRecorte(base).then((c) => { o.clipPath = c; o.dirty = true; }));
+  }
+  await Promise.all(tareas);
+  lienzo.requestRenderAll();
+}
 canvas.on("mouse:down", (e) => { if (e.target) e.target.__ultimo = { left: e.target.left, top: e.target.top }; });
+canvas.on("mouse:up", () => { if (guiaV || guiaH) { guiaV = guiaH = false; canvas.requestRenderAll(); } });
 canvas.on("object:moving", (e) => {
-  const t = e.target;
-  if (!t || t.type === "activeSelection" || datos(t).recortada) return;
+  const t = e.target; if (!t) return;
+  const c = t.getCenterPoint(), umbral = 8 / zoom;
+  guiaV = Math.abs(c.x - P.ancho / 2) < umbral;
+  guiaH = Math.abs(c.y - P.alto / 2) < umbral;
+  if (guiaV || guiaH) t.setPositionByOrigin(new fabric.Point(guiaV ? P.ancho / 2 : c.x, guiaH ? P.alto / 2 : c.y), "center", "center");
+  if (t.type === "activeSelection" || datos(t).recortada) return;
   const prev = t.__ultimo || { left: t.left, top: t.top };
   const dx = t.left - prev.left, dy = t.top - prev.top;
-  for (const hijo of recortadasSobre(t)) {
-    hijo.set({ left: hijo.left + dx, top: hijo.top + dy }); hijo.setCoords();
-    if (hijo.clipPath) hijo.clipPath.set({ left: hijo.clipPath.left + dx, top: hijo.clipPath.top + dy });
+  for (const h of recortadasSobre(t)) {
+    h.set({ left: h.left + dx, top: h.top + dy }); h.setCoords();
+    if (h.clipPath) h.clipPath.set({ left: h.clipPath.left + dx, top: h.clipPath.top + dy });
   }
   t.__ultimo = { left: t.left, top: t.top };
 });
@@ -477,273 +798,793 @@ canvas.on("object:modified", (e) => {
   aplicarRecortes(); cambio();
 });
 
-/* ---------- Historia y guardado ---------- */
-const PROPS = ["data", "selectable", "evented"];
-function instantanea() { return JSON.stringify({ producto: productoId, lienzo: canvas.toJSON(PROPS) }); }
+/* ============================== Documento, páginas e historia ============================== */
+function miniatura() {
+  exportando = true;
+  const url = canvas.toDataURL({ format: "png", multiplier: 180 / Math.max(canvas.width, canvas.height), enableRetinaScaling: false });
+  exportando = false;
+  return url;
+}
+function guardarPaginaActual() {
+  const pag = doc.paginas[doc.actual];
+  pag.lienzo = canvas.toJSON(PROPS);
+  pag.miniatura = miniatura();
+}
+const instantanea = () => JSON.stringify({ producto: productoId, actual: doc.actual, paginas: doc.paginas.map(({ miniatura, ...resto }) => resto) });
 let temporizador = null;
 function cambio() {
-  if (cargando) return;
+  if (cargando || !doc) return;
   clearTimeout(temporizador);
   temporizador = setTimeout(() => {
+    guardarPaginaActual();
     const s = instantanea();
-    if (historia[historia.length - 1] !== s) { historia.push(s); if (historia.length > 30) historia.shift(); futuro = []; }
-    almacen.guardar("taller-recortes-borrador", s);
-    pintarBotonesHistoria();
-  }, 200);
+    if (historia[historia.length - 1] !== s) { historia.push(s); if (historia.length > 25) historia.shift(); futuro = []; }
+    almacen.guardar("taller-recortes-v2", s);
+    pintarBotonesHistoria(); pintarPaginas();
+  }, 250);
   pintarCapas(); pintarPropiedades();
 }
-function cargar(s, alTerminar) {
-  const d = JSON.parse(s);
-  cargando = true;
-  productoId = PRODUCTOS[d.producto] ? d.producto : "chapa";
-  $("producto").value = productoId;
-  canvas.loadFromJSON(d.lienzo, () => {
-    canvas.clipPath = null;
-    prepararProducto();
-    aplicarRecortes();
-    cargando = false;
-    pintarCapas(); pintarPropiedades(); pintarBotonesHistoria();
-    if (alTerminar) alTerminar();
+function cargarLienzo(json) {
+  return new Promise((ok) => {
+    cargando = true;
+    canvas.discardActiveObject();
+    const fin = async () => {
+      prepararProducto();
+      await aplicarRecortes();
+      cargando = false;
+      pintarCapas(); pintarPropiedades(); pintarSubidas();
+      ok();
+    };
+    if (!json) { canvas.clear(); fin(); return; }
+    canvas.loadFromJSON(json, fin);
   });
+}
+async function restaurar(s) {
+  const d = JSON.parse(s);
+  productoId = PRODUCTOS[d.producto] ? d.producto : "igPost";
+  $("producto").value = productoId;
+  P = PRODUCTOS[productoId];
+  doc = { paginas: d.paginas.map((p) => ({ ...nuevaPaginaVacia(), ...p, miniatura: "" })), actual: limitar(d.actual || 0, 0, d.paginas.length - 1) };
+  idPag = Math.max(idPag, ...doc.paginas.map((p) => (p.id || 0) + 1));
+  await cargarLienzo(doc.paginas[doc.actual].lienzo);
+  await generarMiniaturas();
+  pintarPaginas(); pintarBotonesHistoria();
 }
 function pintarBotonesHistoria() { $("deshacer").disabled = historia.length < 2; $("rehacer").disabled = futuro.length === 0; }
-$("deshacer").onclick = () => { if (historia.length < 2) return; futuro.push(historia.pop()); cargar(historia[historia.length - 1]); };
-$("rehacer").onclick = () => { if (!futuro.length) return; const s = futuro.pop(); historia.push(s); cargar(s); };
-
+$("deshacer").onclick = async () => { if (historia.length < 2) return; futuro.push(historia.pop()); await restaurar(historia[historia.length - 1]); };
+$("rehacer").onclick = async () => { if (!futuro.length) return; const s = futuro.pop(); historia.push(s); await restaurar(s); };
 ["object:added", "object:removed"].forEach((ev) => canvas.on(ev, () => cambio()));
-canvas.on("selection:created", () => { pintarCapas(); pintarPropiedades(); });
-canvas.on("selection:updated", () => { pintarCapas(); pintarPropiedades(); });
-canvas.on("selection:cleared", () => { pintarCapas(); pintarPropiedades(); });
+["selection:created", "selection:updated", "selection:cleared"].forEach((ev) => canvas.on(ev, () => { pintarCapas(); pintarPropiedades(); }));
 canvas.on("text:changed", () => { aplicarRecortes(); cambio(); });
 
-/* ---------- Añadir elementos ---------- */
-function centrar(obj) { obj.setPositionByOrigin(new fabric.Point(P.ancho / 2, P.alto / 2), "center", "center"); obj.setCoords(); }
-function anadir(obj, nombreCapa, indice) {
-  datos(obj).nombre = nombreCapa;
-  if (typeof indice === "number") canvas.insertAt(obj, indice); else canvas.add(obj);
-  canvas.setActiveObject(obj);
-  aplicarRecortes();
-  canvas.requestRenderAll();
+async function renderizarPaginaEn(json, ancho) {
+  const el = document.createElement("canvas");
+  const k = ancho / P.ancho;
+  const sc = new fabric.StaticCanvas(el, { width: Math.round(P.ancho * k), height: Math.round(P.alto * k), enableRetinaScaling: false });
+  sc.setZoom(k);
+  if (json) await new Promise((ok) => sc.loadFromJSON(json, ok));
+  sc.clipPath = recortePagina();
+  await aplicarRecortes(sc);
+  sc.renderAll();
+  return sc;
 }
-const ladoMenor = () => Math.min(P.ancho, P.alto);
-
-function anadirForma(clave) {
-  const f = FORMAS[clave];
-  const forma = new fabric.Path(f.d, { fill: "#c9cdd8", strokeWidth: 0 });
-  const lado = ladoMenor() * 0.6;
-  forma.scale(lado / 100);
-  centrar(forma);
-  anadir(forma, `${f.nombre} ${contador++}`);
-}
-
-async function anadirTexto(texto = "Escribe aquí", opciones = {}) {
-  const fuente = opciones.fuente && FUENTES.includes(opciones.fuente) ? opciones.fuente : "Fredoka";
-  try { await document.fonts.load(`40px "${fuente}"`); } catch { /* usa la de reserva */ }
-  const t = new fabric.Textbox(texto, {
-    width: P.ancho * 0.8, fontFamily: fuente, fontSize: opciones.tamano || ladoMenor() * 0.11,
-    fill: opciones.color || "#1b1e27", textAlign: "center", fontWeight: opciones.negrita ? 700 : 500,
-  });
-  centrar(t);
-  anadir(t, texto.slice(0, 24));
-  return t;
-}
-
-function leerArchivo(archivo) {
-  return new Promise((ok, mal) => {
-    const r = new FileReader();
-    r.onload = () => ok(r.result); r.onerror = () => mal(r.error);
-    r.readAsDataURL(archivo);
-  });
-}
-function cargarImagen(url) { return new Promise((ok) => fabric.Image.fromURL(url, ok)); }
-
-/* Mete una foto recortada dentro de la forma "base". */
-async function meterFoto(url, base, nombreFoto) {
-  const img = await cargarImagen(url);
-  const caja = base.getBoundingRect(true, true);
-  const escala = Math.max(caja.width / img.width, caja.height / img.height);
-  img.scale(escala);
-  img.setPositionByOrigin(new fabric.Point(caja.left + caja.width / 2, caja.top + caja.height / 2), "center", "center");
-  datos(img).recortada = true;
-  const lista = objetos();
-  let indice = lista.indexOf(base) + 1;
-  while (indice < lista.length && datos(lista[indice]).recortada) indice++;
-  anadir(img, nombreFoto, indice);
-}
-
-async function anadirFotos(archivos, enForma) {
-  for (const archivo of archivos) {
-    if (!/^image\/(png|jpeg|webp)$/.test(archivo.type)) continue;
-    const url = await leerArchivo(archivo);
-    const nombreFoto = (archivo.name || "Foto").replace(/\.[^.]+$/, "").slice(0, 24) || "Foto";
-    if (enForma) { await meterFoto(url, enForma, nombreFoto); continue; }
-    const img = await cargarImagen(url);
-    const escala = Math.max(P.ancho / img.width, P.alto / img.height);
-    img.scale(escala);
-    centrar(img);
-    anadir(img, nombreFoto);
+async function generarMiniaturas() {
+  for (const [i, p] of doc.paginas.entries()) {
+    if (i === doc.actual) { p.miniatura = miniatura(); continue; }
+    if (p.miniatura) continue;
+    const sc = await renderizarPaginaEn(p.lienzo, 180);
+    p.miniatura = sc.toDataURL({ format: "png" });
+    sc.dispose();
   }
 }
+async function irAPagina(i) {
+  if (i === doc.actual || i < 0 || i >= doc.paginas.length) return;
+  guardarPaginaActual();
+  doc.actual = i;
+  await cargarLienzo(doc.paginas[i].lienzo);
+  pintarPaginas();
+}
+async function anadirPagina(copiar) {
+  guardarPaginaActual();
+  const nueva = nuevaPaginaVacia();
+  if (copiar) { nueva.lienzo = JSON.parse(JSON.stringify(doc.paginas[doc.actual].lienzo)); nueva.duracion = doc.paginas[doc.actual].duracion; }
+  doc.paginas.splice(doc.actual + 1, 0, nueva);
+  doc.actual += 1;
+  await cargarLienzo(nueva.lienzo);
+  if (!copiar) await ponerFondo({ color: "#ffffff" });
+  cambio(); pintarPaginas();
+}
+async function borrarPagina() {
+  if (doc.paginas.length < 2) return;
+  doc.paginas.splice(doc.actual, 1);
+  doc.actual = Math.min(doc.actual, doc.paginas.length - 1);
+  await cargarLienzo(doc.paginas[doc.actual].lienzo);
+  cambio(); pintarPaginas();
+}
+function moverPagina(d) {
+  const j = doc.actual + d;
+  if (j < 0 || j >= doc.paginas.length) return;
+  guardarPaginaActual();
+  [doc.paginas[doc.actual], doc.paginas[j]] = [doc.paginas[j], doc.paginas[doc.actual]];
+  doc.actual = j;
+  cambio(); pintarPaginas();
+}
+function pintarPaginas() {
+  const total = doc.paginas.reduce((s, p) => s + p.duracion, 0);
+  $("paginas").innerHTML = doc.paginas.map((p, i) => `<button class="pagina ${i === doc.actual ? "actual" : ""}" data-pag="${i}" aria-label="Página ${i + 1}">
+      ${p.miniatura ? `<img src="${p.miniatura}" alt="">` : `<span style="height:70px;display:block"></span>`}
+      <span class="num"><span>${i + 1}</span><span>${coma(p.duracion)} s</span></span></button>`).join("") + `<button class="pagina-nueva" id="pag-nueva">+ Página</button>`;
+  $("video-info").textContent = `${doc.paginas.length} ${doc.paginas.length === 1 ? "página" : "páginas"} · ${coma(total)} s en total. Cada página es una escena: su duración y transición se cambian en el panel «Página» (sin nada seleccionado).`;
+}
+$("paginas").addEventListener("click", (e) => {
+  if (e.target.closest("#pag-nueva")) { anadirPagina(false); return; }
+  const b = e.target.closest("[data-pag]");
+  if (b) irAPagina(Number(b.dataset.pag));
+});
 
-let modoArchivo = null;
-let reemplazo = null;
-$("btn-foto").onclick = () => { modoArchivo = null; reemplazo = null; $("archivo").multiple = true; $("archivo").click(); };
-$("btn-meter").onclick = () => {
-  const sel = canvas.getActiveObject();
-  if (!sel) return;
-  modoArchivo = datos(sel).recortada ? baseDe(sel) : sel;
-  reemplazo = null;
-  $("archivo").multiple = false; $("archivo").click();
-};
-$("archivo").onchange = async (e) => {
-  const archivos = [...e.target.files];
-  e.target.value = "";
-  await anadirFotos(archivos, modoArchivo);
-  if (reemplazo && archivos.length) { canvas.remove(reemplazo); aplicarRecortes(); }
-  modoArchivo = null; reemplazo = null;
-};
-$("btn-texto").onclick = () => anadirTexto();
-$("btn-texto-grande").onclick = () => anadirTexto("TÍTULO", { fuente: "Anton", tamano: ladoMenor() * 0.24 });
-$("formas").innerHTML = Object.entries(FORMAS).map(([k, f]) =>
-  `<button class="btn forma-btn" data-forma="${k}" title="${f.nombre}" aria-label="${f.nombre}"><svg viewBox="-4 -4 108 108"><path d="${f.d}"/></svg></button>`).join("");
-$("formas").addEventListener("click", (e) => { const b = e.target.closest("[data-forma]"); if (b) anadirForma(b.dataset.forma); });
-
-function ponerFondo(color) {
+/* ============================== Construir elementos ============================== */
+function centrarEn(obj, x, y) { obj.setPositionByOrigin(new fabric.Point(x, y), "center", "center"); obj.setCoords(); }
+function anadir(obj, nombreCapa, indice, seleccionar = true) {
+  datos(obj).nombre = nombreCapa;
+  if (typeof indice === "number") canvas.insertAt(obj, indice); else canvas.add(obj);
+  if (seleccionar) canvas.setActiveObject(obj);
+  aplicarRecortes();
+  canvas.requestRenderAll();
+  return obj;
+}
+async function cargarFuente(f) { try { await document.fonts.load(`40px "${f}"`); await document.fonts.load(`bold 40px "${f}"`); } catch { /* usa la de reserva */ } }
+if (document.fonts) document.fonts.addEventListener("loadingdone", () => {
+  fabric.util.clearFabricFontCache();
+  objetos().forEach((o) => { if (o.type === "textbox") { o.initDimensions(); o.setCoords(); } });
+  canvas.requestRenderAll();
+});
+function gradiente(c1, c2, angulo) {
+  const a = ((angulo || 0) * Math.PI) / 180, dx = Math.cos(a) / 2, dy = Math.sin(a) / 2;
+  return new fabric.Gradient({ type: "linear", gradientUnits: "percentage", coords: { x1: 0.5 - dx, y1: 0.5 - dy, x2: 0.5 + dx, y2: 0.5 + dy }, colorStops: [{ offset: 0, color: c1 }, { offset: 1, color: c2 }] });
+}
+function gradienteRadial(c1, c2) {
+  return new fabric.Gradient({ type: "radial", gradientUnits: "percentage", coords: { x1: 0.5, y1: 0.5, r1: 0, x2: 0.5, y2: 0.5, r2: 0.5 }, colorStops: [{ offset: 0, color: c1 }, { offset: 1, color: c2 }] });
+}
+function aleatorio(semilla) { let s = semilla; return () => (s = (s * 16807) % 2147483647) / 2147483647; }
+function dibujarPatron(tipo, c1, c2, t) {
+  const c = document.createElement("canvas"); c.width = c.height = t;
+  const x = c.getContext("2d");
+  x.fillStyle = c1; x.fillRect(0, 0, t, t); x.fillStyle = c2; x.strokeStyle = c2;
+  if (tipo === "puntos") { x.beginPath(); x.arc(t / 2, t / 2, t * 0.12, 0, 7); x.fill(); }
+  if (tipo === "lunares") { x.beginPath(); x.arc(t * 0.25, t * 0.25, t * 0.16, 0, 7); x.fill(); x.beginPath(); x.arc(t * 0.75, t * 0.75, t * 0.16, 0, 7); x.fill(); }
+  if (tipo === "rayas") { x.lineWidth = t * 0.18; x.beginPath(); for (let i = -1; i <= 2; i++) { x.moveTo(i * t - t, t); x.lineTo(i * t, 0); } x.stroke(); }
+  if (tipo === "cuadros") { x.fillRect(0, 0, t / 2, t / 2); x.fillRect(t / 2, t / 2, t / 2, t / 2); }
+  if (tipo === "ondas") { x.lineWidth = t * 0.08; x.beginPath(); x.moveTo(0, t / 2); x.bezierCurveTo(t / 4, t * 0.2, t / 4, t * 0.2, t / 2, t / 2); x.bezierCurveTo(t * 0.75, t * 0.8, t * 0.75, t * 0.8, t, t / 2); x.stroke(); }
+  if (tipo === "rombos") { x.beginPath(); x.moveTo(t / 2, t * 0.1); x.lineTo(t * 0.9, t / 2); x.lineTo(t / 2, t * 0.9); x.lineTo(t * 0.1, t / 2); x.closePath(); x.fill(); }
+  if (tipo === "cruces") { x.lineWidth = t * 0.07; x.lineCap = "round"; x.beginPath(); x.moveTo(t * 0.4, t / 2); x.lineTo(t * 0.6, t / 2); x.moveTo(t / 2, t * 0.4); x.lineTo(t / 2, t * 0.6); x.stroke(); }
+  if (tipo === "confeti") {
+    const r = aleatorio(7), colores = [c2, "#ffd23f", "#2ec4b6", "#3a3dff", "#ff7a00"];
+    for (let i = 0; i < 14; i++) {
+      x.save(); x.translate(r() * t, r() * t); x.rotate(r() * Math.PI); x.fillStyle = colores[i % colores.length];
+      if (i % 3 === 0) { x.beginPath(); x.arc(0, 0, t * 0.025, 0, 7); x.fill(); } else x.fillRect(-t * 0.035, -t * 0.012, t * 0.07, t * 0.024);
+      x.restore();
+    }
+  }
+  return c.toDataURL("image/png");
+}
+async function patron(tipo, c1, c2) {
+  const img = await imagenDe(dibujarPatron(PATRONES[tipo] ? tipo : "puntos", c1, c2, Math.max(24, Math.round(ladoMenor() / 9))));
+  return new fabric.Pattern({ source: img, repeat: "repeat" });
+}
+async function rellenoDeFondo(spec) {
+  if (spec.degradado) return gradiente(...spec.degradado);
+  if (spec.patron) return patron(...spec.patron);
+  return esColor(spec.color) ? spec.color : "#ffffff";
+}
+async function ponerFondo(spec) {
   let fondo = objetos().find((o) => datos(o).fondo);
-  if (!color) { if (fondo) canvas.remove(fondo); return; }
+  if (!spec) { if (fondo) canvas.remove(fondo); cambio(); return; }
   if (!fondo) {
-    fondo = new fabric.Rect({ left: 0, top: 0, width: P.ancho, height: P.alto, selectable: false, evented: false });
+    fondo = new fabric.Rect({ left: 0, top: 0, width: P.ancho, height: P.alto, selectable: false, evented: false, hasControls: false });
     datos(fondo).fondo = true; datos(fondo).nombre = "Fondo";
     canvas.insertAt(fondo, 0);
   }
-  fondo.set({ fill: color });
+  fondo.set("fill", await rellenoDeFondo(spec));
+  fondo.dirty = true;
   aplicarRecortes(); canvas.requestRenderAll(); cambio();
 }
-$("color-fondo").addEventListener("input", (e) => ponerFondo(e.target.value));
+function crearForma(clave, color, ancho, alto) {
+  const f = FORMAS[clave] || FORMAS.cuadrado;
+  const forma = new fabric.Path(f.d, { fill: color || "#c9cdd8", strokeWidth: 0 });
+  forma.set({ scaleX: ancho / (forma.width || 100), scaleY: (alto || ancho) / (forma.height || 100) });
+  return forma;
+}
+function crearMarco(clave, ancho, alto) { const m = crearForma(clave, "#cfd4df", ancho, alto); datos(m).marco = true; return m; }
+function crearIcono(clave, color, lado) {
+  return new Promise((ok) => fabric.loadSVGFromString(svgIcono(clave, color || "#1b1e27"), (objs, opts) => {
+    const g = fabric.util.groupSVGElements(objs, opts);
+    const k = lado / Math.max(g.width, g.height);
+    g.set({ scaleX: k, scaleY: k });
+    datos(g).icono = clave;
+    ok(g);
+  }));
+}
+function crearTexto(texto, o = {}) {
+  const t = new fabric.Textbox(o.mayus ? texto.toUpperCase() : texto, {
+    width: o.ancho || P.ancho * 0.8, fontFamily: FUENTES.includes(o.fuente) ? o.fuente : "Poppins",
+    fontSize: o.tamano || ladoMenor() * 0.08, fill: o.color || "#1b1e27", textAlign: o.alinear || "center",
+    fontWeight: o.negrita ? 700 : 400, charSpacing: o.espaciado || 0, lineHeight: o.interlineado || 1.12,
+  });
+  if (o.contorno) t.set({ stroke: o.contorno, strokeWidth: t.fontSize * 0.06, paintFirst: "stroke", strokeLineJoin: "round" });
+  if (o.resaltado) t.set({ textBackgroundColor: o.resaltado });
+  if (o.sombra) t.set({ shadow: new fabric.Shadow({ color: "rgba(0,0,0,0.35)", blur: t.fontSize * 0.15, offsetX: 0, offsetY: t.fontSize * 0.06 }) });
+  if (o.sombraDura) t.set({ shadow: new fabric.Shadow({ color: "#1b1e27", blur: 0, offsetX: t.fontSize * 0.05, offsetY: t.fontSize * 0.05 }) });
+  return t;
+}
+function crearLinea(x1, y1, x2, y2, color, grosor, estilo) {
+  const l = new fabric.Line([x1, y1, x2, y2], { stroke: color || "#1b1e27", strokeWidth: grosor, strokeLineCap: "round" });
+  if (estilo === "discontinua") l.set({ strokeDashArray: [grosor * 3, grosor * 2], strokeLineCap: "butt" });
+  if (estilo === "puntos") l.set({ strokeDashArray: [0.01, grosor * 2] });
+  return l;
+}
+
+/* Construye objetos desde una especificación relativa (plantillas, combinaciones e IA). */
+async function construir(spec, reemplazarPagina) {
+  const W = P.ancho, H = P.alto, m = ladoMenor();
+  const objs = [];
+  const fuentes = new Set((spec.elementos || []).filter((e) => e && e.t === "texto").map((e) => e.fuente).filter((f) => FUENTES.includes(f)));
+  await Promise.all([...fuentes].map(cargarFuente));
+  for (const e of spec.elementos || []) {
+    if (!e) continue;
+    let o = null;
+    const x = limitar(Number(e.x ?? 0.5), -0.5, 1.5) * W, y = limitar(Number(e.y ?? 0.5), -0.5, 1.5) * H;
+    if (e.t === "texto" && e.texto) {
+      o = crearTexto(String(e.texto).slice(0, 300), { fuente: e.fuente, tamano: limitar(Number(e.tam) || 0.06, 0.01, 0.5) * m, color: esColor(e.color) ? e.color : "#1b1e27",
+        ancho: limitar(Number(e.w) || 0.84, 0.05, 1.2) * W, alinear: ["left", "center", "right"].includes(e.alinear) ? e.alinear : "center", negrita: !!e.negrita, mayus: !!e.mayus,
+        espaciado: limitar(Number(e.espaciado) || 0, -100, 800), contorno: esColor(e.contorno) ? e.contorno : null, resaltado: esColor(e.resaltado) ? e.resaltado : null, sombra: !!e.sombra });
+      datos(o).nombre = String(e.texto).slice(0, 24);
+    } else if (e.t === "forma" || e.t === "marco") {
+      const ancho = limitar(Number(e.w) || 0.3, 0.02, 1.5) * W;
+      const alto = e.h ? limitar(Number(e.h), 0.02, 1.5) * H : ancho;
+      const clave = FORMAS[e.forma] ? e.forma : e.t === "marco" ? "redondeado" : "circulo";
+      o = e.t === "marco" ? crearMarco(clave, ancho, alto) : crearForma(clave, esColor(e.color) ? e.color : "#d1006f", ancho, alto);
+      if (Array.isArray(e.degradado) && esColor(e.degradado[0]) && esColor(e.degradado[1])) o.set("fill", gradiente(e.degradado[0], e.degradado[1], Number(e.degradado[2]) || 90));
+      datos(o).nombre = e.t === "marco" ? `Marco ${FORMAS[clave].nombre}` : FORMAS[clave].nombre;
+    } else if (e.t === "icono" && ICONOS[e.icono]) {
+      o = await crearIcono(e.icono, esColor(e.color) ? e.color : "#1b1e27", limitar(Number(e.tam) || 0.08, 0.01, 0.8) * m);
+      datos(o).nombre = `Icono ${NOMBRES_ICONO[e.icono]}`;
+    } else if (e.t === "linea") {
+      o = crearLinea(Number(e.x1) * W, Number(e.y1) * H, Number(e.x2) * W, Number(e.y2) * H, esColor(e.color) ? e.color : "#1b1e27", limitar(Number(e.grosor) || 0.004, 0.001, 0.05) * m, e.estilo);
+      datos(o).nombre = "Línea";
+    }
+    if (!o) continue;
+    if (e.t !== "linea") centrarEn(o, x, y);
+    if (e.opacidad !== undefined) o.set("opacity", limitar(Number(e.opacidad), 0, 1));
+    if (e.angulo) { o.rotate(Number(e.angulo) || 0); if (e.t !== "linea") centrarEn(o, x, y); }
+    if (e.anim) datos(o).anim = { entrada: ANIMACIONES[e.anim.entrada] ? e.anim.entrada : "ninguna", retardo: limitar(Number(e.anim.retardo) || 0, 0, 20), dur: limitar(Number(e.anim.dur) || 0.8, 0.1, 5), continua: CONTINUAS[e.anim.continua] ? e.anim.continua : "ninguna" };
+    objs.push(o);
+  }
+  if (reemplazarPagina) {
+    cargando = true;
+    canvas.discardActiveObject();
+    objetos().slice().forEach((o) => canvas.remove(o));
+    if (spec.fondo) await ponerFondo(spec.fondo);
+    objs.forEach((o) => canvas.add(o));
+    cargando = false;
+    if (spec.duracion) doc.paginas[doc.actual].duracion = limitar(Number(spec.duracion) || 5, 1, 30);
+    await aplicarRecortes();
+    cambio();
+  }
+  return objs;
+}
+async function aplicarSpecs(paginas) {
+  if (!paginas.length) return;
+  const primera = doc.actual;
+  await construir(paginas[0], true);
+  for (const p of paginas.slice(1)) { await anadirPagina(false); await construir(p, true); }
+  await irAPagina(primera);
+  pintarPaginas();
+}
+
+/* ============================== Paneles de recursos ============================== */
+const PANELES = [
+  ["plantillas", "Plantillas", '<rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/>'],
+  ["elementos", "Elementos", '<circle cx="7" cy="7" r="4"/><rect x="13" y="3" width="8" height="8" rx="1"/><polygon points="7 13 11 21 3 21"/><path d="M17 13l4 4-4 4-4-4z"/>'],
+  ["texto", "Texto", '<polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>'],
+  ["fondos", "Fondos", '<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l6-6 5 5 3-3 4 4"/>'],
+  ["subir", "Fotos", '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>'],
+  ["ia", "Claude", '<path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/>'],
+  ["exportar", "Exportar", '<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>'],
+];
+$("carril").innerHTML = PANELES.map(([k, n, svg]) => `<button class="carril-btn" role="tab" data-ir="${k}" aria-selected="${k === "plantillas"}"><svg viewBox="0 0 24 24">${svg}</svg>${n}</button>`).join("");
+function abrirPanel(k) {
+  document.querySelectorAll("[data-ir]").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.ir === k)));
+  document.querySelectorAll("[data-panel]").forEach((p) => { p.hidden = p.dataset.panel !== k; });
+  almacen.guardar("taller-recortes-panel", k);
+  if (k === "plantillas") pintarPlantillas();
+}
+$("carril").addEventListener("click", (e) => { const b = e.target.closest("[data-ir]"); if (b) abrirPanel(b.dataset.ir); });
+
+const miniForma = (k) => `<svg viewBox="-4 -4 108 108"><path d="${FORMAS[k].d}"/></svg>`;
+$("lista-marcos").innerHTML = MARCOS.map((k) => `<button class="recurso forma" data-marco="${k}" title="Marco ${FORMAS[k].nombre}" aria-label="Marco ${FORMAS[k].nombre}" style="color:#9aa1b2">${miniForma(k)}</button>`).join("");
+$("lista-formas").innerHTML = FORMAS_LISTA.map((k) => `<button class="recurso forma" data-forma="${k}" title="${FORMAS[k].nombre}" aria-label="${FORMAS[k].nombre}">${miniForma(k)}</button>`).join("");
+$("lista-iconos").innerHTML = Object.keys(ICONOS).map((k) => `<button class="recurso icono" data-icono="${k}" title="${NOMBRES_ICONO[k]}" aria-label="${NOMBRES_ICONO[k]}"><svg viewBox="0 0 24 24">${ICONOS[k]}</svg></button>`).join("");
+const LINEAS = { solida: "Línea", discontinua: "Discontinua", puntos: "De puntos", gruesa: "Gruesa" };
+$("lista-lineas").innerHTML = Object.entries(LINEAS).map(([k, n]) => `<button class="recurso" data-linea="${k}" title="${n}" aria-label="${n}"><svg viewBox="0 0 40 40"><line x1="4" y1="20" x2="36" y2="20" stroke="currentColor" stroke-width="${k === "gruesa" ? 6 : 3}" stroke-linecap="round" ${k === "discontinua" ? 'stroke-dasharray="7 5"' : k === "puntos" ? 'stroke-dasharray="0.1 6"' : ""}/></svg></button>`).join("");
+const INSIGNIAS = [
+  { nombre: "Oferta", forma: "estallido", color: "#e63946", texto: "OFERTA", fuente: "Anton", tc: "#ffffff" },
+  { nombre: "Nuevo", forma: "sello", color: "#2ec4b6", texto: "NUEVO", fuente: "Archivo Black", tc: "#ffffff" },
+  { nombre: "Precio", forma: "circulo", color: "#ffd23f", texto: "9,99 €", fuente: "Anton", tc: "#1b1e27" },
+  { nombre: "Cinta", forma: "cinta", color: "#d1006f", texto: "¡GRATIS!", fuente: "Montserrat", tc: "#ffffff", ancho: 0.5, alto: 0.25 },
+  { nombre: "Bocadillo", forma: "burbuja", color: "#ffffff", texto: "¡Hola!", fuente: "Fredoka", tc: "#1b1e27" },
+  { nombre: "Destello", forma: "destello", color: "#ffd23f", texto: "", fuente: "Anton", tc: "#1b1e27" },
+];
+$("lista-insignias").innerHTML = INSIGNIAS.map((s, i) => `<button class="recurso forma" data-insignia="${i}" title="${s.nombre}" aria-label="${s.nombre}" style="color:${s.color === "#ffffff" ? "#9aa1b2" : s.color}">${miniForma(s.forma)}</button>`).join("");
+document.querySelector('[data-panel="elementos"]').addEventListener("click", async (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  const m = ladoMenor(), cx = P.ancho / 2, cy = P.alto / 2;
+  if (b.dataset.marco) { const o = crearMarco(b.dataset.marco, m * 0.55, m * 0.55); centrarEn(o, cx, cy); anadir(o, `Marco ${FORMAS[b.dataset.marco].nombre} ${contador++}`); }
+  if (b.dataset.forma) { const o = crearForma(b.dataset.forma, "#d1006f", m * 0.4); centrarEn(o, cx, cy); anadir(o, `${FORMAS[b.dataset.forma].nombre} ${contador++}`); }
+  if (b.dataset.icono) { const o = await crearIcono(b.dataset.icono, "#1b1e27", m * 0.18); centrarEn(o, cx, cy); anadir(o, `Icono ${NOMBRES_ICONO[b.dataset.icono]}`); }
+  if (b.dataset.linea) { const k = b.dataset.linea, g = m * (k === "gruesa" ? 0.014 : 0.006); anadir(crearLinea(cx - m * 0.3, cy, cx + m * 0.3, cy, "#1b1e27", g, k === "gruesa" ? "solida" : k), LINEAS[k]); }
+  if (b.dataset.insignia) {
+    const s = INSIGNIAS[Number(b.dataset.insignia)];
+    const forma = crearForma(s.forma, s.color, m * (s.ancho || 0.3), m * (s.alto || s.ancho || 0.3));
+    centrarEn(forma, cx, cy); anadir(forma, s.nombre, undefined, !s.texto);
+    if (s.texto) {
+      await cargarFuente(s.fuente);
+      const t = crearTexto(s.texto, { fuente: s.fuente, color: s.tc, tamano: m * 0.055, ancho: m * (s.ancho || 0.3) * 0.9 });
+      centrarEn(t, cx, cy - (s.forma === "burbuja" ? m * 0.03 : 0)); anadir(t, s.texto);
+    }
+  }
+});
+
+/* Dibujo a mano alzada */
+function pincel() {
+  const b = new fabric.PencilBrush(canvas);
+  b.color = $("dibujo-color").value;
+  b.width = (Number($("dibujo-grosor").value) / 1000) * ladoMenor();
+  b.decimate = 2;
+  canvas.freeDrawingBrush = b;
+}
+function modoDibujo(si) {
+  canvas.isDrawingMode = si;
+  if (si) { canvas.discardActiveObject(); pincel(); }
+  $("btn-dibujar").textContent = si ? "Terminar de dibujar" : "Empezar a dibujar";
+  $("btn-dibujar").classList.toggle("activo", si);
+  $("marco").classList.toggle("dibujando", si);
+}
+$("btn-dibujar").onclick = () => modoDibujo(!canvas.isDrawingMode);
+["dibujo-color", "dibujo-grosor"].forEach((id) => $(id).addEventListener("input", () => { if (canvas.isDrawingMode) pincel(); }));
+canvas.on("path:created", (e) => { datos(e.path).nombre = `Trazo ${contador++}`; cambio(); });
+
+$("lista-estilos").innerHTML = ESTILOS_TEXTO.map((s, i) => `<button class="estilo-texto" data-estilo="${i}" style="font-family:'${s.fuente}';font-weight:${s.negrita ? 700 : 400};font-size:${s.tam > 0.08 ? 22 : 16}px;${s.contorno ? "-webkit-text-stroke:1px currentColor;color:transparent;" : ""}">${s.nombre}</button>`).join("");
+$("lista-combos").innerHTML = COMBOS.map((c, i) => `<button class="chip" data-combo="${i}"><span>${c.nombre}</span><small>${c.elementos.length} piezas</small></button>`).join("");
+$("btn-texto").onclick = async () => { await cargarFuente("Poppins"); const t = crearTexto("Escribe aquí", { fuente: "Poppins", tamano: ladoMenor() * 0.06 }); centrarEn(t, P.ancho / 2, P.alto / 2); anadir(t, "Texto"); };
+$("lista-estilos").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-estilo]"); if (!b) return;
+  const s = ESTILOS_TEXTO[Number(b.dataset.estilo)];
+  await cargarFuente(s.fuente);
+  const t = crearTexto(s.nombre, { ...s, tamano: s.tam * ladoMenor() });
+  centrarEn(t, P.ancho / 2, P.alto / 2); anadir(t, s.nombre);
+});
+$("lista-combos").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-combo]"); if (!b) return;
+  const objs = await construir({ elementos: COMBOS[Number(b.dataset.combo)].elementos }, false);
+  objs.forEach((o) => anadir(o, datos(o).nombre, undefined, false));
+  cambio();
+});
+
+$("lista-colores").innerHTML = PALETA.map((c) => `<button class="muestra" data-color="${c}" style="background:${c}" aria-label="Fondo ${c}"></button>`).join("");
+$("lista-degradados").innerHTML = DEGRADADOS.map((g, i) => `<button class="muestra" data-degradado="${i}" style="background:linear-gradient(${g[2] + 90}deg, ${g[0]}, ${g[1]})" aria-label="Degradado ${i + 1}"></button>`).join("");
+function pintarPatronesMuestra() {
+  const c1 = $("patron-c1").value, c2 = $("patron-c2").value;
+  $("lista-patrones").innerHTML = Object.entries(PATRONES).map(([k, n]) => `<button class="muestra" data-patron="${k}" title="${n}" aria-label="Patrón ${n}" style="background-image:url(${dibujarPatron(k, c1, c2, 28)});background-size:28px"></button>`).join("");
+}
+pintarPatronesMuestra();
+["patron-c1", "patron-c2"].forEach((id) => $(id).addEventListener("change", pintarPatronesMuestra));
+document.querySelector('[data-panel="fondos"]').addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.color) { ponerFondo({ color: b.dataset.color }); $("color-fondo").value = b.dataset.color; }
+  if (b.dataset.degradado) ponerFondo({ degradado: DEGRADADOS[Number(b.dataset.degradado)] });
+  if (b.dataset.patron) ponerFondo({ patron: [b.dataset.patron, $("patron-c1").value, $("patron-c2").value] });
+});
+$("color-fondo").addEventListener("input", (e) => ponerFondo({ color: e.target.value }));
 $("quitar-fondo").onclick = () => ponerFondo(null);
 
-/* Soltar o pegar fotos sobre el lienzo */
-const marco = $("marco");
-marco.addEventListener("dragover", (e) => { e.preventDefault(); marco.classList.add("soltando"); });
-marco.addEventListener("dragleave", () => marco.classList.remove("soltando"));
-marco.addEventListener("drop", (e) => {
-  e.preventDefault(); marco.classList.remove("soltando");
-  const sel = canvas.getActiveObject();
-  const destino = sel && sel.type !== "image" && !datos(sel).fondo ? (datos(sel).recortada ? baseDe(sel) : sel) : null;
-  anadirFotos([...e.dataTransfer.files], destino);
+/* Plantillas con miniatura real, generadas en segundo plano */
+const cacheMiniPlantillas = {};
+let pintandoPlantillas = false;
+async function pintarPlantillas() {
+  const lista = PLANTILLAS.map((p, i) => ({ p, i })).filter(({ p }) => p.para.includes(productoId));
+  const ratio = P.ancho / P.alto;
+  $("lista-plantillas").innerHTML = lista.map(({ p, i }) => {
+    const img = cacheMiniPlantillas[`${productoId}-${i}`];
+    return `<button class="plantilla" data-plantilla="${i}" style="--ratio:${ratio}">${img ? `<img src="${img}" alt="">` : `<span class="hueco-img"></span>`}<span>${p.nombre}${p.paginas.length > 1 ? ` · ${p.paginas.length} págs.` : ""}</span></button>`;
+  }).join("") || '<p class="vacio">No hay plantillas para este formato.</p>';
+  if (pintandoPlantillas || document.querySelector('[data-panel="plantillas"]').hidden) return;
+  pintandoPlantillas = true;
+  try {
+    for (const { p, i } of lista) {
+      const prod = productoId, clave = `${prod}-${i}`;
+      if (cacheMiniPlantillas[clave]) continue;
+      const url = await miniPlantilla(p.paginas[0]);
+      if (prod !== productoId) break;
+      cacheMiniPlantillas[clave] = url;
+      const b = document.querySelector(`[data-plantilla="${i}"] .hueco-img`);
+      if (b) b.outerHTML = `<img src="${url}" alt="">`;
+    }
+  } finally { pintandoPlantillas = false; }
+}
+async function miniPlantilla(spec) {
+  const objs = await construir(spec, false);
+  const sc = await renderizarPaginaEn(null, 200);
+  if (spec.fondo) sc.add(new fabric.Rect({ left: 0, top: 0, width: P.ancho, height: P.alto, fill: await rellenoDeFondo(spec.fondo) }));
+  objs.forEach((o) => sc.add(o));
+  sc.renderAll();
+  const url = sc.toDataURL({ format: "png" });
+  sc.dispose();
+  return url;
+}
+$("lista-plantillas").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-plantilla]"); if (!b) return;
+  await aplicarSpecs(PLANTILLAS[Number(b.dataset.plantilla)].paginas);
+  $("aviso-ejemplo").hidden = true;
 });
+
+/* ============================== Fotos y SVG ============================== */
+async function meterFoto(url, base, nombreFoto) {
+  const img = await new Promise((ok) => fabric.Image.fromURL(url, ok));
+  const caja = base.getBoundingRect(true, true);
+  img.scale(Math.max(caja.width / img.width, caja.height / img.height));
+  centrarEn(img, caja.left + caja.width / 2, caja.top + caja.height / 2);
+  datos(img).recortada = true;
+  const lista = objetos();
+  let i = lista.indexOf(base) + 1;
+  while (i < lista.length && datos(lista[i]).recortada) i++;
+  return anadir(img, nombreFoto, i);
+}
+function siguienteMarcoVacio(despues) {
+  const lista = objetos();
+  return lista.slice(lista.indexOf(despues) + 1).find((o) => datos(o).marco && !recortadasSobre(o).length) || null;
+}
+async function importarSVG(archivo) {
+  const svg = limpiarSVG(await archivo.text(), true);
+  if (!svg) return;
+  await new Promise((ok) => fabric.loadSVGFromString(svg, (objs, opts) => {
+    if (!objs.length) { ok(); return; }
+    const g = fabric.util.groupSVGElements(objs, opts);
+    const k = Math.min(P.ancho * 0.7 / (g.width || 1), P.alto * 0.7 / (g.height || 1));
+    g.set({ scaleX: k, scaleY: k });
+    centrarEn(g, P.ancho / 2, P.alto / 2);
+    anadir(g, (archivo.name || "SVG").replace(/\.svg$/i, "").slice(0, 24));
+    ok();
+  }));
+}
+async function anadirFotos(archivos, enForma, comoFondo) {
+  for (const archivo of archivos) {
+    if (archivo.type === "image/svg+xml" || /\.svg$/i.test(archivo.name || "")) { await importarSVG(archivo); continue; }
+    if (!/^image\/(png|jpeg|webp)$/.test(archivo.type)) continue;
+    const url = await prepararFoto(archivo);
+    const nombreFoto = (archivo.name || "Foto").replace(/\.[^.]+$/, "").slice(0, 24) || "Foto";
+    if (enForma) { await meterFoto(url, enForma, nombreFoto); enForma = siguienteMarcoVacio(enForma); continue; }
+    const img = await new Promise((ok) => fabric.Image.fromURL(url, ok));
+    img.scale(comoFondo ? Math.max(P.ancho / img.width, P.alto / img.height) : Math.min(P.ancho / img.width, P.alto / img.height) * 0.7);
+    centrarEn(img, P.ancho / 2, P.alto / 2);
+    const fondo = objetos().find((o) => datos(o).fondo);
+    anadir(img, comoFondo ? "Foto de fondo" : nombreFoto, comoFondo ? (fondo ? 1 : 0) : undefined);
+  }
+  pintarSubidas();
+}
+let modoArchivo = null, reemplazo = null, fotoFondo = false;
+function elegirFotos(enForma, multiple, reemplazar, deFondo) { modoDibujo(false); modoArchivo = enForma; reemplazo = reemplazar || null; fotoFondo = !!deFondo; $("archivo").multiple = multiple; $("archivo").click(); }
+$("btn-foto").onclick = () => { const s = canvas.getActiveObject(); elegirFotos(s && datos(s).marco ? s : null, true); };
+$("btn-meter").onclick = () => { const s = canvas.getActiveObject(); if (s) elegirFotos(datos(s).recortada ? baseDe(s) : s, true); };
+$("foto-fondo").onclick = () => elegirFotos(null, false, null, true);
+$("archivo").onchange = async (e) => {
+  const archivos = [...e.target.files];
+  e.target.value = "";
+  await anadirFotos(archivos, modoArchivo, fotoFondo);
+  if (reemplazo && archivos.length) { canvas.remove(reemplazo); aplicarRecortes(); }
+  modoArchivo = null; reemplazo = null; fotoFondo = false;
+};
+function pintarSubidas() {
+  const fotos = objetos().filter((o) => o.type === "image");
+  $("lista-subidas").innerHTML = fotos.length ? fotos.map((o) => `<button class="recurso" data-foto="${objetos().indexOf(o)}" style="padding:2px" aria-label="${escapar(nombre(o))}"><img src="${o.getSrc()}" alt="" style="width:100%;height:100%;object-fit:cover;border-radius:4px"></button>`).join("") : '<p class="vacio" style="grid-column:1/-1">Aún no hay fotos en esta página.</p>';
+}
+$("lista-subidas").addEventListener("click", (e) => { const b = e.target.closest("[data-foto]"); if (b) { canvas.setActiveObject(objetos()[Number(b.dataset.foto)]); canvas.requestRenderAll(); } });
+const marcoEl = $("marco");
+marcoEl.addEventListener("dragover", (e) => { e.preventDefault(); marcoEl.classList.add("soltando"); });
+marcoEl.addEventListener("dragleave", () => marcoEl.classList.remove("soltando"));
+marcoEl.addEventListener("drop", (e) => {
+  e.preventDefault(); marcoEl.classList.remove("soltando");
+  const destino = objetoBajo(e) || canvas.getActiveObject();
+  const valida = destino && destino.type !== "image" && !datos(destino).fondo && destino.type !== "activeSelection" ? (datos(destino).recortada ? baseDe(destino) : destino) : null;
+  anadirFotos([...e.dataTransfer.files], valida);
+});
+function objetoBajo(e) {
+  const p = canvas.getPointer(e);
+  return objetos().slice().reverse().find((o) => o.evented !== false && o.visible !== false && (datos(o).marco || o.type === "path" || o.type === "textbox") && o.containsPoint(new fabric.Point(p.x * zoom, p.y * zoom))) || null;
+}
 document.addEventListener("paste", (e) => {
   if (e.target.closest && e.target.closest("input, textarea")) return;
   const archivos = [...(e.clipboardData?.files || [])];
-  if (archivos.length) anadirFotos(archivos, null);
+  if (archivos.length) { const s = canvas.getActiveObject(); anadirFotos(archivos, s && datos(s).marco ? s : null); }
 });
 
-/* ---------- Capas ---------- */
-const ICONOS = {
+/* ============================== Capas ============================== */
+const ICO = {
   ojo: '<svg viewBox="0 0 24 24"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>',
   recorte: '<svg viewBox="0 0 24 24"><path d="M6 4v10a4 4 0 0 0 4 4h10"/><path d="M16 14l4 4-4 4"/></svg>',
-  subir: '<svg viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>',
-  bajar: '<svg viewBox="0 0 24 24"><path d="M12 5v14M19 12l-7 7-7-7"/></svg>',
+  candado: '<svg viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>',
   borrar: '<svg viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/></svg>',
 };
-const TIPOS = { image: "FOTO", textbox: "Aa", path: "◆", group: "SVG", rect: "▭", circle: "●" };
-
+const TIPOS = { image: "FOTO", textbox: "Aa", path: "◆", group: "✦", rect: "▭", line: "—", circle: "●" };
 function pintarCapas() {
   const lista = objetos();
   const activo = canvas.getActiveObject();
   const sel = new Set(activo ? (activo.type === "activeSelection" ? activo.getObjects() : [activo]) : []);
-  if (!lista.length) { $("lista-capas").innerHTML = '<li class="vacio">Todavía no hay capas. Sube una foto o añade una forma.</li>'; return; }
+  if (!lista.length) { $("lista-capas").innerHTML = '<li class="vacio">Esta página está vacía.</li>'; return; }
   $("lista-capas").innerHTML = lista.map((o, i) => ({ o, i })).reverse().map(({ o, i }) => {
     const d = datos(o);
-    const clases = ["capa", sel.has(o) ? "sel" : "", d.recortada ? "recortada" : "", o.visible === false ? "oculta" : ""].join(" ");
-    const puedeRecortar = i > 0 && !d.fondo;
-    return `<li class="${clases}" data-i="${i}">
-      <span class="capa-tipo">${TIPOS[o.type] || "·"}</span>
+    return `<li class="capa ${sel.has(o) ? "sel" : ""} ${d.recortada ? "recortada" : ""} ${o.visible === false ? "oculta" : ""}" data-i="${i}">
+      <span class="capa-tipo">${d.marco ? "▢" : TIPOS[o.type] || "·"}</span>
       <span class="capa-nombre" title="${escapar(nombre(o))}">${escapar(nombre(o))}</span>
       <span class="capa-acc">
-        ${puedeRecortar ? `<button class="icono-btn ${d.recortada ? "on" : ""}" data-acc="recorte" title="${d.recortada ? "Quitar máscara de recorte" : "Recortar a la capa de abajo"}" aria-label="Máscara de recorte">${ICONOS.recorte}</button>` : ""}
-        <button class="icono-btn ${o.visible === false ? "" : "on"}" data-acc="ojo" title="Mostrar u ocultar" aria-label="Mostrar u ocultar">${ICONOS.ojo}</button>
+        ${i > 0 && !d.fondo ? `<button class="icono-btn ${d.recortada ? "on" : ""}" data-acc="recorte" title="${d.recortada ? "Quitar máscara de recorte" : "Recortar a la capa de abajo"}" aria-label="Máscara de recorte">${ICO.recorte}</button>` : ""}
+        ${!d.fondo ? `<button class="icono-btn ${d.bloqueada ? "on" : ""}" data-acc="candado" title="Bloquear" aria-label="Bloquear">${ICO.candado}</button>` : ""}
+        <button class="icono-btn ${o.visible === false ? "" : "on"}" data-acc="ojo" title="Mostrar u ocultar" aria-label="Mostrar u ocultar">${ICO.ojo}</button>
       </span></li>`;
   }).join("");
 }
-function escapar(s) { return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c])); }
-
+function bloquear(o, si) { datos(o).bloqueada = si; o.set({ lockMovementX: si, lockMovementY: si, hasControls: !si, evented: !si }); }
 $("lista-capas").addEventListener("click", (e) => {
-  const li = e.target.closest("[data-i]");
-  if (!li) return;
-  const o = objetos()[Number(li.dataset.i)];
-  if (!o) return;
+  const li = e.target.closest("[data-i]"); if (!li) return;
+  const o = objetos()[Number(li.dataset.i)]; if (!o) return;
   const acc = e.target.closest("[data-acc]")?.dataset.acc;
   if (acc === "ojo") { o.visible = o.visible === false; canvas.requestRenderAll(); cambio(); return; }
   if (acc === "recorte") { datos(o).recortada = !datos(o).recortada; if (!datos(o).recortada) o.clipPath = null; aplicarRecortes(); cambio(); return; }
-  if (o.selectable === false) return;
+  if (acc === "candado") { bloquear(o, !datos(o).bloqueada); if (datos(o).bloqueada) canvas.discardActiveObject(); canvas.requestRenderAll(); cambio(); return; }
+  if (datos(o).fondo) { canvas.discardActiveObject(); canvas.requestRenderAll(); return; }
+  modoDibujo(false);
   canvas.setActiveObject(o); canvas.requestRenderAll();
 });
 
-/* ---------- Propiedades ---------- */
+/* ============================== Propiedades ============================== */
+const FUSIONES = { "source-over": "Normal", multiply: "Multiplicar", screen: "Trama", overlay: "Superponer", darken: "Oscurecer", lighten: "Aclarar", "color-burn": "Subexponer color", difference: "Diferencia" };
+const FILTROS = [["brillo", "Brillo", -1, 1], ["contraste", "Contraste", -1, 1], ["saturacion", "Saturación", -1, 1], ["desenfoque", "Desenfoque", 0, 1]];
+const opciones = (obj, actual) => Object.entries(obj).map(([k, n]) => `<option value="${k}" ${k === actual ? "selected" : ""}>${n}</option>`).join("");
+const deslizador = (id, etq, min, max, paso, valor, fmt) => `<label class="deslizador" for="${id}"><span>${etq}</span><input type="range" id="${id}" min="${min}" max="${max}" step="${paso}" value="${valor}"><span id="${id}-v">${fmt(valor)}</span></label>`;
+const colorDe = (v, defecto) => (esColor(v) ? v : defecto);
+const alinearHTML = () => `<div class="tres">${[["izq", "Izquierda"], ["centroH", "Centro ↔"], ["der", "Derecha"], ["arriba", "Arriba"], ["centroV", "Centro ↕"], ["abajo", "Abajo"]].map(([k, n]) => `<button class="btn mini" data-alinear="${k}">${n}</button>`).join("")}</div>`;
+
 function pintarPropiedades() {
+  if (!doc) return;
   const o = canvas.getActiveObject();
   const cont = $("propiedades");
-  const meter = $("btn-meter");
-  meter.disabled = !o || o.type === "image" || o.type === "activeSelection";
-  if (!o) { $("prop-titulo").textContent = "Propiedades"; cont.innerHTML = '<p class="vacio">Selecciona algo en el lienzo o en la lista de capas.</p>'; return; }
-  if (o.type === "activeSelection") { $("prop-titulo").textContent = "Varios elementos"; cont.innerHTML = '<button class="btn peligro" data-p="borrar">Borrar selección</button>'; return; }
+  $("btn-meter").disabled = !o || o.type === "image" || o.type === "activeSelection";
+  if (!o) return pintarPagina(cont);
+  if (o.type === "activeSelection") {
+    $("prop-titulo").textContent = `${o.getObjects().length} elementos`;
+    cont.innerHTML = `<div class="panel-cuerpo">${alinearHTML()}<div class="dos"><button class="btn" data-p="agrupar">Agrupar</button><button class="btn peligro" data-p="borrar">Borrar</button></div></div>`;
+    return;
+  }
   const d = datos(o);
+  const esTexto = o.type === "textbox", esFoto = o.type === "image", esLinea = o.type === "line";
   $("prop-titulo").textContent = nombre(o);
-  const esTexto = o.type === "textbox";
-  const colorActual = typeof o.fill === "string" && /^#[0-9a-f]{6}$/i.test(o.fill) ? o.fill : "#1b1e27";
-  let html = `<div class="campo-grupo"><label class="etiqueta" for="p-nombre">Nombre de la capa</label><input id="p-nombre" class="campo" value="${escapar(nombre(o))}"></div>`;
+  const anim = d.anim || {};
+  let h = "";
   if (esTexto) {
-    html += `<div class="campo-grupo"><label class="etiqueta" for="p-texto">Texto</label><textarea id="p-texto" class="campo" rows="2">${escapar(o.text)}</textarea></div>
-      <div class="dos"><div class="campo-grupo"><label class="etiqueta" for="p-fuente">Fuente</label><select id="p-fuente" class="campo">${FUENTES.map((f) => `<option ${f === o.fontFamily ? "selected" : ""}>${f}</option>`).join("")}</select></div>
-      <div class="campo-grupo"><label class="etiqueta" for="p-tam">Tamaño</label><input id="p-tam" class="campo dato" type="number" min="10" max="2000" value="${Math.round(o.fontSize)}"></div></div>`;
+    h += `<details class="seccion" open><summary>Texto</summary><div>
+      <textarea id="p-texto" class="campo" rows="2">${escapar(o.text)}</textarea>
+      <div class="dos"><select id="p-fuente" class="campo">${FUENTES.map((f) => `<option ${f === o.fontFamily ? "selected" : ""}>${f}</option>`).join("")}</select>
+      <input id="p-tam" class="campo dato" type="number" min="4" max="3000" value="${Math.round(o.fontSize)}" aria-label="Tamaño"></div>
+      <div class="fila"><input type="color" id="p-color" class="campo" value="${colorDe(o.fill, "#1b1e27")}" aria-label="Color">
+        <button class="btn mini ${o.fontWeight >= 700 || o.fontWeight === "bold" ? "activo" : ""}" data-p="negrita" aria-label="Negrita"><b>N</b></button>
+        <button class="btn mini ${o.fontStyle === "italic" ? "activo" : ""}" data-p="cursiva" aria-label="Cursiva"><i>K</i></button>
+        <button class="btn mini ${o.underline ? "activo" : ""}" data-p="subrayado" aria-label="Subrayado"><u>S</u></button>
+        <button class="btn mini" data-p="mayus" aria-label="Mayúsculas">AA</button></div>
+      <div class="tres">${["left", "center", "right"].map((a) => `<button class="btn mini ${o.textAlign === a ? "activo" : ""}" data-alinea="${a}">${{ left: "Izquierda", center: "Centro", right: "Derecha" }[a]}</button>`).join("")}</div>
+      ${deslizador("p-espaciado", "Espaciado", -100, 800, 10, o.charSpacing || 0, (v) => v)}
+      ${deslizador("p-interlineado", "Interlineado", 0.7, 2.5, 0.05, o.lineHeight || 1.12, (v) => coma(Number(v), 2))}
+      <div class="fila"><label class="fila"><input type="checkbox" id="p-contorno" ${o.stroke ? "checked" : ""}> Contorno</label><input type="color" id="p-contorno-c" class="campo" value="${colorDe(o.stroke, "#1b1e27")}" aria-label="Color del contorno"></div>
+      <div class="fila"><label class="fila"><input type="checkbox" id="p-resaltado" ${o.textBackgroundColor ? "checked" : ""}> Resaltado</label><input type="color" id="p-resaltado-c" class="campo" value="${colorDe(o.textBackgroundColor, "#ffd23f")}" aria-label="Color del resaltado"></div>
+    </div></details>`;
   }
-  if (o.type !== "image") {
-    html += `<div class="campo-grupo"><label class="etiqueta" for="p-color">Color</label><input id="p-color" type="color" class="campo" value="${colorActual}" ${o.type === "group" ? "disabled" : ""}></div>`;
+  if (esFoto) {
+    const f = d.filtros || {};
+    h += `<details class="seccion" open><summary>Foto</summary><div>
+      ${d.recortada ? `<div class="dos"><button class="btn mini" data-p="encajar">Encajar en el marco</button><button class="btn mini" data-p="cambiar">Cambiar foto</button></div>` : `<button class="btn mini" data-p="cambiar">Cambiar foto</button>`}
+      ${FILTROS.map(([k, n, mi, ma]) => deslizador(`f-${k}`, n, mi, ma, 0.02, f[k] || 0, (v) => Math.round(Number(v) * 100))).join("")}
+      <div class="tres"><button class="btn mini ${f.bn ? "activo" : ""}" data-filtro="bn">B/N</button><button class="btn mini ${f.sepia ? "activo" : ""}" data-filtro="sepia">Sepia</button><button class="btn mini ${f.vintage ? "activo" : ""}" data-filtro="vintage">Vintage</button></div>
+      <button class="btn mini" data-p="sin-filtros">Quitar filtros</button>
+    </div></details>`;
   }
-  html += `<div class="campo-grupo"><label class="etiqueta" for="p-opac">Opacidad <span class="dato" id="p-opac-v">${Math.round((o.opacity ?? 1) * 100)} %</span></label><input id="p-opac" type="range" min="0" max="100" value="${Math.round((o.opacity ?? 1) * 100)}"></div>`;
-  if (d.recortada && o.type === "image") html += `<button class="btn" data-p="encajar">Encajar en el marco</button>`;
-  if (d.recortada && o.type === "image") html += `<button class="btn" data-p="cambiar">Cambiar foto</button>`;
-  html += `<div class="rejilla-btn">
-      <button class="btn" data-p="subir">Traer adelante</button><button class="btn" data-p="bajar">Enviar atrás</button>
-      <button class="btn" data-p="espejo">Voltear</button><button class="btn" data-p="duplicar">Duplicar</button>
-    </div>
-    <button class="btn peligro" data-p="borrar">Borrar capa</button>`;
-  cont.innerHTML = html;
-
-  $("p-nombre").oninput = (e) => { d.nombre = e.target.value || o.type; pintarCapas(); cambio(); };
-  if (esTexto) {
-    $("p-texto").oninput = (e) => { o.set("text", e.target.value); canvas.requestRenderAll(); aplicarRecortes(); cambio(); };
-    $("p-fuente").onchange = async (e) => { try { await document.fonts.load(`40px "${e.target.value}"`); } catch {} o.set("fontFamily", e.target.value); canvas.requestRenderAll(); aplicarRecortes(); cambio(); };
-    $("p-tam").onchange = (e) => { o.set("fontSize", Math.max(10, Number(e.target.value) || 10)); canvas.requestRenderAll(); aplicarRecortes(); cambio(); };
+  if (!esTexto && !esFoto) {
+    const relleno = o.type === "group" ? (o.getObjects().find((x) => esColor(x.stroke))?.stroke || o.getObjects().find((x) => esColor(x.fill))?.fill) : esLinea ? o.stroke : o.fill;
+    const simple = !esLinea && o.type !== "group";
+    h += `<details class="seccion" open><summary>${d.marco ? "Marco" : esLinea ? "Línea" : "Color"}</summary><div>
+      ${d.marco ? `<button class="btn primario" data-p="meter">Meter foto en el marco</button>` : ""}
+      <div class="fila"><input type="color" id="p-color" class="campo" value="${colorDe(relleno, "#d1006f")}" aria-label="Color">
+      ${simple ? `<input type="color" id="p-color2" class="campo" value="#ffd23f" aria-label="Segundo color"><button class="btn mini" data-p="degradado">Lineal</button><button class="btn mini" data-p="radial">Radial</button>` : ""}</div>
+      ${simple ? `<div class="fila"><label class="fila"><input type="checkbox" id="p-borde" ${o.strokeWidth > 0 && o.stroke ? "checked" : ""}> Borde</label><input type="color" id="p-borde-c" class="campo" value="${colorDe(o.stroke, "#1b1e27")}" aria-label="Color del borde"></div>` : ""}
+      ${esLinea || o.type === "path" && !o.fill ? deslizador("p-grosor", "Grosor", 1, Math.round(ladoMenor() * 0.05), 1, Math.round(o.strokeWidth), (v) => v) : ""}
+    </div></details>`;
   }
-  if ($("p-color")) $("p-color").oninput = (e) => { o.set("fill", e.target.value); canvas.requestRenderAll(); aplicarRecortes(); cambio(); };
-  $("p-opac").oninput = (e) => { o.set("opacity", Number(e.target.value) / 100); $("p-opac-v").textContent = `${e.target.value} %`; canvas.requestRenderAll(); cambio(); };
+  h += `<details class="seccion" ${esTexto || esFoto ? "" : "open"}><summary>Posición y orden</summary><div>${alinearHTML()}
+    <div class="dos"><button class="btn mini" data-p="frente">Al frente</button><button class="btn mini" data-p="fondo">Al fondo</button>
+    <button class="btn mini" data-p="subir">Adelante</button><button class="btn mini" data-p="bajar">Atrás</button>
+    <button class="btn mini" data-p="voltearH">Voltear ↔</button><button class="btn mini" data-p="voltearV">Voltear ↕</button></div>
+    <div class="fila"><span class="ayuda">Repetir en círculo</span><input id="p-copias" class="campo dato" type="number" min="2" max="36" value="8" style="width:64px" aria-label="Número de copias"><button class="btn mini" data-p="circulo">Repetir</button></div>
+    ${o.type === "group" && !d.icono ? `<button class="btn mini" data-p="desagrupar">Desagrupar</button>` : ""}
+  </div></details>
+  <details class="seccion"><summary>Efectos</summary><div>
+    ${deslizador("p-opac", "Opacidad", 0, 100, 1, Math.round((o.opacity ?? 1) * 100), (v) => `${v} %`)}
+    <label class="campo-grupo"><span class="etiqueta">Modo de fusión</span><select id="p-fusion" class="campo">${opciones(FUSIONES, o.globalCompositeOperation || "source-over")}</select></label>
+    <div class="fila"><label class="fila"><input type="checkbox" id="p-sombra" ${o.shadow ? "checked" : ""}> Sombra</label><input type="color" id="p-sombra-c" class="campo" value="#000000" aria-label="Color de la sombra"></div>
+    ${deslizador("p-giro", "Giro", -180, 180, 1, Math.round(o.angle || 0), (v) => `${v}°`)}
+  </div></details>
+  <details class="seccion"><summary>Animación</summary><div>
+    <label class="campo-grupo"><span class="etiqueta">Entrada</span><select id="a-entrada" class="campo">${opciones(ANIMACIONES, anim.entrada || "ninguna")}</select></label>
+    ${deslizador("a-retardo", "Empieza a", 0, 10, 0.1, anim.retardo || 0, (v) => `${coma(v)} s`)}
+    ${deslizador("a-dur", "Duración", 0.2, 3, 0.1, anim.dur || 0.8, (v) => `${coma(v)} s`)}
+    <label class="campo-grupo"><span class="etiqueta">Movimiento continuo</span><select id="a-continua" class="campo">${opciones(CONTINUAS, anim.continua || "ninguna")}</select></label>
+    <button class="btn mini" data-p="ver-anim">Ver la página animada</button>
+  </div></details>
+  <div class="panel-cuerpo" style="padding-top:0"><div class="dos"><button class="btn" data-p="duplicar">Duplicar</button><button class="btn peligro" data-p="borrar">Borrar</button></div></div>`;
+  cont.innerHTML = h;
+  conectarPropiedades(o);
 }
-$("propiedades").addEventListener("click", (e) => {
+function pintarPagina(cont) {
+  const pag = doc.paginas[doc.actual];
+  $("prop-titulo").textContent = `Página ${doc.actual + 1} de ${doc.paginas.length}`;
+  cont.innerHTML = `<div class="panel-cuerpo">
+    <p class="ayuda">Selecciona un elemento para editarlo. Aquí ajustas la página como escena de vídeo.</p>
+    ${deslizador("pg-duracion", "Duración", 1, 30, 0.5, pag.duracion, (v) => `${coma(v)} s`)}
+    <label class="campo-grupo"><span class="etiqueta">Transición de entrada</span><select id="pg-transicion" class="campo">${opciones(TRANSICIONES, pag.transicion)}</select></label>
+    <div class="dos"><button class="btn mini" data-pg="duplicar">Duplicar página</button><button class="btn mini peligro" data-pg="borrar" ${doc.paginas.length < 2 ? "disabled" : ""}>Borrar página</button>
+    <button class="btn mini" data-pg="izq" ${doc.actual === 0 ? "disabled" : ""}>← Mover</button><button class="btn mini" data-pg="der" ${doc.actual === doc.paginas.length - 1 ? "disabled" : ""}>Mover →</button></div>
+    <button class="btn mini" data-pg="animar-todo">Animar todo automáticamente</button>
+    <button class="btn" data-pg="ver">Ver la página animada</button>
+  </div>`;
+  $("pg-duracion").oninput = (e) => { pag.duracion = Number(e.target.value); $("pg-duracion-v").textContent = `${coma(pag.duracion)} s`; cambio(); };
+  $("pg-transicion").onchange = (e) => { pag.transicion = e.target.value; cambio(); };
+}
+function clonar(o) {
+  return new Promise((ok) => o.clone((c) => { c.data = copiarDatos(o.data); ok(c); }, PROPS));
+}
+async function repetirEnCirculo(o, n) {
+  const cx = P.ancho / 2, cy = P.alto / 2;
+  let c0 = o.getCenterPoint();
+  let r = Math.hypot(c0.x - cx, c0.y - cy);
+  let a0 = Math.atan2(c0.y - cy, c0.x - cx);
+  if (r < ladoMenor() * 0.05) { r = ladoMenor() * 0.3; a0 = -Math.PI / 2; centrarEn(o, cx + r * Math.cos(a0), cy + r * Math.sin(a0)); }
+  cargando = true;
+  for (let i = 1; i < n; i++) {
+    const c = await clonar(o);
+    const a = a0 + (2 * Math.PI * i) / n;
+    c.rotate((o.angle || 0) + (360 * i) / n);
+    centrarEn(c, cx + r * Math.cos(a), cy + r * Math.sin(a));
+    datos(c).recortada = false;
+    datos(c).nombre = `${nombre(o)} ${i + 1}`;
+    canvas.add(c);
+  }
+  cargando = false;
+  aplicarRecortes(); cambio();
+}
+$("propiedades").addEventListener("click", async (e) => {
+  const pg = e.target.closest("[data-pg]")?.dataset.pg;
+  if (pg === "duplicar") return anadirPagina(true);
+  if (pg === "borrar") return borrarPagina();
+  if (pg === "izq") return moverPagina(-1);
+  if (pg === "der") return moverPagina(1);
+  if (pg === "ver") return reproducir(false, [doc.actual]);
+  if (pg === "animar-todo") return animarAutomatico();
+  const o = canvas.getActiveObject();
+  const al = e.target.closest("[data-alinear]")?.dataset.alinear;
+  if (al && o) { alinear(o, al); return; }
+  const alt = e.target.closest("[data-alinea]")?.dataset.alinea;
+  if (alt && o) { o.set("textAlign", alt); refrescar(o); pintarPropiedades(); return; }
+  const fil = e.target.closest("[data-filtro]")?.dataset.filtro;
+  if (fil && o) { const f = (datos(o).filtros = datos(o).filtros || {}); f[fil] = !f[fil]; aplicarFiltros(o); pintarPropiedades(); return; }
   const acc = e.target.closest("[data-p]")?.dataset.p;
-  const o = canvas.getActiveObject();
   if (!acc || !o) return;
-  if (acc === "borrar") borrarSeleccion();
-  if (acc === "subir") { canvas.bringForward(o); aplicarRecortes(); cambio(); }
-  if (acc === "bajar") { canvas.sendBackwards(o); aplicarRecortes(); cambio(); }
-  if (acc === "espejo") { o.set("flipX", !o.flipX); canvas.requestRenderAll(); aplicarRecortes(); cambio(); }
-  if (acc === "duplicar") o.clone((c) => { c.set({ left: o.left + 30, top: o.top + 30 }); datos(c).nombre = `${nombre(o)} copia`; anadir(c, datos(c).nombre, objetos().indexOf(o) + 1); }, PROPS);
-  if (acc === "encajar") {
-    const base = baseDe(o); if (!base) return;
-    const caja = base.getBoundingRect(true, true);
-    o.scale(Math.max(caja.width / o.width, caja.height / o.height));
-    o.setPositionByOrigin(new fabric.Point(caja.left + caja.width / 2, caja.top + caja.height / 2), "center", "center");
-    o.setCoords(); canvas.requestRenderAll(); cambio();
+  switch (acc) {
+    case "borrar": borrarSeleccion(); return;
+    case "duplicar": { const c = await clonar(o); c.set({ left: o.left + ladoMenor() * 0.03, top: o.top + ladoMenor() * 0.03 }); anadir(c, `${nombre(o)} copia`, objetos().indexOf(o) + 1 + recortadasSobre(o).length); return; }
+    case "circulo": await repetirEnCirculo(o, limitar(Number($("p-copias").value) || 8, 2, 36)); return;
+    case "frente": canvas.bringToFront(o); break;
+    case "fondo": { canvas.sendToBack(o); const f = objetos().find((x) => datos(x).fondo); if (f) canvas.sendToBack(f); break; }
+    case "subir": canvas.bringForward(o); break;
+    case "bajar": canvas.sendBackwards(o); break;
+    case "voltearH": o.set("flipX", !o.flipX); break;
+    case "voltearV": o.set("flipY", !o.flipY); break;
+    case "negrita": o.set("fontWeight", o.fontWeight >= 700 || o.fontWeight === "bold" ? 400 : 700); break;
+    case "cursiva": o.set("fontStyle", o.fontStyle === "italic" ? "normal" : "italic"); break;
+    case "subrayado": o.set("underline", !o.underline); break;
+    case "mayus": o.set("text", o.text === o.text.toUpperCase() ? o.text.toLowerCase() : o.text.toUpperCase()); break;
+    case "degradado": o.set("fill", gradiente($("p-color").value, $("p-color2").value, 90)); break;
+    case "radial": o.set("fill", gradienteRadial($("p-color").value, $("p-color2").value)); break;
+    case "meter": elegirFotos(o, true); return;
+    case "encajar": { const base = baseDe(o); if (!base) return; const caja = base.getBoundingRect(true, true); o.scale(Math.max(caja.width / o.width, caja.height / o.height)); centrarEn(o, caja.left + caja.width / 2, caja.top + caja.height / 2); break; }
+    case "cambiar": elegirFotos(datos(o).recortada ? baseDe(o) : null, false, o); return;
+    case "sin-filtros": datos(o).filtros = {}; aplicarFiltros(o); pintarPropiedades(); return;
+    case "agrupar": { const g = o.toGroup(); datos(g).nombre = `Grupo ${contador++}`; canvas.setActiveObject(g); break; }
+    case "desagrupar": { o.toActiveSelection(); canvas.discardActiveObject(); break; }
+    case "ver-anim": reproducir(false, [doc.actual]); return;
   }
-  if (acc === "cambiar") {
-    modoArchivo = baseDe(o); reemplazo = o; $("archivo").multiple = false;
-    $("archivo").click();
-  }
+  if (o.setCoords) o.setCoords();
+  refrescar(o);
+  if (["negrita", "cursiva", "subrayado"].includes(acc)) pintarPropiedades();
 });
+function refrescar(o) { if (o.type === "textbox") o.initDimensions(); o.dirty = true; canvas.requestRenderAll(); aplicarRecortes(); cambio(); }
+function alinear(o, como) {
+  const r = o.getBoundingRect(true, true);
+  const dx = { izq: -r.left, centroH: P.ancho / 2 - (r.left + r.width / 2), der: P.ancho - (r.left + r.width) }[como] || 0;
+  const dy = { arriba: -r.top, centroV: P.alto / 2 - (r.top + r.height / 2), abajo: P.alto - (r.top + r.height) }[como] || 0;
+  o.set({ left: o.left + dx, top: o.top + dy }); o.setCoords();
+  if (o.type !== "activeSelection") for (const h of recortadasSobre(o)) { h.set({ left: h.left + dx, top: h.top + dy }); h.setCoords(); }
+  refrescar(o);
+}
+function aplicarFiltros(o) {
+  const f = datos(o).filtros || {};
+  const F = fabric.Image.filters, lista = [];
+  if (f.brillo) lista.push(new F.Brightness({ brightness: f.brillo }));
+  if (f.contraste) lista.push(new F.Contrast({ contrast: f.contraste }));
+  if (f.saturacion) lista.push(new F.Saturation({ saturation: f.saturacion }));
+  if (f.desenfoque) lista.push(new F.Blur({ blur: f.desenfoque * 0.5 }));
+  if (f.bn) lista.push(new F.Grayscale());
+  if (f.sepia) lista.push(new F.Sepia());
+  if (f.vintage) lista.push(new F.Vintage());
+  o.filters = lista;
+  o.applyFilters();
+  canvas.requestRenderAll();
+  cambio();
+}
+function conectarPropiedades(o) {
+  const d = datos(o);
+  const en = (id, ev, fn) => { const el = $(id); if (el) el.addEventListener(ev, fn); };
+  const valorDe = (id, v, fmt) => { const s = $(`${id}-v`); if (s) s.textContent = fmt(v); };
+  en("p-texto", "input", (e) => { o.set("text", e.target.value); refrescar(o); });
+  en("p-fuente", "change", async (e) => { await cargarFuente(e.target.value); o.set("fontFamily", e.target.value); refrescar(o); });
+  en("p-tam", "change", (e) => { o.set("fontSize", Math.max(4, Number(e.target.value) || 4)); refrescar(o); });
+  en("p-color", "input", (e) => {
+    const c = e.target.value;
+    if (o.type === "group") o.getObjects().forEach((x) => { if (x.stroke && x.stroke !== "none") x.set("stroke", c); if (esColor(x.fill)) x.set("fill", c); });
+    else if (o.type === "line" || (o.type === "path" && !o.fill)) o.set("stroke", c);
+    else o.set("fill", c);
+    o.dirty = true; canvas.requestRenderAll(); cambio();
+  });
+  en("p-espaciado", "input", (e) => { o.set("charSpacing", Number(e.target.value)); valorDe("p-espaciado", e.target.value, (v) => v); refrescar(o); });
+  en("p-interlineado", "input", (e) => { o.set("lineHeight", Number(e.target.value)); valorDe("p-interlineado", e.target.value, (v) => coma(v, 2)); refrescar(o); });
+  const contorno = () => { const si = $("p-contorno").checked; o.set(si ? { stroke: $("p-contorno-c").value, strokeWidth: o.fontSize * 0.06, paintFirst: "stroke", strokeLineJoin: "round" } : { stroke: null, strokeWidth: 0 }); refrescar(o); };
+  en("p-contorno", "change", contorno); en("p-contorno-c", "input", () => { if ($("p-contorno").checked) contorno(); });
+  const resaltado = () => { o.set("textBackgroundColor", $("p-resaltado").checked ? $("p-resaltado-c").value : ""); refrescar(o); };
+  en("p-resaltado", "change", resaltado); en("p-resaltado-c", "input", () => { if ($("p-resaltado").checked) resaltado(); });
+  const borde = () => { const si = $("p-borde").checked; o.set(si ? { stroke: $("p-borde-c").value, strokeWidth: ladoMenor() * 0.008, strokeUniform: true } : { stroke: null, strokeWidth: 0 }); refrescar(o); };
+  en("p-borde", "change", borde); en("p-borde-c", "input", () => { if ($("p-borde").checked) borde(); });
+  en("p-grosor", "input", (e) => { o.set("strokeWidth", Number(e.target.value)); valorDe("p-grosor", e.target.value, (v) => v); refrescar(o); });
+  FILTROS.forEach(([k]) => en(`f-${k}`, "change", (e) => { (d.filtros = d.filtros || {})[k] = Number(e.target.value); valorDe(`f-${k}`, e.target.value, (v) => Math.round(Number(v) * 100)); aplicarFiltros(o); }));
+  en("p-opac", "input", (e) => { o.set("opacity", Number(e.target.value) / 100); valorDe("p-opac", e.target.value, (v) => `${v} %`); canvas.requestRenderAll(); cambio(); });
+  en("p-fusion", "change", (e) => { o.set("globalCompositeOperation", e.target.value); canvas.requestRenderAll(); cambio(); });
+  const sombra = () => { const m = ladoMenor(); o.set("shadow", $("p-sombra").checked ? new fabric.Shadow({ color: $("p-sombra-c").value + "66", blur: m * 0.02, offsetX: m * 0.006, offsetY: m * 0.01 }) : null); refrescar(o); };
+  en("p-sombra", "change", sombra); en("p-sombra-c", "input", () => { if ($("p-sombra").checked) sombra(); });
+  en("p-giro", "input", (e) => { const c = o.getCenterPoint(); o.rotate(Number(e.target.value)); centrarEn(o, c.x, c.y); valorDe("p-giro", e.target.value, (v) => `${v}°`); canvas.requestRenderAll(); });
+  en("p-giro", "change", () => refrescar(o));
+  const anim = () => {
+    d.anim = { entrada: $("a-entrada").value, retardo: Number($("a-retardo").value), dur: Number($("a-dur").value), continua: $("a-continua").value };
+    valorDe("a-retardo", d.anim.retardo, (v) => `${coma(v)} s`); valorDe("a-dur", d.anim.dur, (v) => `${coma(v)} s`);
+    cambio();
+  };
+  ["a-entrada", "a-continua"].forEach((id) => en(id, "change", anim));
+  ["a-retardo", "a-dur"].forEach((id) => en(id, "input", anim));
+}
+function animarAutomatico() {
+  const tipos = ["aparecer", "subir", "zoom", "izquierda"];
+  let t = 0;
+  objetos().filter((o) => !datos(o).fondo && !datos(o).recortada).forEach((o, i) => {
+    datos(o).anim = { entrada: o.type === "textbox" ? (i % 2 ? "subir" : "aparecer") : tipos[i % tipos.length], retardo: Number(t.toFixed(1)), dur: 0.7, continua: datos(o).anim?.continua || "ninguna" };
+    t += 0.25;
+  });
+  cambio();
+}
 function borrarSeleccion() {
-  const o = canvas.getActiveObject();
-  if (!o) return;
+  const o = canvas.getActiveObject(); if (!o) return;
   const lista = o.type === "activeSelection" ? o.getObjects() : [o];
   canvas.discardActiveObject();
   lista.forEach((x) => canvas.remove(x));
@@ -752,309 +1593,555 @@ function borrarSeleccion() {
 document.addEventListener("keydown", (e) => {
   const enCampo = e.target.closest && e.target.closest("input, textarea, select");
   const editando = canvas.getActiveObject()?.isEditing;
-  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "z" && !enCampo && !editando) { e.preventDefault(); (e.shiftKey ? $("rehacer") : $("deshacer")).click(); }
-  if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "y" && !enCampo && !editando) { e.preventDefault(); $("rehacer").click(); }
-  if ((e.key === "Delete" || e.key === "Backspace") && !enCampo && !editando && canvas.getActiveObject()) { e.preventDefault(); borrarSeleccion(); }
+  if (e.key === "Escape" && canvas.isDrawingMode) { modoDibujo(false); return; }
+  if (enCampo || editando) return;
+  const k = e.key.toLowerCase(), mod = e.ctrlKey || e.metaKey;
+  if (mod && k === "z") { e.preventDefault(); (e.shiftKey ? $("rehacer") : $("deshacer")).click(); }
+  else if (mod && k === "y") { e.preventDefault(); $("rehacer").click(); }
+  else if (mod && k === "d" && canvas.getActiveObject()) { e.preventDefault(); document.querySelector('[data-p="duplicar"]')?.click(); }
+  else if ((e.key === "Delete" || e.key === "Backspace") && canvas.getActiveObject()) { e.preventDefault(); borrarSeleccion(); }
+  else if (e.key.startsWith("Arrow") && canvas.getActiveObject()) {
+    e.preventDefault();
+    const o = canvas.getActiveObject(), paso = (e.shiftKey ? 10 : 1) / zoom;
+    const dx = { ArrowLeft: -paso, ArrowRight: paso }[e.key] || 0, dy = { ArrowUp: -paso, ArrowDown: paso }[e.key] || 0;
+    o.set({ left: o.left + dx, top: o.top + dy }); o.setCoords();
+    if (o.type !== "activeSelection") recortadasSobre(o).forEach((h) => { h.set({ left: h.left + dx, top: h.top + dy }); h.setCoords(); });
+    canvas.requestRenderAll(); clearTimeout(o.__flecha); o.__flecha = setTimeout(() => { aplicarRecortes(); cambio(); }, 300);
+  }
 });
 
-/* ---------- Pestañas ---------- */
-const PESTANAS = [["tab-anadir", "p-anadir"], ["tab-generar", "p-generar"], ["tab-exportar", "p-exportar"]];
-PESTANAS.forEach(([t, p]) => $(t).addEventListener("click", () => {
-  PESTANAS.forEach(([t2, p2]) => { $(t2).setAttribute("aria-selected", String(t2 === t)); $(p2).hidden = p2 !== p; });
-  almacen.guardar("taller-recortes-pestana", t);
-}));
-
-/* ---------- Producto, nuevo y ejemplo ---------- */
-$("producto").innerHTML = Object.entries(PRODUCTOS).map(([k, p]) => `<option value="${k}">${p.nombre}</option>`).join("");
-$("producto").onchange = (e) => { productoId = e.target.value; cola = []; pintarCola(); prepararProducto(); aplicarRecortes(); cambio(); };
+/* ============================== Cambiar de formato (redimensionar) ============================== */
+$("producto").innerHTML = ["Imprimir", "Instagram"].map((g) => `<optgroup label="${g}">${Object.entries(PRODUCTOS).filter(([, p]) => p.grupo === g).map(([k, p]) => `<option value="${k}">${p.nombre}</option>`).join("")}</optgroup>`).join("");
+$("producto").onchange = async (e) => {
+  modoDibujo(false);
+  guardarPaginaActual();
+  const antes = P, despues = PRODUCTOS[e.target.value];
+  const k = Math.min(despues.ancho / antes.ancho, despues.alto / antes.alto);
+  const ox = (despues.ancho - antes.ancho * k) / 2, oy = (despues.alto - antes.alto * k) / 2;
+  const adaptar = (o) => {
+    if (o.data?.fondo) { Object.assign(o, { left: 0, top: 0, width: despues.ancho, height: despues.alto, scaleX: 1, scaleY: 1 }); return; }
+    o.left = o.left * k + ox; o.top = o.top * k + oy; o.scaleX *= k; o.scaleY *= k;
+  };
+  for (const p of doc.paginas) { if (p.lienzo) p.lienzo.objects.forEach(adaptar); p.miniatura = ""; }
+  productoId = e.target.value;
+  P = despues;
+  await cargarLienzo(doc.paginas[doc.actual].lienzo);
+  await generarMiniaturas();
+  cambio(); pintarPaginas();
+};
 $("nuevo").onclick = () => { $("confirmar-nuevo").hidden = false; };
 $("nuevo-no").onclick = () => { $("confirmar-nuevo").hidden = true; };
-$("nuevo-si").onclick = () => { $("confirmar-nuevo").hidden = true; vaciar(); };
-$("cerrar-ejemplo").onclick = () => vaciar();
-function vaciar() {
-  canvas.discardActiveObject();
-  objetos().slice().forEach((o) => canvas.remove(o));
+$("nuevo-si").onclick = async () => { $("confirmar-nuevo").hidden = true; await empezarEnBlanco(); };
+$("cerrar-ejemplo").onclick = () => empezarEnBlanco();
+async function empezarEnBlanco() {
+  modoDibujo(false);
+  doc = { paginas: [nuevaPaginaVacia()], actual: 0 };
+  await cargarLienzo(null);
+  await ponerFondo({ color: "#ffffff" });
   $("aviso-ejemplo").hidden = true;
-  ponerFondo("#ffffff");
-  $("color-fondo").value = "#ffffff";
+  cambio(); pintarPaginas();
 }
 
-async function ejemplo() {
-  cargando = true;
-  ponerFondo("#ffd23f");
-  $("color-fondo").value = "#ffd23f";
-  try { await document.fonts.load('200px "Anton"'); } catch {}
-  const palabra = new fabric.Textbox("HOLA", { width: 640, fontFamily: "Anton", fontSize: 270, textAlign: "center", fill: "#1b1e27" });
-  centrar(palabra); palabra.top -= 30; palabra.setCoords();
-  datos(palabra).nombre = "Ejemplo: HOLA (base)";
-  const degradado = new fabric.Rect({ width: 700, height: 380, left: 0, top: 150 });
-  degradado.set("fill", new fabric.Gradient({ type: "linear", gradientUnits: "percentage", coords: { x1: 0, y1: 0, x2: 1, y2: 1 },
-    colorStops: [{ offset: 0, color: "#d1006f" }, { offset: 0.5, color: "#ff7a00" }, { offset: 1, color: "#3a3dff" }] }));
-  datos(degradado).nombre = "Ejemplo: degradado"; datos(degradado).recortada = true;
-  const pie = new fabric.Textbox("¡Feliz día!", { width: 420, fontFamily: "Pacifico", fontSize: 58, textAlign: "center", fill: "#1b1e27" });
-  try { await document.fonts.load('58px "Pacifico"'); } catch {}
-  centrar(pie); pie.top = 470; pie.setCoords(); datos(pie).nombre = "Ejemplo: ¡Feliz día!";
-  canvas.add(palabra, degradado, pie);
-  aplicarRecortes();
-  $("aviso-ejemplo").hidden = false;
-  cargando = false;
-  cambio();
-}
-
-/* ---------- Claude: frases e ilustraciones ---------- */
-(async () => {
-  sample = window.claude?.use ? await window.claude.use("sample") : null;
-  if (!sample) {
-    $("gen-frases").disabled = true; $("gen-ilustracion").disabled = true;
-    $("gen-nota").textContent = "La generación con Claude solo funciona al abrir esta página dentro de Claude.";
-  }
-})();
-function estadoGen(texto, tipo) { const e = $("gen-estado"); e.hidden = !texto; e.textContent = texto || ""; e.className = "estado" + (tipo ? " " + tipo : ""); }
+/* ============================== Claude ============================== */
+function estadoIA(texto, tipo) { const e = $("ia-estado"); e.hidden = !texto; e.textContent = texto || ""; e.className = "estado" + (tipo ? " " + tipo : ""); }
 function mensajeError(e) {
   const c = e && e.code;
   if (c === "cancelled") return "";
   if (c === "not_granted" || c === "sampling_disabled") return "No hay permiso para usar Claude desde esta página.";
   if (c === "rate_limited") return "Demasiadas peticiones seguidas. Espera un momento y vuelve a probar.";
-  if (c === "refused") return "Claude no ha querido hacer ese encargo. Prueba a describirlo de otra forma.";
+  if (c === "refused") return "Claude no ha querido hacer ese encargo. Descríbelo de otra forma.";
   if (c === "invalid_json") return "La respuesta no tenía el formato esperado. Vuelve a probar.";
   return "No se ha podido generar. Vuelve a probar.";
 }
-function ocupado(si) {
-  $("gen-frases").disabled = si || !sample; $("gen-ilustracion").disabled = si || !sample; $("gen-parar").hidden = !si;
+const BOTONES_IA = ["ia-diseno", "ia-serie", "ia-frases", "ia-texto-ig", "ia-ilustracion"];
+function ocupado(si) { BOTONES_IA.forEach((id) => { $(id).disabled = si || !sample; }); $("ia-parar").hidden = !si; }
+$("ia-parar").onclick = () => control?.abort();
+function encargo() { const t = $("encargo").value.trim(); if (!t) estadoIA("Escribe primero qué necesitas.", "error"); return t; }
+const describirFormato = () => `${P.nombre} (${P.mm ? `${P.ancho / 10} × ${P.alto / 10} mm, para imprimir` : `${P.ancho} × ${P.alto} px, para Instagram`}${P.forma === "circulo" ? ", diseño circular" : ""})`;
+const ESQUEMA = `Cada página es un objeto {"fondo": {"color": "#rrggbb"} o {"degradado": ["#rrggbb", "#rrggbb", ángulo]} o {"patron": [tipo, "#fondo", "#dibujo"]}, "duracion": segundos, "elementos": [...]}.
+Coordenadas relativas de 0 a 1: x, y es el CENTRO del elemento; w es el ancho relativo al ancho de la página; h el alto relativo al alto (si falta, sale cuadrado); tam es relativo al lado menor.
+Elementos posibles:
+- {"t":"texto","texto":"...","fuente":F,"tam":0.03-0.2,"color":"#rrggbb","x","y","w","alinear":"left|center|right","negrita":bool,"mayus":bool,"espaciado":0-400,"contorno":"#rrggbb"?,"resaltado":"#rrggbb"?,"sombra":bool,"anim":A}
+- {"t":"forma","forma":S,"color":"#rrggbb","x","y","w","h"?,"opacidad":0-1,"angulo":grados,"degradado":["#a","#b",ángulo]?,"anim":A}
+- {"t":"marco","forma":S,"x","y","w","h"?,"anim":A}  (hueco para que el cliente ponga su foto)
+- {"t":"icono","icono":I,"color":"#rrggbb","x","y","tam":0.03-0.3,"anim":A}
+- {"t":"linea","x1","y1","x2","y2","color":"#rrggbb","grosor":0.002-0.02,"estilo":"solida|discontinua|puntos"}
+A = {"entrada": ${Object.keys(ANIMACIONES).join("|")}, "retardo": segundos, "dur": segundos, "continua": ${Object.keys(CONTINUAS).join("|")}}
+F (fuentes) = ${FUENTES.join(", ")}
+S (formas) = ${Object.keys(FORMAS).join(", ")}
+I (iconos) = ${Object.keys(ICONOS).join(", ")}
+patrones = ${Object.keys(PATRONES).join(", ")}
+El orden de "elementos" es de atrás hacia delante. Buen contraste, jerarquía clara, márgenes de al menos 0.06 y como mucho 12 elementos por página. Textos en castellano de España, sin faltas.`;
+async function pedirDiseno(serie) {
+  const t = encargo(); if (!t) return;
+  control = new AbortController(); ocupado(true); estadoIA(serie ? "Diseñando la serie… puede tardar un minuto." : "Diseñando… puede tardar un minuto.");
+  try {
+    const respuesta = await sample.json(
+      `Eres diseñador gráfico de una tienda en España que hace carteles, chapas, tazas y contenido de Instagram para la oficina FAKTORINGO y sus clientes.\n` +
+      `Formato: ${describirFormato()}.\nEncargo: ${t}\n\n` +
+      (serie ? "Crea una serie de 3 a 5 páginas que cuenten el mensaje paso a paso (para carrusel, historia o vídeo), con animaciones de entrada escalonadas y duraciones de 3 a 6 segundos.\n" : "Crea UNA página. Si es para Instagram, añade animaciones sutiles.\n") +
+      `${ESQUEMA}\n\nResponde SOLO con JSON: {"paginas": [ ... ]}`,
+      { signal: control.signal, cache: false, modelTier: "default" });
+    const paginas = Array.isArray(respuesta?.paginas) ? respuesta.paginas.filter((p) => p && Array.isArray(p.elementos)).slice(0, serie ? 6 : 1) : [];
+    if (!paginas.length) throw { code: "invalid_json" };
+    await aplicarSpecs(paginas);
+    $("aviso-ejemplo").hidden = true;
+    estadoIA(paginas.length > 1 ? `Listo: ${paginas.length} páginas creadas desde la página actual.` : "Listo: diseño aplicado a la página actual.", "ok");
+  } catch (e) { estadoIA(mensajeError(e), "error"); }
+  finally { ocupado(false); }
 }
-$("gen-parar").onclick = () => control?.abort();
-
-$("gen-frases").onclick = async () => {
-  const encargo = $("encargo").value.trim();
-  if (!encargo) { estadoGen("Escribe primero qué necesitas.", "error"); return; }
-  control = new AbortController(); ocupado(true); estadoGen("Pensando frases…");
+$("ia-diseno").onclick = () => pedirDiseno(false);
+$("ia-serie").onclick = () => pedirDiseno(true);
+$("ia-frases").onclick = async () => {
+  const t = encargo(); if (!t) return;
+  control = new AbortController(); ocupado(true); estadoIA("Pensando frases…");
   try {
     const lista = await sample.json(
-      `Eres redactor creativo de una pequeña tienda en España que personaliza ${P.nombre.toLowerCase()} y otros productos impresos.\n` +
-      `Encargo del cliente: ${encargo}\n\n` +
-      `Propón 6 textos cortos y distintos para imprimir en el producto (máximo 40 caracteres cada uno, en castellano, con gracia y sin faltas).\n` +
-      `Responde SOLO con un array JSON de 6 objetos con esta forma: {"texto": "...", "fuente": una de ${JSON.stringify(FUENTES)}, "color": "#rrggbb"}.`,
-      { signal: control.signal, cache: false, modelTier: "default" });
+      `Eres redactor creativo de una tienda en España que personaliza productos y hace contenido para Instagram. Formato: ${describirFormato()}.\nEncargo: ${t}\n\n` +
+      `Propón 6 textos cortos y distintos (máximo 50 caracteres, castellano, con gracia y sin faltas). Responde SOLO con un array JSON de objetos {"texto": "...", "fuente": una de ${JSON.stringify(FUENTES)}, "color": "#rrggbb"}.`,
+      { signal: control.signal, cache: false });
     const frases = Array.isArray(lista) ? lista.filter((f) => f && typeof f.texto === "string").slice(0, 8) : [];
     if (!frases.length) throw { code: "invalid_json" };
-    $("frases").innerHTML = frases.map((f, i) =>
-      `<button class="chip" data-f="${i}"><span style="font-family:'${FUENTES.includes(f.fuente) ? f.fuente : "Fredoka"}'">${escapar(f.texto)}</span><small>${escapar(f.fuente || "")}</small></button>`).join("");
-    $("frases").onclick = (e) => {
+    $("frases").innerHTML = frases.map((f, i) => `<button class="chip" data-f="${i}"><span style="font-family:'${FUENTES.includes(f.fuente) ? f.fuente : "Poppins"}'">${escapar(f.texto)}</span><small>${escapar(f.fuente || "")}</small></button>`).join("");
+    $("frases").onclick = async (e) => {
       const b = e.target.closest("[data-f]"); if (!b) return;
       const f = frases[Number(b.dataset.f)];
-      const color = /^#[0-9a-f]{6}$/i.test(f.color || "") ? f.color : "#1b1e27";
-      anadirTexto(f.texto.slice(0, 80), { fuente: f.fuente, color, tamano: ladoMenor() * 0.09 });
+      await cargarFuente(f.fuente);
+      const tx = crearTexto(f.texto.slice(0, 120), { fuente: f.fuente, color: esColor(f.color) ? f.color : "#1b1e27", tamano: ladoMenor() * 0.08 });
+      centrarEn(tx, P.ancho / 2, P.alto / 2); anadir(tx, f.texto.slice(0, 24));
     };
-    estadoGen("");
-  } catch (e) { estadoGen(mensajeError(e), "error"); }
+    estadoIA("");
+  } catch (e) { estadoIA(mensajeError(e), "error"); }
   finally { ocupado(false); }
 };
-
-function limpiarSVG(texto) {
-  const m = texto.match(/<svg[\s\S]*<\/svg>/i);
-  if (!m) return null;
-  const doc = new DOMParser().parseFromString(m[0], "image/svg+xml");
-  if (doc.querySelector("parsererror")) return null;
-  doc.querySelectorAll("script, foreignObject, image, iframe, animate, animateTransform, animateMotion, set, style").forEach((n) => n.remove());
-  doc.querySelectorAll("*").forEach((n) => {
-    [...n.attributes].forEach((a) => {
-      const v = a.value.trim().toLowerCase();
-      if (/^on/i.test(a.name) || ((a.name === "href" || a.name === "xlink:href") && !v.startsWith("#"))) n.removeAttribute(a.name);
-    });
-  });
-  return new XMLSerializer().serializeToString(doc.documentElement);
-}
-
-$("gen-ilustracion").onclick = async () => {
-  const encargo = $("encargo").value.trim();
-  if (!encargo) { estadoGen("Escribe primero qué necesitas.", "error"); return; }
-  const tipo = $("tipo-ilustracion").value;
-  const forma = P.forma === "circulo" ? "circular (chapa redonda)" : `rectangular de proporción ${P.ancho}:${P.alto}`;
-  const pide = {
-    ilustracion: "un dibujo central bonito y reconocible, con fondo transparente",
-    patron: "un patrón decorativo que cubra todo el lienzo, pensado como fondo",
-    marco: "un marco decorativo alrededor del borde, con el centro vacío y transparente para poner una foto o un texto",
-  }[tipo];
-  const vb = P.forma === "circulo" ? "0 0 600 600" : `0 0 ${Math.round(600 * P.ancho / Math.max(P.ancho, P.alto))} ${Math.round(600 * P.alto / Math.max(P.ancho, P.alto))}`;
-  control = new AbortController(); ocupado(true); estadoGen("Dibujando… puede tardar un minuto.");
+$("ia-texto-ig").onclick = async () => {
+  const t = encargo(); if (!t) return;
+  guardarPaginaActual();
+  const textos = doc.paginas.flatMap((p) => (p.lienzo?.objects || []).filter((o) => o.type === "textbox").map((o) => o.text)).join(" | ").slice(0, 1500);
+  control = new AbortController(); ocupado(true); estadoIA("Escribiendo el texto…"); $("bloque-pie").hidden = false; $("pie-ig").value = "";
   try {
     const { text } = await sample(
-      `Dibuja ${pide} para un diseño ${forma} de una tienda que personaliza productos impresos.\n` +
-      `Tema: ${encargo}\n\n` +
-      `Reglas: responde SOLO con un SVG válido. Usa viewBox="${vb}". Estilo ilustración plana y alegre, colores sólidos (máximo 8), formas limpias. ` +
-      `Prohibido: texto, <text>, <image>, <script>, <style>, filtros, máscaras y enlaces externos. Máximo 80 elementos.`,
-      { signal: control.signal, cache: false, onText: () => estadoGen("Dibujando…") });
-    const svg = limpiarSVG(text);
+      `Escribe el texto para publicar en Instagram (pie de foto) de esta publicación de una tienda u oficina en España.\nEncargo: ${t}\nTextos que aparecen en el diseño: ${textos || "(ninguno)"}\n\n` +
+      "Formato: un gancho en la primera línea, 2 a 4 frases cortas, una llamada a la acción y al final 8 a 12 hashtags relevantes en español. Algún emoji con moderación. Responde solo con el texto final.",
+      { signal: control.signal, cache: false, onText: ({ text }) => { $("pie-ig").value = text; } });
+    $("pie-ig").value = text;
+    estadoIA("");
+  } catch (e) { if (e?.text) $("pie-ig").value = e.text; estadoIA(mensajeError(e), "error"); }
+  finally { ocupado(false); }
+};
+$("copiar-pie").onclick = async () => {
+  try { await navigator.clipboard.writeText($("pie-ig").value); estadoIA("Texto copiado.", "ok"); }
+  catch { $("pie-ig").select(); estadoIA("Selecciona el texto y cópialo con Ctrl+C."); }
+};
+function limpiarSVG(texto, conTexto) {
+  const m = String(texto).match(/<svg[\s\S]*<\/svg>/i);
+  if (!m) return null;
+  const d = new DOMParser().parseFromString(m[0], "image/svg+xml");
+  if (d.querySelector("parsererror")) return null;
+  d.querySelectorAll(`script, foreignObject, image, iframe, animate, animateTransform, animateMotion, set, style${conTexto ? "" : ", text"}`).forEach((n) => n.remove());
+  d.querySelectorAll("*").forEach((n) => [...n.attributes].forEach((a) => {
+    const v = a.value.trim().toLowerCase();
+    if (/^on/i.test(a.name) || ((a.name === "href" || a.name === "xlink:href") && !v.startsWith("#"))) n.removeAttribute(a.name);
+  }));
+  return new XMLSerializer().serializeToString(d.documentElement);
+}
+$("ia-ilustracion").onclick = async () => {
+  const t = encargo(); if (!t) return;
+  const tipo = $("tipo-ilustracion").value;
+  const pide = { ilustracion: "un dibujo central bonito y reconocible, con fondo transparente", patron: "un patrón decorativo que cubra todo el lienzo, pensado como fondo", marco: "un marco decorativo alrededor del borde, con el centro vacío y transparente" }[tipo];
+  const lado = Math.max(P.ancho, P.alto);
+  const vb = `0 0 ${Math.round(600 * P.ancho / lado)} ${Math.round(600 * P.alto / lado)}`;
+  control = new AbortController(); ocupado(true); estadoIA("Dibujando… puede tardar un minuto.");
+  try {
+    const { text } = await sample(
+      `Dibuja ${pide} para un diseño ${describirFormato()}.\nTema: ${t}\n\nReglas: responde SOLO con un SVG válido con viewBox="${vb}". Ilustración plana y alegre, colores sólidos (máximo 8), formas limpias. Prohibido: texto, <text>, <image>, <script>, <style>, filtros, máscaras y enlaces externos. Máximo 80 elementos.`,
+      { signal: control.signal, cache: false });
+    const svg = limpiarSVG(text, false);
     if (!svg) throw { code: "invalid_json" };
     await new Promise((ok) => fabric.loadSVGFromString(svg, (objs, opts) => {
-      const grupo = fabric.util.groupSVGElements(objs, opts);
-      const ancho = grupo.width * (grupo.scaleX || 1), alto = grupo.height * (grupo.scaleY || 1);
-      const factor = tipo === "ilustracion" ? 0.6 : 1;
-      grupo.scale(Math.min(P.ancho * factor / ancho, P.alto * factor / alto) * (grupo.scaleX || 1));
-      centrar(grupo);
-      const nombreG = { ilustracion: "Ilustración", patron: "Patrón", marco: "Marco" }[tipo];
+      const g = fabric.util.groupSVGElements(objs, opts);
+      const f = tipo === "ilustracion" ? 0.6 : 1;
+      const k = Math.min(P.ancho * f / g.width, P.alto * f / g.height);
+      g.set({ scaleX: k, scaleY: k });
+      centrarEn(g, P.ancho / 2, P.alto / 2);
       const fondo = objetos().find((o) => datos(o).fondo);
-      anadir(grupo, `${nombreG} ${contador++}`, tipo === "patron" ? (fondo ? 1 : 0) : undefined);
+      anadir(g, `${{ ilustracion: "Ilustración", patron: "Patrón", marco: "Marco decorativo" }[tipo]} ${contador++}`, tipo === "patron" ? (fondo ? 1 : 0) : undefined);
       ok();
     }));
-    estadoGen("");
-  } catch (e) { estadoGen(mensajeError(e), "error"); }
+    estadoIA("");
+  } catch (e) { estadoIA(mensajeError(e), "error"); }
   finally { ocupado(false); }
 };
 
-/* ---------- Exportar ---------- */
-(async () => { downloads = window.claude?.use ? await window.claude.use("downloads") : null; pintarExportar(); })();
+/* ============================== Animación y vídeo ============================== */
+const suave = (t) => 1 - Math.pow(1 - t, 3);
+const rebote = (t) => { const c1 = 1.70158, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); };
+function estadoAnim(anim, t, W, H) {
+  const r = { dx: 0, dy: 0, s: 1, alfa: 1, giro: 0, letras: 1 };
+  if (!anim) return r;
+  const ent = anim.entrada || "ninguna";
+  if (ent !== "ninguna") {
+    const p = limitar((t - (anim.retardo || 0)) / (anim.dur || 0.8), 0, 1), e = suave(p);
+    if (ent === "aparecer") r.alfa = e;
+    if (ent === "subir") { r.dy = (1 - e) * H * 0.08; r.alfa = e; }
+    if (ent === "bajar") { r.dy = -(1 - e) * H * 0.08; r.alfa = e; }
+    if (ent === "izquierda") { r.dx = -(1 - e) * W * 0.25; r.alfa = e; }
+    if (ent === "derecha") { r.dx = (1 - e) * W * 0.25; r.alfa = e; }
+    if (ent === "zoom") { r.s = 0.6 + 0.4 * e; r.alfa = e; }
+    if (ent === "rebote") { r.s = p === 0 ? 0.001 : Math.max(0.001, rebote(p)); r.alfa = p > 0 ? 1 : 0; }
+    if (ent === "girar") { r.giro = -90 * (1 - e); r.s = 0.6 + 0.4 * e; r.alfa = e; }
+    if (ent === "escribir") r.letras = p;
+  }
+  const c = anim.continua || "ninguna";
+  if (c === "latido") r.s *= 1 + 0.05 * Math.sin(t * Math.PI * 2 / 1.1);
+  if (c === "flotar") r.dy += Math.sin(t * Math.PI * 2 / 2.4) * H * 0.012;
+  if (c === "balanceo") r.giro += Math.sin(t * Math.PI * 2 / 1.8) * 6;
+  if (c === "parpadeo") r.alfa *= 0.55 + 0.45 * (0.5 + 0.5 * Math.cos(t * Math.PI * 2 / 1.4));
+  return r;
+}
+/* Cada "unidad" es una capa base con sus capas recortadas: se animan juntas. */
+function prepararAnimacion(sc) {
+  const lista = sc.getObjects();
+  return lista.filter((o) => !datos(o).recortada).map((o) => ({
+    anim: datos(o).anim, centro: o.getCenterPoint(),
+    orig: [o, ...recortadasSobre(o, lista)].map((m) => ({ m, left: m.left, top: m.top, scaleX: m.scaleX, scaleY: m.scaleY, opacity: m.opacity, angle: m.angle || 0, text: m.text,
+      clip: m.clipPath ? { left: m.clipPath.left, top: m.clipPath.top, scaleX: m.clipPath.scaleX, scaleY: m.clipPath.scaleY, angle: m.clipPath.angle || 0 } : null })),
+  }));
+}
+function animarPagina(unidades, t) {
+  for (const u of unidades) {
+    if (!u.anim) continue;
+    const r = estadoAnim(u.anim, t, P.ancho, P.alto);
+    const { x: cx, y: cy } = u.centro;
+    const rad = (r.giro * Math.PI) / 180, cos = Math.cos(rad), sin = Math.sin(rad);
+    const mover = (left, top) => { const px = (left - cx) * r.s, py = (top - cy) * r.s; return { left: cx + px * cos - py * sin + r.dx, top: cy + px * sin + py * cos + r.dy }; };
+    for (const o of u.orig) {
+      o.m.set({ ...mover(o.left, o.top), scaleX: o.scaleX * r.s, scaleY: o.scaleY * r.s, opacity: o.opacity * r.alfa, angle: o.angle + r.giro });
+      if (o.m.type === "textbox" && u.anim.entrada === "escribir") o.m.set("text", o.text.slice(0, Math.ceil(o.text.length * r.letras)));
+      if (o.clip && o.m.clipPath) o.m.clipPath.set({ ...mover(o.clip.left, o.clip.top), scaleX: o.clip.scaleX * r.s, scaleY: o.clip.scaleY * r.s, angle: o.clip.angle + r.giro });
+    }
+  }
+}
+async function prepararEscenas(ancho, indices) {
+  guardarPaginaActual();
+  const escenas = [];
+  for (const i of indices) {
+    const p = doc.paginas[i];
+    const sc = await renderizarPaginaEn(p.lienzo, ancho);
+    escenas.push({ sc, unidades: prepararAnimacion(sc), duracion: p.duracion, transicion: p.transicion });
+  }
+  return escenas;
+}
+function dibujarEscena(ctx, esc, t, W, H) {
+  animarPagina(esc.unidades, t);
+  esc.sc.renderAll();
+  ctx.drawImage(esc.sc.lowerCanvasEl, 0, 0, W, H);
+}
+function dibujarFotograma(ctx, escenas, t, W, H) {
+  ctx.fillStyle = "#ffffff"; ctx.fillRect(0, 0, W, H);
+  let ini = 0;
+  for (let i = 0; i < escenas.length; i++) {
+    const e = escenas[i];
+    if (t < ini + e.duracion || i === escenas.length - 1) {
+      const tl = Math.min(t - ini, e.duracion), trans = 0.6;
+      if (i > 0 && tl < trans && e.transicion !== "corte") {
+        const p = suave(tl / trans), prev = escenas[i - 1];
+        if (e.transicion === "fundido") {
+          dibujarEscena(ctx, prev, prev.duracion, W, H);
+          ctx.globalAlpha = p; dibujarEscena(ctx, e, tl, W, H); ctx.globalAlpha = 1;
+        } else {
+          ctx.save(); ctx.translate(-W * p, 0); dibujarEscena(ctx, prev, prev.duracion, W, H); ctx.restore();
+          ctx.save(); ctx.translate(W * (1 - p), 0); dibujarEscena(ctx, e, tl, W, H); ctx.restore();
+        }
+      } else dibujarEscena(ctx, e, tl, W, H);
+      return;
+    }
+    ini += e.duracion;
+  }
+}
+function tipoVideo() {
+  if (!window.MediaRecorder) return "";
+  return ["video/mp4;codecs=avc1.42E01E,mp4a.40.2", "video/mp4;codecs=avc1", "video/mp4", "video/webm;codecs=vp9,opus", "video/webm;codecs=vp8,opus", "video/webm"].find((t) => MediaRecorder.isTypeSupported(t)) || "";
+}
+let reproduccion = null;
+let ultimaReproduccion = null;
+async function reproducir(grabar, indices = doc.paginas.map((_, i) => i)) {
+  if (reproduccion) return;
+  modoDibujo(false);
+  ultimaReproduccion = indices;
+  const W = P.mm ? 1080 : P.ancho, H = Math.round(W * P.alto / P.ancho);
+  if (grabar) estadoExp("Preparando el vídeo…");
+  const escenas = await prepararEscenas(W, indices);
+  const total = escenas.reduce((s, e) => s + e.duracion, 0);
+  const lienzo = document.createElement("canvas"); lienzo.width = W; lienzo.height = H;
+  const ctx = lienzo.getContext("2d");
+  $("repro-hueco").replaceChildren(lienzo);
+  $("repro-titulo").textContent = grabar ? "Grabando el vídeo… no cierres esta pestaña" : "Vista previa";
+  $("repro-otra").hidden = true;
+  $("velo").hidden = false;
+  dibujarFotograma(ctx, escenas, 0, W, H);
+  let grabadora = null, audio = null, fuente = null;
+  const trozos = [], tipo = tipoVideo();
+  if (grabar) {
+    const flujo = lienzo.captureStream(30);
+    if (musica) {
+      audio = new AudioContext();
+      const destino = audio.createMediaStreamDestination();
+      fuente = audio.createBufferSource(); fuente.buffer = musica.buffer;
+      const vol = audio.createGain();
+      vol.gain.setValueAtTime(1, audio.currentTime + Math.max(0, total - 1));
+      vol.gain.linearRampToValueAtTime(0, audio.currentTime + total);
+      fuente.connect(vol); vol.connect(destino);
+      destino.stream.getAudioTracks().forEach((tr) => flujo.addTrack(tr));
+    }
+    grabadora = new MediaRecorder(flujo, { mimeType: tipo, videoBitsPerSecond: 8000000 });
+    grabadora.ondataavailable = (e) => { if (e.data.size) trozos.push(e.data); };
+    grabadora.start(250);
+  } else if (musica) {
+    audio = new AudioContext(); fuente = audio.createBufferSource(); fuente.buffer = musica.buffer; fuente.connect(audio.destination);
+  }
+  fuente?.start();
+  const inicio = performance.now();
+  const estado = { cancelado: false };
+  await new Promise((fin) => {
+    reproduccion = { cancelar: () => { estado.cancelado = true; fin(); } };
+    const paso = () => {
+      if (estado.cancelado) return;
+      const t = (performance.now() - inicio) / 1000;
+      dibujarFotograma(ctx, escenas, Math.min(t, total), W, H);
+      $("repro-progreso").value = Math.min(1, t / total);
+      $("repro-tiempo").textContent = `${coma(Math.min(t, total))} / ${coma(total)} s`;
+      if (t >= total) { fin(); return; }
+      requestAnimationFrame(paso);
+    };
+    requestAnimationFrame(paso);
+  });
+  reproduccion = null;
+  try { fuente?.stop(); } catch { /* ya parado */ }
+  audio?.close();
+  escenas.forEach((e) => e.sc.dispose());
+  if (grabadora) {
+    await new Promise((ok) => { grabadora.onstop = ok; grabadora.stop(); });
+    $("velo").hidden = true;
+    if (!estado.cancelado) {
+      const ext = tipo.includes("mp4") ? "mp4" : "webm";
+      const ok = await guardar(`video-${productoId}-${fecha()}.${ext}`, new Blob(trozos, { type: tipo.split(";")[0] }));
+      if (ok && ext === "webm") estadoExp("Vídeo guardado en WebM. Si Instagram no lo acepta, conviértelo a MP4 antes de subirlo.", "ok");
+    } else estadoExp("Grabación cancelada.");
+  } else if (!estado.cancelado) $("repro-otra").hidden = false;
+}
+$("repro-cerrar").onclick = () => { reproduccion?.cancelar(); $("velo").hidden = true; };
+$("repro-otra").onclick = () => reproducir(false, ultimaReproduccion || undefined);
+$("video-ver").onclick = () => reproducir(false);
+$("video-exportar").onclick = () => {
+  if (!tipoVideo()) { estadoExp("Este navegador no puede grabar vídeo. Prueba con Chrome o Edge.", "error"); return; }
+  reproducir(true);
+};
+$("elegir-musica").onclick = () => $("archivo-musica").click();
+$("archivo-musica").onchange = async (e) => {
+  const f = e.target.files[0]; e.target.value = "";
+  if (!f) return;
+  try {
+    const ctx = new AudioContext();
+    const buffer = await ctx.decodeAudioData(await f.arrayBuffer());
+    ctx.close();
+    musica = { nombre: f.name, buffer };
+    $("musica-nombre").textContent = `${f.name} (${coma(buffer.duration)} s)`; $("quitar-musica").hidden = false;
+  } catch { estadoExp("No se ha podido leer ese archivo de audio.", "error"); }
+};
+$("quitar-musica").onclick = () => { musica = null; $("musica-nombre").textContent = "Sin música"; $("quitar-musica").hidden = true; };
 
-function renderizarPNG() {
+/* ============================== Exportar imágenes y PDF ============================== */
+function estadoExp(texto, tipo) { const e = $("exp-estado"); e.hidden = !texto; e.textContent = texto || ""; e.className = "estado" + (tipo ? " " + tipo : ""); }
+async function guardar(nombreArchivo, datosArchivo) {
+  if (!downloads) { estadoExp("Las descargas solo funcionan al abrir esta página dentro de Claude.", "error"); return false; }
+  try { await downloads.save({ filename: nombreArchivo, data: datosArchivo }); estadoExp(`Descargado: ${nombreArchivo}`, "ok"); return true; }
+  catch (e) { if (e?.code === "declined") estadoExp(""); else estadoExp("No se ha podido descargar el archivo.", "error"); return false; }
+}
+const multiplicador = () => (P.mm ? PX300 : 1);
+function pngActual() {
   canvas.discardActiveObject();
   exportando = true;
-  const mult = (P.mm ? PX300 : 1) / zoom;
-  const url = canvas.toDataURL({ format: "png", multiplier: mult, enableRetinaScaling: false });
+  const url = canvas.toDataURL({ format: "png", multiplier: multiplicador() / zoom, enableRetinaScaling: false });
   exportando = false;
   canvas.requestRenderAll();
   return url;
 }
-function espejar(url) {
-  return new Promise((ok) => {
-    const img = new Image();
-    img.onload = () => {
-      const c = document.createElement("canvas"); c.width = img.width; c.height = img.height;
-      const ctx = c.getContext("2d"); ctx.translate(c.width, 0); ctx.scale(-1, 1); ctx.drawImage(img, 0, 0);
-      ok(c.toDataURL("image/png"));
-    };
-    img.src = url;
-  });
+async function pngDePagina(i) {
+  if (i === doc.actual) return pngActual();
+  const sc = await renderizarPaginaEn(doc.paginas[i].lienzo, P.ancho * multiplicador());
+  const url = sc.toDataURL({ format: "png" });
+  sc.dispose();
+  return url;
 }
-function dataUrlABlob(url) {
-  const [cab, b64] = url.split(",");
-  const bin = atob(b64); const bytes = new Uint8Array(bin.length);
-  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
-  return new Blob([bytes], { type: cab.match(/:(.*?);/)[1] });
+async function conFondoBlanco(url) {
+  const img = await imagenDe(url);
+  const c = document.createElement("canvas"); c.width = img.width; c.height = img.height;
+  const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height); x.drawImage(img, 0, 0);
+  return c.toDataURL("image/jpeg", 0.92);
 }
-function estadoExp(texto, tipo) { const e = $("exp-estado"); e.hidden = !texto; e.textContent = texto || ""; e.className = "estado" + (tipo ? " " + tipo : ""); }
-async function guardar(nombreArchivo, datosArchivo) {
-  if (!downloads) { estadoExp("Las descargas solo funcionan al abrir esta página dentro de Claude.", "error"); return; }
-  try { await downloads.save({ filename: nombreArchivo, data: datosArchivo }); estadoExp(`Descargado: ${nombreArchivo}`, "ok"); }
-  catch (e) { if (e?.code !== "declined") estadoExp("No se ha podido descargar el archivo.", "error"); else estadoExp(""); }
-}
+$("png-actual").onclick = () => guardar(`${productoId}-p${doc.actual + 1}-${fecha()}.png`, dataUrlABlob(pngActual()));
+$("jpg-actual").onclick = async () => guardar(`${productoId}-p${doc.actual + 1}-${fecha()}.jpg`, dataUrlABlob(await conFondoBlanco(pngActual())));
+$("svg-actual").onclick = () => {
+  canvas.discardActiveObject();
+  const vt = canvas.viewportTransform;
+  canvas.viewportTransform = [1, 0, 0, 1, 0, 0];
+  const svg = canvas.toSVG({ width: P.mm ? `${P.ancho / 10}mm` : P.ancho, height: P.mm ? `${P.alto / 10}mm` : P.alto, viewBox: { x: 0, y: 0, width: P.ancho, height: P.alto } });
+  canvas.viewportTransform = vt;
+  canvas.requestRenderAll();
+  guardar(`${productoId}-p${doc.actual + 1}-${fecha()}.svg`, svg);
+};
+$("zip-todas").onclick = async () => {
+  guardarPaginaActual();
+  estadoExp("Preparando las imágenes…");
+  const zip = new JSZip();
+  for (let i = 0; i < doc.paginas.length; i++) zip.file(`${String(i + 1).padStart(2, "0")}-${productoId}.png`, dataUrlABlob(await pngDePagina(i)));
+  guardar(`${productoId}-${fecha()}.zip`, await zip.generateAsync({ type: "blob" }));
+};
+$("pdf-todas").onclick = async () => {
+  guardarPaginaActual();
+  estadoExp("Preparando el PDF…");
+  const { jsPDF } = window.jspdf;
+  const w = P.mm ? P.ancho / 10 : P.ancho * 0.75, h = P.mm ? P.alto / 10 : P.alto * 0.75, u = P.mm ? "mm" : "pt";
+  const pdf = new jsPDF({ unit: u, format: [w, h], orientation: w > h ? "l" : "p" });
+  for (let i = 0; i < doc.paginas.length; i++) {
+    if (i) pdf.addPage([w, h], w > h ? "l" : "p");
+    pdf.addImage(await pngDePagina(i), "PNG", 0, 0, w, h, undefined, "FAST");
+  }
+  guardar(`${productoId}-${fecha()}.pdf`, pdf.output("arraybuffer"));
+};
 
-/* Cuántos círculos caben en la hoja: cuadrícula o tresbolillo, lo que meta más. */
-function calcularRejilla(anchoHoja, altoHoja, d, margen, sep) {
-  const EPS = 1e-6, paso = d + sep;
-  const cuadricula = () => {
-    const cols = Math.floor((anchoHoja - 2 * margen + sep + EPS) / paso), filas = Math.floor((altoHoja - 2 * margen + sep + EPS) / paso);
-    const r = []; for (let f = 0; f < filas; f++) for (let c = 0; c < cols; c++) r.push({ x: c * paso, y: f * paso }); return r;
-  };
-  const tresbolillo = (W, H) => {
-    const pasoFila = paso * Math.sqrt(3) / 2, utilW = W - 2 * margen, utilH = H - 2 * margen;
-    if (utilH + EPS < d) return [];
-    const filas = Math.floor((utilH - d + EPS) / pasoFila) + 1, r = [];
-    for (let f = 0; f < filas; f++) {
-      const des = f % 2 ? paso / 2 : 0, cols = Math.floor((utilW - des + sep + EPS) / paso);
-      for (let c = 0; c < cols; c++) r.push({ x: des + c * paso, y: f * pasoFila });
-    }
+/* ============================== Hojas de impresión (A4 / A3) ============================== */
+function centrarPos(lista, W, H) {
+  if (!lista.length) return [];
+  const mx = Math.max(...lista.map((p) => p.x + p.w)), my = Math.max(...lista.map((p) => p.y + p.h));
+  const dx = (W - mx) / 2, dy = (H - my) / 2;
+  return lista.map((p) => ({ ...p, x: p.x + dx, y: p.y + dy }));
+}
+function rejillaCirculos(W, H, d, m, s) {
+  const EPS = 1e-6, paso = d + s;
+  const cuad = () => { const c = Math.floor((W - 2 * m + s + EPS) / paso), f = Math.floor((H - 2 * m + s + EPS) / paso), r = []; for (let i = 0; i < f; i++) for (let j = 0; j < c; j++) r.push({ x: j * paso, y: i * paso }); return r; };
+  const tres = (A, B) => {
+    const pf = paso * Math.sqrt(3) / 2, uw = A - 2 * m, uh = B - 2 * m; if (uh + EPS < d) return [];
+    const filas = Math.floor((uh - d + EPS) / pf) + 1, r = [];
+    for (let f = 0; f < filas; f++) { const des = f % 2 ? paso / 2 : 0, c = Math.floor((uw - des + s + EPS) / paso); for (let j = 0; j < c; j++) r.push({ x: des + j * paso, y: f * pf }); }
     return r;
   };
-  const opciones = [cuadricula(), tresbolillo(anchoHoja, altoHoja), tresbolillo(altoHoja, anchoHoja).map(({ x, y }) => ({ x: y, y: x }))];
-  const mejor = opciones.reduce((a, b) => (b.length > a.length ? b : a));
-  if (!mejor.length) return [];
-  const maxX = Math.max(...mejor.map((p) => p.x)) + d, maxY = Math.max(...mejor.map((p) => p.y)) + d;
-  const dx = (anchoHoja - maxX) / 2, dy = (altoHoja - maxY) / 2;
-  return mejor.map(({ x, y }) => ({ x: x + dx, y: y + dy }));
+  const mejor = [cuad(), tres(W, H), tres(H, W).map(({ x, y }) => ({ x: y, y: x }))].reduce((a, b) => (b.length > a.length ? b : a));
+  return centrarPos(mejor.map((p) => ({ ...p, w: d, h: d, giro: false })), W, H);
 }
-function posicionesChapa() {
-  const [w, h] = HOJAS[$("hoja").value];
-  return calcularRejilla(w, h, 70, Math.max(0, Number($("margen").value) || 0), Math.max(0, Number($("separacion").value) || 0));
+function rejillaRect(W, H, w, h, m, s) {
+  const intento = (iw, ih, giro) => {
+    const c = Math.floor((W - 2 * m + s + 1e-6) / (iw + s)), f = Math.floor((H - 2 * m + s + 1e-6) / (ih + s)), r = [];
+    for (let i = 0; i < f; i++) for (let j = 0; j < c; j++) r.push({ x: j * (iw + s), y: i * (ih + s), w: iw, h: ih, giro });
+    return r;
+  };
+  return centrarPos([intento(w, h, false), intento(h, w, true)].reduce((a, b) => (b.length > a.length ? b : a)), W, H);
 }
-
+/* Prueba la hoja en vertical y en horizontal, y las piezas giradas o no; se queda con lo que mete más. */
+function planHoja() {
+  const imp = P.impresion; if (!imp) return null;
+  const [a, b] = HOJAS[$("hoja").value];
+  const m = Math.max(0, Number($("margen").value) || 0), s = Math.max(0, Number($("separacion").value) || 0);
+  const calc = (W, H) => (imp.circulo ? rejillaCirculos(W, H, imp.w, m, s) : rejillaRect(W, H, imp.w, imp.h, m, s));
+  const vert = calc(a, b), hor = calc(b, a);
+  return hor.length > vert.length ? { orient: "l", pos: hor } : { orient: "p", pos: vert };
+}
+const colaActual = () => (colas[productoId] = colas[productoId] || []);
 function pintarExportar() {
-  const hoja = P.hoja;
-  $("exp-hoja").hidden = !hoja;
-  $("exp-ajustes-chapa").hidden = hoja !== "chapas";
-  $("op-corte").hidden = hoja !== "chapas";
-  $("op-espejo").hidden = hoja !== "taza";
-  $("llenar-hoja").hidden = hoja !== "chapas";
-  $("exp-explica").textContent = {
-    chapas: "Añade cada diseño con las copias que quieras. Se reparten en hojas con línea de corte, a tamaño real.",
-    taza: "Cada diseño ocupa una página de 20 × 9,5 cm a tamaño real.",
-    cartel: "Cada diseño ocupa una página A4.",
-  }[hoja] || "";
-  if (hoja === "chapas") $("por-hoja").textContent = `${posicionesChapa().length} chapas`;
-  const sinDescargas = !downloads;
-  ["descargar-pdf", "descargar-png", "llenar-hoja"].forEach((id) => { $(id).disabled = sinDescargas; });
-  $("descargar-pdf").disabled = sinDescargas || cola.length === 0;
-  if (sinDescargas) estadoExp("Las descargas solo funcionan al abrir esta página dentro de Claude.");
+  const imp = P.impresion;
+  $("bloque-hoja").hidden = !imp;
+  $("op-espejo").hidden = !imp?.espejo;
+  if (imp) {
+    const plan = planHoja(), n = plan.pos.length;
+    $("por-hoja").textContent = n ? `${n} por hoja` : "ninguno";
+    $("hoja-explica").textContent = imp.circulo
+      ? `Chapas de ${imp.w} mm de corte, colocadas al tresbolillo si así caben más.`
+      : `${P.nombre}: ${coma(imp.w / 10)} × ${coma(imp.h / 10)} cm. Se giran solas si así caben más${plan.orient === "l" ? "; esta hoja sale en horizontal" : ""}.`;
+  }
+  const cola = colaActual();
+  $("cola").innerHTML = cola.map((c, i) => `<li><img src="${c.url}" alt=""><span class="ayuda">${escapar(c.nombre)}</span>
+    <input class="campo dato" type="number" min="1" max="500" value="${c.copias}" data-copias="${i}" aria-label="Copias"><button class="icono-btn" data-quitar="${i}" aria-label="Quitar de la hoja">${ICO.borrar}</button></li>`).join("");
+  const sin = !downloads;
+  ["png-actual", "jpg-actual", "svg-actual", "zip-todas", "pdf-todas", "video-exportar", "llenar-hoja"].forEach((id) => { $(id).disabled = sin; });
+  $("descargar-hoja").disabled = sin || !cola.length;
 }
 ["hoja", "margen", "separacion"].forEach((id) => $(id).addEventListener("input", pintarExportar));
-
-function pintarCola() {
-  $("cola").innerHTML = cola.map((c, i) => `<li><img src="${c.url}" alt=""><span class="ayuda">${escapar(c.nombre)}</span>
-    <input class="campo dato" type="number" min="1" max="500" value="${c.copias}" data-copias="${i}" aria-label="Copias">
-    <button class="icono-btn" data-quitar="${i}" aria-label="Quitar de la hoja">${ICONOS.borrar}</button></li>`).join("");
-  pintarExportar();
+$("cola").addEventListener("input", (e) => { const i = e.target.dataset.copias; if (i !== undefined) colaActual()[Number(i)].copias = limitar(Number(e.target.value) || 1, 1, 500); });
+$("cola").addEventListener("click", (e) => { const b = e.target.closest("[data-quitar]"); if (b) { colaActual().splice(Number(b.dataset.quitar), 1); pintarExportar(); } });
+function nombreDePagina(i) {
+  const objs = i === doc.actual ? objetos() : doc.paginas[i].lienzo?.objects || [];
+  return objs.filter((o) => o.type === "textbox").map((o) => o.text.replace(/\s+/g, " ")).join(" · ").slice(0, 40) || `Página ${i + 1}`;
 }
-$("cola").addEventListener("input", (e) => { const i = e.target.dataset.copias; if (i !== undefined) cola[Number(i)].copias = Math.max(1, Math.min(500, Number(e.target.value) || 1)); });
-$("cola").addEventListener("click", (e) => { const b = e.target.closest("[data-quitar]"); if (b) { cola.splice(Number(b.dataset.quitar), 1); pintarCola(); } });
-$("anadir-cola").onclick = () => {
-  const url = renderizarPNG();
-  const textos = objetos().filter((o) => o.type === "textbox").map((o) => o.text.replace(/\s+/g, " ")).join(" · ");
-  cola.push({ url, copias: 1, nombre: textos.slice(0, 40) || `Diseño ${cola.length + 1}` });
-  pintarCola();
-  estadoExp(`Añadido a la hoja (${cola.length} ${cola.length === 1 ? "diseño" : "diseños"}).`, "ok");
-};
-$("llenar-hoja").onclick = () => generarPDF([{ url: renderizarPNG(), copias: posicionesChapa().length }]);
-$("descargar-pdf").onclick = () => generarPDF(cola);
-$("descargar-png").onclick = async () => {
-  let url = renderizarPNG();
-  if (P.hoja === "taza" && $("espejo").checked) url = await espejar(url);
-  guardar(`${productoId}-${fecha()}.png`, dataUrlABlob(url));
-};
-const fecha = () => new Date().toISOString().slice(0, 10);
-
-async function generarPDF(items) {
+async function entradaCola(i, copias = 1) { return { url: await pngDePagina(i), copias, nombre: nombreDePagina(i) }; }
+$("anadir-cola").onclick = async () => { colaActual().push(await entradaCola(doc.actual)); pintarExportar(); estadoExp("Página añadida a la hoja.", "ok"); };
+$("anadir-todas").onclick = async () => { guardarPaginaActual(); for (let i = 0; i < doc.paginas.length; i++) colaActual().push(await entradaCola(i)); pintarExportar(); estadoExp(`${doc.paginas.length} páginas añadidas a la hoja.`, "ok"); };
+$("llenar-hoja").onclick = async () => generarHoja([await entradaCola(doc.actual, Math.max(1, planHoja().pos.length))]);
+$("descargar-hoja").onclick = () => generarHoja(colaActual());
+async function girarImagen(url, espejo, giro) {
+  const img = await imagenDe(url);
+  const c = document.createElement("canvas");
+  c.width = giro ? img.height : img.width; c.height = giro ? img.width : img.height;
+  const x = c.getContext("2d");
+  x.translate(c.width / 2, c.height / 2);
+  if (giro) x.rotate(Math.PI / 2);
+  if (espejo) x.scale(-1, 1);
+  x.drawImage(img, -img.width / 2, -img.height / 2);
+  return c.toDataURL("image/png");
+}
+async function generarHoja(items) {
   if (!items.length) return;
+  const plan = planHoja();
+  if (!plan.pos.length) { estadoExp("Con ese margen no cabe ninguna pieza en la hoja.", "error"); return; }
+  estadoExp("Preparando la hoja…");
   const { jsPDF } = window.jspdf;
-  let doc;
-  if (P.hoja === "chapas") {
-    const hoja = $("hoja").value, pos = posicionesChapa();
-    if (!pos.length) { estadoExp("Con ese margen no cabe ninguna chapa.", "error"); return; }
-    doc = new jsPDF({ unit: "mm", format: hoja.toLowerCase(), orientation: "p" });
-    let hueco = 0;
-    items.forEach((it, k) => {
-      for (let n = 0; n < it.copias; n++) {
-        if (hueco === pos.length) { doc.addPage(hoja.toLowerCase(), "p"); hueco = 0; }
-        const p = pos[hueco++];
-        doc.addImage(it.url, "PNG", p.x, p.y, 70, 70, `d${k}`, "NONE");
-        if ($("linea-corte").checked) { doc.setDrawColor(0); doc.setLineWidth(0.15); doc.circle(p.x + 35, p.y + 35, 35, "S"); }
-      }
-    });
-  } else {
-    const w = P.ancho / U, h = P.alto / U;
-    doc = new jsPDF({ unit: "mm", format: [w, h], orientation: w > h ? "l" : "p" });
-    let primera = true;
-    for (const [k, it] of items.entries()) {
-      const url = P.hoja === "taza" && $("espejo").checked ? await espejar(it.url) : it.url;
-      for (let n = 0; n < it.copias; n++) {
-        if (!primera) doc.addPage([w, h], w > h ? "l" : "p");
-        primera = false;
-        doc.addImage(url, "PNG", 0, 0, w, h, `d${k}`, "NONE");
+  const formato = $("hoja").value.toLowerCase();
+  const pdf = new jsPDF({ unit: "mm", format: formato, orientation: plan.orient });
+  const espejo = !!P.impresion.espejo && $("espejo").checked;
+  const corte = $("linea-corte").checked;
+  const cache = {};
+  let hueco = 0, hojas = 1;
+  for (const [k, it] of items.entries()) {
+    for (let n = 0; n < it.copias; n++) {
+      if (hueco === plan.pos.length) { pdf.addPage(formato, plan.orient); hueco = 0; hojas++; }
+      const p = plan.pos[hueco++];
+      const clave = `${k}-${p.giro}`;
+      if (!cache[clave]) cache[clave] = espejo || p.giro ? await girarImagen(it.url, espejo, p.giro) : it.url;
+      pdf.addImage(cache[clave], "PNG", p.x, p.y, p.w, p.h, `img${clave}`, "FAST");
+      if (corte) {
+        pdf.setDrawColor(120); pdf.setLineWidth(0.15);
+        if (P.impresion.circulo) pdf.circle(p.x + p.w / 2, p.y + p.h / 2, p.w / 2, "S"); else pdf.rect(p.x, p.y, p.w, p.h, "S");
       }
     }
   }
-  await guardar(`${productoId}-hoja-${fecha()}.pdf`, doc.output("arraybuffer"));
+  const ok = await guardar(`hoja-${productoId}-${formato}-${fecha()}.pdf`, pdf.output("arraybuffer"));
+  if (ok) estadoExp(`Hoja descargada: ${hojas} ${hojas === 1 ? "página" : "páginas"} ${formato.toUpperCase()}.`, "ok");
 }
 
-/* ---------- Arranque ---------- */
+/* ============================== Arranque ============================== */
+(async () => {
+  sample = window.claude?.use ? await window.claude.use("sample") : null;
+  BOTONES_IA.forEach((id) => { $(id).disabled = !sample; });
+  if (!sample) $("ia-nota").textContent = "Las funciones de Claude solo están disponibles al abrir esta página dentro de Claude.";
+})();
+(async () => {
+  downloads = window.claude?.use ? await window.claude.use("downloads") : null;
+  pintarExportar();
+  if (!downloads) estadoExp("Las descargas solo funcionan al abrir esta página dentro de Claude.");
+})();
+BOTONES_IA.forEach((id) => { $(id).disabled = true; });
 async function arrancar() {
-  const pest = almacen.leer("taller-recortes-pestana");
-  if (pest && $(pest)) $(pest).click();
-  const borrador = almacen.leer("taller-recortes-borrador");
   $("producto").value = productoId;
-  prepararProducto();
+  const panel = almacen.leer("taller-recortes-panel");
+  abrirPanel(PANELES.some(([k]) => k === panel) ? panel : "plantillas");
+  const borrador = almacen.leer("taller-recortes-v2");
   if (borrador) {
-    try { cargar(borrador, () => { historia = [instantanea()]; pintarBotonesHistoria(); }); return; } catch { /* borrador dañado: ejemplo */ }
+    try { await restaurar(borrador); historia = [instantanea()]; pintarBotonesHistoria(); return; } catch { /* borrador dañado: se carga el ejemplo */ }
   }
-  await ejemplo();
+  doc = { paginas: [nuevaPaginaVacia()], actual: 0 };
+  await cargarLienzo(null);
+  await aplicarSpecs(PLANTILLAS[0].paginas);
+  $("aviso-ejemplo").hidden = false;
   historia = [instantanea()];
   pintarBotonesHistoria();
 }
