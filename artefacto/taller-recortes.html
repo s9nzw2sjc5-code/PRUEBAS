@@ -248,6 +248,26 @@ details.seccion > div { padding: 0 16px 16px; display: flex; flex-direction: col
 .deslizador { display: grid; grid-template-columns: 78px 1fr 46px; align-items: center; gap: 8px; font-size: 12.5px; }
 .deslizador span:last-child { text-align: right; font-family: var(--f-dato); font-size: 11.5px; color: var(--fg-suave); }
 
+.nube { font-family: var(--f-dato); font-size: 11.5px; color: var(--fg-suave); padding: 4px 10px; border-radius: 999px; background: var(--panel-2); white-space: nowrap; }
+.nube.ok { color: #1f7a4d; } .nube.mal { color: var(--acento); }
+#titulo-trabajo[contenteditable="true"] { cursor: text; border-radius: 6px; padding: 0 4px; margin-left: -4px; }
+#titulo-trabajo[contenteditable="true"]:hover, #titulo-trabajo[contenteditable="true"]:focus { background: var(--panel-2); outline: none; }
+.biblioteca { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 14px; margin-bottom: 28px; }
+.diseno-nube { position: relative; display: flex; flex-direction: column; gap: 6px; text-align: left; padding: 8px; border-radius: 16px; background: var(--panel); border: 1px solid var(--borde, transparent); box-shadow: var(--sombra-1); cursor: pointer; color: inherit; font: inherit; }
+.diseno-nube:hover { outline: 2px solid var(--acento); }
+.diseno-nube .mini { aspect-ratio: 4 / 3; border-radius: 10px; background: var(--panel-2); display: grid; place-items: center; overflow: hidden; }
+.diseno-nube .mini img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.diseno-nube strong { font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.diseno-nube small { color: var(--fg-suave); font-size: 12px; }
+.diseno-nube .borrar-nube { position: absolute; top: 12px; right: 12px; border: 0; border-radius: 999px; background: rgb(0 0 0 / 0.55); color: #fff; font-size: 12px; padding: 3px 9px; cursor: pointer; }
+.kit-colores { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+.kit-logo { display: flex; align-items: center; gap: 10px; }
+.kit-logo img { width: 48px; height: 48px; object-fit: contain; border-radius: 8px; background: var(--tablero-a); }
+.dialogo { background: var(--panel); border-radius: 20px; padding: 18px; display: flex; flex-direction: column; gap: 14px; width: min(520px, 100%); max-height: 100%; overflow: auto; box-shadow: var(--sombra-2); }
+.hist-item { display: grid; grid-template-columns: 72px 1fr auto; gap: 12px; align-items: center; padding: 8px; border-radius: 12px; background: var(--panel-2); }
+.hist-item img { width: 72px; height: 54px; object-fit: contain; border-radius: 6px; background: var(--panel); }
+.kit-form { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+.kit-form input[type=color] { width: 100%; height: 40px; }
 .velo { position: fixed; inset: 0; background: var(--velo); z-index: 50; display: flex; align-items: center; justify-content: center; padding: max(16px, env(safe-area-inset-top, 0px)) max(16px, env(safe-area-inset-right, 0px)) max(16px, env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px)); backdrop-filter: blur(3px); }
 .reproductor { background: var(--panel); border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 12px; max-width: 100%; max-height: 100%; box-shadow: var(--sombra-2); }
 .reproductor canvas { max-width: min(80vw, 520px); max-height: 66vh; width: auto; height: auto; display: block; margin: 0 auto; background: #000; border-radius: 10px; }
@@ -281,6 +301,7 @@ details.seccion > div { padding: 0 16px 16px; display: flex; flex-direction: col
     <span id="continuar-texto">Tienes un trabajo a medias.</span>
     <button class="btn primario" id="btn-continuar">Seguir donde lo dejé</button>
   </div>
+  <div id="bloque-biblioteca" hidden><h3 class="sec">Diseños del equipo</h3><div class="biblioteca" id="biblioteca"></div></div>
   <h3 class="sec">Empezar un diseño</h3>
   <div class="tarjetas" id="tarjetas"></div>
 </section>
@@ -291,7 +312,7 @@ details.seccion > div { padding: 0 16px 16px; display: flex; flex-direction: col
   <div class="marca">
     <button class="btn fantasma" id="ir-inicio" title="Inicio" aria-label="Volver al inicio"><svg viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg></button>
     <span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h12v3l-4 3 4 3v9H6v-9l4-3-4-3z"/></svg></span>
-    <div class="titulos"><h1 id="titulo-trabajo">Taller de Recortes</h1><span class="oficina">FAKTORINGO</span></div>
+    <div class="titulos"><h1 id="titulo-trabajo" title="Pulsa para cambiar el nombre">Taller de Recortes</h1><span class="oficina">FAKTORINGO</span></div>
   </div>
   <div class="grupo">
     <select id="producto" class="campo" aria-label="Formato"></select>
@@ -299,6 +320,8 @@ details.seccion > div { padding: 0 16px 16px; display: flex; flex-direction: col
   </div>
   <div class="relleno"></div>
   <div class="grupo">
+    <span class="nube" id="estado-nube" hidden></span>
+    <button class="btn fantasma" id="btn-historial" title="Historial de versiones" aria-label="Historial de versiones" hidden><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 3"/></svg></button>
     <button class="btn fantasma" id="deshacer" title="Deshacer (Ctrl+Z)" aria-label="Deshacer"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg></button>
     <button class="btn fantasma" id="rehacer" title="Rehacer (Ctrl+Y)" aria-label="Rehacer"><svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg></button>
     <button class="btn grad" id="btn-descargar"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Descargar</button>
@@ -388,9 +411,21 @@ details.seccion > div { padding: 0 16px 16px; display: flex; flex-direction: col
 
     <div class="panel-cuerpo" data-panel="texto" hidden>
       <button class="btn primario grande ancho" id="btn-texto">Añadir texto</button>
+      <div class="dos"><button class="btn" id="btn-texto-curvo">Texto curvo</button><button class="btn" id="btn-texto-marca">Texto de marca</button></div>
       <p class="ayuda" data-solo-hoja>Si tienes una chapa o taza seleccionada, el texto se coloca dentro de ella.</p>
       <div class="campo-grupo"><span class="etiqueta">Estilos</span><div class="chips" id="lista-estilos"></div></div>
       <div class="campo-grupo" data-solo-diseno><span class="etiqueta">Combinaciones</span><div class="chips" id="lista-combos"></div></div>
+    </div>
+
+    <div class="panel-cuerpo" data-panel="equipo" hidden>
+      <div class="campo-grupo" id="kit-bloque"><span class="etiqueta">Kit de marca FAKTORINGO</span>
+        <p class="ayuda">Pulsa un color para aplicarlo a lo que tengas seleccionado (sin selección, en diseños, va al fondo).</p>
+        <div class="kit-colores" id="kit-colores"></div>
+        <div class="kit-logo"><img id="kit-logo-img" alt="Logo" hidden><button class="btn mini" id="kit-logo-btn">Poner el logo</button><button class="btn mini" id="kit-editar">Editar kit</button></div>
+        <p class="ayuda" id="kit-info"></p>
+      </div>
+      <div class="campo-grupo" id="bloque-fotos-equipo" hidden><span class="etiqueta">Fotos del equipo</span><p class="ayuda">Las fotos que sube cualquiera de la oficina. Pulsa una para añadirla a «Tus fotos».</p><div class="galeria" id="biblioteca-fotos"></div></div>
+      <p class="ayuda" id="equipo-nota" hidden>La biblioteca compartida solo funciona al abrir esta página dentro de Claude.</p>
     </div>
 
     <div class="panel-cuerpo" data-panel="fondos" hidden>
@@ -485,6 +520,27 @@ details.seccion > div { padding: 0 16px 16px; display: flex; flex-direction: col
     <div id="repro-hueco"></div>
     <progress id="repro-progreso" max="1" value="0"></progress>
     <div class="fila" style="justify-content:flex-end"><button class="btn" id="repro-otra" hidden>Ver otra vez</button><button class="btn" id="repro-cerrar">Cerrar</button></div>
+  </div>
+</div>
+
+<div class="velo" id="velo-hist" hidden>
+  <div class="dialogo" role="dialog" aria-modal="true" aria-labelledby="hist-titulo">
+    <div class="fila" style="justify-content:space-between"><strong id="hist-titulo">Historial de versiones</strong><button class="btn mini" data-cerrar>Cerrar</button></div>
+    <p class="ayuda">Se guarda una versión cada 10 minutos de trabajo. Restaurar una versión no borra las demás.</p>
+    <button class="btn primario" id="hist-guardar">Guardar versión ahora</button>
+    <div id="hist-lista" style="display:flex;flex-direction:column;gap:8px"></div>
+  </div>
+</div>
+<div class="velo" id="velo-kit" hidden>
+  <div class="dialogo" role="dialog" aria-modal="true" aria-labelledby="kit-titulo">
+    <div class="fila" style="justify-content:space-between"><strong id="kit-titulo">Kit de marca</strong><button class="btn mini" data-cerrar>Cerrar</button></div>
+    <p class="ayuda">El kit es el mismo para toda la oficina.</p>
+    <span class="etiqueta">Colores</span>
+    <div class="kit-form"><input type="color" id="kc0" class="campo" aria-label="Color 1"><input type="color" id="kc1" class="campo" aria-label="Color 2"><input type="color" id="kc2" class="campo" aria-label="Color 3"><input type="color" id="kc3" class="campo" aria-label="Color 4"><input type="color" id="kc4" class="campo" aria-label="Color 5"><input type="color" id="kc5" class="campo" aria-label="Color 6"></div>
+    <label class="campo-grupo"><span class="etiqueta">Fuente de títulos</span><select id="kf0" class="campo"></select></label>
+    <label class="campo-grupo"><span class="etiqueta">Fuente de textos</span><select id="kf1" class="campo"></select></label>
+    <label class="campo-grupo"><span class="etiqueta">Logo (PNG o SVG)</span><input type="file" id="kl" accept="image/png,image/svg+xml,image/webp,image/jpeg" class="campo"></label>
+    <div class="fila" style="justify-content:flex-end"><button class="btn primario" id="kit-guardar">Guardar kit</button></div>
   </div>
 </div>
 
@@ -1108,7 +1164,7 @@ function prepararProducto() {
   if (fondo) { fondo.set({ width: P.ancho, height: P.alto, left: 0, top: 0, scaleX: 1, scaleY: 1 }); fondo.setCoords(); }
   $("leyenda").innerHTML = P.leyenda.map(([c, t]) => `<span><i style="border-color:${c}"></i>${t}</span>`).join("");
   $("medida").textContent = P.mm ? `${coma(P.ancho / 100)} × ${coma(P.alto / 100)} cm` : `${P.ancho} × ${P.alto} px`;
-  $("titulo-trabajo").textContent = P.hoja ? `${P.nombre} ${doc.hoja.papel}` : P.nombre;
+  pintarTitulo();
   document.body.dataset.modo = P.hoja ? "hoja" : "diseno";
   $$("[data-solo-hoja]").forEach((e) => { e.hidden = !P.hoja; });
   $$("[data-solo-diseno]").forEach((e) => { e.hidden = !!P.hoja; });
@@ -1290,6 +1346,7 @@ function cambio() {
     const s = instantanea();
     if (historia[historia.length - 1] !== s) { historia.push(s); if (historia.length > 30) historia.shift(); futuro = []; }
     guardarBorrador();
+    guardarNubeSoon();
     pintarBotonesHistoria(); pintarPaginas();
   }, 250);
   pintarCapas(); pintarPropiedades(); pintarContexto(); pintarContador();
@@ -1580,6 +1637,7 @@ const PANELES = [
   ["fotos", "Fotos", '<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>', "diseno"],
   ["texto", "Texto", '<polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/>', "todos"],
   ["elementos", "Elementos", '<circle cx="7" cy="7" r="4"/><rect x="13" y="3" width="8" height="8" rx="1"/><polygon points="7 13 11 21 3 21"/><path d="M17 13l4 4-4 4-4-4z"/>', "todos"],
+  ["equipo", "Marca", '<path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/>', "todos"],
   ["fondos", "Fondos", '<path d="M12 2.7l7.5 7.5a6 6 0 1 1-15 0z"/>', "diseno"],
   ["ia", "Claude", '<path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8z"/>', "todos"],
   ["capas", "Capas", '<polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/>', "todos"],
@@ -1847,7 +1905,7 @@ async function subirArchivos(archivos) {
   for (const a of archivos) {
     if (a.type === "image/svg+xml" || /\.svg$/i.test(a.name || "")) { if (!P.hoja) await importarSVG(a); continue; }
     if (!/^image\/(png|jpeg|webp)$/.test(a.type)) continue;
-    ids.push(anadirAGaleria(await prepararFoto(a)));
+    ids.push(anadirAGaleria(await subirANube(await prepararFoto(a))));
   }
   pintarGaleria(); guardarBorrador();
   return ids;
@@ -2253,6 +2311,7 @@ function pintarPropiedades() {
   if (o.type === "activeSelection") { $("prop-titulo").textContent = `${o.getObjects().length} elementos`; cont.innerHTML = `<div class="panel-cuerpo">${alinearHTML()}</div>`; return; }
   const d = datos(o);
   $("prop-titulo").textContent = nombre(o);
+  if (d.curvo) return pintarPropCurvo(o, cont);
   if (esHueco(o)) {
     cont.innerHTML = `<div class="panel-cuerpo"><p class="ayuda">${escapar(nombre(o))} es un hueco fijo de la hoja. Suelta una foto encima o usa los botones de la barra de arriba. Para cambiar el tamaño de los huecos, ve a «Hoja» → «Cambiar medidas».</p></div>`;
     return;
@@ -2268,6 +2327,11 @@ function pintarPropiedades() {
       <div class="fila"><label class="check"><input type="checkbox" id="p-contorno" ${o.stroke ? "checked" : ""}> Contorno</label><input type="color" id="p-contorno-c" class="campo" value="${colorDe(o.stroke, "#1b1e27")}" aria-label="Color del contorno"></div>
       <div class="fila"><label class="check"><input type="checkbox" id="p-resaltado" ${o.textBackgroundColor ? "checked" : ""}> Resaltado</label><input type="color" id="p-resaltado-c" class="campo" value="${colorDe(o.textBackgroundColor, "#ffd23f")}" aria-label="Color del resaltado"></div>
       <button class="btn mini" data-p="mayus">MAYÚSCULAS / minúsculas</button>
+    </div></details>
+    <details class="seccion" open><summary>Efectos de texto</summary><div>
+      <div class="fila"><input type="color" id="p-tcolor2" class="campo" value="${kit.colores[4] || "#E0A93A"}" aria-label="Segundo color"><button class="btn mini" data-p="degradado-texto">Degradado</button></div>
+      <div class="dos"><button class="btn mini" data-p="brillo-texto">Neón</button><button class="btn mini" data-p="hueco-texto">Solo contorno</button><button class="btn mini" data-p="eco-texto">Sombra eco</button><button class="btn mini" data-p="curvo-desde-texto">Curvar</button></div>
+      <button class="btn mini" data-p="sin-efectos-texto">Quitar efectos</button>
     </div></details>`;
   }
   if (esFoto) {
@@ -2370,6 +2434,12 @@ $("propiedades").addEventListener("click", async (e) => {
     case "radial": o.set("fill", gradienteRadial(colorDe(o.fill, "#d1006f"), $("p-color2").value)); break;
     case "sin-filtros": datos(o).filtros = {}; aplicarFiltros(o); pintarPropiedades(); return;
     case "desagrupar": o.toActiveSelection(); canvas.discardActiveObject(); break;
+    case "degradado-texto": o.set("fill", gradiente(colorDe(o.fill, "#D54840"), $("p-tcolor2").value, 0)); break;
+    case "brillo-texto": { const c = colorDe(o.fill, "#ff4fa3"); o.set("shadow", new fabric.Shadow({ color: c, blur: o.fontSize * 0.5, offsetX: 0, offsetY: 0 })); break; }
+    case "hueco-texto": { const c = colorDe(o.fill, colorDe(o.stroke, "#1b1e27")); o.set({ fill: "rgba(0,0,0,0)", stroke: c, strokeWidth: o.fontSize * 0.035, paintFirst: "fill", strokeLineJoin: "round" }); break; }
+    case "eco-texto": o.set("shadow", new fabric.Shadow({ color: (kit.colores[4] || "#E0A93A"), blur: 0, offsetX: o.fontSize * 0.07, offsetY: o.fontSize * 0.07 })); break;
+    case "sin-efectos-texto": o.set({ fill: colorDe(o.fill, colorDe(o.stroke, "#1b1e27")), shadow: null, stroke: null, strokeWidth: 0 }); break;
+    case "curvo-desde-texto": await textoACurvo(o); return;
     case "ver-anim": reproducir(false, [doc.actual]); return;
   }
   if (o.setCoords) o.setCoords();
@@ -2497,6 +2567,7 @@ $("producto").onchange = async (e) => {
 /* Abre un trabajo nuevo de ese tipo (las fotos subidas se conservan en «Tus fotos»). */
 async function abrirTrabajo(id, conservarGaleria = true) {
   productoId = id;
+  docId = nube.db ? nuevoId() : null; tituloDoc = ""; ultimaVersion = 0;
   $("producto").value = id;
   doc = { paginas: [nuevaPaginaVacia()], actual: 0, hoja: { ...HOJA_DEFECTO, ...(doc?.hoja ? { papel: doc.hoja.papel, corteLinea: doc.hoja.corteLinea } : {}) } };
   if (!conservarGaleria) galeria = [];
@@ -2531,7 +2602,9 @@ async function cargarBorrador() {
     const d = JSON.parse(b);
     Object.entries(d.recursos || {}).forEach(([id, url]) => { recursos[id] = url; idPorUrl.set(url, id); const n = Number(id.slice(1)); if (n >= siguienteRecurso) siguienteRecurso = n + 1; });
     mostrarEditor();
+    try { const n = JSON.parse((await idb.leer("nube-doc")) || "{}"); docId = n.docId || null; tituloDoc = n.titulo || ""; } catch { /* sin nube */ }
     await restaurar(d.estado);
+    pintarTitulo();
     historia = [instantanea()]; futuro = []; pintarBotonesHistoria();
     return true;
   } catch { return false; }
@@ -2938,6 +3011,357 @@ function pintarExportar() {
   $("bloque-llenar").hidden = !!P.hoja || !P.llenar;
 }
 
+
+/* ============================== Nube: diseños compartidos, fotos, kit e historial ============================== */
+const nube = { db: null, assets: null, user: null, uid: null, escribe: true };
+let docId = null, tituloDoc = "", ultimaVersion = 0, ultimoGuardado = "";
+let colaNube = Promise.resolve(), temporizadorNube = null, estadoNube = "";
+const nuevoId = () => `d${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`;
+const DATA_GRANDE = /data:image\/[a-z+]+;base64,[A-Za-z0-9+\/=]{20000,}/g;
+function tituloPorDefecto() { return P ? (P.hoja ? `${P.nombre} ${doc.hoja.papel}` : P.nombre) : "Taller de Recortes"; }
+function pintarTitulo() {
+  const h = $("titulo-trabajo");
+  if (document.activeElement === h) return;
+  h.textContent = tituloDoc || tituloPorDefecto();
+  h.contentEditable = nube.db ? "true" : "false";
+}
+$("titulo-trabajo").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); e.target.blur(); } });
+$("titulo-trabajo").addEventListener("blur", (e) => {
+  const t = e.target.textContent.trim().slice(0, 80);
+  tituloDoc = t && t !== tituloPorDefecto() ? t : "";
+  pintarTitulo(); ultimoGuardado = ""; guardarNubeSoon();
+});
+function pintarEstadoNube(texto, clase = "") {
+  estadoNube = texto;
+  const el = $("estado-nube");
+  el.hidden = !nube.db; el.textContent = texto; el.className = `nube ${clase}`;
+  $("btn-historial").hidden = !nube.db || !docId;
+}
+/* Sube una foto a la biblioteca compartida; si no se puede, se queda solo en este equipo. */
+async function subirANube(url) {
+  if (!nube.assets || !url.startsWith("data:")) return url;
+  try { const r = await nube.assets.upload(dataUrlABlob(url)); pintarBibliotecaFotos(); return r.url; }
+  catch { return url; }
+}
+/* Las fotos que aún viven solo aquí (data:) se suben antes de guardar el diseño en la nube. */
+async function migrarFotos() {
+  if (!nube.assets) return;
+  const usados = new Set(galeria);
+  for (const p of doc.paginas) for (const m of JSON.stringify(p.lienzo || {}).matchAll(/recurso:(r\d+)/g)) usados.add(m[1]);
+  for (const id of usados) {
+    const url = recursos[id];
+    if (!url || !url.startsWith("data:") || url.length < 20000) continue;
+    const nueva = await subirANube(url);
+    if (nueva !== url) { recursos[id] = nueva; idPorUrl.set(nueva, id); }
+  }
+}
+function estadoParaNube() {
+  const d = JSON.parse(instantanea());
+  d.galeria = galeria.map((id) => recursos[id]).filter((u) => u && !u.startsWith("data:"));
+  let txt = JSON.stringify(d).replace(/recurso:(r\d+)/g, (m, id) => recursos[id] || "");
+  let quitadas = 0;
+  txt = txt.replace(DATA_GRANDE, () => { quitadas++; return ""; });
+  return { txt, quitadas };
+}
+function miniNube() {
+  try {
+    exportando = true;
+    const url = canvas.toDataURL({ format: "jpeg", quality: 0.7, multiplier: 240 / Math.max(canvas.width, canvas.height), enableRetinaScaling: false });
+    exportando = false;
+    return url.length < 60000 ? url : "";
+  } catch { exportando = false; return ""; }
+}
+function guardarNubeSoon() {
+  if (!nube.db || !docId || cargando) return;
+  clearTimeout(temporizadorNube);
+  temporizadorNube = setTimeout(() => { colaNube = colaNube.then(() => guardarNube(false)).catch(() => {}); }, 1500);
+}
+async function guardarNube(forzarVersion) {
+  if (!nube.db || !docId || !doc) return;
+  if (nube.escribe === false) { pintarEstadoNube("Solo lectura"); return; }
+  const id = docId;
+  try {
+    await migrarFotos();
+    const { txt, quitadas } = estadoParaNube();
+    if (txt.length > 240000) { pintarEstadoNube("Demasiado grande para la nube", "mal"); return; }
+    const cambiado = txt !== ultimoGuardado;
+    if (!cambiado && !forzarVersion) return;
+    pintarEstadoNube("Guardando…");
+    const ahora = Date.now(), mini = miniNube();
+    if (cambiado) {
+      await nube.db.doc(`designs/${id}/contenido/actual`).set({ estado: txt });
+      await nube.db.doc(`designs/${id}`).set({ titulo: tituloDoc || tituloPorDefecto(), producto: productoId, autor: nube.uid || "", actualizado: ahora, miniatura: mini, paginas: doc.paginas.length });
+      ultimoGuardado = txt;
+    }
+    if (forzarVersion || ahora - ultimaVersion > 10 * 60 * 1000) {
+      await nube.db.collection(`designs/${id}/versiones`).add({ estado: txt, cuando: ahora, autor: nube.uid || "", miniatura: mini });
+      ultimaVersion = ahora;
+    }
+    idb.guardar("nube-doc", JSON.stringify({ docId: id, titulo: tituloDoc }));
+    pintarEstadoNube(quitadas ? `Guardado (${quitadas} foto${quitadas > 1 ? "s" : ""} solo aquí)` : "Guardado en la nube", quitadas ? "mal" : "ok");
+  } catch (e) {
+    pintarEstadoNube(e?.code === "resource_exhausted" ? "Nube llena" : "No se pudo guardar", "mal");
+  }
+}
+async function importarEstado(txt) {
+  const d = JSON.parse(txt);
+  d.galeria = (d.galeria || []).filter((u) => typeof u === "string" && u).map(registrar);
+  d.paginas.forEach((p) => { if (p.lienzo) compactar(p.lienzo); });
+  await restaurar(JSON.stringify(d));
+  historia = [instantanea()]; futuro = []; pintarBotonesHistoria();
+}
+async function abrirDisenoNube(id) {
+  const [meta, cont] = await Promise.all([nube.db.doc(`designs/${id}`).get(), nube.db.doc(`designs/${id}/contenido/actual`).get()]);
+  if (!cont.exists) { alertaInicio("Ese diseño ya no existe."); return; }
+  docId = id; tituloDoc = meta.exists ? String(meta.data().titulo || "") : ""; ultimaVersion = Date.now();
+  mostrarEditor();
+  await importarEstado(String(cont.data().estado));
+  ultimoGuardado = estadoParaNube().txt;
+  pintarTitulo(); pintarEstadoNube("Guardado en la nube", "ok");
+  idb.guardar("nube-doc", JSON.stringify({ docId: id, titulo: tituloDoc }));
+  guardarBorrador();
+}
+function alertaInicio(t) { $("continuar").hidden = false; $("continuar-texto").textContent = t; }
+async function borrarDisenoNube(id) {
+  try {
+    const vs = await nube.db.collection(`designs/${id}/versiones`).get();
+    for (const v of vs.docs) await nube.db.doc(`designs/${id}/versiones/${v.id}`).delete();
+    await nube.db.doc(`designs/${id}/contenido/actual`).delete();
+    await nube.db.doc(`designs/${id}`).delete();
+    if (docId === id) docId = nuevoId();
+  } catch { alertaInicio("No se pudo borrar ese diseño."); }
+}
+const haceCuanto = (t) => {
+  const m = Math.round((Date.now() - t) / 60000);
+  if (m < 1) return "ahora mismo"; if (m < 60) return `hace ${m} min`;
+  const h = Math.round(m / 60); if (h < 24) return `hace ${h} h`;
+  return new Date(t).toLocaleDateString("es-ES", { day: "numeric", month: "short" });
+};
+async function nombresDe(ids) {
+  const fuera = {};
+  if (!nube.user?.profiles) return fuera;
+  try { const ps = await nube.user.profiles([...new Set(ids.filter(Boolean))]); for (const id of ids) fuera[id] = ps?.[id]?.name || ""; } catch { /* sin nombres */ }
+  return fuera;
+}
+let disenosNube = [];
+async function pintarBiblioteca() {
+  $("bloque-biblioteca").hidden = !nube.db;
+  if (!nube.db) return;
+  const nombres = await nombresDe(disenosNube.map((d) => d.autor));
+  $("biblioteca").innerHTML = disenosNube.length ? disenosNube.map((d) => `<div class="diseno-nube" role="button" tabindex="0" data-nube="${escapar(d.id)}">
+      <div class="mini">${d.miniatura && /^data:image\/(jpeg|png);base64,/.test(d.miniatura) ? `<img src="${d.miniatura}" alt="">` : ""}</div>
+      <strong>${escapar(d.titulo || "Sin nombre")}</strong>
+      <small>${escapar(PRODUCTOS[d.producto]?.nombre || "")} · ${escapar(nombres[d.autor] || (d.autor === nube.uid ? "Tú" : "Alguien"))} · ${haceCuanto(Number(d.actualizado) || 0)}</small>
+      ${nube.escribe === false ? "" : `<button class="borrar-nube" data-borrar-nube="${escapar(d.id)}" aria-label="Borrar diseño">Borrar</button>`}
+    </div>`).join("") : '<p class="vacio">Todavía no hay diseños guardados. Todo lo que hagas se guarda aquí solo.</p>';
+}
+$("biblioteca").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-borrar-nube]");
+  if (b) {
+    e.stopPropagation();
+    if (b.dataset.seguro) { b.textContent = "Borrando…"; await borrarDisenoNube(b.dataset.borrarNube); }
+    else { b.dataset.seguro = "1"; b.textContent = "¿Seguro?"; setTimeout(() => { if (b.isConnected) { delete b.dataset.seguro; b.textContent = "Borrar"; } }, 3000); }
+    return;
+  }
+  const c = e.target.closest("[data-nube]");
+  if (c) abrirDisenoNube(c.dataset.nube);
+});
+$("biblioteca").addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target.dataset.nube) abrirDisenoNube(e.target.dataset.nube); });
+function suscribirBiblioteca() {
+  nube.db.collection("designs").orderBy("actualizado", "desc").limit(40).onSnapshot((snap) => {
+    disenosNube = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    pintarBiblioteca();
+  }, () => { $("biblioteca").innerHTML = '<p class="vacio">No se pudo cargar la biblioteca.</p>'; });
+}
+
+/* ---------- Historial de versiones ---------- */
+async function abrirHistorial() {
+  if (!nube.db || !docId) return;
+  $("velo-hist").hidden = false;
+  $("hist-lista").innerHTML = '<p class="ayuda">Cargando…</p>';
+  $("hist-guardar").disabled = nube.escribe === false;
+  try {
+    const snap = await nube.db.collection(`designs/${docId}/versiones`).orderBy("cuando", "desc").limit(30).get();
+    const vs = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+    const nombres = await nombresDe(vs.map((v) => v.autor));
+    $("hist-lista").innerHTML = vs.length ? vs.map((v, i) => `<div class="hist-item">
+        ${v.miniatura && /^data:image\/(jpeg|png);base64,/.test(v.miniatura) ? `<img src="${v.miniatura}" alt="">` : "<span></span>"}
+        <div><strong>${new Date(Number(v.cuando)).toLocaleString("es-ES", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })}</strong><br><small class="ayuda">${escapar(nombres[v.autor] || (v.autor === nube.uid ? "Tú" : "Alguien"))}${i === 0 ? " · la más reciente" : ""}</small></div>
+        <button class="btn mini" data-version="${escapar(v.id)}">Restaurar</button></div>`).join("") : '<p class="ayuda">Aún no hay versiones. Pulsa «Guardar versión ahora».</p>';
+    $("hist-lista").onclick = async (e) => {
+      const b = e.target.closest("[data-version]"); if (!b) return;
+      const v = vs.find((x) => x.id === b.dataset.version); if (!v) return;
+      await guardarNube(true);
+      await importarEstado(String(v.estado));
+      $("velo-hist").hidden = true;
+      ultimoGuardado = ""; cambio();
+    };
+  } catch { $("hist-lista").innerHTML = '<p class="ayuda">No se pudo cargar el historial.</p>'; }
+}
+$("btn-historial").onclick = abrirHistorial;
+$("hist-guardar").onclick = async () => { guardarPaginaActual(); await (colaNube = colaNube.then(() => guardarNube(true)).catch(() => {})); abrirHistorial(); };
+document.addEventListener("click", (e) => { if (e.target.closest("[data-cerrar]") || e.target.classList?.contains("velo") && e.target.id !== "velo") { const v = e.target.closest(".velo"); if (v && v.id !== "velo") v.hidden = true; } });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") ["velo-hist", "velo-kit"].forEach((id) => { $(id).hidden = true; }); });
+
+/* ---------- Fotos del equipo ---------- */
+async function pintarBibliotecaFotos() {
+  $("bloque-fotos-equipo").hidden = !nube.assets;
+  if (!nube.assets) return;
+  try {
+    const { assets } = await nube.assets.list();
+    const fotos = assets.filter((a) => /^image\/(png|jpeg|webp)$/.test(a.contentType) && a.id !== kit.logo).sort((a, b) => String(b.createdAt).localeCompare(String(a.createdAt))).slice(0, 60);
+    $("biblioteca-fotos").innerHTML = fotos.length ? fotos.map((a) => `<button class="galeria-item" data-foto-equipo="${escapar(a.url)}" title="Añadir a «Tus fotos»"><img src="${escapar(a.url)}" alt="" loading="lazy"></button>`).join("") : '<p class="vacio" style="grid-column:1/-1">Nadie ha subido fotos todavía.</p>';
+  } catch { $("biblioteca-fotos").innerHTML = '<p class="vacio" style="grid-column:1/-1">No se pudieron cargar.</p>'; }
+}
+$("biblioteca-fotos").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-foto-equipo]"); if (!b) return;
+  anadirAGaleria(b.dataset.fotoEquipo); pintarGaleria(); guardarBorrador();
+  avisoContexto("Foto añadida a «Tus fotos». Arrástrala a un hueco o púlsala para colocarla.");
+});
+
+/* ---------- Kit de marca ---------- */
+const KIT_DEF = { colores: ["#D54840", "#191719", "#F3EBDA", "#FFFFFF", "#E0A93A", "#1E4D3B"], fuentes: ["Outfit", "Montserrat"], logo: null };
+let kit = JSON.parse(JSON.stringify(KIT_DEF));
+function pintarKit() {
+  $("kit-colores").innerHTML = kit.colores.map((c) => `<button class="muestra" data-kit="${c}" style="background:${c}" aria-label="Color de marca ${c}"></button>`).join("");
+  $("kit-info").textContent = `Fuentes: ${kit.fuentes[0]} (títulos) y ${kit.fuentes[1]} (textos).`;
+  const img = $("kit-logo-img");
+  img.hidden = !kit.logo; if (kit.logo) img.src = `/_blob/${kit.logo}`;
+  $("kit-logo-btn").disabled = !kit.logo;
+  $("kit-editar").hidden = !nube.db || nube.escribe === false;
+  kit.fuentes.forEach(cargarFuente);
+}
+function suscribirKit() {
+  nube.db.doc("marca/kit").onSnapshot((d) => {
+    const v = d.exists ? d.data() : {};
+    kit = {
+      colores: Array.isArray(v.colores) && v.colores.length === 6 && v.colores.every(esColor) ? [...v.colores] : [...KIT_DEF.colores],
+      fuentes: Array.isArray(v.fuentes) && v.fuentes.every((f) => FUENTES.includes(f)) ? [...v.fuentes] : [...KIT_DEF.fuentes],
+      logo: typeof v.logo === "string" && /^[0-9a-f]{32}$/.test(v.logo) ? v.logo : null,
+    };
+    pintarKit();
+  }, () => {});
+}
+$("kit-colores").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-kit]"); if (!b) return;
+  const c = b.dataset.kit, o = canvas.getActiveObject();
+  if (o && !esHueco(o) && o.type !== "activeSelection" && o.type !== "image") {
+    if (datos(o).curvo) { reconstruirCurvo(o, { color: c }); return; }
+    if (o.type === "group") o.getObjects().forEach((x) => { if (x.fill && typeof x.fill === "string") x.set("fill", c); });
+    else if (o.type === "line" || (o.type === "path" && !o.fill)) o.set("stroke", c);
+    else o.set("fill", c);
+    refrescar(o);
+  } else if (P.hoja) avisoContexto("Selecciona un texto o una forma para darle el color de marca.");
+  else { ponerFondo({ color: c }); $("color-fondo").value = c; }
+});
+$("kit-logo-btn").onclick = async () => {
+  if (!kit.logo) return;
+  const img = await new Promise((ok) => fabric.Image.fromURL(`/_blob/${kit.logo}`, ok));
+  if (!img || !img.width) { avisoContexto("No se pudo cargar el logo."); return; }
+  img.scale(ladoMenor() * 0.22 / Math.max(img.width, img.height));
+  centrarEn(img, P.ancho / 2, P.alto / 2);
+  colocar(img, "Logo", 0.4);
+};
+$("btn-texto-marca").onclick = async () => {
+  await cargarFuente(kit.fuentes[0]);
+  colocar(crearTexto("FAKTORINGO", { fuente: kit.fuentes[0], tamano: ladoMenor() * 0.09, negrita: true, color: kit.colores[0], mayus: true }), "Texto de marca");
+};
+$("kit-editar").onclick = () => {
+  kit.colores.forEach((c, i) => { $(`kc${i}`).value = c; });
+  [0, 1].forEach((i) => { $(`kf${i}`).innerHTML = FUENTES.map((f) => `<option ${f === kit.fuentes[i] ? "selected" : ""}>${f}</option>`).join(""); });
+  $("kl").value = "";
+  $("velo-kit").hidden = false;
+};
+$("kit-guardar").onclick = async () => {
+  const b = $("kit-guardar"); b.disabled = true; b.textContent = "Guardando…";
+  try {
+    const nuevo = { colores: [0, 1, 2, 3, 4, 5].map((i) => $(`kc${i}`).value), fuentes: [$("kf0").value, $("kf1").value], logo: kit.logo };
+    const f = $("kl").files[0];
+    if (f && nube.assets) { const r = await nube.assets.upload(f); nuevo.logo = r.id; }
+    await nube.db.doc("marca/kit").set(nuevo);
+    $("velo-kit").hidden = true;
+  } catch { avisoContexto("No se pudo guardar el kit."); }
+  b.disabled = false; b.textContent = "Guardar kit";
+};
+
+/* ============================== Texto curvo ============================== */
+function crearTextoCurvo(texto, o = {}) {
+  const tam = o.tam || ladoMenor() * 0.07;
+  const fuente = FUENTES.includes(o.fuente) ? o.fuente : "Outfit";
+  const arco = limitar(Number(o.arco ?? 160), -340, 340) || 1;
+  const letras = [...(texto || " ")].map((ch) => new fabric.Text(ch, { fontSize: tam, fontFamily: fuente, fontWeight: o.negrita ? 700 : 400, fill: o.color || "#1b1e27", originX: "center", originY: "center" }));
+  const esp = tam * 0.04;
+  const anchos = letras.map((l) => l.width + esp);
+  const total = anchos.reduce((a, b) => a + b, 0);
+  const rad = (Math.abs(arco) * Math.PI) / 180, R = total / rad, signo = arco > 0 ? 1 : -1;
+  let acum = 0;
+  letras.forEach((l, i) => {
+    const t = -rad / 2 + (acum + anchos[i] / 2) / R;
+    acum += anchos[i];
+    l.set({ left: R * Math.sin(t), top: signo * (R - R * Math.cos(t)), angle: (signo * t * 180) / Math.PI });
+  });
+  const g = new fabric.Group(letras, { originX: "center", originY: "center" });
+  datos(g).curvo = { texto, tam, arco, fuente, color: o.color || "#1b1e27", negrita: !!o.negrita };
+  return g;
+}
+async function reconstruirCurvo(o, cambios) {
+  const spec = { ...datos(o).curvo, ...cambios };
+  await cargarFuente(spec.fuente);
+  const g = crearTextoCurvo(spec.texto, spec);
+  const c = o.getCenterPoint();
+  g.set({ angle: o.angle, scaleX: o.scaleX, scaleY: o.scaleY, opacity: o.opacity, shadow: o.shadow, globalCompositeOperation: o.globalCompositeOperation });
+  g.data = { ...copiarDatos(o.data), curvo: datos(g).curvo };
+  centrarEn(g, c.x, c.y);
+  const idx = objetos().indexOf(o);
+  cargando = true;
+  canvas.remove(o); canvas.insertAt(g, idx);
+  cargando = false;
+  canvas.setActiveObject(g);
+  await aplicarRecortes(); canvas.requestRenderAll(); cambio();
+  return g;
+}
+async function textoACurvo(o) {
+  const tam = o.fontSize * (o.scaleY || 1);
+  await cargarFuente(o.fontFamily);
+  const g = crearTextoCurvo(o.text.replace(/\n/g, " "), { tam, arco: 160, fuente: o.fontFamily, color: colorDe(o.fill, "#1b1e27"), negrita: Number(o.fontWeight) >= 600 || o.fontWeight === "bold" });
+  const c = o.getCenterPoint();
+  g.set({ angle: o.angle, opacity: o.opacity, shadow: o.shadow });
+  g.data = { ...copiarDatos(o.data), curvo: datos(g).curvo, nombre: "Texto curvo" };
+  centrarEn(g, c.x, c.y);
+  const idx = objetos().indexOf(o);
+  cargando = true; canvas.remove(o); canvas.insertAt(g, idx); cargando = false;
+  canvas.setActiveObject(g);
+  await aplicarRecortes(); canvas.requestRenderAll(); cambio();
+}
+function pintarPropCurvo(o, cont) {
+  const c = datos(o).curvo;
+  cont.innerHTML = `<div class="panel-cuerpo">
+    <label class="campo-grupo"><span class="etiqueta">Texto</span><input id="c-texto" class="campo" value="${escapar(c.texto)}"></label>
+    ${deslizador("c-arco", "Curva", -340, 340, 5, c.arco, (v) => `${v}°`)}
+    <label class="campo-grupo"><span class="etiqueta">Fuente</span><select id="c-fuente" class="campo">${FUENTES.map((f) => `<option ${f === c.fuente ? "selected" : ""}>${f}</option>`).join("")}</select></label>
+    <div class="fila"><input type="color" id="c-color" class="campo" value="${colorDe(c.color, "#1b1e27")}" aria-label="Color"><label class="check"><input type="checkbox" id="c-negrita" ${c.negrita ? "checked" : ""}> Negrita</label></div>
+    <p class="ayuda">Curva positiva: arco hacia arriba (ideal para el borde de una chapa). Negativa: sonrisa.</p>
+    <div class="dos"><button class="btn mini" data-p="frente">Al frente</button><button class="btn mini" data-p="fondo">Al fondo</button></div>
+    ${deslizador("p-opac", "Opacidad", 0, 100, 1, Math.round((o.opacity ?? 1) * 100), (v) => `${v} %`)}
+    <div class="fila"><label class="check"><input type="checkbox" id="p-sombra" ${o.shadow ? "checked" : ""}> Sombra</label><input type="color" id="p-sombra-c" class="campo" value="#000000" aria-label="Color de la sombra"></div>
+  </div>`;
+  const recon = (cambios) => reconstruirCurvo(o, cambios);
+  $("c-texto").addEventListener("change", (e) => recon({ texto: e.target.value || " " }));
+  $("c-arco").addEventListener("input", (e) => { $("c-arco-v").textContent = `${e.target.value}°`; });
+  $("c-arco").addEventListener("change", (e) => recon({ arco: Number(e.target.value) || 1 }));
+  $("c-fuente").addEventListener("change", (e) => recon({ fuente: e.target.value }));
+  $("c-color").addEventListener("change", (e) => recon({ color: e.target.value }));
+  $("c-negrita").addEventListener("change", (e) => recon({ negrita: e.target.checked }));
+  conectarPropiedades(o);
+}
+$("btn-texto-curvo").onclick = async () => {
+  const f = kit.fuentes[0] || "Outfit";
+  await cargarFuente(f);
+  const g = crearTextoCurvo(P.hoja ? "TU TEXTO AQUÍ" : "TEXTO CURVO", { tam: ladoMenor() * (P.hoja ? 0.03 : 0.07), arco: 160, fuente: f, color: kit.colores[0] || "#D54840", negrita: true });
+  centrarEn(g, P.ancho / 2, P.alto / 2);
+  colocar(g, "Texto curvo", 0.75);
+};
+
 /* ============================== Arranque ============================== */
 BOTONES_IA.forEach((id) => { $(id).disabled = true; });
 (async () => {
@@ -2951,6 +3375,19 @@ BOTONES_IA.forEach((id) => { $(id).disabled = true; });
   if (!downloads) $("exp-estado").hidden = false, $("exp-estado").textContent = "Las descargas solo funcionan al abrir esta página dentro de Claude.";
 })();
 if (window.ResizeObserver) new ResizeObserver(() => ajustarTamano()).observe($("marco"));
+pintarKit();
+$("equipo-nota").hidden = false;
+(async () => {
+  if (!window.claude?.use) return;
+  const [db, assets, user] = await Promise.all([window.claude.use("db"), window.claude.use("assets"), window.claude.use("user")]);
+  nube.db = db; nube.assets = assets; nube.user = user;
+  if (user) { try { nube.uid = await user.id(); } catch { /* anónimo */ } const p = user.can ? await user.can("data.write") : null; nube.escribe = p !== false; }
+  if (doc && !docId && db) docId = nuevoId();
+  pintarTitulo(); pintarEstadoNube(db ? (nube.escribe === false ? "Solo lectura" : "Nube lista") : "");
+  if (db) { suscribirBiblioteca(); suscribirKit(); }
+  pintarBiblioteca(); pintarBibliotecaFotos(); pintarKit();
+  $("equipo-nota").hidden = !!db;
+})();
 (async () => {
   const hay = await idb.leer("borrador-v3");
   $("inicio").hidden = false;
