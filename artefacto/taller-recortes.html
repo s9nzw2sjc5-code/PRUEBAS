@@ -2,7 +2,7 @@
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Anton&family=Bebas+Neue&family=Pacifico&family=Lobster&family=Fredoka:wght@500;700&family=Montserrat:wght@500;800&family=Caveat:wght@600&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;700&family=Oswald:wght@500;700&family=Abril+Fatface&family=Righteous&family=Permanent+Marker&family=Dancing+Script:wght@700&family=Archivo+Black&family=Rubik:wght@400;700&family=Outfit:wght@400;500;600;700;800;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=Anton&family=Bebas+Neue&family=Pacifico&family=Lobster&family=Fredoka:wght@500;700&family=Montserrat:wght@500;800&family=Caveat:wght@600&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@400;700&family=Oswald:wght@500;700&family=Abril+Fatface&family=Righteous&family=Permanent+Marker&family=Dancing+Script:wght@700&family=Archivo+Black&family=Rubik:wght@400;700&family=Outfit:wght@400;500;600;700;800;900&family=Raleway:wght@400;800&family=Lato:wght@400;900&family=Nunito:wght@400;800&family=Quicksand:wght@500;700&family=Josefin+Sans:wght@400;700&family=Space+Grotesk:wght@400;700&family=DM+Serif+Display&family=Roboto+Slab:wght@400;800&family=Merriweather:wght@400;900&family=Alfa+Slab+One&family=Shrikhand&family=Satisfy&family=Great+Vibes&family=Amatic+SC:wght@700&family=Syne:wght@500;800&family=Baloo+2:wght@500;800&display=swap">
 <style>
 /* Estilo de editor moderno: cabecera blanca, carril de iconos, paneles redondeados, barra flotante y tiras de páginas. */
 :root {
@@ -176,6 +176,13 @@ progress { width: 100%; accent-color: var(--acento); }
 .rejilla { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
 .rejilla.tres-col { grid-template-columns: repeat(3, 1fr); }
 .rejilla.dos-col { grid-template-columns: repeat(2, 1fr); }
+.rejilla.cinco { grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.rejilla.seis { grid-template-columns: repeat(6, 1fr); gap: 4px; }
+.recurso.lucide { padding: 9px; }
+.recurso.lucide svg { fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.recurso.emoji { font-size: 26px; line-height: 1; padding: 4px; font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif; }
+.recurso.artistico { padding: 0; overflow: hidden; aspect-ratio: 1; }
+.recurso.artistico img { width: 100%; height: 100%; object-fit: cover; display: block; border-radius: 12px; }
 .recurso { aspect-ratio: 1; border: 0; background: var(--panel-2); border-radius: 12px; padding: 10px; display: grid; place-items: center; color: var(--fg); transition: background .15s, transform .1s; }
 .recurso:hover { background: var(--acento-suave); color: var(--acento); }
 .recurso:active { transform: scale(0.96); }
@@ -286,24 +293,135 @@ details.seccion > div { padding: 0 16px 16px; display: flex; flex-direction: col
   .lienzo-marco { padding: 10px; height: 62vh; }
   .hero { padding: 24px 20px; }
 }
+
+/* ===== Aspecto de editor a pantalla completa ===== */
+:root { --obra: #e9eaef; --barra-g: linear-gradient(100deg, #191719 0%, #4a2220 55%, #D54840 100%); }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --obra: #0b0c11; } }
+:root[data-theme="dark"] { --obra: #0b0c11; }
+body:has(#editor:not([hidden])), body:has(#inicio:not([hidden])) { padding: 0; margin: 0; }
+body:has(#editor:not([hidden])) { overflow: hidden; }
+#editor { height: 100vh; height: 100dvh; display: flex; flex-direction: column; }
+#editor .barra { margin: 0; border-radius: 0; background: var(--barra-g); color: #fff; box-shadow: none; padding: 8px 14px; min-height: 58px; flex: none; flex-wrap: nowrap; }
+#editor .barra .btn.fantasma { color: #fff; }
+#editor .barra .btn.fantasma:hover:not(:disabled) { background: rgb(255 255 255 / 0.14); }
+#editor .barra .btn:disabled { opacity: 0.4; }
+#editor .barra .logo { background: #fff; }
+#editor .barra .logo svg { fill: #D54840; }
+#editor .barra .oficina { color: rgb(255 255 255 / 0.7); }
+#editor .barra #producto { background: rgb(255 255 255 / 0.14); color: #fff; border: 0; }
+#editor .barra #producto option { color: #13151d; background: #fff; }
+#editor .barra .medida { color: rgb(255 255 255 / 0.75); }
+#editor .barra .nube { background: rgb(255 255 255 / 0.14); color: #fff; }
+#editor .barra .btn.grad { background: #fff; color: #191719; }
+#editor .barra .btn.grad svg { stroke: #191719; }
+#editor .barra .btn.compartir { background: rgb(255 255 255 / 0.16); color: #fff; box-shadow: none; }
+#editor .barra .btn.compartir svg { stroke: #fff; }
+#editor .barra .grupo { flex-wrap: nowrap; }
+#titulo-trabajo[contenteditable="true"]:hover, #titulo-trabajo[contenteditable="true"]:focus { background: rgb(255 255 255 / 0.16); }
+.mesa { flex: 1; min-height: 0; gap: 0; align-items: stretch; grid-template-columns: 76px 340px minmax(0, 1fr) 290px; }
+.mesa > .panel, .lado > .panel { border-radius: 0; box-shadow: none; }
+.carril { position: static; border-right: 1px solid var(--linea); padding: 10px 6px; overflow-y: auto; gap: 2px; }
+.carril-btn { padding: 8px 2px; font-size: 11px; }
+.carril-btn svg { width: 22px; height: 22px; padding: 7px; box-sizing: content-box; border-radius: 10px; }
+.carril-btn:hover { background: transparent; }
+.carril-btn:hover svg { background: var(--panel-2); }
+.carril-btn[aria-selected="true"] { background: transparent; color: var(--fg); }
+.carril-btn[aria-selected="true"] svg { background: var(--acento-suave); color: var(--acento); }
+.recursos { position: static; max-height: none; overflow-y: auto; border-right: 1px solid var(--linea); }
+.lienzo-zona { background: var(--obra); padding: 12px 18px 0; min-height: 0; overflow: hidden; gap: 10px; }
+.barra-contexto { align-self: center; max-width: 100%; border-radius: 12px; min-height: 48px; }
+.lienzo-marco { flex: 1 1 0; min-height: 0; height: auto !important; background: transparent; background-image: none; border-radius: 0; padding: 18px; }
+.lienzo-interior { filter: drop-shadow(0 2px 4px rgb(16 20 40 / 0.12)) drop-shadow(0 12px 32px rgb(16 20 40 / 0.14)); }
+.lienzo-pie { padding: 0 2px; }
+.lienzo-zona > .paginas { background: var(--panel); margin: 0 -18px; padding: 10px 18px; border-top: 1px solid var(--linea); flex: none; }
+.pagina, .pagina-nueva { box-shadow: none; }
+.pagina { border-color: var(--linea); }
+.pagina.actual { border-color: var(--acento); }
+.lado { position: static; max-height: none; overflow-y: auto; border-left: 1px solid var(--linea); background: var(--panel); gap: 0; }
+/* Trabajo a la vez */
+.gente { display: flex; align-items: center; }
+.avatar { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font-size: 12px; font-weight: 700; color: #fff; border: 2px solid #fff; margin-left: -8px; box-shadow: 0 1px 3px rgb(0 0 0 / 0.25); }
+.avatar:first-child { margin-left: 0; }
+.cursores { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+.cursor-par { position: absolute; transform: translate(-2px, -2px); transition: left .08s linear, top .08s linear; }
+.cursor-par svg { width: 18px; height: 18px; display: block; filter: drop-shadow(0 1px 1px rgb(0 0 0 / 0.3)); }
+.cursor-par span { position: absolute; left: 14px; top: 16px; color: #fff; font-size: 11.5px; font-weight: 700; padding: 2px 7px; border-radius: 6px; white-space: nowrap; }
+.editando { display: flex; gap: 4px; align-items: center; font-size: 11.5px; color: var(--ok); font-weight: 600; }
+.editando i { width: 7px; height: 7px; border-radius: 50%; background: var(--ok); }
+/* Inicio con menú lateral */
+.inicio { max-width: none; margin: 0; padding: 0; display: grid; grid-template-columns: 248px minmax(0, 1fr); min-height: 100vh; gap: 0; }
+.lateral-inicio { background: var(--panel); border-right: 1px solid var(--linea); padding: 18px 14px; display: flex; flex-direction: column; gap: 16px; position: sticky; top: 0; height: 100vh; }
+.lateral-marca { display: flex; gap: 10px; align-items: center; padding: 2px 6px; }
+.lateral-marca strong { font-family: var(--f-titulo); font-size: 18px; display: block; line-height: 1.1; }
+.lateral-nav { display: flex; flex-direction: column; gap: 2px; }
+.nav-item { border: 0; background: transparent; display: flex; gap: 12px; align-items: center; padding: 10px 12px; border-radius: 10px; font-weight: 600; text-align: left; color: var(--fg); }
+.nav-item svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.nav-item:hover { background: var(--panel-2); }
+.nav-item.on { background: var(--acento-suave); color: var(--acento); }
+.inicio-cuerpo { padding: 22px 32px 48px; max-width: 1240px; width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 4px; }
+.hero { background: var(--barra-g); align-items: center; text-align: center; padding: 44px 28px 30px; gap: 16px; }
+.hero::after, .hero::before { display: none; }
+.hero h2 { font-size: clamp(28px, 4vw, 44px); }
+.hero .buscador { width: 100%; max-width: 640px; }
+.formatos { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px 22px; margin-top: 6px; }
+.formato { border: 0; background: transparent; color: #fff; display: flex; flex-direction: column; align-items: center; gap: 8px; font-weight: 600; font-size: 13px; padding: 2px; width: 92px; }
+.formato-ico { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; background: #fff; transition: transform .15s; }
+.formato:hover .formato-ico { transform: translateY(-3px); }
+.formato-ico svg { width: 26px; height: 26px; fill: none; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+.formato-ico.c0 svg { stroke: #D54840; } .formato-ico.c1 svg { stroke: #1E4D3B; } .formato-ico.c2 svg { stroke: #7b2cbf; }
+.formato-ico.c3 svg { stroke: #e1306c; } .formato-ico.c4 svg { stroke: #0096d6; } .formato-ico.c5 svg { stroke: #E0A93A; }
+.formato[hidden] { display: none !important; }
+@media (max-width: 1280px) {
+  body:has(#editor:not([hidden])) { overflow: auto; }
+  #editor { height: auto; }
+  .mesa { grid-template-columns: 76px 300px minmax(0, 1fr); grid-template-areas: "carril panel lienzo" "lado lado lado"; }
+  .lienzo-zona { min-height: 78vh; }
+  .recursos, .carril { max-height: 78vh; }
+  .lado { border-left: 0; border-top: 1px solid var(--linea); }
+}
+@media (max-width: 880px) {
+  .mesa { grid-template-columns: minmax(0, 1fr); grid-template-areas: "lienzo" "carril" "panel" "lado"; }
+  .lienzo-zona { min-height: 70vh; padding: 10px 10px 0; }
+  .lienzo-zona > .paginas { margin: 0 -10px; }
+  .carril { max-height: none; border-right: 0; }
+  #editor .barra { flex-wrap: wrap; }
+  #editor .barra .grupo { flex-wrap: wrap; }
+  .inicio { grid-template-columns: minmax(0, 1fr); }
+  .lateral-inicio { position: static; height: auto; flex-direction: row; flex-wrap: wrap; align-items: center; border-right: 0; border-bottom: 1px solid var(--linea); }
+  .lateral-inicio #crear-diseno { width: auto; }
+  .lateral-nav { flex-direction: row; overflow-x: auto; width: 100%; }
+  .inicio-cuerpo { padding: 16px; }
+  .formato { width: 76px; }
+}
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
 </style>
 
 <!-- ======================= INICIO ======================= -->
 <section class="inicio" id="inicio" hidden>
-  <div class="hero">
-    <span class="oficina">Oficina FAKTORINGO</span>
+  <aside class="lateral-inicio" aria-label="Menú">
+    <div class="lateral-marca"><span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M6 3h12v3l-4 3 4 3v9H6v-9l4-3-4-3z"/></svg></span><div><strong>Taller</strong><span class="oficina">FAKTORINGO</span></div></div>
+    <button class="btn primario grande ancho" id="crear-diseno">+ Crear un diseño</button>
+    <nav class="lateral-nav">
+      <button class="nav-item on" data-ir-inicio="arriba"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5 10v10h14V10"/></svg>Inicio</button>
+      <button class="nav-item" data-ir-inicio="proyectos"><svg viewBox="0 0 24 24"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Proyectos</button>
+      <button class="nav-item" data-ir-inicio="plantillas"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>Plantillas</button>
+      <button class="nav-item" data-ir-inicio="marca"><svg viewBox="0 0 24 24"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8z"/><circle cx="7" cy="7" r="1.5"/></svg>Kit de marca</button>
+    </nav>
+  </aside>
+  <div class="inicio-cuerpo">
+  <div class="hero" id="arriba">
     <h2>¿Qué vas a diseñar hoy?</h2>
-    <p>Chapas, tazas, carteles y contenido para Instagram. Las hojas ya vienen con los huecos: arrastra tus fotos, ajústalas y descarga.</p>
     <label class="buscador"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg><input id="buscar-inicio" type="search" placeholder="Busca: chapas, Instagram, cartel…" aria-label="Buscar trabajo"></label>
+    <div class="formatos"><button class="formato" data-trabajo="hojaChapas"><span class="formato-ico c0"><svg viewBox="0 0 24 24"><circle cx="8" cy="8" r="3.2"/><circle cx="16" cy="8" r="3.2"/><circle cx="8" cy="16" r="3.2"/><circle cx="16" cy="16" r="3.2"/></svg></span>Chapas</button><button class="formato" data-trabajo="hojaTazas"><span class="formato-ico c1"><svg viewBox="0 0 24 24"><path d="M4 6h12v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3z"/><path d="M16 9h2a2.5 2.5 0 0 1 0 5h-2"/></svg></span>Tazas</button><button class="formato" data-trabajo="a4"><span class="formato-ico c2"><svg viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="1.5"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="14" y2="12"/></svg></span>Carteles</button><button class="formato" data-trabajo="igPost"><span class="formato-ico c3"><svg viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="0.6"/></svg></span>Posts</button><button class="formato" data-trabajo="igHistoria"><span class="formato-ico c4"><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><polygon points="10.5 9 15 12 10.5 15"/></svg></span>Historias y vídeo</button><button class="formato" data-trabajo="chapa"><span class="formato-ico c5"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/></svg></span>Diseño suelto</button></div>
   </div>
   <div class="continuar" id="continuar" hidden>
     <span id="continuar-texto">Tienes un trabajo a medias.</span>
     <button class="btn primario" id="btn-continuar">Seguir donde lo dejé</button>
   </div>
-  <div id="bloque-biblioteca" hidden><h3 class="sec">Diseños del equipo</h3><div class="biblioteca" id="biblioteca"></div></div>
-  <h3 class="sec">Empezar un diseño</h3>
+  <div id="bloque-biblioteca" hidden><h3 class="sec" id="proyectos">Proyectos del equipo</h3><div class="biblioteca" id="biblioteca"></div></div>
+  <h3 class="sec" id="empezar">Empezar un diseño</h3>
   <div class="tarjetas" id="tarjetas"></div>
+  </div>
 </section>
 
 <!-- ======================= EDITOR ======================= -->
@@ -320,7 +438,9 @@ details.seccion > div { padding: 0 16px 16px; display: flex; flex-direction: col
   </div>
   <div class="relleno"></div>
   <div class="grupo">
+    <div class="gente" id="gente" aria-label="Personas en este diseño"></div>
     <span class="nube" id="estado-nube" hidden></span>
+    <button class="btn compartir" id="btn-comentar" hidden><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Comentar</button>
     <button class="btn fantasma" id="btn-historial" title="Historial de versiones" aria-label="Historial de versiones" hidden><svg viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><path d="M3 3v5h5"/><path d="M12 7v5l3 3"/></svg></button>
     <button class="btn fantasma" id="deshacer" title="Deshacer (Ctrl+Z)" aria-label="Deshacer"><svg viewBox="0 0 24 24"><path d="M9 14L4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg></button>
     <button class="btn fantasma" id="rehacer" title="Rehacer (Ctrl+Y)" aria-label="Rehacer"><svg viewBox="0 0 24 24"><path d="M15 14l5-5-5-5"/><path d="M20 9H9a5 5 0 0 0 0 10h3"/></svg></button>
@@ -398,6 +518,12 @@ details.seccion > div { padding: 0 16px 16px; display: flex; flex-direction: col
       <div class="campo-grupo"><span class="etiqueta">Marcos para fotos</span><div class="rejilla" id="lista-marcos"></div></div>
       <div class="campo-grupo"><span class="etiqueta">Formas</span><div class="rejilla" id="lista-formas"></div></div>
       <div class="campo-grupo"><span class="etiqueta">Iconos</span><div class="rejilla" id="lista-iconos"></div></div>
+      <div class="campo-grupo" id="bloque-lib-iconos"><span class="etiqueta" id="lib-iconos-titulo">Biblioteca de iconos</span>
+        <input id="buscar-iconos" class="campo" type="search" placeholder="Busca un icono: casa, café, regalo, teléfono…" aria-label="Buscar iconos">
+        <div class="rejilla cinco" id="lista-iconos-lib"></div>
+        <button class="btn mini" id="mas-iconos" hidden>Ver más</button>
+      </div>
+      <div class="campo-grupo"><span class="etiqueta">Emojis y pegatinas</span><div class="pills" id="cats-emoji"></div><div class="rejilla seis" id="lista-emojis"></div></div>
       <div class="campo-grupo"><span class="etiqueta">Insignias</span><div class="rejilla tres-col" id="lista-insignias"></div></div>
       <div class="campo-grupo"><span class="etiqueta">Líneas</span><div class="rejilla" id="lista-lineas"></div></div>
       <div class="campo-grupo"><span class="etiqueta">Cuadrículas de fotos</span><div class="rejilla tres-col" id="lista-cuadriculas"></div></div>
@@ -433,6 +559,7 @@ details.seccion > div { padding: 0 16px 16px; display: flex; flex-direction: col
         <div class="fila"><input type="color" id="color-fondo" class="campo" value="#ffffff"><button class="btn mini" id="quitar-fondo">Transparente</button></div>
         <div class="rejilla" id="lista-colores" style="grid-template-columns:repeat(8,1fr)"></div>
       </div>
+      <div class="campo-grupo"><span class="etiqueta">Fondos artísticos</span><p class="ayuda">Se dibujan con los colores del kit de marca.</p><div class="rejilla tres-col" id="lista-artisticos"></div></div>
       <div class="campo-grupo"><span class="etiqueta">Degradados</span><div class="rejilla" id="lista-degradados"></div></div>
       <div class="campo-grupo"><span class="etiqueta">Patrones</span>
         <div class="fila"><input type="color" id="patron-c1" class="campo" value="#ffe3ef" aria-label="Color de fondo del patrón"><input type="color" id="patron-c2" class="campo" value="#d1006f" aria-label="Color del dibujo del patrón"></div>
@@ -494,7 +621,7 @@ details.seccion > div { padding: 0 16px 16px; display: flex; flex-direction: col
 
   <section class="lienzo-zona" aria-label="Lienzo">
     <div class="barra-contexto" id="barra-contexto"></div>
-    <div class="lienzo-marco" id="marco"><div class="lienzo-interior"><canvas id="lienzo"></canvas></div></div>
+    <div class="lienzo-marco" id="marco"><div class="lienzo-interior"><canvas id="lienzo"></canvas></div><div class="cursores" id="cursores" aria-hidden="true"></div></div>
     <div class="lienzo-pie">
       <div class="leyenda" id="leyenda"></div>
       <div class="fila">
@@ -547,6 +674,7 @@ details.seccion > div { padding: 0 16px 16px; display: flex; flex-direction: col
 <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.3.0/fabric.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
 <script>
 (() => {
 "use strict";
@@ -667,7 +795,7 @@ const TRABAJOS = [
 ];
 
 /* ============================== Recursos gráficos ============================== */
-const FUENTES = ["Outfit", "Anton", "Bebas Neue", "Oswald", "Archivo Black", "Abril Fatface", "Playfair Display", "Montserrat", "Poppins", "Rubik", "Righteous", "Fredoka", "Pacifico", "Lobster", "Dancing Script", "Caveat", "Permanent Marker", "IBM Plex Sans"];
+const FUENTES = ["Raleway", "Lato", "Nunito", "Quicksand", "Josefin Sans", "Space Grotesk", "DM Serif Display", "Roboto Slab", "Merriweather", "Alfa Slab One", "Shrikhand", "Satisfy", "Great Vibes", "Amatic SC", "Syne", "Baloo 2", "Outfit", "Anton", "Bebas Neue", "Oswald", "Archivo Black", "Abril Fatface", "Playfair Display", "Montserrat", "Poppins", "Rubik", "Righteous", "Fredoka", "Pacifico", "Lobster", "Dancing Script", "Caveat", "Permanent Marker", "IBM Plex Sans"];
 function estallido(puntas, interior) {
   let d = "";
   for (let i = 0; i < puntas * 2; i++) { const r = i % 2 ? 50 * interior : 50, a = (Math.PI * i) / puntas - Math.PI / 2; d += `${i ? "L" : "M"} ${(50 + r * Math.cos(a)).toFixed(2)} ${(50 + r * Math.sin(a)).toFixed(2)} `; }
@@ -1248,6 +1376,15 @@ canvas.on("after:render", (opt) => {
       disc(true); ctx.strokeStyle = "#0096d6"; ctx.beginPath(); ctx.moveTo(0, 250); ctx.lineTo(P.ancho, 250); ctx.moveTo(0, P.alto - 340); ctx.lineTo(P.ancho, P.alto - 340); ctx.stroke();
     }
   }
+  if (hover && hover !== canvas.getActiveObject() && canvas.getObjects().includes(hover)) {
+    const r = hover.getBoundingRect(true, true);
+    disc(false); ctx.strokeStyle = "#D54840"; ctx.lineWidth = 2 / zoom; ctx.strokeRect(r.left, r.top, r.width, r.height); ctx.lineWidth = lw;
+  }
+  if (lineasGuia.length) {
+    disc(false); ctx.strokeStyle = "#ff2d87"; ctx.lineWidth = 1.5 / zoom; ctx.beginPath();
+    for (const g of lineasGuia) { if (g.x !== undefined) { ctx.moveTo(g.x, -P.alto); ctx.lineTo(g.x, P.alto * 2); } else { ctx.moveTo(-P.ancho, g.y); ctx.lineTo(P.ancho * 2, g.y); } }
+    ctx.stroke(); ctx.lineWidth = lw;
+  }
   if (guiaV || guiaH) {
     disc(false); ctx.strokeStyle = "#ff4fa3"; ctx.beginPath();
     if (guiaV) { ctx.moveTo(P.ancho / 2, 0); ctx.lineTo(P.ancho / 2, P.alto); }
@@ -1292,14 +1429,35 @@ async function aplicarRecortes(lienzo = canvas) {
   lienzo.requestRenderAll();
 }
 canvas.on("mouse:down", (e) => { if (e.target) e.target.__ultimo = { left: e.target.left, top: e.target.top }; });
-canvas.on("mouse:up", () => { if (guiaV || guiaH) { guiaV = guiaH = false; canvas.requestRenderAll(); } });
+canvas.on("mouse:up", () => { if (guiaV || guiaH || lineasGuia.length) { guiaV = guiaH = false; lineasGuia = []; canvas.requestRenderAll(); } });
+let lineasGuia = [], hover = null;
+canvas.on("mouse:over", (e) => { hover = e.target && !datos(e.target).fondo && !esHueco(e.target) ? e.target : null; canvas.requestRenderAll(); });
+canvas.on("mouse:out", () => { if (hover) { hover = null; canvas.requestRenderAll(); } });
+/* Como en Canva: al mover, el elemento se pega a los bordes y centros de la página y de los demás elementos. */
+function ajustarAGuias(t) {
+  lineasGuia = [];
+  const umbral = 7 / zoom, r = t.getBoundingRect(true, true);
+  const xs = [0, P.ancho / 2, P.ancho], ys = [0, P.alto / 2, P.alto];
+  const propios = t.type === "activeSelection" ? t.getObjects() : [t, ...recortadasSobre(t)];
+  for (const o of objetos()) {
+    if (propios.includes(o) || datos(o).fondo || datos(o).recortada || o.visible === false) continue;
+    const q = o.getBoundingRect(true, true);
+    xs.push(q.left, q.left + q.width / 2, q.left + q.width); ys.push(q.top, q.top + q.height / 2, q.top + q.height);
+  }
+  const mejor = (bordes, lista) => {
+    let m = null;
+    for (const b of bordes) for (const g of lista) { const d = g - b; if (Math.abs(d) < umbral && (!m || Math.abs(d) < Math.abs(m.d))) m = { d, g }; }
+    return m;
+  };
+  const mx = mejor([r.left, r.left + r.width / 2, r.left + r.width], xs);
+  const my = mejor([r.top, r.top + r.height / 2, r.top + r.height], ys);
+  if (mx) { t.left += mx.d; lineasGuia.push({ x: mx.g }); }
+  if (my) { t.top += my.d; lineasGuia.push({ y: my.g }); }
+  if (mx || my) t.setCoords();
+}
 canvas.on("object:moving", (e) => {
   const t = e.target; if (!t) return;
-  if (!P.hoja) {
-    const c = t.getCenterPoint(), umbral = 8 / zoom;
-    guiaV = Math.abs(c.x - P.ancho / 2) < umbral; guiaH = Math.abs(c.y - P.alto / 2) < umbral;
-    if (guiaV || guiaH) t.setPositionByOrigin(new fabric.Point(guiaV ? P.ancho / 2 : c.x, guiaH ? P.alto / 2 : c.y), "center", "center");
-  }
+  if (!P.hoja && !datos(t).recortada) ajustarAGuias(t);
   if (t.type === "activeSelection" || datos(t).recortada) return;
   const prev = t.__ultimo || { left: t.left, top: t.top };
   const dx = t.left - prev.left, dy = t.top - prev.top;
@@ -1767,7 +1925,21 @@ function sincronizarBuscador() {
 $("buscar").addEventListener("input", filtrarPanel);
 $("buscar-inicio").addEventListener("input", (e) => {
   const q = e.target.value.trim().toLowerCase();
-  document.querySelectorAll("#tarjetas .tarjeta").forEach((t) => { t.hidden = !!q && !t.textContent.toLowerCase().includes(q); });
+  document.querySelectorAll("#tarjetas .tarjeta, .formatos .formato").forEach((t) => {
+    const extra = (TRABAJOS.find((x) => x.id === t.dataset.trabajo) || {}).titulo || "";
+    t.hidden = !!q && !(t.textContent + " " + extra).toLowerCase().includes(q);
+  });
+});
+document.querySelector(".formatos").addEventListener("click", (e) => { const b = e.target.closest("[data-trabajo]"); if (b) abrirTrabajo(b.dataset.trabajo); });
+$("crear-diseno").onclick = () => { $("empezar").scrollIntoView({ behavior: "smooth" }); };
+document.querySelector(".lateral-nav").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-ir-inicio]"); if (!b) return;
+  $$(".nav-item").forEach((x) => x.classList.toggle("on", x === b));
+  const k = b.dataset.irInicio;
+  if (k === "arriba") window.scrollTo({ top: 0, behavior: "smooth" });
+  if (k === "proyectos") ($("bloque-biblioteca").hidden ? $("empezar") : $("proyectos")).scrollIntoView({ behavior: "smooth" });
+  if (k === "plantillas") { await abrirTrabajo("igPost"); abrirPanel("plantillas"); }
+  if (k === "marca") { await abrirTrabajo("igPost"); abrirPanel("equipo"); }
 });
 function pintarCategorias() {
   $("cats-plantillas").innerHTML = ["Todas", ...CATEGORIAS].map((c) => `<button class="pill ${c === catActual ? "on" : ""}" data-cat="${c}">${c}</button>`).join("");
@@ -2020,6 +2192,7 @@ marcoEl.addEventListener("drop", async (e) => {
     destino = bajo || null;
   }
   const texto = e.dataTransfer.getData("text/plain");
+  if (texto === "boton:" && arrastrado) { const b = arrastrado; arrastrado = null; await soltarBoton(b, p); return; }
   if (texto.startsWith("galeria:")) {
     const url = recursos[texto.slice(8)];
     if (!url) return;
@@ -2030,6 +2203,52 @@ marcoEl.addEventListener("drop", async (e) => {
   const ids = await subirArchivos([...e.dataTransfer.files]);
   if (ids.length) await colocarVarias(ids.map((id) => recursos[id]), destino);
 });
+/* Arrastrar formas, iconos, textos, colores y plantillas desde el panel hasta el sitio exacto del lienzo. */
+const ARRASTRABLES = ".recurso, .estilo-texto, .plantilla, .chip, .muestra, .galeria-item[data-foto-equipo]";
+let arrastrado = null;
+const panelRecursos = document.querySelector(".recursos");
+panelRecursos.addEventListener("mouseover", (e) => { const b = e.target.closest(ARRASTRABLES); if (b && !b.draggable) b.draggable = true; });
+panelRecursos.addEventListener("dragstart", (e) => {
+  const b = e.target.closest && e.target.closest(ARRASTRABLES);
+  if (!b || b.closest("[data-gal]")) return;
+  arrastrado = b; e.dataTransfer.setData("text/plain", "boton:"); e.dataTransfer.effectAllowed = "copy";
+});
+panelRecursos.addEventListener("dragend", () => { setTimeout(() => { arrastrado = null; }, 0); });
+function objetoEn(p) {
+  const pt = fabric.util.transformPoint(new fabric.Point(p.x, p.y), canvas.viewportTransform);
+  return objetos().slice().reverse().find((o) => o.evented !== false && o.visible !== false && !datos(o).fondo && o.containsPoint(pt)) || null;
+}
+function pintarDeColor(o, c) {
+  if (datos(o).curvo) return reconstruirCurvo(o, { color: c });
+  if (o.type === "group") o.getObjects().forEach((x) => { const sinRelleno = !x.fill || x.fill === "none" || x.fill === "transparent"; if (sinRelleno && x.stroke) x.set("stroke", c); else if (typeof x.fill === "string") x.set("fill", c); });
+  else if (o.type === "line" || (o.type === "path" && !o.fill)) o.set("stroke", c);
+  else if (datos(o).emoji) return;
+  else o.set("fill", c);
+  refrescar(o);
+}
+async function soltarBoton(b, p) {
+  if (b.matches(".muestra")) {
+    const c = b.dataset.kit || b.dataset.color;
+    const o = objetoEn(p);
+    if (c && o && !esHueco(o) && o.type !== "image") { canvas.setActiveObject(o); pintarDeColor(o, c); return; }
+    if (!P.hoja) b.click();
+    return;
+  }
+  if (b.matches(".plantilla, [data-foto-equipo]")) { b.click(); return; }
+  const h = P.hoja ? huecoEn(p.x, p.y) : null;
+  if (h) canvas.setActiveObject(h); else canvas.discardActiveObject();
+  const antes = canvas.getActiveObject(), n0 = objetos().length;
+  b.click();
+  let o = null;
+  for (let i = 0; i < 60; i++) {
+    await new Promise((ok) => setTimeout(ok, 50));
+    const a = canvas.getActiveObject();
+    if (a && a !== antes && !esHueco(a) && objetos().length > n0) { o = a; break; }
+  }
+  if (!o || h) return;
+  centrarEn(o, p.x, p.y);
+  await aplicarRecortes(); canvas.requestRenderAll(); cambio();
+}
 document.addEventListener("paste", async (e) => {
   if ($("editor").hidden || (e.target.closest && e.target.closest("input, textarea"))) return;
   const archivos = [...(e.clipboardData?.files || [])];
@@ -3071,11 +3290,11 @@ function miniNube() {
     return url.length < 60000 ? url : "";
   } catch { exportando = false; return ""; }
 }
-function guardarNubeSoon() {
+let guardarNubeSoon = function () {
   if (!nube.db || !docId || cargando) return;
   clearTimeout(temporizadorNube);
   temporizadorNube = setTimeout(() => { colaNube = colaNube.then(() => guardarNube(false)).catch(() => {}); }, 1500);
-}
+};
 async function guardarNube(forzarVersion) {
   if (!nube.db || !docId || !doc) return;
   if (nube.escribe === false) { pintarEstadoNube("Solo lectura"); return; }
@@ -3085,7 +3304,7 @@ async function guardarNube(forzarVersion) {
     const { txt, quitadas } = estadoParaNube();
     if (txt.length > 240000) { pintarEstadoNube("Demasiado grande para la nube", "mal"); return; }
     const cambiado = txt !== ultimoGuardado;
-    if (!cambiado && !forzarVersion) return;
+    if (!cambiado && !forzarVersion) { pendienteLocal = false; return; }
     pintarEstadoNube("Guardando…");
     const ahora = Date.now(), mini = miniNube();
     if (cambiado) {
@@ -3093,6 +3312,7 @@ async function guardarNube(forzarVersion) {
       await nube.db.doc(`designs/${id}`).set({ titulo: tituloDoc || tituloPorDefecto(), producto: productoId, autor: nube.uid || "", actualizado: ahora, miniatura: mini, paginas: doc.paginas.length });
       ultimoGuardado = txt;
     }
+    pendienteLocal = false;
     if (forzarVersion || ahora - ultimaVersion > 10 * 60 * 1000) {
       await nube.db.collection(`designs/${id}/versiones`).add({ estado: txt, cuando: ahora, autor: nube.uid || "", miniatura: mini });
       ultimaVersion = ahora;
@@ -3100,6 +3320,7 @@ async function guardarNube(forzarVersion) {
     idb.guardar("nube-doc", JSON.stringify({ docId: id, titulo: tituloDoc }));
     pintarEstadoNube(quitadas ? `Guardado (${quitadas} foto${quitadas > 1 ? "s" : ""} solo aquí)` : "Guardado en la nube", quitadas ? "mal" : "ok");
   } catch (e) {
+    pendienteLocal = false;
     pintarEstadoNube(e?.code === "resource_exhausted" ? "Nube llena" : "No se pudo guardar", "mal");
   }
 }
@@ -3152,6 +3373,7 @@ async function pintarBiblioteca() {
       <div class="mini">${d.miniatura && /^data:image\/(jpeg|png);base64,/.test(d.miniatura) ? `<img src="${d.miniatura}" alt="">` : ""}</div>
       <strong>${escapar(d.titulo || "Sin nombre")}</strong>
       <small>${escapar(PRODUCTOS[d.producto]?.nombre || "")} · ${escapar(nombres[d.autor] || (d.autor === nube.uid ? "Tú" : "Alguien"))} · ${haceCuanto(Number(d.actualizado) || 0)}</small>
+      ${(() => { const n = (sala ? sala.peers() : []).filter((p) => !p.sameTab && p.presence?.doc === d.id).length; return n ? `<span class="editando"><i></i>${n === 1 ? "1 persona editando" : `${n} personas editando`}</span>` : ""; })()}
       ${nube.escribe === false ? "" : `<button class="borrar-nube" data-borrar-nube="${escapar(d.id)}" aria-label="Borrar diseño">Borrar</button>`}
     </div>`).join("") : '<p class="vacio">Todavía no hay diseños guardados. Todo lo que hagas se guarda aquí solo.</p>';
 }
@@ -3230,6 +3452,7 @@ function pintarKit() {
   $("kit-logo-btn").disabled = !kit.logo;
   $("kit-editar").hidden = !nube.db || nube.escribe === false;
   kit.fuentes.forEach(cargarFuente);
+  if (typeof pintarArtisticos === "function" && $("lista-artisticos").children.length) pintarArtisticos();
 }
 function suscribirKit() {
   nube.db.doc("marca/kit").onSnapshot((d) => {
@@ -3245,13 +3468,7 @@ function suscribirKit() {
 $("kit-colores").addEventListener("click", (e) => {
   const b = e.target.closest("[data-kit]"); if (!b) return;
   const c = b.dataset.kit, o = canvas.getActiveObject();
-  if (o && !esHueco(o) && o.type !== "activeSelection" && o.type !== "image") {
-    if (datos(o).curvo) { reconstruirCurvo(o, { color: c }); return; }
-    if (o.type === "group") o.getObjects().forEach((x) => { if (x.fill && typeof x.fill === "string") x.set("fill", c); });
-    else if (o.type === "line" || (o.type === "path" && !o.fill)) o.set("stroke", c);
-    else o.set("fill", c);
-    refrescar(o);
-  } else if (P.hoja) avisoContexto("Selecciona un texto o una forma para darle el color de marca.");
+  if (o && !esHueco(o) && o.type !== "activeSelection" && o.type !== "image") pintarDeColor(o, c); else if (P.hoja) avisoContexto("Selecciona un texto o una forma para darle el color de marca.");
   else { ponerFondo({ color: c }); $("color-fondo").value = c; }
 });
 $("kit-logo-btn").onclick = async () => {
@@ -3362,6 +3579,220 @@ $("btn-texto-curvo").onclick = async () => {
   colocar(g, "Texto curvo", 0.75);
 };
 
+
+/* ============================== Más recursos: iconos libres, emojis y fondos artísticos ============================== */
+const LUCIDE = (window.lucide && window.lucide.icons) || {};
+const LUCIDE_NOMBRES = [...new Set(Object.keys(LUCIDE))];
+const sinTildes = (t) => t.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const ES_EN = {
+  casa: "house home", hogar: "house home", corazon: "heart", estrella: "star", cafe: "coffee cup", taza: "cup coffee mug", regalo: "gift", telefono: "phone smartphone", movil: "smartphone phone",
+  correo: "mail", email: "mail at-sign", carta: "mail letter", reloj: "clock watch timer", calendario: "calendar", fecha: "calendar", mapa: "map", ubicacion: "map-pin locate", sitio: "map-pin",
+  camion: "truck", coche: "car", bici: "bike", avion: "plane", barco: "ship sailboat", tren: "train", envio: "truck package", paquete: "package box", caja: "box package",
+  dinero: "banknote coins euro wallet", euro: "euro", precio: "tag badge-euro", oferta: "percent tag badge", descuento: "percent tag", compra: "shopping-cart shopping-bag", carrito: "shopping-cart", bolsa: "shopping-bag",
+  tienda: "store", usuario: "user", persona: "user", personas: "users", equipo: "users", grupo: "users", mano: "hand", like: "thumbs-up heart", ok: "check thumbs-up", si: "check",
+  flecha: "arrow chevron", arriba: "arrow-up", abajo: "arrow-down", derecha: "arrow-right", izquierda: "arrow-left", buscar: "search", lupa: "search", ajustes: "settings", engranaje: "settings cog",
+  camara: "camera", foto: "camera image", imagen: "image", video: "video film clapperboard", musica: "music", nota: "music sticky-note", microfono: "mic", altavoz: "speaker volume",
+  sol: "sun", luna: "moon", nube: "cloud", lluvia: "cloud-rain umbrella", nieve: "snowflake", fuego: "flame", rayo: "zap", agua: "droplet waves", hoja: "leaf", arbol: "tree", flor: "flower",
+  comida: "utensils pizza sandwich", pizza: "pizza", tarta: "cake", pastel: "cake", helado: "ice-cream", vino: "wine", cerveza: "beer", copa: "wine glass", fiesta: "party-popper cake", globo: "balloon",
+  libro: "book", escuela: "school graduation-cap", trabajo: "briefcase", oficina: "building briefcase", edificio: "building", ordenador: "laptop monitor computer", portatil: "laptop", impresora: "printer",
+  chapa: "badge circle", insignia: "badge award", premio: "trophy award medal", trofeo: "trophy", medalla: "medal", corona: "crown", diamante: "gem diamond", llave: "key", candado: "lock",
+  wifi: "wifi", enlace: "link", compartir: "share", descargar: "download", subir: "upload", basura: "trash", papelera: "trash", editar: "pencil pen", lapiz: "pencil", pincel: "brush paintbrush", tijeras: "scissors",
+  instagram: "instagram camera", facebook: "facebook", youtube: "youtube", twitter: "twitter", whatsapp: "message-circle phone", mensaje: "message-circle message-square", chat: "message-circle",
+  perro: "dog", gato: "cat", pez: "fish", pajaro: "bird", huella: "paw-print", bebe: "baby", salud: "heart-pulse stethoscope", deporte: "dumbbell trophy bike", pelota: "volleyball", futbol: "goal trophy",
+  navidad: "gift tree-pine snowflake", verano: "sun umbrella palmtree", playa: "palmtree umbrella waves", ropa: "shirt", camiseta: "shirt", sombrero: "hat", gafas: "glasses",
+  idea: "lightbulb", bombilla: "lightbulb", cohete: "rocket", objetivo: "target", grafico: "chart", estadistica: "chart", info: "info", ayuda: "help-circle circle-help", alerta: "alert triangle", aviso: "bell alert",
+};
+const palabrasIcono = (k) => k.replace(/([a-z0-9])([A-Z])/g, "$1 $2").toLowerCase();
+function buscarIconos(q) {
+  const t = sinTildes(q.trim());
+  if (!t) return LUCIDE_NOMBRES;
+  const terminos = [t, ...(ES_EN[t] || Object.entries(ES_EN).filter(([k]) => k.startsWith(t)).map(([, v]) => v).join(" ")).split(/\s+/).filter(Boolean)];
+  return LUCIDE_NOMBRES.filter((k) => { const p = palabrasIcono(k).replace(/ /g, "-"); return terminos.some((x) => p.includes(x)); });
+}
+function nodoASvg(n) {
+  if (!Array.isArray(n)) return "";
+  const [tag, attrs = {}, hijos = []] = n;
+  const a = Object.entries(attrs).map(([k, v]) => ` ${k}="${escapar(v)}"`).join("");
+  return `<${tag}${a}>${(hijos || []).map(nodoASvg).join("")}</${tag}>`;
+}
+const svgLucide = (k) => (LUCIDE[k] ? (LUCIDE[k][2] || []).map(nodoASvg).join("") : "");
+let iconosVisibles = 60;
+function pintarIconosLib() {
+  if (!LUCIDE_NOMBRES.length) { $("bloque-lib-iconos").hidden = true; return; }
+  $("lib-iconos-titulo").textContent = `Biblioteca de iconos (${LUCIDE_NOMBRES.length.toLocaleString("es-ES")})`;
+  const lista = buscarIconos($("buscar-iconos").value);
+  $("lista-iconos-lib").innerHTML = lista.slice(0, iconosVisibles).map((k) => `<button class="recurso lucide" data-lucide="${k}" title="${palabrasIcono(k)}" aria-label="${palabrasIcono(k)}"><svg viewBox="0 0 24 24">${svgLucide(k)}</svg></button>`).join("") || '<p class="vacio" style="grid-column:1/-1">No hay iconos con ese nombre. Prueba en inglés.</p>';
+  $("mas-iconos").hidden = lista.length <= iconosVisibles;
+}
+$("buscar-iconos").addEventListener("input", () => { iconosVisibles = 60; pintarIconosLib(); });
+$("mas-iconos").onclick = () => { iconosVisibles += 90; pintarIconosLib(); };
+function crearLucide(k, color, lado) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><g fill="none" stroke="${color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${svgLucide(k)}</g></svg>`;
+  return new Promise((ok) => fabric.loadSVGFromString(svg, (objs, opts) => {
+    objs.forEach((o) => o.set({ fill: "", stroke: color, strokeWidth: 2, strokeLineCap: "round", strokeLineJoin: "round", strokeUniform: false }));
+    const g = new fabric.Group(objs);
+    const kk = lado / Math.max(g.width || 1, g.height || 1);
+    g.set({ scaleX: kk, scaleY: kk }); datos(g).lucide = k; ok(g);
+  }));
+}
+$("lista-iconos-lib").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-lucide]"); if (!b) return;
+  colocar(await crearLucide(b.dataset.lucide, kit.colores[1] || "#1b1e27", ladoMenor() * 0.18), `Icono ${palabrasIcono(b.dataset.lucide)}`, 0.3);
+});
+pintarIconosLib();
+
+const EMOJIS = {
+  "Caras": "😀 😃 😄 😁 😆 😅 😂 🤣 😊 😇 🙂 😉 😍 🥰 😘 😋 😎 🤩 🥳 😏 🤔 🤗 🤭 😴 😱 😭 😡 🤯 🥺 😬 🙄 🤫",
+  "Gestos": "👍 👎 👏 🙌 🙏 👌 ✌️ 🤞 🤟 👋 💪 ✍️ 👉 👈 👆 👇 🫶 🤝",
+  "Corazones": "❤️ 🧡 💛 💚 💙 💜 🖤 🤍 💖 💗 💓 💕 💘 💝 💯 ✨ ⭐ 🌟 💫 🔥 💥 🎯",
+  "Fiesta": "🎉 🎊 🎈 🎁 🎂 🍰 🧁 🥂 🍾 🎄 🎅 🎃 👻 🐣 💐 🌹 🎆 🎇 🪅 🎀 🏆 🥇 🎵 🎶",
+  "Comida": "☕ 🍵 🥤 🍺 🍷 🍕 🍔 🌮 🥗 🍣 🍩 🍪 🍫 🍦 🍓 🍉 🍋 🍎 🥑 🥐 🥨 🧀",
+  "Oficina": "💼 📌 📎 ✏️ 📝 📅 📆 📊 📈 💡 📣 📢 📦 🏷️ 💶 💳 🛒 🛍️ 📱 💻 🖨️ 📷 🎨 ✂️",
+  "Naturaleza": "☀️ 🌤️ 🌈 ☁️ 🌧️ ❄️ 🌊 🌸 🌻 🌼 🌷 🍀 🌿 🌴 🌵 🍂 🐶 🐱 🐰 🦊 🐻 🐼 🦋 🐝",
+  "Viajes": "✈️ 🚗 🚲 🚀 🗺️ 📍 🏖️ ⛱️ 🏔️ 🏙️ 🗼 🎡 🧳 🛳️ 🚆 🏠",
+};
+let catEmoji = "Caras";
+function pintarEmojis() {
+  $("cats-emoji").innerHTML = Object.keys(EMOJIS).map((c) => `<button class="pill ${c === catEmoji ? "on" : ""}" data-cat-emoji="${c}">${c}</button>`).join("");
+  $("lista-emojis").innerHTML = EMOJIS[catEmoji].split(" ").map((e) => `<button class="recurso emoji" data-emoji="${e}" aria-label="Emoji ${e}">${e}</button>`).join("");
+}
+$("cats-emoji").addEventListener("click", (e) => { const b = e.target.closest("[data-cat-emoji]"); if (b) { catEmoji = b.dataset.catEmoji; pintarEmojis(); } });
+$("lista-emojis").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-emoji]"); if (!b) return;
+  const t = new fabric.Text(b.dataset.emoji, { fontSize: ladoMenor() * 0.16, fontFamily: '"Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif' });
+  datos(t).emoji = true;
+  colocar(t, `Emoji ${b.dataset.emoji}`, 0.35);
+});
+pintarEmojis();
+
+/* Fondos artísticos: manchas, ondas y degradados en malla hechos con los colores del kit. */
+const ARTISTICOS = ["manchas", "ondas", "malla", "arcos", "confeti", "aurora"];
+function dibujarArtistico(tipo, w, h) {
+  const c = document.createElement("canvas"); c.width = w; c.height = h;
+  const x = c.getContext("2d"), [a, b, cc, d, e, f] = kit.colores, m = Math.min(w, h);
+  const rnd = aleatorio(ARTISTICOS.indexOf(tipo) * 97 + 13);
+  const mancha = (cx, cy, r, color, alfa = 1) => { const g = x.createRadialGradient(cx, cy, 0, cx, cy, r); g.addColorStop(0, color); g.addColorStop(1, color + "00"); x.globalAlpha = alfa; x.fillStyle = g; x.fillRect(0, 0, w, h); x.globalAlpha = 1; };
+  if (tipo === "manchas") { x.fillStyle = cc; x.fillRect(0, 0, w, h); x.filter = `blur(${m * 0.04}px)`; [[0.2, 0.25, a], [0.8, 0.3, e], [0.6, 0.85, f], [0.15, 0.85, b]].forEach(([px, py, col]) => { x.fillStyle = col; x.beginPath(); x.ellipse(px * w, py * h, m * (0.18 + rnd() * 0.1), m * (0.14 + rnd() * 0.1), rnd() * 3, 0, Math.PI * 2); x.fill(); }); x.filter = "none"; }
+  if (tipo === "ondas") { x.fillStyle = cc; x.fillRect(0, 0, w, h); [a, e, f, b].forEach((col, i) => { x.fillStyle = col; x.beginPath(); const y0 = h * (0.45 + i * 0.15); x.moveTo(0, y0); for (let k = 0; k <= 8; k++) x.quadraticCurveTo(w * (k + 0.5) / 8, y0 + (k % 2 ? 1 : -1) * h * 0.05, w * (k + 1) / 8, y0); x.lineTo(w, h); x.lineTo(0, h); x.fill(); }); }
+  if (tipo === "malla") { x.fillStyle = d; x.fillRect(0, 0, w, h); mancha(0, 0, m * 0.9, a); mancha(w, h * 0.2, m * 0.8, e); mancha(w * 0.3, h, m * 0.9, f); mancha(w, h, m * 0.6, cc); }
+  if (tipo === "arcos") { x.fillStyle = cc; x.fillRect(0, 0, w, h); [a, e, f, b].forEach((col, i) => { x.strokeStyle = col; x.lineWidth = m * 0.07; x.beginPath(); x.arc(w * 0.5, h * 1.02, m * (0.75 - i * 0.12), Math.PI, 0); x.stroke(); }); }
+  if (tipo === "confeti") { x.fillStyle = d; x.fillRect(0, 0, w, h); for (let i = 0; i < 140; i++) { x.save(); x.translate(rnd() * w, rnd() * h); x.rotate(rnd() * Math.PI); x.fillStyle = [a, e, f, b][i % 4]; if (i % 3) x.fillRect(-m * 0.012, -m * 0.004, m * 0.024, m * 0.008); else { x.beginPath(); x.arc(0, 0, m * 0.008, 0, Math.PI * 2); x.fill(); } x.restore(); } }
+  if (tipo === "aurora") { x.fillStyle = b; x.fillRect(0, 0, w, h); mancha(w * 0.2, h * 0.3, m * 0.7, a, 0.9); mancha(w * 0.85, h * 0.6, m * 0.6, f, 0.9); mancha(w * 0.5, h * 0.95, m * 0.5, e, 0.7); }
+  return c;
+}
+function pintarArtisticos() {
+  $("lista-artisticos").innerHTML = ARTISTICOS.map((t) => `<button class="recurso artistico" data-artistico="${t}" aria-label="Fondo ${t}" title="${t}"><img src="${dibujarArtistico(t, 120, 120).toDataURL("image/png")}" alt=""></button>`).join("");
+}
+$("lista-artisticos").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-artistico]"); if (!b || !P) return;
+  const k = 1600 / Math.max(P.ancho, P.alto);
+  const url = dibujarArtistico(b.dataset.artistico, Math.round(P.ancho * k), Math.round(P.alto * k)).toDataURL("image/jpeg", 0.9);
+  const viejo = objetos().find((o) => datos(o).artistico);
+  if (viejo) { cargando = true; canvas.remove(viejo); cargando = false; }
+  await ponerFotoSuelta(url, true);
+  const nuevo = canvas.getActiveObject(); if (nuevo) { datos(nuevo).artistico = true; datos(nuevo).nombre = "Fondo artístico"; }
+  canvas.discardActiveObject(); canvas.requestRenderAll(); cambio();
+});
+pintarArtisticos();
+
+
+/* ============================== Trabajar a la vez: presencia, cursores, cambios en directo y comentarios ============================== */
+let sala = null, comentarios = null, nombresSala = {}, subContenido = null, docSuscrito = undefined, pendienteRemoto = null, ratonPulsado = false;
+const COLORES_PAR = ["#e1306c", "#0096d6", "#1f7a4d", "#7b2cbf", "#ff7a00", "#2ec4b6", "#3a3dff", "#b5382f"];
+const colorPar = (k) => COLORES_PAR[[...String(k)].reduce((a, c) => (a * 31 + c.charCodeAt(0)) >>> 0, 7) % COLORES_PAR.length];
+const iniciales = (n) => (n || "?").split(/\s+/).filter(Boolean).slice(0, 2).map((x) => x[0].toUpperCase()).join("");
+const companeros = () => (sala ? sala.peers().filter((p) => !p.sameTab && p.kind === "viewer" && p.presence && p.presence.doc && p.presence.doc === docId && !$("editor").hidden) : []);
+async function resolverNombres(peers) {
+  const ids = [...new Set(peers.map((p) => p.by || p.presence?.uid).filter((x) => typeof x === "string" && !(x in nombresSala)))];
+  if (ids.length && nube.user?.profiles) { try { const ps = await nube.user.profiles(ids); ids.forEach((id) => { nombresSala[id] = ps?.[id]?.name || ""; }); } catch { /* sin nombres */ } }
+}
+const nombrePar = (p) => nombresSala[p.by || p.presence?.uid] || (p.isMe ? "Tú (otra pestaña)" : "Compañero");
+async function pintarGente() {
+  const ps = companeros();
+  await resolverNombres(ps);
+  $("gente").innerHTML = ps.slice(0, 5).map((p) => `<span class="avatar" style="background:${colorPar(p.peer)}" title="${escapar(nombrePar(p))}">${escapar(iniciales(nombrePar(p)))}</span>`).join("") + (ps.length > 5 ? `<span class="avatar" style="background:#646a7d">+${ps.length - 5}</span>` : "");
+  pintarCursores();
+}
+function pintarCursores() {
+  const cont = $("cursores");
+  if (!P || !doc) { cont.innerHTML = ""; return; }
+  const m = $("marco").getBoundingClientRect(), c = canvas.lowerCanvasEl.getBoundingClientRect();
+  const ox = c.left - m.left + $("marco").scrollLeft, oy = c.top - m.top + $("marco").scrollTop;
+  cont.style.width = `${$("marco").scrollWidth}px`; cont.style.height = `${$("marco").scrollHeight}px`;
+  cont.innerHTML = companeros().filter((p) => p.presence.cursor && p.presence.pag === doc.actual).map((p) => {
+    const { x, y } = p.presence.cursor; if (typeof x !== "number" || typeof y !== "number") return "";
+    const col = colorPar(p.peer);
+    return `<div class="cursor-par" style="left:${ox + x * c.width}px;top:${oy + y * c.height}px"><svg viewBox="0 0 24 24"><path d="M3 2l7 19 2.5-7.5L20 11z" fill="${col}" stroke="#fff" stroke-width="1.5"/></svg><span style="background:${col}">${escapar(nombrePar(p))}</span></div>`;
+  }).join("");
+}
+function anunciarme() {
+  if (!sala) return;
+  sala.presence({ doc: !$("editor").hidden && docId ? docId : null, pag: doc ? doc.actual : 0, uid: nube.uid || null }).catch(() => {});
+}
+canvas.on("mouse:move", (e) => {
+  if (!sala || !P || !docId) return;
+  const p = canvas.getPointer(e.e);
+  sala.presence({ cursor: { x: Math.round((p.x / P.ancho) * 1000) / 1000, y: Math.round((p.y / P.alto) * 1000) / 1000 } }).catch(() => {});
+});
+canvas.on("mouse:out", () => { if (sala) sala.presence({ cursor: null }).catch(() => {}); });
+canvas.on("mouse:down", () => { ratonPulsado = true; });
+canvas.on("mouse:up", () => { ratonPulsado = false; setTimeout(aplicarPendiente, 300); });
+$("marco").addEventListener("scroll", () => pintarCursores());
+
+/* Cambios de otra persona en el mismo diseño: se aplican en cuanto dejas de tocar el lienzo. */
+let pendienteLocal = false;
+const ocupadoLocal = () => cargando || ratonPulsado || pendienteLocal || !!canvas.getActiveObject()?.isEditing || !!document.activeElement?.closest?.("#propiedades, .barra-contexto, #titulo-trabajo");
+async function aplicarPendiente() {
+  if (!pendienteRemoto || ocupadoLocal()) return;
+  const txt = pendienteRemoto; pendienteRemoto = null;
+  if (txt === ultimoGuardado) return;
+  const local = doc ? doc.actual : 0;
+  const d = JSON.parse(txt);
+  d.actual = Math.min(local, d.paginas.length - 1);
+  d.galeria = (d.galeria || []).filter((u) => typeof u === "string" && u).map(registrar);
+  d.paginas.forEach((p) => { if (p.lienzo) compactar(p.lienzo); });
+  clearTimeout(temporizadorNube);
+  await restaurar(JSON.stringify(d));
+  canvas.isRendering = 0; canvas.renderAll();
+  ultimoGuardado = txt;
+  historia.push(instantanea()); if (historia.length > 30) historia.shift(); futuro = []; pintarBotonesHistoria();
+  guardarBorrador();
+  pintarEstadoNube("Actualizado con cambios del equipo", "ok");
+}
+setInterval(aplicarPendiente, 700);
+/* Una pestaña en segundo plano no pinta: al volver, se repinta el lienzo con lo último. */
+document.addEventListener("visibilitychange", () => { if (!document.hidden && P) { canvas.isRendering = 0; canvas.renderAll(); pintarCursores(); } });
+function suscribirContenido() {
+  if (subContenido) { subContenido(); subContenido = null; }
+  docSuscrito = docId; pendienteRemoto = null;
+  if (!nube.db || !docId) return;
+  subContenido = nube.db.doc(`designs/${docId}/contenido/actual`).onSnapshot((snap) => {
+    if (!snap.exists || snap.metadata?.hasPendingWrites || docSuscrito !== docId) return;
+    const txt = String(snap.data().estado || "");
+    if (!txt || txt === ultimoGuardado) return;
+    pendienteRemoto = txt; aplicarPendiente();
+  }, () => {});
+}
+setInterval(() => {
+  if (docId !== docSuscrito) suscribirContenido();
+  anunciarme();
+}, 1000);
+/* Con más gente en el diseño, se guarda antes para que los demás lo vean casi al momento. */
+const guardarNubeSoonBase = guardarNubeSoon;
+guardarNubeSoon = function () {
+  if (!nube.db || !docId || cargando) return;
+  pendienteLocal = true;
+  if (!companeros().length) return guardarNubeSoonBase();
+  clearTimeout(temporizadorNube);
+  temporizadorNube = setTimeout(() => { colaNube = colaNube.then(() => guardarNube(false)).catch(() => {}); }, 400);
+};
+
+$("btn-comentar").onclick = async () => {
+  if (!comentarios) return;
+  try { await comentarios.openComposer({ element: canvas.getActiveObject() ? $("barra-contexto") : $("marco") }); }
+  catch { $("btn-comentar").hidden = true; }
+};
+
 /* ============================== Arranque ============================== */
 BOTONES_IA.forEach((id) => { $(id).disabled = true; });
 (async () => {
@@ -3387,6 +3818,18 @@ $("equipo-nota").hidden = false;
   if (db) { suscribirBiblioteca(); suscribirKit(); }
   pintarBiblioteca(); pintarBibliotecaFotos(); pintarKit();
   $("equipo-nota").hidden = !!db;
+  const [r, cm] = await Promise.all([window.claude.use("room"), window.claude.use("comments")]);
+  sala = r; comentarios = cm;
+  $("btn-comentar").hidden = !cm;
+  if (sala) {
+    let antes = "";
+    sala.onPeers(() => {
+      pintarGente();
+      const firma = sala.peers().map((p) => `${p.peer}:${p.presence?.doc || ""}`).join("|");
+      if (firma !== antes) { antes = firma; if (!$("inicio").hidden) pintarBiblioteca(); }
+    }, () => { sala = null; $("gente").innerHTML = ""; $("cursores").innerHTML = ""; });
+    anunciarme();
+  }
 })();
 (async () => {
   const hay = await idb.leer("borrador-v3");
