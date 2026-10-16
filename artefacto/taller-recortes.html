@@ -8,8 +8,8 @@
 :root {
   --bg: #eef0f5; --panel: #ffffff; --panel-2: #f4f5f9; --linea: #e4e6ee;
   --fg: #13151d; --fg-suave: #646a7d;
-  --acento: #7d2ae8; --acento-hover: #6a1fd6; --acento-fg: #ffffff; --acento-suave: #f0e8fd;
-  --grad: linear-gradient(120deg, #7d2ae8 0%, #b43cf0 45%, #00c4cc 100%);
+  --acento: #D54840; --acento-hover: #B5382F; --acento-fg: #ffffff; --acento-suave: #FBE9E7;
+  --grad: #D54840;
   --ok: #15804a; --error: #c62828;
   --tablero-a: #eceef4; --tablero-b: #e1e4ec;
   --velo: rgb(15 17 26 / 0.6);
@@ -23,7 +23,7 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0f1117; --panel: #191c25; --panel-2: #222633; --linea: #2b3040;
-    --fg: #eef0f6; --fg-suave: #a4aabd; --acento: #9d5cff; --acento-hover: #b07aff; --acento-fg: #ffffff; --acento-suave: #2b1d4a;
+    --fg: #eef0f6; --fg-suave: #a4aabd; --acento: #E8645C; --acento-hover: #F07A73; --acento-fg: #ffffff; --acento-suave: #3a1e1c;
     --ok: #5fd39a; --error: #ff8a80; --tablero-a: #22262f; --tablero-b: #2a2f3a; --velo: rgb(0 0 0 / 0.7);
     --sombra-1: 0 1px 2px rgb(0 0 0 / 0.4); --sombra-2: 0 8px 28px rgb(0 0 0 / 0.5);
     color-scheme: dark;
@@ -31,7 +31,7 @@
 }
 :root[data-theme="dark"] {
   --bg: #0f1117; --panel: #191c25; --panel-2: #222633; --linea: #2b3040;
-  --fg: #eef0f6; --fg-suave: #a4aabd; --acento: #9d5cff; --acento-hover: #b07aff; --acento-fg: #ffffff; --acento-suave: #2b1d4a;
+  --fg: #eef0f6; --fg-suave: #a4aabd; --acento: #E8645C; --acento-hover: #F07A73; --acento-fg: #ffffff; --acento-suave: #3a1e1c;
   --ok: #5fd39a; --error: #ff8a80; --tablero-a: #22262f; --tablero-b: #2a2f3a; --velo: rgb(0 0 0 / 0.7);
   --sombra-1: 0 1px 2px rgb(0 0 0 / 0.4); --sombra-2: 0 8px 28px rgb(0 0 0 / 0.5);
   color-scheme: dark;
@@ -123,9 +123,9 @@ progress { width: 100%; accent-color: var(--acento); }
 
 /* Inicio */
 .inicio { max-width: 1120px; margin: 0 auto; padding-block: 8px 32px; display: flex; flex-direction: column; gap: 4px; }
-.hero { border-radius: 24px; padding: 36px 34px; background: var(--grad); color: #fff; position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 10px; }
-.hero::after { content: ""; position: absolute; right: -90px; top: -110px; width: 340px; height: 340px; border-radius: 50%; background: rgb(255 255 255 / 0.14); }
-.hero::before { content: ""; position: absolute; right: 120px; bottom: -150px; width: 260px; height: 260px; border-radius: 50%; background: rgb(255 255 255 / 0.1); }
+.hero { border-radius: 24px; padding: 36px 34px; background: #191719; color: #fff; position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 10px; }
+.hero::after { content: ""; position: absolute; right: -90px; top: -110px; width: 340px; height: 340px; border-radius: 50%; background: #D54840; opacity: 0.9; }
+.hero::before { content: ""; position: absolute; right: 120px; bottom: -150px; width: 260px; height: 260px; border-radius: 50%; border: 1.5px solid rgb(255 255 255 / 0.12); }
 .hero .oficina { color: #fff; opacity: 0.85; }
 .hero h2 { font-family: var(--f-titulo); font-size: clamp(28px, 4vw, 42px); font-weight: 800; letter-spacing: -0.02em; margin: 0; line-height: 1.1; position: relative; z-index: 1; }
 .hero p { margin: 0; max-width: 58ch; color: rgb(255 255 255 / 0.92); font-size: 16px; line-height: 1.5; position: relative; z-index: 1; }
@@ -360,7 +360,7 @@ details.seccion > div { padding: 0 16px 16px; display: flex; flex-direction: col
     <div class="panel-cuerpo" data-panel="plantillas" hidden>
       <div class="campo-grupo"><span class="etiqueta">Plantillas para este formato</span><p class="ayuda">Se aplican a la página actual. Después cambia textos, colores y fotos.</p></div>
       <div class="pills" id="cats-plantillas"></div>
-      <div class="rejilla dos-col" id="lista-plantillas"></div>
+      <div class="rejilla dos-col" id="lista-plantillas" style="grid-template-columns:1fr 1fr;gap:12px"></div>
     </div>
 
     <div class="panel-cuerpo" data-panel="fotos" hidden>
@@ -859,10 +859,10 @@ const LAY_DIORAMA = [
   { nombre: "Precio", f: (T, v) => ({ fondo: { color: T.fondo }, elementos: [
     { t: "texto", texto: TI(T, v), fuente: "Outfit", tam: 0.1, color: T.fg, negrita: true, mayus: true, x: 0.5, y: 0.14, w: 0.9, anim: { entrada: "subir" } },
     { t: "texto", texto: SU(T, v), fuente: "Outfit", tam: 0.04, color: T.a, negrita: true, x: 0.5, y: 0.3, w: 0.86, anim: { entrada: "aparecer", retardo: 0.3 } },
-    { t: "marco", forma: "redondeado", x: 0.5, y: 0.6, w: 0.72, h: 0.46, anim: { entrada: "zoom" } },
-    { t: "forma", forma: "circulo", color: T.a, x: 0.78, y: 0.8, w: 0.3, anim: { entrada: "rebote", retardo: 0.6 } },
-    { t: "texto", texto: "DESDE", fuente: "Outfit", tam: 0.028, color: TXT(T), negrita: true, espaciado: 150, x: 0.78, y: 0.75, w: 0.26 },
-    { t: "texto", texto: "8 €", fuente: "Outfit", tam: 0.085, color: TXT(T), negrita: true, x: 0.78, y: 0.82, w: 0.26 },
+    { t: "marco", forma: "redondeado", x: 0.5, y: 0.53, w: 0.72, h: 0.4, anim: { entrada: "zoom" } },
+    { t: "forma", forma: "circulo", color: T.a, x: 0.8, y: 0.84, w: 0.26, anim: { entrada: "rebote", retardo: 0.6 } },
+    { t: "texto", texto: "DESDE", fuente: "Outfit", tam: 0.028, color: TXT(T), negrita: true, espaciado: 150, x: 0.8, y: 0.8, w: 0.24 },
+    { t: "texto", texto: "8 €", fuente: "Outfit", tam: 0.085, color: TXT(T), negrita: true, x: 0.8, y: 0.87, w: 0.24 },
     { t: "texto", texto: "Oficina FAKTORINGO", fuente: "Outfit", tam: 0.03, color: T.fg, negrita: true, x: 0.5, y: 0.95, w: 0.8, espaciado: 150, mayus: true }] }) },
   { nombre: "Elige color", f: (T, v) => ({ fondo: { color: T.fondo }, elementos: [
     { t: "texto", texto: TI(T, v), fuente: "Outfit", tam: 0.09, color: T.fg, negrita: true, mayus: true, x: 0.5, y: 0.14, w: 0.9, anim: { entrada: "subir" } },
@@ -994,8 +994,8 @@ const nuevaPaginaVacia = () => ({ id: idPag++, lienzo: null, duracion: 5, transi
 const esHoja = () => !!PRODUCTOS[productoId].hoja;
 
 fabric.textureSize = 4096;
-const canvas = new fabric.Canvas("lienzo", { preserveObjectStacking: true, backgroundColor: null, selectionColor: "rgba(125,42,232,0.08)", selectionBorderColor: "#7d2ae8", controlsAboveOverlay: true, targetFindTolerance: 4 });
-fabric.Object.prototype.set({ transparentCorners: false, cornerColor: "#ffffff", cornerStrokeColor: "#7d2ae8", borderColor: "#7d2ae8", cornerSize: 12, cornerStyle: "circle" });
+const canvas = new fabric.Canvas("lienzo", { preserveObjectStacking: true, backgroundColor: null, selectionColor: "rgba(213,72,64,0.08)", selectionBorderColor: "#D54840", controlsAboveOverlay: true, targetFindTolerance: 4 });
+fabric.Object.prototype.set({ transparentCorners: false, cornerColor: "#ffffff", cornerStrokeColor: "#D54840", borderColor: "#D54840", cornerSize: 12, cornerStyle: "circle" });
 const objetos = () => canvas.getObjects();
 const datos = (o) => (o.data = o.data || {});
 const nombre = (o) => datos(o).nombre || o.type;
@@ -1151,7 +1151,7 @@ canvas.on("after:render", (opt) => {
       const r = s.getBoundingRect(true, true), cx = r.left + r.width / 2, cy = r.top + r.height / 2;
       const forma = () => { ctx.beginPath(); if (P.hoja === "chapa") ctx.arc(cx, cy, r.width / 2, 0, Math.PI * 2); else ctx.rect(r.left, r.top, r.width, r.height); };
       if (!fotoDe(s)) {
-        forma(); ctx.fillStyle = sel === s ? "rgba(125,42,232,0.12)" : "rgba(110,120,145,0.13)"; ctx.fill();
+        forma(); ctx.fillStyle = sel === s ? "rgba(213,72,64,0.12)" : "rgba(110,120,145,0.13)"; ctx.fill();
         ctx.fillStyle = "rgba(60,66,84,0.75)"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
         const fs = Math.min(r.width, r.height) * 0.072;
         ctx.font = `600 ${fs}px "IBM Plex Sans", system-ui, sans-serif`;
@@ -1170,7 +1170,7 @@ canvas.on("after:render", (opt) => {
           ctx.stroke();
         }
       }
-      disc(true); ctx.strokeStyle = sel === s ? "#7d2ae8" : "rgba(27,30,39,0.55)"; ctx.lineWidth = sel === s ? lw * 2 : lw; forma(); ctx.stroke(); ctx.lineWidth = lw;
+      disc(true); ctx.strokeStyle = sel === s ? "#D54840" : "rgba(27,30,39,0.55)"; ctx.lineWidth = sel === s ? lw * 2 : lw; forma(); ctx.stroke(); ctx.lineWidth = lw;
     }
     /* Mientras ajustas una foto, se ve atenuada la parte que queda fuera del hueco (como en Canva). */
     if (sel && sel.type === "image" && datos(sel).recortada && sel.getElement()) {
@@ -1756,7 +1756,7 @@ function crearCuadricula(cols, filas) {
   aplicarRecortes(); cambio();
 }
 function crearGrafico(tipo) {
-  const m = ladoMenor(), colores = ["#7d2ae8", "#00c4cc", "#ffd23f", "#ff4fa3"];
+  const m = ladoMenor(), colores = ["#D54840", "#00c4cc", "#ffd23f", "#ff4fa3"];
   const objs = [];
   if (tipo === "barras") {
     const vals = [0.55, 0.8, 0.42, 0.95], W = m * 0.6, H = m * 0.45, bw = W / (vals.length * 1.5);
