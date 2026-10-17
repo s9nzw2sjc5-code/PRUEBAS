@@ -2113,6 +2113,10 @@ $$("[data-subir]").forEach((z) => {
 
 /* ============================== Fotos en huecos, marcos y lienzo ============================== */
 async function meterFoto(url, base, nombreFoto) {
+  if (esTazaHueco(base)) {
+    const prueba = await imagenDe(url).catch(() => null);
+    if (prueba && prueba.naturalHeight > prueba.naturalWidth) return ponerFotoTaza(url, base, "doble", true);
+  }
   const anteriores = recortadasSobre(base).filter((o) => o.type === "image");
   const img = await new Promise((ok) => fabric.Image.fromURL(url, ok));
   const caja = base.getBoundingRect(true, true);
@@ -2128,6 +2132,10 @@ async function meterFoto(url, base, nombreFoto) {
   return anadir(img, nombreFoto || `Foto · ${nombre(base)}`, i);
 }
 async function ponerFotoSuelta(url, comoFondo) {
+  if (!comoFondo && productoId === "taza") {
+    const prueba = await imagenDe(url).catch(() => null);
+    if (prueba && prueba.naturalHeight > prueba.naturalWidth) return ponerFotoTaza(url, null, "doble", true);
+  }
   const img = await new Promise((ok) => fabric.Image.fromURL(url, ok));
   img.scale(comoFondo ? Math.max(P.ancho / img.width, P.alto / img.height) : Math.min(P.ancho / img.width, P.alto / img.height) * 0.7);
   centrarEn(img, P.ancho / 2, P.alto / 2);
@@ -2374,7 +2382,14 @@ const ICO = {
 let avisoTemporal = "";
 function avisoContexto(texto) { avisoTemporal = texto; pintarContexto(); setTimeout(() => { if (avisoTemporal === texto) { avisoTemporal = ""; pintarContexto(); } }, 6000); }
 const btnCtx = (acc, texto, icono, extra = "") => `<button class="btn mini ${extra}" data-ctx="${acc}">${icono ? ICO[icono] : ""}${texto}</button>`;
-function coberturaDe(img) { const base = baseDe(img); if (!base) return img.scaleX; return Math.max(base.getScaledWidth() / img.width, base.getScaledHeight() / img.height); }
+function coberturaDe(img) {
+  const base = baseDe(img);
+  if (datos(img).ladoTaza !== undefined && (!base || esTazaHueco(base))) {
+    const g = geometriaTaza(base && esHueco(base) ? base : null), partes = piezasTaza(base && esHueco(base) ? base : null);
+    const mitad = partes.filter((x) => x.type === "image").length > 1 || partes.some((x) => datos(x).mensajeTaza);
+    return Math.max((mitad ? g.L / 2 : g.L) / img.width, g.S / img.height);
+  }
+  if (!base) return img.scaleX; return Math.max(base.getScaledWidth() / img.width, base.getScaledHeight() / img.height); }
 function pintarZoomFoto() {
   const o = canvas.getActiveObject(), r = $("ctx-zoom");
   if (!o || !r || o.type !== "image") return;
@@ -2400,13 +2415,13 @@ function pintarContexto() {
   if (esHueco(o)) {
     const foto = fotoDe(o);
     h = `<span class="titulo-ctx">${escapar(nombre(o))}</span>` + (foto ? `<span class="pista">Haz clic en la foto para moverla o hacer zoom.</span>${btnCtx("sel-foto", "Ajustar foto", "encajar", "primario")}${btnCtx("cambiar-hueco", "Cambiar foto", "foto")}` : `<span class="pista">Hueco vacío.</span>${btnCtx("subir-hueco", "Subir foto aquí", "foto", "primario")}`) +
-      `${btnCtx("texto-hueco", "Añadir texto", "texto")}${foto ? btnCtx("vaciar-hueco", "Vaciar", "borrar", "peligro") : ""}`;
+      `${btnCtx("texto-hueco", "Añadir texto", "texto")}${foto ? btnCtx("vaciar-hueco", "Vaciar", "borrar", "peligro") : ""}${foto && esTazaHueco(o) ? botonesTaza() : ""}`;
   } else if (o.type === "image" && d.recortada) {
     const enHueco = esHueco(baseDe(o));
     h = `<span class="titulo-ctx">Foto</span>
       <label class="zoom-foto"><span class="ayuda">Zoom</span><input type="range" id="ctx-zoom" min="1" max="4" step="0.01" value="1" aria-label="Zoom de la foto"><span class="dato ayuda" id="ctx-zoom-v">100 %</span></label>
       ${btnCtx("encajar", "Encajar", "encajar")}${btnCtx("girar90", "Girar", "girar")}${btnCtx("voltear", "Voltear", "voltear")}<span class="sep"></span>
-      ${btnCtx("cambiar", "Cambiar", "foto")}${enHueco ? btnCtx("texto-hueco", "Texto", "texto") + btnCtx("en-todas", "En toda la hoja", "todas") : ""}${btnCtx("filtros", "Filtros")}${btnCtx("borrar", "Quitar", "borrar", "peligro")}`;
+      ${btnCtx("cambiar", "Cambiar", "foto")}${enHueco ? btnCtx("texto-hueco", "Texto", "texto") + btnCtx("en-todas", "En toda la hoja", "todas") : ""}${btnCtx("filtros", "Filtros")}${btnCtx("borrar", "Quitar", "borrar", "peligro")}${baseYFotoTaza(o) ? botonesTaza() : ""}`;
   } else if (o.type === "textbox") {
     h = `<select class="campo" id="ctx-fuente" aria-label="Fuente">${FUENTES.map((f) => `<option ${f === o.fontFamily ? "selected" : ""}>${f}</option>`).join("")}</select>
       <input class="campo dato" id="ctx-tam" type="number" min="4" max="3000" value="${Math.round(o.fontSize)}" style="width:76px" aria-label="Tamaño">
@@ -2419,6 +2434,7 @@ function pintarContexto() {
       <input type="color" class="campo" id="ctx-color" value="${esColor(color) ? color : "#d1006f"}" aria-label="Color">
       ${btnCtx("delante", "Delante")}${btnCtx("detras", "Detrás")}<span class="sep"></span>${btnCtx("duplicar", "", "copiar")}${btnCtx("borrar", "", "borrar", "peligro")}`;
   }
+  if (!h.includes("taza-doble") && baseYFotoTaza(o)) h += botonesTaza();
   barra.innerHTML = (aviso || "") + h;
   pintarZoomFoto();
   const zoomR = $("ctx-zoom");
@@ -2449,6 +2465,7 @@ $("barra-contexto").addEventListener("click", async (e) => {
     case "subir": elegirArchivos(null, true); return;
     case "rellenar": $("rellenar-vacios").click(); return;
     case "subir-hueco": elegirArchivos(o, false); return;
+    case "taza-doble": case "taza-mensaje": case "taza-una": { const t = baseYFotoTaza(o); if (t) await ponerFotoTaza(t.url, t.base, acc.slice(5), false); return; }
     case "cambiar-hueco": elegirArchivos(o, false, fotoDe(o)); return;
     case "sel-foto": canvas.setActiveObject(fotoDe(o)); canvas.requestRenderAll(); return;
     case "vaciar-hueco": { cargando = true; recortadasSobre(o).forEach((x) => canvas.remove(x)); cargando = false; cambio(); pintarGaleria(); canvas.requestRenderAll(); return; }
@@ -3792,6 +3809,68 @@ $("btn-comentar").onclick = async () => {
   try { await comentarios.openComposer({ element: canvas.getActiveObject() ? $("barra-contexto") : $("marco") }); }
   catch { $("btn-comentar").hidden = true; }
 };
+
+
+/* ============================== Tazas: foto vertical duplicada y mensaje ==============================
+   Una taza de 20 × 9,5 cm es una tira: una foto vertical solo cubre un lado. Se pone la misma foto en las
+   dos mitades (se ve desde los dos lados de la taza) o la foto en una mitad y un mensaje en la otra.
+   En las tazas giradas de la hoja, todo se gira para que salga derecho en la taza. */
+const esTazaHueco = (b) => !!b && esHueco(b) && P.hoja === "taza";
+function geometriaTaza(base) {
+  const caja = base ? base.getBoundingRect(true, true) : { left: 0, top: 0, width: P.ancho, height: P.alto };
+  const giro = base ? !!datos(base).giro : false;
+  const L = giro ? caja.height : caja.width, S = giro ? caja.width : caja.height;
+  const cx = caja.left + caja.width / 2, cy = caja.top + caja.height / 2;
+  return { L, S, ang: giro ? -90 : 0, punto: (u) => (giro ? { x: cx, y: cy - u } : { x: cx + u, y: cy }) };
+}
+function piezasTaza(base) {
+  if (base) return recortadasSobre(base).filter((o) => o.type === "image" || datos(o).mensajeTaza);
+  return objetos().filter((o) => datos(o).ladoTaza !== undefined || datos(o).mensajeTaza);
+}
+async function ponerFotoTaza(url, base, modo, avisar) {
+  const g = geometriaTaza(base);
+  const viejas = piezasTaza(base);
+  const mensajeViejo = viejas.find((o) => datos(o).mensajeTaza);
+  const textoMensaje = mensajeViejo ? mensajeViejo.text : "Tu mensaje aquí";
+  cargando = true; viejas.forEach((o) => canvas.remove(o)); cargando = false;
+  const lados = modo === "una" ? [0] : modo === "mensaje" ? [-g.L / 4] : [-g.L / 4, g.L / 4];
+  const anchoZona = modo === "una" ? g.L : g.L / 2;
+  let i = base ? objetos().indexOf(base) + 1 : objetos().filter((o) => datos(o).fondo).length;
+  let primera = null;
+  for (const [k, u] of lados.entries()) {
+    const img = await new Promise((ok) => fabric.Image.fromURL(url, ok));
+    img.set({ angle: g.ang });
+    img.scale(Math.max(anchoZona / img.width, g.S / img.height));
+    const p = g.punto(u); centrarEn(img, p.x, p.y);
+    datos(img).recortada = !!base; datos(img).ladoTaza = k; datos(img).nombre = lados.length > 1 ? `Foto lado ${k + 1}` : "Foto";
+    if (base) img.perPixelTargetFind = true;
+    canvas.insertAt(img, i++);
+    primera = primera || img;
+  }
+  let mensaje = null;
+  if (modo === "mensaje") {
+    await cargarFuente(kit.fuentes[0]);
+    mensaje = crearTexto(textoMensaje, { fuente: kit.fuentes[0], tamano: g.S * 0.13, negrita: true, color: kit.colores[1] || "#1b1e27", ancho: anchoZona * 0.82 });
+    mensaje.set({ angle: g.ang });
+    const p = g.punto(g.L / 4); centrarEn(mensaje, p.x, p.y);
+    datos(mensaje).recortada = !!base; datos(mensaje).mensajeTaza = true; datos(mensaje).nombre = "Mensaje de la taza";
+    canvas.insertAt(mensaje, i++);
+  }
+  anadirAGaleria(url);
+  canvas.setActiveObject(mensaje || primera);
+  await aplicarRecortes(); canvas.requestRenderAll(); cambio(); pintarGaleria();
+  if (avisar && modo === "doble") avisoContexto("La foto es vertical: la he puesto a los dos lados de la taza. Si lo prefieres, elige «Foto + mensaje» o «Una foto».");
+  if (modo === "mensaje") avisoContexto("Haz doble clic en el mensaje para escribir el tuyo.");
+  return primera;
+}
+const botonesTaza = () => `<span class="sep"></span>${btnCtx("taza-doble", "A los dos lados")}${btnCtx("taza-mensaje", "Foto + mensaje", "texto")}${btnCtx("taza-una", "Una foto")}`;
+function baseYFotoTaza(o) {
+  if (!o) return null;
+  if (esTazaHueco(o)) { const f = fotoDe(o); return f ? { base: o, url: f.getSrc() } : null; }
+  if (o.type === "image" && datos(o).recortada && esTazaHueco(baseDe(o))) return { base: baseDe(o), url: o.getSrc() };
+  if (o.type === "image" && productoId === "taza" && !datos(o).fondo) return { base: null, url: o.getSrc() };
+  return null;
+}
 
 /* ============================== Arranque ============================== */
 BOTONES_IA.forEach((id) => { $(id).disabled = true; });
