@@ -373,6 +373,11 @@ body:has(#pegatinas:not([hidden])) { padding: 0; margin: 0; }
 .peg-ajustes { border: 1px solid var(--linea); border-radius: 14px; }
 .peg-ajustes > div { padding-top: 4px; }
 .cp-modo { width: 100%; }
+.cp-fondos { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
+.cp-fondos button { flex: none; width: 52px; height: 64px; border-radius: 8px; border: 2px solid var(--linea); padding: 0; overflow: hidden; position: relative; background: #fff; }
+.cp-fondos button.on { border-color: var(--acento); }
+.cp-fondos img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.cp-fondos span { position: absolute; left: 0; right: 0; bottom: 0; font-size: 8.5px; font-weight: 700; background: rgb(255 255 255 / 0.85); color: #191719; padding: 1px 0; }
 .cp-otra { border: 1px solid var(--linea); border-radius: 12px; padding: 8px 10px; background: var(--panel); }
 .cp-otra summary { cursor: pointer; font-weight: 600; font-size: 13px; }
 .cp-otra > div { margin-top: 8px; }
@@ -745,7 +750,7 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
     <input type="file" id="qf-archivo" accept="image/png,image/jpeg,image/webp" multiple hidden>
     <div class="campo-grupo" id="qf-tus-fotos-bloque" hidden><span class="etiqueta">O elige de «Tus fotos»</span><div class="galeria" id="qf-tus-fotos"></div></div>
     <div class="campo-grupo"><span class="etiqueta">Modo</span>
-      <div class="seg" role="group" aria-label="Modo"><button data-qf-modo="auto" aria-pressed="true">Fondo liso</button><button data-qf-modo="persona" aria-pressed="false">Persona (IA)</button></div>
+      <div class="seg" role="group" aria-label="Modo"><button data-qf-modo="auto" aria-pressed="true">Fondo liso</button><button data-qf-modo="mejor" aria-pressed="false">Varios colores</button><button data-qf-modo="persona" aria-pressed="false">Persona (IA)</button></div>
       <p class="ayuda" id="qf-modo-ayuda">Para logos, productos y dibujos sobre un fondo de un color. Detecta el color del borde y lo quita.</p>
     </div>
     <div class="campo-grupo" id="qf-bloque-auto">
@@ -754,7 +759,8 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
     </div>
     <label class="deslizador" for="qf-suave"><span>Suavizar borde</span><input type="range" id="qf-suave" min="0" max="6" value="1"><span id="qf-suave-v">1</span></label>
     <div class="campo-grupo"><span class="etiqueta">Retocar a mano</span>
-      <div class="tres"><button class="btn mini activo" data-qf-herr="varita" title="Pulsa en una zona del fondo para quitarla">Varita</button><button class="btn mini" data-qf-herr="borrar">Borrar</button><button class="btn mini" data-qf-herr="recuperar">Recuperar</button></div>
+      <div class="dos"><button class="btn mini activo" data-qf-herr="varita" title="Pulsa en una zona del fondo para quitarla">Varita</button><button class="btn mini" data-qf-herr="borrar">Pincel: borrar</button><button class="btn mini" data-qf-herr="recuperar">Pincel: restaurar</button><button class="btn mini" data-qf-herr="zona" title="Arrastra un rectángulo alrededor de lo que quieres conservar">Zona: rectángulo</button><button class="btn mini" data-qf-herr="lazo" title="Rodea a mano lo que quieres conservar">Zona: lazo</button></div>
+      <label class="check"><input type="checkbox" id="qf-zona-auto" checked> Dentro de la zona, quitar también el fondo automáticamente</label>
       <label class="deslizador" for="qf-pincel"><span>Pincel</span><input type="range" id="qf-pincel" min="4" max="120" value="30"><span id="qf-pincel-v">30 px</span></label>
       <div class="dos"><button class="btn mini" id="qf-deshacer" disabled>Deshacer</button><button class="btn mini" id="qf-reiniciar" disabled>Empezar de nuevo</button></div>
     </div>
@@ -801,8 +807,10 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
         <p class="ayuda">También puedes arrastrarla, tirar de sus esquinas o moverla con las flechas del teclado.</p>
         <span class="etiqueta">Fondo</span>
         <div class="dos"><button class="btn primario" id="cp-quitar-fondo">Quitar fondo</button><button class="btn" id="cp-original">Volver al original</button></div>
-        <details class="cp-otra"><summary>¿No ha quedado bien? Quitar fondo otra vez</summary><div class="campo-grupo">
-          <select id="cp-metodo" class="campo" aria-label="Método"><option value="liso">Fondo de un color (logos, productos)</option><option value="persona">Persona (IA)</option><option value="auto">Automático</option></select>
+        <button class="btn ancho" id="cp-mejor">Quitar el fondo mejor (fondos con varios colores)</button>
+        <div class="dos"><button class="btn mini" id="cp-h-borrar">🖌 Borrar con pincel</button><button class="btn mini" id="cp-h-recuperar">🖌 Restaurar con pincel</button><button class="btn mini" id="cp-h-zona">⬚ Elegir zona (rectángulo)</button><button class="btn mini" id="cp-h-lazo">➰ Elegir zona (lazo)</button></div>
+        <details class="cp-otra"><summary>Más ajustes del recorte (método y tolerancia)</summary><div class="campo-grupo">
+          <select id="cp-metodo" class="campo" aria-label="Método"><option value="mejor">Fondo con varios colores (mejor)</option><option value="liso">Fondo de un color (logos, productos)</option><option value="persona">Persona (IA)</option><option value="auto">Automático</option></select>
           <label class="deslizador" for="cp-tol"><span>Tolerancia</span><input type="range" id="cp-tol" min="5" max="150" value="55"><span id="cp-tol-v">55</span></label>
           <label class="check"><input type="checkbox" id="cp-huecos"> Quitar también ese color dentro (huecos)</label>
           <div class="dos"><button class="btn" id="cp-reintentar">Quitar fondo otra vez</button><button class="btn" id="cp-retocar">Retocar a mano</button></div>
@@ -878,11 +886,12 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
     <div class="seg cp-modo" role="group" aria-label="Qué vas a imprimir"><button data-cp-modo="pegatinas" aria-pressed="true">Pegatinas (imprimir y cortar)</button><button data-cp-modo="fotos" aria-pressed="false">Solo imprimir fotos</button></div>
     <div class="peg-cab"><h2>Lámina</h2><span class="fila"><button class="btn mini" id="peg-ant" aria-label="Lámina anterior">◀</button><span class="nube" id="peg-num">Lámina 1 de 1</span><button class="btn mini" id="peg-sig" aria-label="Lámina siguiente">▶</button><button class="btn mini" id="peg-nueva-hoja">+ Lámina</button><span class="nube" id="peg-contador">0 pegatinas</span></span></div>
     <div class="peg-herr">
-      <div class="fila"><button class="btn mini primario cp-solo-peg" id="peg-aleatorio">🎲 Fondos aleatorios a todas</button><button class="btn mini" id="peg-ordenar">Ordenar automáticamente</button><span class="sep-v"></span><button class="btn mini" id="peg-duplicar">Duplicar</button><button class="btn mini" id="peg-frente">Al frente</button><button class="btn mini peligro" id="peg-borrar">Borrar</button></div>
-      <span class="etiqueta cp-solo-peg" id="peg-sel-info">Fondo: sin nada seleccionado se aplica a todas las pegatinas de la lámina</span>
-      <div class="fila peg-formas cp-solo-peg"><button class="btn mini" data-pf-forma="ninguno">Sin fondo</button><button class="btn mini" data-pf-forma="circle">Círculo</button><button class="btn mini" data-pf-forma="rounded">Cuadrado</button><button class="btn mini" data-pf-forma="pill">Cápsula</button><button class="btn mini" data-pf-forma="blob">Nube</button><button class="btn mini" data-pf-forma="star">Estrella</button><button class="btn mini" data-pf-forma="heart">Corazón</button></div>
-      <div class="fila cp-solo-peg"><button class="btn mini" data-pf-relleno="liso">Liso</button><button class="btn mini" data-pf-relleno="degradado">Degradado</button><button class="btn mini" data-pf-relleno="puntos">Puntos</button><button class="btn mini" data-pf-relleno="rayas">Rayas</button><button class="btn mini" data-pf-aleatorio>🎲 Otro al azar</button></div>
-      <div class="peg-colores cp-solo-peg" id="peg-pf-colores"></div>
+      <div class="fila"><button class="btn mini" id="peg-ordenar">Ordenar automáticamente</button><span class="sep-v"></span><button class="btn mini" id="peg-duplicar">Duplicar</button><button class="btn mini" id="peg-frente">Al frente</button><button class="btn mini peligro" id="peg-borrar">Borrar</button></div>
+      <span class="etiqueta">Fondo de la lámina</span>
+      <div class="cp-fondos" id="cp-fondos"></div>
+      <div class="fila"><label class="fila" style="gap:6px"><span class="ayuda">Color 1</span><input type="color" id="cp-fh-c1" class="campo" value="#fde2ec"></label><label class="fila" style="gap:6px"><span class="ayuda">Color 2</span><input type="color" id="cp-fh-c2" class="campo" value="#ff8fb8"></label><button class="btn mini" id="cp-fh-azar">🎲 Al azar</button></div>
+      <p class="ayuda cp-solo-peg" id="cp-fh-nota" hidden>Con fondo en la lámina, la máquina no puede adivinar el contorno de cada pegatina: usa el «Archivo de corte (SVG)».</p>
+      <span hidden><span id="peg-sel-info"></span><span id="peg-pf-colores"></span><button id="peg-aleatorio"></button></span>
     </div>
     <div class="campo-grupo" id="peg-bandeja-bloque" hidden><span class="etiqueta">Tus fotos (pulsa una para añadir otra copia a la lámina)</span><div class="qf-tira" id="peg-bandeja"></div></div>
     <div class="peg-lamina" id="peg-lamina-marco"><canvas id="peg-hoja" width="400" height="700"></canvas></div>
@@ -4244,6 +4253,7 @@ function pegatinaConFondo(src, f) {
   return out;
 }
 function renderizarItem(it) {
+  it.fondo = { forma: "ninguno" }; // las fotos van siempre sin fondo propio: el fondo es de la lámina
   const base = it.src || it.c0;
   if (peg.modo === "fotos") { it.c = base; return; }
   if (!it.fondo || it.fondo.forma === "ninguno") it.c = it.src ? pegatinaDeRecorte(it.src) : it.c0;
@@ -4255,7 +4265,7 @@ function pintarQRPeg() {
   $$("[data-peg-qr]").forEach((b) => b.setAttribute("aria-pressed", String((b.dataset.pegQr === "si") === si)));
   $("peg-qr-campos").hidden = !si; $("peg-qr-ayuda").hidden = !si;
 }
-const peg = { img: null, imgUrl: "", items: [], hojas: 1, qrPos: null, bandeja: [], modo: "pegatinas" };
+const peg = { img: null, imgUrl: "", items: [], hojas: 1, qrPos: null, bandeja: [], modo: "pegatinas", fondoHoja: { tipo: "ninguno" } };
 const pegUno = $("peg-uno"), pegHoja = $("peg-hoja");
 const pegCrudo = document.createElement("canvas"); pegCrudo.width = pegCrudo.height = 512;
 const pv = (id) => $(id).value;
@@ -4363,6 +4373,9 @@ function crearPegFab() {
     ctx.restore();
   });
   new ResizeObserver(() => ajustarPegFab()).observe($("peg-lamina-marco"));
+  // Si algo cambia por encima de la lámina, la lámina se desplaza: se recalcula su posición antes de cada clic o toque.
+  ["mousedown", "pointerdown", "touchstart", "dragover"].forEach((ev) => $("peg-lamina-marco").addEventListener(ev, () => pegFab.calcOffset(), { capture: true, passive: true }));
+  ["scroll", "resize"].forEach((ev) => window.addEventListener(ev, () => pegFab.calcOffset(), { passive: true }));
 }
 function ajustarPegFab() {
   if (!pegFab) return;
@@ -4385,6 +4398,7 @@ function pintarLamina() {
   $("peg-num").textContent = `Lámina ${pegHojaActual + 1} de ${total}`;
   $("peg-ant").disabled = pegHojaActual === 0; $("peg-sig").disabled = pegHojaActual >= total - 1;
   pegFab.discardActiveObject(); pegFab.clear(); pegFab.backgroundColor = "#ffffff";
+  if (peg.fondoHoja && peg.fondoHoja.tipo !== "ninguno") pegFab.backgroundImage = new fabric.Image(lienzoFondoHoja(), { left: 0, top: 0, originX: "left", originY: "top", selectable: false, evented: false });
   vis.forEach((it) => pegFab.add(objetoItem(it)));
   if ($("peg-qr-si").checked) {
     const q = posQR(), o = new fabric.Image(tarjetaQR(), { left: q.x, top: q.y, originX: "center", originY: "center", angle: q.ang || 0, cornerSize: 14, transparentCorners: false, cornerColor: "#ffffff", cornerStrokeColor: "#D54840", borderColor: "#D54840", cornerStyle: "circle" });
@@ -4523,6 +4537,7 @@ async function guardarPeg(nombre, datos) {
 function renderHoja(h, k = 1.2) {
   const { W, H } = hojaPeg(), c = document.createElement("canvas"); c.width = Math.round(W * k); c.height = Math.round(H * k);
   const x = c.getContext("2d"); x.scale(k, k);
+  dibujarFondoHoja(x, W, H, peg.fondoHoja);
   const dibujar = (img, cx, cy, w, hh, ang) => { x.save(); x.translate(cx, cy); x.rotate(((ang || 0) * Math.PI) / 180); x.drawImage(img, -w / 2, -hh / 2, w, hh); x.restore(); };
   for (const it of itemsDe(h)) dibujar(it.c, it.x, it.y, it.lado, (it.lado * it.c.height) / it.c.width, it.ang);
   if ($("peg-qr-si").checked) { const q = posQR(), t = tarjetaQR(); dibujar(t, q.x, q.y, t.width * (q.s || 1), t.height * (q.s || 1), q.ang); }
@@ -4574,7 +4589,7 @@ function guardarPegSoon() {
   tPeg = setTimeout(() => {
     const campos = ["peg-hoja-tipo", "peg-hoja-w", "peg-hoja-h", "peg-tam", "peg-forma", "peg-color", "peg-texto", "peg-sub", "peg-fuente", "peg-tcolor", "peg-texto-y", "peg-texto-t", "peg-borde", "peg-borde-c", "peg-escala", "peg-img-y", "peg-qr-url", "peg-qr-titulo"];
     idb.guardar("pegatinas-v2", JSON.stringify({ campos: Object.fromEntries(campos.map((id) => [id, pv(id)])), qr: $("peg-qr-si").checked, img: peg.imgUrl.length < 3e6 ? peg.imgUrl : "", hojas: peg.hojas, qrPos: peg.qrPos,
-      modo: peg.modo, items: peg.items.map((i) => ({ orig: urlDe(i.orig), sinFondo: i.sinFondo && i.sinFondo !== i.orig ? urlDe(i.sinFondo) : null, src: i.src && i.src !== i.orig && i.src !== i.sinFondo ? urlDe(i.src) : null, c0: i.src ? null : urlDe(i.c0), fondo: i.fondo, hoja: i.hoja, x: i.x, y: i.y, lado: i.lado, ang: i.ang })) }));
+      modo: peg.modo, fondoHoja: peg.fondoHoja, items: peg.items.map((i) => ({ orig: urlDe(i.orig), sinFondo: i.sinFondo && i.sinFondo !== i.orig ? urlDe(i.sinFondo) : null, src: i.src && i.src !== i.orig && i.src !== i.sinFondo ? urlDe(i.src) : null, c0: i.src ? null : urlDe(i.c0), fondo: i.fondo, hoja: i.hoja, x: i.x, y: i.y, lado: i.lado, ang: i.ang })) }));
   }, 700);
 }
 const lienzoDeUrl = async (u) => { if (!u) return null; const im = await imagenDe(u); const c = document.createElement("canvas"); c.width = im.naturalWidth; c.height = im.naturalHeight; c.getContext("2d").drawImage(im, 0, 0); c.__url = u; return c; };
@@ -4596,7 +4611,7 @@ async function abrirPegatinas() {
         $("peg-qr-si").checked = d.qr !== false;
         if (d.img) peg.img = await imagenDe(d.img).catch(() => null), peg.imgUrl = peg.img ? d.img : "";
         if (d2) {
-          peg.hojas = d2.hojas || 1; peg.qrPos = d2.qrPos || null; peg.modo = d2.modo === "fotos" ? "fotos" : "pegatinas";
+          peg.hojas = d2.hojas || 1; peg.qrPos = d2.qrPos || null; peg.modo = d2.modo === "fotos" ? "fotos" : "pegatinas"; peg.fondoHoja = d2.fondoHoja || { tipo: "ninguno" };
           for (const g of d2.items || []) { try { const orig = await lienzoDeUrl(g.orig), sf = await lienzoDeUrl(g.sinFondo), src = (await lienzoDeUrl(g.src)) || sf || orig; const it = nuevoItem({ src, orig: orig || src, sinFondo: sf, c0: await lienzoDeUrl(g.c0), fondo: g.fondo }); Object.assign(it, { hoja: g.hoja, x: g.x, y: g.y, lado: g.lado, ang: g.ang }); peg.items.push(it); } catch { /* pegatina dañada */ } }
         } else {
           for (const u of (d1.laminas || []).slice(0, 96)) { const it = nuevoItem({ c0: await lienzoDeUrl(u) }); peg.items.push(it); }
@@ -4608,7 +4623,7 @@ async function abrirPegatinas() {
   }
   pintarQRPeg();
   await cargarFuente(pv("peg-fuente")); await cargarFuente(kit.fuentes[0]);
-  pintarPegatina(); pintarModoCP(); pintarLamina(); pintarBandeja(); pintarGaleriaCP();
+  pintarPegatina(); pintarModoCP(); pintarFondosCP(); pintarLamina(); pintarBandeja(); pintarGaleriaCP();
 }
 $("peg-volver").onclick = () => mostrarInicio();
 
@@ -4639,18 +4654,44 @@ function rellenar(d, w, h, semillas, color, tol, marca) {
     for (const q of vec) if (q >= 0 && !marca[q] && dist2(d, q * 4, color) <= t2) { marca[q] = 1; cola[fin++] = q; }
   }
 }
+/* Varios colores de fondo: se agrupan los colores de un contorno (k-medias) y se quitan todos. */
+function paletaDe(d, indices, k = 5) {
+  const paso = Math.max(1, Math.floor(indices.length / 1500)), muestras = [];
+  for (let i = 0; i < indices.length; i += paso) { const j = indices[i] * 4; if (d[j + 3] > 20) muestras.push([d[j], d[j + 1], d[j + 2]]); }
+  if (!muestras.length) return [[255, 255, 255]];
+  let cs = Array.from({ length: Math.min(k, muestras.length) }, (_, i) => muestras[Math.floor((i * muestras.length) / k)].slice());
+  for (let it = 0; it < 8; it++) {
+    const suma = cs.map(() => [0, 0, 0, 0]);
+    for (const m of muestras) { let b = 0, bd = Infinity; cs.forEach((c, i) => { const dd = (c[0] - m[0]) ** 2 + (c[1] - m[1]) ** 2 + (c[2] - m[2]) ** 2; if (dd < bd) { bd = dd; b = i; } }); const s2 = suma[b]; s2[0] += m[0]; s2[1] += m[1]; s2[2] += m[2]; s2[3]++; }
+    cs = suma.map((s2, i) => (s2[3] ? [s2[0] / s2[3], s2[1] / s2[3], s2[2] / s2[3], s2[3]] : cs[i]));
+  }
+  return cs.filter((c) => (c[3] || 0) >= muestras.length * 0.03).map((c) => [c[0], c[1], c[2]]);
+}
+const distPaleta = (d, i, pal) => { let m = Infinity; for (const c of pal) { const v = dist2(d, i, c); if (v < m) m = v; } return m; };
+function rellenarPaleta(d, w, h, semillas, pal, tol, marca, dentro) {
+  const t2 = tol * tol, cola = new Int32Array(w * h); let ini = 0, fin = 0;
+  const vale = (q) => !marca[q] && (!dentro || dentro[q]) && distPaleta(d, q * 4, pal) <= t2;
+  for (const p of semillas) if (vale(p)) { marca[p] = 1; cola[fin++] = p; }
+  while (ini < fin) {
+    const p = cola[ini++], x = p % w, y = (p - x) / w;
+    if (x > 0 && vale(p - 1)) { marca[p - 1] = 1; cola[fin++] = p - 1; }
+    if (x < w - 1 && vale(p + 1)) { marca[p + 1] = 1; cola[fin++] = p + 1; }
+    if (y > 0 && vale(p - w)) { marca[p - w] = 1; cola[fin++] = p - w; }
+    if (y < h - 1 && vale(p + w)) { marca[p + w] = 1; cola[fin++] = p + w; }
+  }
+}
 function calcularAuto(it) {
   const { data: d, width: w, height: h } = it.datos, n = w * h, tol = Number($("qf-tol").value);
   const fuera = new Uint8Array(n);
   it.fondo = colorDeBorde(d, w, h);
+  const semillas = [];
+  for (let x = 0; x < w; x++) semillas.push(x, (h - 1) * w + x);
+  for (let y = 0; y < h; y++) semillas.push(y * w, y * w + w - 1);
+  const pal = it.modo === "mejor" ? paletaDe(d, semillas) : [it.fondo];
+  it.paleta = pal;
   for (let p = 0; p < n; p++) if (d[p * 4 + 3] < 10) fuera[p] = 1;
-  if ($("qf-huecos").checked) { const t2 = tol * tol; for (let p = 0; p < n; p++) if (dist2(d, p * 4, it.fondo) <= t2) fuera[p] = 1; }
-  else {
-    const semillas = [];
-    for (let x = 0; x < w; x++) semillas.push(x, (h - 1) * w + x);
-    for (let y = 0; y < h; y++) semillas.push(y * w, y * w + w - 1);
-    rellenar(d, w, h, semillas, it.fondo, tol, fuera);
-  }
+  if ($("qf-huecos").checked) { const t2 = tol * tol; for (let p = 0; p < n; p++) if (distPaleta(d, p * 4, pal) <= t2) fuera[p] = 1; }
+  else rellenarPaleta(d, w, h, semillas, pal, tol, fuera);
   const a = new Uint8Array(n);
   for (let p = 0; p < n; p++) a[p] = fuera[p] ? 0 : 255;
   // Borde suave: los píxeles junto al fondo que se le parecen un poco quedan semitransparentes.
@@ -4659,7 +4700,7 @@ function calcularAuto(it) {
     if (fuera[p]) continue;
     const x = p % w;
     if (!((x > 0 && fuera[p - 1]) || (x < w - 1 && fuera[p + 1]) || (p >= w && fuera[p - w]) || (p < n - w && fuera[p + w]))) continue;
-    const dd = Math.sqrt(dist2(d, p * 4, it.fondo));
+    const dd = Math.sqrt(distPaleta(d, p * 4, pal));
     if (dd < lim) a[p] = Math.round(255 * Math.max(0, Math.min(1, (dd - tol) / (lim - tol))));
   }
   it.auto = a;
@@ -4705,10 +4746,10 @@ function pintarQF() {
   c.getContext("2d").putImageData(it.salida, 0, 0);
   $("qf-tira").innerHTML = qf.items.length > 1 ? qf.items.map((x, i) => `<button class="${i === qf.actual ? "on" : ""}" data-qf-item="${i}" aria-label="${escapar(x.nombre)}"><img src="${x.lienzo.toDataURL("image/png")}" alt=""><span class="x" data-qf-quitar="${i}">×</span></button>`).join("") : "";
 }
-function rehacer(it, todo) { if (todo && it.modo === "auto") calcularAuto(it); componer(it); pintarQF(); }
+function rehacer(it, todo) { if (todo && it.modo !== "persona") { it.fijo = false; calcularAuto(it); } componer(it); pintarQF(); }
 let tQF = null;
 const rehacerPronto = (todo) => { clearTimeout(tQF); tQF = setTimeout(() => { const it = qfItem(); if (it) rehacer(it, todo); }, 120); };
-async function cargarEnQF(url, nombre) {
+async function cargarEnQF(url, nombre, alfa) {
   const img = await imagenDe(url);
   const k = Math.min(1, 2400 / Math.max(img.naturalWidth, img.naturalHeight));
   const w = Math.max(1, Math.round(img.naturalWidth * k)), h = Math.max(1, Math.round(img.naturalHeight * k));
@@ -4716,6 +4757,11 @@ async function cargarEnQF(url, nombre) {
   const x = c.getContext("2d"); x.drawImage(img, 0, 0, w, h);
   const it = { nombre: nombre || "imagen", datos: x.getImageData(0, 0, w, h), varita: new Uint8Array(w * h), manual: new Int8Array(w * h).fill(-1), historia: [], modo: qf.modo, ia: null };
   calcularAuto(it);
+  if (alfa) { // empieza desde el recorte que ya tenía la foto
+    const t = document.createElement("canvas"); t.width = w; t.height = h; const tx = t.getContext("2d"); tx.drawImage(alfa, 0, 0, w, h);
+    const ad = tx.getImageData(0, 0, w, h).data; for (let p = 0; p < w * h; p++) it.auto[p] = ad[p * 4 + 3];
+    it.modo = "auto"; it.fijo = true;
+  }
   qf.items.push(it); qf.actual = qf.items.length - 1;
   if (it.modo === "persona") await segmentarPersona(it);
   componer(it); pintarQF();
@@ -4777,15 +4823,15 @@ async function segmentarPersona(it) {
 }
 function pintarModoQF() {
   $$("[data-qf-modo]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.qfModo === qf.modo)));
-  $("qf-bloque-auto").hidden = qf.modo !== "auto";
-  $("qf-modo-ayuda").textContent = qf.modo === "auto" ? "Para logos, productos y dibujos sobre un fondo de un color. Detecta el color del borde y lo quita." : "Para fotos de personas sobre cualquier fondo. Usa un modelo de IA que se descarga la primera vez. Repasa el pelo con el pincel si hace falta.";
+  $("qf-bloque-auto").hidden = qf.modo === "persona";
+  $("qf-modo-ayuda").textContent = { auto: "Para logos, productos y dibujos sobre un fondo de un color. Detecta el color del borde y lo quita.", mejor: "Para fondos con varios colores o sombras (una mesa, una pared, un degradado): toma todos los colores del borde y los quita.", persona: "Para fotos de personas sobre cualquier fondo. Usa un modelo de IA que se descarga la primera vez. Repasa el pelo con el pincel si hace falta." }[qf.modo] || "";
 }
 document.querySelector("#quitafondo").addEventListener("click", async (e) => {
   const m = e.target.closest("[data-qf-modo]");
   if (m) {
     qf.modo = m.dataset.qfModo; pintarModoQF();
     const it = qfItem();
-    if (it) { it.modo = qf.modo; if (it.modo === "persona" && !it.ia) await segmentarPersona(it); rehacer(it, it.modo === "auto"); }
+    if (it) { it.modo = qf.modo; if (it.modo === "persona" && !it.ia) await segmentarPersona(it); rehacer(it, it.modo !== "persona"); }
   }
   const h = e.target.closest("[data-qf-herr]");
   if (h) { qf.herr = h.dataset.qfHerr; $$("[data-qf-herr]").forEach((b) => b.classList.toggle("activo", b === h)); }
@@ -4808,10 +4854,45 @@ function pincelar(it, p) {
   }
   $("qf-lienzo").getContext("2d").putImageData(it.salida, 0, 0, Math.max(0, p.x - r), Math.max(0, p.y - r), 2 * r + 1, 2 * r + 1);
 }
+/* Zona de recorte: lo de fuera se borra; dentro, opcionalmente, se quita el fondo partiendo del borde de la zona. */
+function aplicarZona(it, dentro) {
+  const { data: d, width: w, height: h } = it.datos, n = w * h;
+  for (let p = 0; p < n; p++) if (!dentro[p]) { it.varita[p] = 1; if (it.manual[p] === 1) it.manual[p] = -1; }
+  if (!$("qf-zona-auto").checked) { for (let p = 0; p < n; p++) if (dentro[p] && it.varita[p]) it.varita[p] = 0; return; }
+  const bordeZona = [];
+  for (let p = 0; p < n; p++) { if (!dentro[p]) continue; const x = p % w; if (x === 0 || x === w - 1 || p < w || p >= n - w || !dentro[p - 1] || !dentro[p + 1] || !dentro[p - w] || !dentro[p + w]) bordeZona.push(p); }
+  const pal = paletaDe(d, bordeZona), marca = new Uint8Array(n);
+  rellenarPaleta(d, w, h, bordeZona, pal, Number($("qf-tol").value), marca, dentro);
+  for (let p = 0; p < n; p++) if (dentro[p]) it.varita[p] = marca[p] ? 1 : 0;
+  for (let p = 0; p < n; p++) if (dentro[p] && it.manual[p] === 0) it.manual[p] = -1;
+}
+let zonaRecorte = null;
+function pintarZonaQF() {
+  const it = qfItem(); if (!it || !zonaRecorte) return;
+  const x = $("qf-lienzo").getContext("2d"); x.putImageData(it.salida, 0, 0);
+  x.save(); x.lineWidth = Math.max(2, it.datos.width / 300); x.setLineDash([x.lineWidth * 5, x.lineWidth * 3]); x.strokeStyle = "#ff2d87"; x.fillStyle = "rgba(255,45,135,0.08)";
+  x.beginPath();
+  if (zonaRecorte.tipo === "zona") { const [a, b] = [zonaRecorte.p0, zonaRecorte.p1]; x.rect(Math.min(a.x, b.x), Math.min(a.y, b.y), Math.abs(b.x - a.x), Math.abs(b.y - a.y)); }
+  else zonaRecorte.pts.forEach((p, i) => (i ? x.lineTo(p.x, p.y) : x.moveTo(p.x, p.y)));
+  x.closePath(); x.fill(); x.stroke(); x.restore();
+}
+function cerrarZonaQF() {
+  const it = qfItem(), z = zonaRecorte; zonaRecorte = null; if (!it || !z) return;
+  const { width: w, height: h } = it.datos, m = document.createElement("canvas"); m.width = w; m.height = h;
+  const x = m.getContext("2d"); x.fillStyle = "#000"; x.beginPath();
+  if (z.tipo === "zona") { const [a, b] = [z.p0, z.p1]; if (Math.abs(b.x - a.x) < 8 || Math.abs(b.y - a.y) < 8) { componer(it); pintarQF(); return; } x.rect(Math.min(a.x, b.x), Math.min(a.y, b.y), Math.abs(b.x - a.x), Math.abs(b.y - a.y)); }
+  else { if (z.pts.length < 6) { componer(it); pintarQF(); return; } z.pts.forEach((p, i) => (i ? x.lineTo(p.x, p.y) : x.moveTo(p.x, p.y))); }
+  x.closePath(); x.fill();
+  const md = x.getImageData(0, 0, w, h).data, dentro = new Uint8Array(w * h);
+  for (let p = 0; p < w * h; p++) dentro[p] = md[p * 4 + 3] > 127 ? 1 : 0;
+  aplicarZona(it, dentro); componer(it); pintarQF();
+  qfEstado("Zona aplicada. Repasa con el pincel lo que falte o sobre.", "ok");
+}
 $("qf-lienzo").addEventListener("pointerdown", (e) => {
   const it = qfItem(); if (!it) return;
   const p = puntoQF(e); if (p.x < 0 || p.y < 0 || p.x >= it.datos.width || p.y >= it.datos.height) return;
   guardarPaso(it);
+  if (qf.herr === "zona" || qf.herr === "lazo") { zonaRecorte = { tipo: qf.herr, p0: p, p1: p, pts: [p] }; $("qf-lienzo").setPointerCapture(e.pointerId); return; }
   if (qf.herr === "varita") {
     const d = it.datos.data, i = (p.y * it.datos.width + p.x) * 4;
     rellenar(d, it.datos.width, it.datos.height, [p.y * it.datos.width + p.x], [d[i], d[i + 1], d[i + 2]], Number($("qf-tol").value), it.varita);
@@ -4820,8 +4901,11 @@ $("qf-lienzo").addEventListener("pointerdown", (e) => {
   }
   qf.pintando = true; $("qf-lienzo").setPointerCapture(e.pointerId); pincelar(it, p);
 });
-$("qf-lienzo").addEventListener("pointermove", (e) => { if (qf.pintando && qfItem()) pincelar(qfItem(), puntoQF(e)); });
-const finPincel = () => { if (!qf.pintando) return; qf.pintando = false; const it = qfItem(); if (it) { componer(it); pintarQF(); } };
+$("qf-lienzo").addEventListener("pointermove", (e) => {
+  if (zonaRecorte) { const p = puntoQF(e); if (zonaRecorte.tipo === "zona") zonaRecorte.p1 = p; else zonaRecorte.pts.push(p); pintarZonaQF(); return; }
+  if (qf.pintando && qfItem()) pincelar(qfItem(), puntoQF(e));
+});
+const finPincel = () => { if (zonaRecorte) { cerrarZonaQF(); return; } if (!qf.pintando) return; qf.pintando = false; const it = qfItem(); if (it) { componer(it); pintarQF(); } };
 $("qf-lienzo").addEventListener("pointerup", finPincel); $("qf-lienzo").addEventListener("pointercancel", finPincel);
 $("qf-deshacer").onclick = () => { const it = qfItem(); const h = it?.historia.pop(); if (!h) return; it.varita = h.v; it.manual = h.m; componer(it); pintarQF(); };
 $("qf-reiniciar").onclick = () => { const it = qfItem(); if (!it) return; guardarPaso(it); it.varita.fill(0); it.manual.fill(-1); rehacer(it, true); };
@@ -4868,7 +4952,8 @@ async function abrirQuitaFondo(desde) {
   window.scrollTo(0, 0);
   qf.retorno = desde?.objeto || null;
   pintarTusFotosQF(); pintarModoQF();
-  if (desde?.url) await cargarEnQF(desde.url, "foto del diseño"); else pintarQF();
+  if (desde?.herr) { qf.herr = desde.herr; $$("[data-qf-herr]").forEach((b) => b.classList.toggle("activo", b.dataset.qfHerr === desde.herr)); }
+  if (desde?.url) await cargarEnQF(desde.url, "foto del diseño", desde.alfa); else pintarQF();
 }
 $("qf-volver").onclick = () => { if (qf.retornoPeg) { qf.retornoPeg = null; $("qf-a-lamina").hidden = true; abrirPegatinas(); } else if (qf.retorno) { qf.retorno = null; mostrarEditor(); } else mostrarInicio(); };
 
@@ -4897,7 +4982,7 @@ async function sinFondo(url, metodo) {
   const k = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
   const w = Math.max(1, Math.round(img.naturalWidth * k)), h = Math.max(1, Math.round(img.naturalHeight * k));
   const c = document.createElement("canvas"); c.width = w; c.height = h; const x = c.getContext("2d"); x.drawImage(img, 0, 0, w, h);
-  const it = { nombre: "foto", datos: x.getImageData(0, 0, w, h), varita: new Uint8Array(w * h), manual: new Int8Array(w * h).fill(-1), historia: [], modo: "auto", ia: null };
+  const it = { nombre: "foto", datos: x.getImageData(0, 0, w, h), varita: new Uint8Array(w * h), manual: new Int8Array(w * h).fill(-1), historia: [], modo: metodo === "mejor" ? "mejor" : "auto", ia: null };
   if (metodo === "no" || tieneTransparencia(it.datos)) return { lienzo: c, metodo: metodo === "no" ? "no" : "ya-transparente" };
   calcularAuto(it);
   let usar = metodo;
@@ -4905,7 +4990,7 @@ async function sinFondo(url, metodo) {
     let quitados = 0; for (let p = 0; p < it.auto.length; p++) if (!it.auto[p]) quitados++;
     usar = variedadBorde(it) < 28 && quitados / it.auto.length > 0.08 ? "liso" : "persona";
   }
-  if (usar === "persona") { it.modo = "persona"; await segmentarPersona(it); if (it.modo !== "persona") usar = "liso"; }
+  if (usar === "persona") { it.modo = "persona"; await segmentarPersona(it); if (it.modo !== "persona") { usar = "mejor"; it.modo = "mejor"; calcularAuto(it); } }
   componer(it);
   return { lienzo: it.lienzo, metodo: usar };
 }
@@ -5251,6 +5336,7 @@ function pintarModoCP() {
   $$(".cp-solo-peg").forEach((e) => { e.hidden = peg.modo === "fotos"; });
   $("cp-troquel").hidden = peg.modo === "fotos";
   $("peg-svg").hidden = peg.modo === "fotos";
+  if ($("cp-fondos").children.length) pintarFondosCP();
 }
 document.querySelector(".cp-modo").addEventListener("click", (e) => {
   const b = e.target.closest("[data-cp-modo]"); if (!b || b.dataset.cpModo === peg.modo) return;
@@ -5331,6 +5417,7 @@ function puntoEnLamina(e) {
 $("cp-archivo").onchange = (e) => { const f = [...e.target.files]; e.target.value = ""; subirFotosCP(f); };
 async function quitarFondoItem(it, metodo = "auto") {
   const r = await sinFondo(urlDe(it.orig), metodo);
+  it.alfa = r.lienzo;
   it.sinFondo = recortarTransparente(r.lienzo); it.src = it.sinFondo; it.__estilos = null;
   renderizarItem(it); return r.metodo;
 }
@@ -5362,7 +5449,7 @@ function pintarPanelFoto() {
   const it = itemSel();
   $("cp-sel-herr").hidden = !seleccionPeg().length && !(pegFab && pegFab.getActiveObject());
   $("cp-sel-titulo").textContent = it ? "Foto seleccionada" : seleccionPeg().length > 1 ? `${seleccionPeg().length} fotos seleccionadas` : "Pulsa una foto de la lámina para editarla";
-  ["cp-quitar-fondo", "cp-original", "cp-reintentar", "cp-retocar"].forEach((id) => { $(id).disabled = !it || !it.orig; });
+  ["cp-quitar-fondo", "cp-original", "cp-reintentar", "cp-retocar", "cp-mejor", "cp-h-borrar", "cp-h-recuperar", "cp-h-zona", "cp-h-lazo"].forEach((id) => { $(id).disabled = !it || !it.orig; });
   $("cp-filtros").hidden = $("cp-ia").hidden = !it || !baseEstilo(it);
   if (!it || !baseEstilo(it)) return;
   $("cp-original").disabled = it.src === it.orig;
@@ -5372,6 +5459,12 @@ function pintarPanelFoto() {
 const pintarSelPegBase = pintarSelPeg;
 pintarSelPeg = function () { pintarSelPegBase(); pintarPanelFoto(); if (pegFab && pegFab.getActiveObject()) pintarTamCP(); };
 $("cp-quitar-fondo").onclick = async () => { const s = seleccionPeg(); if (s.length) await quitarFondoVarios(s); };
+$("cp-mejor").onclick = async () => {
+  const s = seleccionPeg(); if (!s.length) return;
+  for (const [i, it] of s.entries()) { pegEstado(`Quitando el fondo (varios colores) ${i + 1} de ${s.length}…`); try { await quitarFondoItem(it, "mejor"); } catch { /* sigue */ } }
+  pintarLamina(); seleccionarItem(s.length === 1 ? s[0] : null); guardarPegSoon();
+  pegEstado("Hecho. Si aún queda algo, usa el pincel o «Elegir zona».", "ok");
+};
 $("cp-tol").addEventListener("input", () => { $("cp-tol-v").textContent = pv("cp-tol"); });
 $("cp-reintentar").onclick = async () => {
   const it = itemSel(); if (!it) return;
@@ -5382,16 +5475,24 @@ $("cp-reintentar").onclick = async () => {
   catch { pegEstado("No se pudo quitar el fondo de esta foto.", "error"); }
   $("qf-tol").value = antes[0]; $("qf-huecos").checked = antes[1];
 };
+async function retocarItem(herr) {
+  const it = itemSel(); if (!it || !it.orig) return;
+  qf.items = []; qf.actual = -1; qf.retornoPeg = it;
+  await abrirQuitaFondo({ url: urlDe(it.orig), alfa: it.alfa || null, herr });
+  $("qf-a-lamina").hidden = false;
+  qfEstado({ borrar: "Pinta encima de lo que quieras borrar.", recuperar: "Pinta encima de lo que se haya borrado de más para recuperarlo.", zona: "Arrastra un rectángulo alrededor de lo que quieres conservar.", lazo: "Rodea a mano lo que quieres conservar." }[herr] || "Retoca el recorte y pulsa «Usar este recorte en la lámina».", "ok");
+}
+["borrar", "recuperar", "zona", "lazo"].forEach((h) => { $(`cp-h-${h}`).onclick = () => retocarItem(h); });
 $("cp-retocar").onclick = async () => {
   const it = itemSel(); if (!it) return;
   qf.items = []; qf.actual = -1; qf.retornoPeg = it;
-  await abrirQuitaFondo({ url: urlDe(it.orig) });
+  await abrirQuitaFondo({ url: urlDe(it.orig), alfa: it.alfa || null });
   $("qf-a-lamina").hidden = false;
   qfEstado("Retoca el recorte con la varita y el pincel y pulsa «Usar este recorte en la lámina».", "ok");
 };
 $("qf-a-lamina").onclick = async () => {
   const it = qf.retornoPeg, r = qfItem(); if (!it || !r) return;
-  it.sinFondo = recortarTransparente(r.lienzo); it.src = it.sinFondo; it.estilo = null; it.__estilos = null; renderizarItem(it);
+  it.alfa = r.lienzo; it.sinFondo = recortarTransparente(r.lienzo); it.src = it.sinFondo; it.estilo = null; it.__estilos = null; renderizarItem(it);
   qf.retornoPeg = null; $("qf-a-lamina").hidden = true;
   await abrirPegatinas(); seleccionarItem(it); guardarPegSoon(); pegEstado("Recorte actualizado en la lámina.", "ok");
 };
@@ -5460,6 +5561,80 @@ $("cp-ia").addEventListener("click", async (e) => {
   $$("[data-cp-ia]").forEach((x) => { x.disabled = false; });
 });
 $("cp-zip").onclick = () => $("peg-zip").click();
+
+
+/* ============================== Fondo de la lámina ============================== */
+const FONDOS_HOJA = {
+  ninguno: { nombre: "Blanco", c1: "#ffffff", c2: "#ffffff" },
+  color: { nombre: "Color", c1: "#fde2ec", c2: "#fde2ec" },
+  degradado: { nombre: "Degradado", c1: "#ffd1a8", c2: "#ff7aa8" },
+  cielo: { nombre: "Cielo", c1: "#a8e6ff", c2: "#e8d7ff" },
+  flores: { nombre: "Flores", c1: "#fde2ec", c2: "#ff8fb8" },
+  nubes: { nombre: "Nubes", c1: "#bfe6ff", c2: "#ffffff" },
+  corazones: { nombre: "Corazones", c1: "#ffe1ea", c2: "#ff4f7b" },
+  estrellas: { nombre: "Estrellas", c1: "#1f2a5a", c2: "#ffd23f" },
+  lunares: { nombre: "Lunares", c1: "#fff1b8", c2: "#ff9f43" },
+  rayas: { nombre: "Rayas", c1: "#e8f7f2", c2: "#2ec4b6" },
+  cuadros: { nombre: "Cuadros", c1: "#ffffff", c2: "#D54840" },
+  confeti: { nombre: "Confeti", c1: "#ffffff", c2: "#D54840" },
+  ondas: { nombre: "Ondas", c1: "#d9f7d0", c2: "#1E4D3B" },
+  marca: { nombre: "Marca", c1: "#D54840", c2: "#E0A93A" },
+};
+function dibFlor(x, cx, cy, r, c) { x.fillStyle = c; for (let i = 0; i < 5; i++) { const a = (i * 2 * Math.PI) / 5; x.beginPath(); x.arc(cx + Math.cos(a) * r, cy + Math.sin(a) * r, r * 0.85, 0, Math.PI * 2); x.fill(); } x.fillStyle = "#ffd23f"; x.beginPath(); x.arc(cx, cy, r * 0.6, 0, Math.PI * 2); x.fill(); }
+function dibNube(x, cx, cy, r, c) { x.fillStyle = c; [[0, 0, 1], [-0.9, 0.25, 0.7], [0.9, 0.25, 0.75], [-0.4, -0.45, 0.75], [0.45, -0.35, 0.65]].forEach(([dx, dy, k]) => { x.beginPath(); x.arc(cx + dx * r, cy + dy * r, r * k, 0, Math.PI * 2); x.fill(); }); x.fillRect(cx - r * 1.4, cy + 0.2 * r, r * 2.8, r * 0.75); }
+function dibCorazon(x, cx, cy, r, c) { x.fillStyle = c; x.beginPath(); x.moveTo(cx, cy + r); x.bezierCurveTo(cx - r * 1.6, cy, cx - r, cy - r * 1.2, cx, cy - r * 0.45); x.bezierCurveTo(cx + r, cy - r * 1.2, cx + r * 1.6, cy, cx, cy + r); x.fill(); }
+function dibEstrella(x, cx, cy, r, c) { x.fillStyle = c; x.beginPath(); for (let i = 0; i < 10; i++) { const rr = i % 2 ? r * 0.45 : r, a = -Math.PI / 2 + (i * Math.PI) / 5; x.lineTo(cx + rr * Math.cos(a), cy + rr * Math.sin(a)); } x.closePath(); x.fill(); }
+function teselaFondo(tipo, c1, c2) {
+  const T = 180, t = document.createElement("canvas"); t.width = t.height = T; const x = t.getContext("2d");
+  x.fillStyle = c1; x.fillRect(0, 0, T, T);
+  const rnd = aleatorio(11), cols = [kit.colores[0], kit.colores[4], "#2ec4b6", "#ff8fb8", "#3a3dff", c2];
+  if (tipo === "flores") { dibFlor(x, 45, 45, 16, c2); dibFlor(x, 135, 130, 12, c2); dibFlor(x, 140, 30, 7, c2); dibFlor(x, 40, 140, 8, c2); }
+  if (tipo === "nubes") { dibNube(x, 55, 55, 22, c2); dibNube(x, 140, 135, 16, c2); }
+  if (tipo === "corazones") { dibCorazon(x, 45, 45, 15, c2); dibCorazon(x, 135, 135, 15, c2); dibCorazon(x, 135, 40, 7, c2); dibCorazon(x, 45, 140, 7, c2); }
+  if (tipo === "estrellas") { dibEstrella(x, 45, 50, 16, c2); dibEstrella(x, 135, 130, 12, c2); dibEstrella(x, 140, 35, 6, c2); dibEstrella(x, 40, 145, 6, c2); }
+  if (tipo === "lunares") { x.fillStyle = c2; [[45, 45], [135, 135]].forEach(([a, b]) => { x.beginPath(); x.arc(a, b, 20, 0, Math.PI * 2); x.fill(); }); }
+  if (tipo === "rayas") { x.fillStyle = c2; for (let i = -T; i < T * 2; i += 60) { x.beginPath(); x.moveTo(i, 0); x.lineTo(i + 30, 0); x.lineTo(i + 30 - T, T); x.lineTo(i - T, T); x.closePath(); x.fill(); } }
+  if (tipo === "cuadros") { x.globalAlpha = 0.35; x.fillStyle = c2; x.fillRect(0, 0, T / 2, T); x.fillRect(0, 0, T, T / 2); x.globalAlpha = 0.25; x.fillRect(0, 0, T / 2, T / 2); x.globalAlpha = 1; }
+  if (tipo === "confeti") for (let i = 0; i < 26; i++) { x.save(); x.translate(rnd() * T, rnd() * T); x.rotate(rnd() * Math.PI); x.fillStyle = cols[i % cols.length]; if (i % 3) x.fillRect(-7, -2.5, 14, 5); else { x.beginPath(); x.arc(0, 0, 4, 0, Math.PI * 2); x.fill(); } x.restore(); }
+  if (tipo === "ondas") { x.strokeStyle = c2; x.lineWidth = 8; x.lineCap = "round"; for (let y = 30; y < T; y += 60) { x.beginPath(); for (let i = 0; i <= T; i += 6) x.lineTo(i, y + Math.sin((i / T) * Math.PI * 4) * 10); x.stroke(); } }
+  return t;
+}
+function dibujarFondoHoja(ctx, W, H, f) {
+  if (!f || f.tipo === "ninguno") return;
+  const c1 = f.c1, c2 = f.c2;
+  if (f.tipo === "color") { ctx.fillStyle = c1; ctx.fillRect(0, 0, W, H); return; }
+  if (["degradado", "cielo", "marca"].includes(f.tipo)) { const g = ctx.createLinearGradient(0, 0, W * 0.3, H); g.addColorStop(0, c1); g.addColorStop(1, c2); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); return; }
+  ctx.fillStyle = ctx.createPattern(teselaFondo(f.tipo, c1, c2), "repeat"); ctx.fillRect(0, 0, W, H);
+}
+function lienzoFondoHoja() {
+  const { W, H } = hojaPeg(), c = document.createElement("canvas"); c.width = W; c.height = H;
+  const x = c.getContext("2d"); x.fillStyle = "#ffffff"; x.fillRect(0, 0, W, H); dibujarFondoHoja(x, W, H, peg.fondoHoja); return c;
+}
+function pintarFondosCP() {
+  const f = peg.fondoHoja || { tipo: "ninguno" };
+  $("cp-fondos").innerHTML = Object.entries(FONDOS_HOJA).map(([k, v]) => {
+    const c = document.createElement("canvas"); c.width = 60; c.height = 80; const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, 60, 80);
+    x.scale(0.33, 0.33); dibujarFondoHoja(x, 182, 243, { tipo: k, c1: k === "marca" ? kit.colores[0] : v.c1, c2: k === "marca" ? kit.colores[4] : v.c2 });
+    return `<button class="${f.tipo === k ? "on" : ""}" data-fh="${k}" title="${v.nombre}"><img src="${c.toDataURL()}" alt=""><span>${v.nombre}</span></button>`;
+  }).join("");
+  if (f.tipo !== "ninguno") { $("cp-fh-c1").value = f.c1; $("cp-fh-c2").value = f.c2; }
+  $("cp-fh-nota").hidden = f.tipo === "ninguno" || peg.modo === "fotos";
+}
+function ponerFondoHoja(f) { peg.fondoHoja = f; pintarFondosCP(); pintarLamina(); guardarPegSoon(); }
+$("cp-fondos").addEventListener("click", (e) => {
+  const b = e.target.closest("[data-fh]"); if (!b) return;
+  const k = b.dataset.fh, v = FONDOS_HOJA[k];
+  ponerFondoHoja({ tipo: k, c1: k === "marca" ? kit.colores[0] : v.c1, c2: k === "marca" ? kit.colores[4] : v.c2 });
+});
+["cp-fh-c1", "cp-fh-c2"].forEach((id) => $(id).addEventListener("change", () => {
+  const f = peg.fondoHoja && peg.fondoHoja.tipo !== "ninguno" ? peg.fondoHoja : { tipo: "color" };
+  ponerFondoHoja({ ...f, c1: pv("cp-fh-c1"), c2: pv("cp-fh-c2") });
+}));
+$("cp-fh-azar").onclick = () => {
+  const ks = Object.keys(FONDOS_HOJA).filter((k) => k !== "ninguno"), k = ks[Math.floor(Math.random() * ks.length)];
+  const cs = [...new Set([...kit.colores, ...PASTELES])], r = () => cs[Math.floor(Math.random() * cs.length)];
+  ponerFondoHoja({ tipo: k, c1: r(), c2: r() });
+};
 
 /* ============================== Arranque ============================== */
 BOTONES_IA.forEach((id) => { $(id).disabled = true; });
