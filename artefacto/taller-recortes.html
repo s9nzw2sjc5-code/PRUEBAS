@@ -373,6 +373,7 @@ body:has(#pegatinas:not([hidden])) { padding: 0; margin: 0; }
 .peg-ajustes { border: 1px solid var(--linea); border-radius: 14px; }
 .peg-ajustes > div { padding-top: 4px; }
 .cp-modo { width: 100%; }
+.cp-fondo-det summary { cursor: pointer; font-weight: 600; font-size: 13px; }
 .cp-fondos { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
 .cp-fondos button { flex: none; width: 52px; height: 64px; border-radius: 8px; border: 2px solid var(--linea); padding: 0; overflow: hidden; position: relative; background: #fff; }
 .cp-fondos button.on { border-color: var(--acento); }
@@ -750,7 +751,7 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
     <input type="file" id="qf-archivo" accept="image/png,image/jpeg,image/webp" multiple hidden>
     <div class="campo-grupo" id="qf-tus-fotos-bloque" hidden><span class="etiqueta">O elige de «Tus fotos»</span><div class="galeria" id="qf-tus-fotos"></div></div>
     <div class="campo-grupo"><span class="etiqueta">Modo</span>
-      <div class="seg" role="group" aria-label="Modo"><button data-qf-modo="auto" aria-pressed="true">Fondo liso</button><button data-qf-modo="mejor" aria-pressed="false">Varios colores</button><button data-qf-modo="persona" aria-pressed="false">Persona (IA)</button></div>
+      <div class="seg" role="group" aria-label="Modo"><button data-qf-modo="ia" aria-pressed="false">Con IA</button><button data-qf-modo="foto" aria-pressed="false">Foto</button><button data-qf-modo="auto" aria-pressed="true">Fondo liso</button><button data-qf-modo="mejor" aria-pressed="false">Varios colores</button><button data-qf-modo="persona" aria-pressed="false">Persona</button></div>
       <p class="ayuda" id="qf-modo-ayuda">Para logos, productos y dibujos sobre un fondo de un color. Detecta el color del borde y lo quita.</p>
     </div>
     <div class="campo-grupo" id="qf-bloque-auto">
@@ -807,10 +808,10 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
         <p class="ayuda">También puedes arrastrarla, tirar de sus esquinas o moverla con las flechas del teclado.</p>
         <span class="etiqueta">Fondo</span>
         <div class="dos"><button class="btn primario" id="cp-quitar-fondo">Quitar fondo</button><button class="btn" id="cp-original">Volver al original</button></div>
-        <button class="btn ancho" id="cp-mejor">Quitar el fondo mejor (fondos con varios colores)</button>
+        <button class="btn ancho" id="cp-mejor">✨ Quitar fondo con IA (más preciso)</button>
         <div class="dos"><button class="btn mini" id="cp-h-borrar">🖌 Borrar con pincel</button><button class="btn mini" id="cp-h-recuperar">🖌 Restaurar con pincel</button><button class="btn mini" id="cp-h-zona">⬚ Elegir zona (rectángulo)</button><button class="btn mini" id="cp-h-lazo">➰ Elegir zona (lazo)</button></div>
         <details class="cp-otra"><summary>Más ajustes del recorte (método y tolerancia)</summary><div class="campo-grupo">
-          <select id="cp-metodo" class="campo" aria-label="Método"><option value="mejor">Fondo con varios colores (mejor)</option><option value="liso">Fondo de un color (logos, productos)</option><option value="persona">Persona (IA)</option><option value="auto">Automático</option></select>
+          <select id="cp-metodo" class="campo" aria-label="Método"><option value="ia">Con IA: Claude marca el contorno</option><option value="foto">Foto con fondo variado (sin IA)</option><option value="mejor">Fondo con varios colores</option><option value="liso">Fondo de un color (logos, productos)</option><option value="persona">Persona (modelo de personas)</option><option value="auto">Automático</option></select>
           <label class="deslizador" for="cp-tol"><span>Tolerancia</span><input type="range" id="cp-tol" min="5" max="150" value="55"><span id="cp-tol-v">55</span></label>
           <label class="check"><input type="checkbox" id="cp-huecos"> Quitar también ese color dentro (huecos)</label>
           <div class="dos"><button class="btn" id="cp-reintentar">Quitar fondo otra vez</button><button class="btn" id="cp-retocar">Retocar a mano</button></div>
@@ -887,9 +888,10 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
     <div class="peg-cab"><h2>Lámina</h2><span class="fila"><button class="btn mini" id="peg-ant" aria-label="Lámina anterior">◀</button><span class="nube" id="peg-num">Lámina 1 de 1</span><button class="btn mini" id="peg-sig" aria-label="Lámina siguiente">▶</button><button class="btn mini" id="peg-nueva-hoja">+ Lámina</button><span class="nube" id="peg-contador">0 pegatinas</span></span></div>
     <div class="peg-herr">
       <div class="fila"><button class="btn mini" id="peg-ordenar">Ordenar automáticamente</button><span class="sep-v"></span><button class="btn mini" id="peg-duplicar">Duplicar</button><button class="btn mini" id="peg-frente">Al frente</button><button class="btn mini peligro" id="peg-borrar">Borrar</button></div>
-      <span class="etiqueta">Fondo de la lámina</span>
+      <details class="cp-fondo-det"><summary>Fondo de la lámina <span class="ayuda" id="cp-fondo-actual">(blanco)</span></summary><div class="campo-grupo" style="margin-top:8px">
       <div class="cp-fondos" id="cp-fondos"></div>
       <div class="fila"><label class="fila" style="gap:6px"><span class="ayuda">Color 1</span><input type="color" id="cp-fh-c1" class="campo" value="#fde2ec"></label><label class="fila" style="gap:6px"><span class="ayuda">Color 2</span><input type="color" id="cp-fh-c2" class="campo" value="#ff8fb8"></label><button class="btn mini" id="cp-fh-azar">🎲 Al azar</button></div>
+      </div></details>
       <p class="ayuda cp-solo-peg" id="cp-fh-nota" hidden>Con fondo en la lámina, la máquina no puede adivinar el contorno de cada pegatina: usa el «Archivo de corte (SVG)».</p>
       <span hidden><span id="peg-sel-info"></span><span id="peg-pf-colores"></span><button id="peg-aleatorio"></button></span>
     </div>
@@ -4628,6 +4630,181 @@ async function abrirPegatinas() {
 $("peg-volver").onclick = () => mostrarInicio();
 
 
+
+/* ============================== Recorte de fotos con fondo variado (tipo GrabCut) ==============================
+   Partimos de una idea aproximada de dónde está la figura (el contorno que marca Claude, la zona que
+   dibujas o, sin más datos, el centro de la foto). Se aprenden los colores de la figura y del fondo,
+   se clasifica cada píxel, se repite varias veces y se limpia el resultado. */
+/* Corte mínimo (algoritmo de Boykov-Kolmogorov) sobre la rejilla de píxeles. tr[p] > 0: tira hacia figura; < 0: hacia fondo.
+   Devuelve 1 para los píxeles que quedan del lado de la figura. Capacidades enteras para evitar errores de redondeo. */
+function corteMinimo(n, tr, head, nxt, first, cap) {
+  const rc = Int32Array.from(cap), t = Int32Array.from(tr), TERM = -2, HUERF = -3, NADA = -1, INF = 1e9;
+  const padre = new Int32Array(n).fill(NADA), arbol = new Uint8Array(n), dist = new Int32Array(n), marca = new Int32Array(n);
+  const cola = new Int32Array(n + 1), enCola = new Uint8Array(n); let ci = 0, cf = 0, cn = 0;
+  const activar = (p) => { if (!enCola[p]) { enCola[p] = 1; cola[cf] = p; cf = cf === n ? 0 : cf + 1; cn++; } };
+  const huerf = new Int32Array(n); let nh = 0;
+  for (let p = 0; p < n; p++) if (t[p] > 0) { arbol[p] = 1; padre[p] = TERM; dist[p] = 1; activar(p); } else if (t[p] < 0) { arbol[p] = 2; padre[p] = TERM; dist[p] = 1; activar(p); }
+  let tiempo = 0, actual = -1;
+  for (;;) {
+    let p = actual, arco = -1; actual = -1;
+    if (p < 0 || !arbol[p]) { p = -1; while (cn) { const c = cola[ci]; ci = ci === n ? 0 : ci + 1; cn--; enCola[c] = 0; if (arbol[c]) { p = c; break; } } if (p < 0) break; }
+    const tp = arbol[p];
+    for (let a = first[p]; a >= 0; a = nxt[a]) {
+      if (tp === 1 ? rc[a] <= 0 : rc[a ^ 1] <= 0) continue;
+      const q = head[a];
+      if (!arbol[q]) { arbol[q] = tp; padre[q] = a ^ 1; dist[q] = dist[p] + 1; marca[q] = marca[p]; activar(q); }
+      else if (arbol[q] !== tp) { arco = tp === 1 ? a : a ^ 1; break; }
+      else if (marca[q] <= marca[p] && dist[q] > dist[p]) { padre[q] = a ^ 1; marca[q] = marca[p]; dist[q] = dist[p] + 1; }
+    }
+    if (arco < 0) continue;
+    actual = p; tiempo++;
+    // Aumentar por el camino fuente → arco → sumidero
+    const sN = head[arco ^ 1], tN = head[arco];
+    let b = rc[arco], i, a2;
+    for (i = sN; (a2 = padre[i]) !== TERM; i = head[a2]) b = Math.min(b, rc[a2 ^ 1]); b = Math.min(b, t[i]);
+    for (i = tN; (a2 = padre[i]) !== TERM; i = head[a2]) b = Math.min(b, rc[a2]); b = Math.min(b, -t[i]);
+    rc[arco] -= b; rc[arco ^ 1] += b;
+    for (i = sN; (a2 = padre[i]) !== TERM; i = head[a2]) { rc[a2] += b; rc[a2 ^ 1] -= b; if (!rc[a2 ^ 1]) { padre[i] = HUERF; huerf[nh++] = i; } }
+    t[i] -= b; if (!t[i]) { padre[i] = HUERF; huerf[nh++] = i; }
+    for (i = tN; (a2 = padre[i]) !== TERM; i = head[a2]) { rc[a2 ^ 1] += b; rc[a2] -= b; if (!rc[a2]) { padre[i] = HUERF; huerf[nh++] = i; } }
+    t[i] += b; if (!t[i]) { padre[i] = HUERF; huerf[nh++] = i; }
+    // Adoptar huérfanos
+    while (nh) {
+      const o = huerf[--nh], to = arbol[o]; let mejor = -1, dmin = INF;
+      for (let a = first[o]; a >= 0; a = nxt[a]) {
+        const q = head[a]; if (arbol[q] !== to || padre[q] === NADA) continue;
+        if (to === 1 ? rc[a ^ 1] <= 0 : rc[a] <= 0) continue;
+        let d = 0, j = q;
+        for (;;) { if (marca[j] === tiempo) { d += dist[j]; break; } const pa = padre[j]; d++; if (pa === TERM) { marca[j] = tiempo; dist[j] = 1; break; } if (pa === HUERF) { d = INF; break; } j = head[pa]; }
+        if (d < INF) { if (d < dmin) { mejor = a; dmin = d; } for (j = q; marca[j] !== tiempo; j = head[padre[j]]) { marca[j] = tiempo; dist[j] = d--; } }
+      }
+      if (mejor >= 0) { padre[o] = mejor; marca[o] = tiempo; dist[o] = dmin + 1; continue; }
+      arbol[o] = 0; padre[o] = NADA;
+      for (let a = first[o]; a >= 0; a = nxt[a]) {
+        const q = head[a]; if (arbol[q] !== to) continue;
+        if (to === 1 ? rc[a ^ 1] > 0 : rc[a] > 0) activar(q);
+        const pq = padre[q]; if (pq >= 0 && head[pq] === o) { padre[q] = HUERF; huerf[nh++] = q; }
+      }
+    }
+  }
+  const r = new Uint8Array(n); for (let p = 0; p < n; p++) r[p] = arbol[p] === 1 ? 1 : 0; return r;
+}
+/* Modelo de color: histograma 16×16×16 suavizado → coste −log(probabilidad). */
+function costesColor(d, n, L, quien) {
+  const h = new Float32Array(4096); let tot = 0;
+  for (let p = 0; p < n; p++) if (L[p] === quien) { h[((d[p * 4] >> 4) << 8) | ((d[p * 4 + 1] >> 4) << 4) | (d[p * 4 + 2] >> 4)]++; tot++; }
+  const s = new Float32Array(4096);
+  for (let r = 0; r < 16; r++) for (let g = 0; g < 16; g++) for (let b = 0; b < 16; b++) {
+    let v = 0, wt = 0;
+    for (let dr = -1; dr <= 1; dr++) for (let dg = -1; dg <= 1; dg++) for (let db = -1; db <= 1; db++) {
+      const R = r + dr, G = g + dg, B = b + db; if (R < 0 || G < 0 || B < 0 || R > 15 || G > 15 || B > 15) continue;
+      const k = dr || dg || db ? (Math.abs(dr) + Math.abs(dg) + Math.abs(db) > 1 ? 0.15 : 0.35) : 1; v += h[(R << 8) | (G << 4) | B] * k; wt += k;
+    }
+    s[(r << 8) | (g << 4) | b] = v / wt;
+  }
+  let st = 0; for (let i = 0; i < 4096; i++) st += s[i];
+  const c = new Float32Array(4096); for (let i = 0; i < 4096; i++) c[i] = -Math.log((s[i] + 0.02) / (st + 0.02 * 4096)) ;
+  return c;
+}
+/* prior: 0 = seguro fondo, 1 = probable fondo, 2 = probable figura, 3 = segura figura. Devuelve alfa (0-255) del tamaño de id. */
+function segmentarGrabCut(id, prior) {
+  const W0 = id.width, H0 = id.height, k = Math.min(1, 340 / Math.max(W0, H0)), w = Math.max(8, Math.round(W0 * k)), h = Math.max(8, Math.round(H0 * k)), n = w * h;
+  const cg = document.createElement("canvas"); cg.width = W0; cg.height = H0; cg.getContext("2d").putImageData(id, 0, 0);
+  const cs = document.createElement("canvas"); cs.width = w; cs.height = h; const xs = cs.getContext("2d"); xs.imageSmoothingQuality = "high"; xs.drawImage(cg, 0, 0, w, h);
+  const d = xs.getImageData(0, 0, w, h).data, pr = new Uint8Array(n);
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const p = y * w + x; pr[p] = d[p * 4 + 3] < 20 ? 0 : prior[Math.min(H0 - 1, Math.floor(y / k)) * W0 + Math.min(W0 - 1, Math.floor(x / k))]; }
+  // Rejilla con 8 vecinos; el peso del borde es alto donde el color cambia poco (cuesta cortar ahí)
+  const vec = [[1, 0, 1], [0, 1, 1], [1, 1, Math.SQRT1_2], [-1, 1, Math.SQRT1_2]], dif = (p, q) => (d[p * 4] - d[q * 4]) ** 2 + (d[p * 4 + 1] - d[q * 4 + 1]) ** 2 + (d[p * 4 + 2] - d[q * 4 + 2]) ** 2;
+  let suma = 0, cuenta = 0;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) for (const [dx, dy] of vec) { const X = x + dx, Y = y + dy; if (X < 0 || X >= w || Y >= h) continue; suma += dif(y * w + x, Y * w + X); cuenta++; }
+  const beta = 1 / (2 * Math.max(1, suma / cuenta)), ESC = 20, GAMMA = 50;
+  const head = new Int32Array(cuenta * 2), nxt = new Int32Array(cuenta * 2), cap = new Int32Array(cuenta * 2), first = new Int32Array(n).fill(-1); let m = 0;
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) for (const [dx, dy, f] of vec) {
+    const X = x + dx, Y = y + dy; if (X < 0 || X >= w || Y >= h) continue;
+    const p = y * w + x, q = Y * w + X, c = Math.max(1, Math.round(ESC * GAMMA * f * Math.exp(-beta * dif(p, q))));
+    head[m] = q; nxt[m] = first[p]; first[p] = m; cap[m] = c; m++;
+    head[m] = p; nxt[m] = first[q]; first[q] = m; cap[m] = c; m++;
+  }
+  let L = new Uint8Array(n); for (let p = 0; p < n; p++) L[p] = pr[p] >= 2 ? 1 : 0;
+  const tr = new Int32Array(n), DURO = ESC * GAMMA * 20;
+  for (let vuelta = 0; vuelta < 5; vuelta++) {
+    let nf = 0; for (let p = 0; p < n; p++) nf += L[p]; if (!nf || nf === n) break;
+    const cF = costesColor(d, n, L, 1), cB = costesColor(d, n, L, 0);
+    for (let p = 0; p < n; p++) {
+      if (pr[p] === 0) { tr[p] = -DURO; continue; } if (pr[p] === 3) { tr[p] = DURO; continue; }
+      const bin = ((d[p * 4] >> 4) << 8) | ((d[p * 4 + 1] >> 4) << 4) | (d[p * 4 + 2] >> 4);
+      // tr = coste de ser fondo − coste de ser figura (positivo: mejor figura); un pequeño empujón según el prior
+      tr[p] = Math.round(ESC * (cB[bin] - cF[bin] + (pr[p] === 2 ? 0.3 : -0.3)));
+    }
+    const N = corteMinimo(n, tr, head, nxt, first, cap); let cambios = 0;
+    for (let p = 0; p < n; p++) if (N[p] !== L[p]) cambios++;
+    L = N; if (cambios < n * 0.001) break;
+  }
+  // Limpiar: rellenar agujeritos y quedarse con las piezas importantes
+  const visto = new Uint8Array(n), cola = new Int32Array(n);
+  const region = (p0, cond) => { let a = 0, z = 0; cola[z++] = p0; visto[p0] = 1; const lista = []; while (a < z) { const p = cola[a++]; lista.push(p); const x = p % w; for (const q of [x > 0 ? p - 1 : -1, x < w - 1 ? p + 1 : -1, p >= w ? p - w : -1, p < n - w ? p + w : -1]) if (q >= 0 && !visto[q] && cond(q)) { visto[q] = 1; cola[z++] = q; } } return lista; };
+  for (let p = 0; p < n; p++) if (!L[p] && !visto[p]) { const r = region(p, (q) => !L[q]); const toca = r.some((q) => { const x = q % w; return x === 0 || x === w - 1 || q < w || q >= n - w || pr[q] === 0; }); if (!toca && r.length < n * 0.004) r.forEach((q) => { L[q] = 1; }); }
+  visto.fill(0); const comps = [];
+  for (let p = 0; p < n; p++) if (L[p] && !visto[p]) { const r = region(p, (q) => L[q]); comps.push({ r, seguro: r.some((q) => pr[q] === 3) }); }
+  const mayor = comps.reduce((a, c) => (c.r.length > (a?.r.length || 0) ? c : a), null);
+  L.fill(0); comps.forEach((c) => { if (c.seguro || c === mayor || c.r.length > (mayor?.r.length || 0) * 0.15) c.r.forEach((q) => { L[q] = 1; }); });
+  // Volver al tamaño real con borde suave
+  const ma = xs.createImageData(w, h); for (let p = 0; p < n; p++) ma.data[p * 4 + 3] = L[p] * 255;
+  xs.clearRect(0, 0, w, h); xs.putImageData(ma, 0, 0);
+  const cb = document.createElement("canvas"); cb.width = W0; cb.height = H0; const xb = cb.getContext("2d"); xb.imageSmoothingQuality = "high"; xb.drawImage(cs, 0, 0, W0, H0);
+  const ad = xb.getImageData(0, 0, W0, H0).data, alfa = new Uint8Array(W0 * H0);
+  for (let p = 0; p < W0 * H0; p++) alfa[p] = Math.round(255 * Math.max(0, Math.min(1, (ad[p * 4 + 3] - 70) / 115)));
+  return alfa;
+}
+/* Prior a partir de una forma (polígono o máscara) dibujada sobre la foto. */
+function priorDeMascara(dentro, W, H, banda) {
+  const u = new Uint8Array(W * H); for (let p = 0; p < W * H; p++) u[p] = dentro[p] ? 255 : 0;
+  const b = difuminar(u, W, H, banda), pr = new Uint8Array(W * H);
+  for (let p = 0; p < W * H; p++) pr[p] = dentro[p] ? (b[p] > 250 ? 3 : 2) : b[p] > 8 ? 1 : 0;
+  return pr;
+}
+function mascaraPoligono(pts, W, H) {
+  const c = document.createElement("canvas"); c.width = W; c.height = H; const x = c.getContext("2d");
+  x.beginPath(); pts.forEach(([px, py], i) => (i ? x.lineTo(px, py) : x.moveTo(px, py))); x.closePath(); x.fill();
+  const d = x.getImageData(0, 0, W, H).data, m = new Uint8Array(W * H); for (let p = 0; p < W * H; p++) m[p] = d[p * 4 + 3] > 127 ? 1 : 0;
+  return m;
+}
+/* Sin más datos: la figura suele estar en el centro de la foto. */
+function priorCentro(W, H) {
+  const pr = new Uint8Array(W * H), mx = W * 0.04, my = H * 0.04;
+  for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) {
+    const p = y * W + x;
+    if (x < mx || y < my || x > W - mx) { pr[p] = 0; continue; }
+    if (y > H - my) { pr[p] = 1; continue; } // abajo la figura suele tocar el borde (retratos, mascotas tumbadas)
+    const nx = (x - W / 2) / (W / 2), ny = (y - H / 2) / (H / 2), r = nx * nx + ny * ny;
+    pr[p] = r < 0.02 ? 3 : r < 0.45 ? 2 : 1;
+  }
+  return pr;
+}
+/* Claude mira la foto y devuelve el contorno de lo principal (coordenadas 0-1000). */
+async function iaPuedeVer() { if (!sample) return false; const l = await sample.limits?.().catch(() => null); return !!l?.images; }
+async function contornoIA(id) {
+  const c0 = document.createElement("canvas"); c0.width = id.width; c0.height = id.height; c0.getContext("2d").putImageData(id, 0, 0);
+  const k = Math.min(1, 768 / Math.max(id.width, id.height)), c = document.createElement("canvas"); c.width = Math.round(id.width * k); c.height = Math.round(id.height * k);
+  const x = c.getContext("2d"); x.fillStyle = "#fff"; x.fillRect(0, 0, c.width, c.height); x.drawImage(c0, 0, 0, c.width, c.height);
+  const blob = await new Promise((ok) => c.toBlob(ok, "image/jpeg", 0.88));
+  const { text } = await sample(
+    `Esta foto se va a convertir en pegatina y hay que separar lo principal del fondo.\nIdentifica el sujeto principal (la mascota, persona u objeto protagonista; si hay varios juntos, el grupo entero) y traza su contorno exterior.\n\nResponde SOLO con JSON, sin texto alrededor: {"sujeto":"…","contorno":[[x,y],[x,y],…]}\n- Coordenadas de 0 a 1000: x de izquierda a derecha, y de arriba abajo, sobre la imagen completa.\n- Entre 40 y 90 puntos siguiendo el borde real del sujeto en orden (sentido horario), ajustado a la silueta.\n- No dejes fuera ninguna parte del sujeto (orejas, cola, patas, pelo, accesorios que lleve puestos), pero no incluyas suelo, muebles ni paredes.`,
+    { images: blob, cache: false, modelTier: "complex" });
+  const j = JSON.parse(String(text).match(/\{[\s\S]*\}/)[0]);
+  const pts = (j.contorno || []).filter((p) => Array.isArray(p) && p.length >= 2 && isFinite(p[0]) && isFinite(p[1])).map(([px, py]) => [Math.max(0, Math.min(1000, px)) / 1000 * id.width, Math.max(0, Math.min(1000, py)) / 1000 * id.height]);
+  if (pts.length < 6) throw new Error("contorno");
+  return pts;
+}
+async function alfaFoto(id, metodo) {
+  const W = id.width, H = id.height;
+  if (metodo === "ia") {
+    const pts = await contornoIA(id);
+    return segmentarGrabCut(id, priorDeMascara(mascaraPoligono(pts, W, H), W, H, Math.round(Math.max(W, H) * 0.035)));
+  }
+  return segmentarGrabCut(id, priorCentro(W, H));
+}
+
 /* ============================== Quitar fondo ==============================
    Fondo liso: se toma el color del borde y se borra lo conectado que se le parece (con borde suave y sin halo).
    Persona: modelo de segmentación de MediaPipe (se descarga al usarlo). Varita y pincel para retocar. */
@@ -4718,7 +4895,7 @@ function componer(it) {
   for (let p = 0; p < n; p++) a[p] = it.varita[p] ? 0 : base[p];
   const r = Number($("qf-suave").value);
   if (r > 0) { const b = difuminar(a, w, h, r); for (let p = 0; p < n; p++) a[p] = Math.min(a[p], b[p] * 1.15 > 255 ? 255 : Math.round(b[p] * 1.15)); }
-  const out = new ImageData(w, h), o = out.data, bg = it.fondo || [255, 255, 255], limpiar = it.modo !== "persona";
+  const out = new ImageData(w, h), o = out.data, bg = it.fondo || [255, 255, 255], limpiar = !["persona", "foto", "ia"].includes(it.modo) && !it.sinLimpiar;
   for (let p = 0; p < n; p++) {
     const i = p * 4, m = it.manual[p];
     let al = m === 1 ? 255 : m === 0 ? 0 : a[p];
@@ -4746,7 +4923,7 @@ function pintarQF() {
   c.getContext("2d").putImageData(it.salida, 0, 0);
   $("qf-tira").innerHTML = qf.items.length > 1 ? qf.items.map((x, i) => `<button class="${i === qf.actual ? "on" : ""}" data-qf-item="${i}" aria-label="${escapar(x.nombre)}"><img src="${x.lienzo.toDataURL("image/png")}" alt=""><span class="x" data-qf-quitar="${i}">×</span></button>`).join("") : "";
 }
-function rehacer(it, todo) { if (todo && it.modo !== "persona") { it.fijo = false; calcularAuto(it); } componer(it); pintarQF(); }
+function rehacer(it, todo) { if (todo && !["persona", "foto", "ia"].includes(it.modo)) { it.fijo = false; it.sinLimpiar = false; calcularAuto(it); } componer(it); pintarQF(); }
 let tQF = null;
 const rehacerPronto = (todo) => { clearTimeout(tQF); tQF = setTimeout(() => { const it = qfItem(); if (it) rehacer(it, todo); }, 120); };
 async function cargarEnQF(url, nombre, alfa) {
@@ -4823,15 +5000,24 @@ async function segmentarPersona(it) {
 }
 function pintarModoQF() {
   $$("[data-qf-modo]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.qfModo === qf.modo)));
-  $("qf-bloque-auto").hidden = qf.modo === "persona";
-  $("qf-modo-ayuda").textContent = { auto: "Para logos, productos y dibujos sobre un fondo de un color. Detecta el color del borde y lo quita.", mejor: "Para fondos con varios colores o sombras (una mesa, una pared, un degradado): toma todos los colores del borde y los quita.", persona: "Para fotos de personas sobre cualquier fondo. Usa un modelo de IA que se descarga la primera vez. Repasa el pelo con el pincel si hace falta." }[qf.modo] || "";
+  $("qf-bloque-auto").hidden = ["persona", "foto", "ia"].includes(qf.modo);
+  $("qf-modo-ayuda").textContent = { ia: "Claude mira la foto, marca el contorno de lo principal y el programa separa la figura del fondo. El más preciso para fotos reales (mascotas, personas, objetos).", foto: "Para fotos con fondo variado, sin usar IA: supone que lo principal está en el centro. Ajusta después con «Zona» o el pincel.", auto: "Para logos, productos y dibujos sobre un fondo de un color. Detecta el color del borde y lo quita.", mejor: "Para fondos con varios colores o sombras (una mesa, una pared, un degradado): toma todos los colores del borde y los quita.", persona: "Para fotos de personas sobre cualquier fondo. Usa un modelo de IA que se descarga la primera vez. Repasa el pelo con el pincel si hace falta." }[qf.modo] || "";
 }
 document.querySelector("#quitafondo").addEventListener("click", async (e) => {
   const m = e.target.closest("[data-qf-modo]");
   if (m) {
     qf.modo = m.dataset.qfModo; pintarModoQF();
     const it = qfItem();
-    if (it) { it.modo = qf.modo; if (it.modo === "persona" && !it.ia) await segmentarPersona(it); rehacer(it, it.modo !== "persona"); }
+    if (it) {
+      it.modo = qf.modo;
+      if (it.modo === "persona" && !it.ia) await segmentarPersona(it);
+      if (it.modo === "ia" || it.modo === "foto") {
+        qfEstado(it.modo === "ia" ? "Claude está buscando el contorno…" : "Separando la figura del fondo…");
+        try { it.auto = await alfaFoto(it.datos, it.modo); qfEstado(""); }
+        catch { it.auto = await alfaFoto(it.datos, "foto"); qfEstado("No se ha podido usar la IA aquí; he usado el modo «Foto».", "error"); }
+        it.sinLimpiar = true; componer(it); pintarQF();
+      } else { it.sinLimpiar = false; rehacer(it, it.modo !== "persona"); }
+    }
   }
   const h = e.target.closest("[data-qf-herr]");
   if (h) { qf.herr = h.dataset.qfHerr; $$("[data-qf-herr]").forEach((b) => b.classList.toggle("activo", b === h)); }
@@ -4859,11 +5045,9 @@ function aplicarZona(it, dentro) {
   const { data: d, width: w, height: h } = it.datos, n = w * h;
   for (let p = 0; p < n; p++) if (!dentro[p]) { it.varita[p] = 1; if (it.manual[p] === 1) it.manual[p] = -1; }
   if (!$("qf-zona-auto").checked) { for (let p = 0; p < n; p++) if (dentro[p] && it.varita[p]) it.varita[p] = 0; return; }
-  const bordeZona = [];
-  for (let p = 0; p < n; p++) { if (!dentro[p]) continue; const x = p % w; if (x === 0 || x === w - 1 || p < w || p >= n - w || !dentro[p - 1] || !dentro[p + 1] || !dentro[p - w] || !dentro[p + w]) bordeZona.push(p); }
-  const pal = paletaDe(d, bordeZona), marca = new Uint8Array(n);
-  rellenarPaleta(d, w, h, bordeZona, pal, Number($("qf-tol").value), marca, dentro);
-  for (let p = 0; p < n; p++) if (dentro[p]) it.varita[p] = marca[p] ? 1 : 0;
+  const alfa = segmentarGrabCut(it.datos, priorDeMascara(dentro, w, h, Math.round(Math.max(w, h) * 0.03)));
+  for (let p = 0; p < n; p++) if (dentro[p]) it.varita[p] = alfa[p] < 128 ? 1 : 0;
+  it.sinLimpiar = true;
   for (let p = 0; p < n; p++) if (dentro[p] && it.manual[p] === 0) it.manual[p] = -1;
 }
 let zonaRecorte = null;
@@ -4988,7 +5172,18 @@ async function sinFondo(url, metodo) {
   let usar = metodo;
   if (metodo === "auto") {
     let quitados = 0; for (let p = 0; p < it.auto.length; p++) if (!it.auto[p]) quitados++;
-    usar = variedadBorde(it) < 28 && quitados / it.auto.length > 0.08 ? "liso" : "persona";
+    usar = variedadBorde(it) < 20 && quitados / it.auto.length > 0.08 ? "liso" : (await iaPuedeVer()) ? "ia" : "foto";
+  }
+  if (usar === "liso" && metodo === "auto") {
+    // Afinar el borde del fondo liso con el corte por colores (sombras, degradados del fondo, pelo)
+    const W = it.datos.width, H = it.datos.height, pr = new Uint8Array(W * H), mx = W * 0.02, my = H * 0.02;
+    for (let p = 0; p < W * H; p++) { const px = p % W, py = (p - px) / W; pr[p] = px < mx || py < my || px > W - mx ? 0 : py > H - my ? 1 : it.auto[p] ? 2 : 1; }
+    try { it.auto = segmentarGrabCut(it.datos, pr); } catch { /* se queda el resultado liso */ }
+  }
+  if (usar === "ia" || usar === "foto") {
+    try { it.auto = await alfaFoto(it.datos, usar); }
+    catch { usar = "foto"; it.auto = await alfaFoto(it.datos, "foto"); }
+    it.modo = usar; it.sinLimpiar = true;
   }
   if (usar === "persona") { it.modo = "persona"; await segmentarPersona(it); if (it.modo !== "persona") { usar = "mejor"; it.modo = "mejor"; calcularAuto(it); } }
   componer(it);
@@ -5422,12 +5617,13 @@ async function quitarFondoItem(it, metodo = "auto") {
   renderizarItem(it); return r.metodo;
 }
 async function quitarFondoVarios(lista) {
+  const conIA = await iaPuedeVer();
   for (const [i, it] of lista.entries()) {
-    pegEstado(`Quitando el fondo ${i + 1} de ${lista.length}…`);
+    pegEstado(conIA ? `Claude está quitando el fondo ${i + 1} de ${lista.length}…` : `Quitando el fondo ${i + 1} de ${lista.length}…`);
     try { await quitarFondoItem(it); } catch { /* sigue con las demás */ }
     pintarLamina(); seleccionarItem(lista.length === 1 ? it : null);
   }
-  guardarPegSoon(); pegEstado("Fondo quitado. Si algo no ha quedado bien, pulsa la foto y «Volver al original».", "ok");
+  guardarPegSoon(); pegEstado("Fondo quitado. Si alguna no ha quedado bien, púlsala y usa «Elegir zona» o el pincel.", "ok");
 }
 $("cp-quitar-nuevas").onclick = async () => { $("cp-tras-subir").hidden = true; await quitarFondoVarios(cpNuevas.filter((i) => peg.items.includes(i))); };
 $("cp-dejar").onclick = () => { $("cp-tras-subir").hidden = true; pegEstado(""); };
@@ -5461,9 +5657,10 @@ pintarSelPeg = function () { pintarSelPegBase(); pintarPanelFoto(); if (pegFab &
 $("cp-quitar-fondo").onclick = async () => { const s = seleccionPeg(); if (s.length) await quitarFondoVarios(s); };
 $("cp-mejor").onclick = async () => {
   const s = seleccionPeg(); if (!s.length) return;
-  for (const [i, it] of s.entries()) { pegEstado(`Quitando el fondo (varios colores) ${i + 1} de ${s.length}…`); try { await quitarFondoItem(it, "mejor"); } catch { /* sigue */ } }
+  if (!(await iaPuedeVer())) pegEstado("La IA no puede ver fotos en esta vista; uso el modo «Foto». Ajusta luego con «Elegir zona».", "error");
+  for (const [i, it] of s.entries()) { pegEstado(`Claude está buscando el contorno ${i + 1} de ${s.length}…`); try { await quitarFondoItem(it, (await iaPuedeVer()) ? "ia" : "foto"); } catch { /* sigue */ } }
   pintarLamina(); seleccionarItem(s.length === 1 ? s[0] : null); guardarPegSoon();
-  pegEstado("Hecho. Si aún queda algo, usa el pincel o «Elegir zona».", "ok");
+  pegEstado("Hecho. Si aún queda algo, usa «Elegir zona» o el pincel.", "ok");
 };
 $("cp-tol").addEventListener("input", () => { $("cp-tol-v").textContent = pv("cp-tol"); });
 $("cp-reintentar").onclick = async () => {
@@ -5618,6 +5815,7 @@ function pintarFondosCP() {
     return `<button class="${f.tipo === k ? "on" : ""}" data-fh="${k}" title="${v.nombre}"><img src="${c.toDataURL()}" alt=""><span>${v.nombre}</span></button>`;
   }).join("");
   if (f.tipo !== "ninguno") { $("cp-fh-c1").value = f.c1; $("cp-fh-c2").value = f.c2; }
+  $("cp-fondo-actual").textContent = `(${(FONDOS_HOJA[f.tipo] || FONDOS_HOJA.ninguno).nombre.toLowerCase()})`;
   $("cp-fh-nota").hidden = f.tipo === "ninguno" || peg.modo === "fotos";
 }
 function ponerFondoHoja(f) { peg.fondoHoja = f; pintarFondosCP(); pintarLamina(); guardarPegSoon(); }
