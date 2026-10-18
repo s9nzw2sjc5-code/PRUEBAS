@@ -773,6 +773,15 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
       <input type="file" id="peg-fotos-archivo" accept="image/png,image/jpeg,image/webp" multiple hidden>
       <p class="ayuda">¿Quieres repasar el recorte antes? Usa «Quitar fondo» en el inicio y al terminar pulsa «Hacer pegatinas con todas».</p>
     </div>
+    <div class="peg-rapido peg-ia" id="peg-ia-bloque">
+      <strong>Pide pegatinas a la IA</strong>
+      <textarea id="peg-ia-tema" class="campo" rows="2" placeholder="¿Qué quieres? Ej.: un gato con gafas de sol tomando café">una taza de café sonriente con corazones</textarea>
+      <div class="dos"><select id="peg-ia-estilo" class="campo" aria-label="Estilo"><option value="kawaii">Kawaii (tierno)</option><option value="plano">Plano moderno</option><option value="comic">Cómic con contorno negro</option><option value="retro">Retro años 70</option><option value="marca">Con los colores de FAKTORINGO</option></select>
+      <select id="peg-ia-n" class="campo" aria-label="Cuántas"><option value="1">1 pegatina</option><option value="3" selected>3 variantes</option><option value="6">6 variantes</option></select></div>
+      <input id="peg-ia-texto" class="campo" placeholder="Texto en la pegatina (opcional), ej.: ¡Buenos días!">
+      <div class="dos"><button class="btn primario" id="peg-ia-ir">Diseñar con IA</button><button class="btn" id="peg-ia-parar" disabled>Parar</button></div>
+      <p class="ayuda" id="peg-ia-nota">Claude dibuja cada pegatina; tarda unos 20-40 segundos por pegatina. Van directas a la lámina con su borde de troquel.</p>
+    </div>
     <div class="peg-cab"><h2>1 · Diseña una pegatina a mano</h2><button class="btn primario" id="peg-anadir">+ Añadir a la lámina</button></div>
     <div class="peg-vista"><canvas id="peg-uno" width="512" height="512"></canvas><span class="ayuda">512 × 512 px: el tamaño de WhatsApp y de la lámina</span></div>
     <div class="campo-grupo"><span class="etiqueta">Plantillas rápidas</span>
@@ -803,8 +812,10 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
   <section class="panel peg-col" aria-label="Lámina">
     <div class="peg-cab"><h2>2 · Lámina de 10 × 17,5 cm</h2><span class="fila"><button class="btn mini" id="peg-ant" aria-label="Lámina anterior">◀</button><span class="nube" id="peg-num">Lámina 1 de 1</span><button class="btn mini" id="peg-sig" aria-label="Lámina siguiente">▶</button><span class="nube" id="peg-contador">0 / 6 pegatinas</span></span></div>
     <div class="peg-qr">
+      <label class="campo-grupo"><span class="etiqueta">Tamaño de cada pegatina (cuanto más pequeña, más caben)</span>
+        <select id="peg-tam" class="campo"><option value="390">Grande · 3,9 cm</option><option value="300" selected>Mediana · 3 cm</option><option value="220">Pequeña · 2,2 cm</option><option value="170">Mini · 1,7 cm</option></select></label>
       <span class="etiqueta">¿Imprimir el QR del pack digital en esta lámina?</span>
-      <div class="seg" role="group" aria-label="QR en la lámina"><button data-peg-qr="si" aria-pressed="true">Sí, con QR (6 pegatinas)</button><button data-peg-qr="no" aria-pressed="false">No, sin QR (8 pegatinas)</button></div>
+      <div class="seg" role="group" aria-label="QR en la lámina"><button data-peg-qr="si" aria-pressed="true">Sí, con QR</button><button data-peg-qr="no" aria-pressed="false">No, sin QR</button></div>
       <input type="checkbox" id="peg-qr-si" checked hidden>
       <p class="ayuda" id="peg-qr-ayuda">El QR lleva al pack con las pegatinas de esta lámina: descarga el .zip, súbelo a Drive o a tu web y pega aquí el enlace.</p>
       <div class="dos" id="peg-qr-campos"><label class="campo-grupo"><span class="etiqueta">Enlace del QR (Drive, web, Linktree…)</span><input id="peg-qr-url" class="campo" type="url" value="https://faktoringo.com/stickers"></label>
@@ -960,7 +971,7 @@ const TRABAJOS = [
     dibujo: '<svg viewBox="0 0 160 100"><rect x="56" y="4" width="48" height="92" rx="6" fill="#3a3dff"/><rect x="62" y="10" width="36" height="3" rx="1.5" fill="#fff" opacity=".7"/><circle cx="80" cy="44" r="14" fill="#ff4fa3"/><path d="M76 38 l10 6 -10 6z" fill="#fff"/><rect x="64" y="66" width="32" height="6" rx="2" fill="#fff"/><rect x="68" y="76" width="24" height="4" rx="2" fill="#ffd23f"/></svg>' },
   { id: "quitar-fondo", titulo: "Quitar el fondo de fotos", texto: "Sube una o varias imágenes y quítales el fondo: automático para fondos lisos, IA para personas y pincel para retocar.", dato: "PNG transparente",
     dibujo: '<svg viewBox="0 0 160 100"><defs><pattern id="qfc" width="10" height="10" patternUnits="userSpaceOnUse"><rect width="5" height="5" fill="#e1e4ec"/><rect x="5" y="5" width="5" height="5" fill="#e1e4ec"/></pattern></defs><rect x="20" y="12" width="56" height="76" rx="6" fill="#7bb3d9"/><circle cx="48" cy="42" r="12" fill="#f2c7a5"/><path d="M28 88c3-16 11-24 20-24s17 8 20 24z" fill="#D54840"/><path d="M82 50h12m-4-5 5 5-5 5" stroke="#191719" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="104" y="12" width="56" height="76" rx="6" fill="url(#qfc)" stroke="#c9cdd8"/><circle cx="132" cy="42" r="12" fill="#f2c7a5"/><path d="M112 88c3-16 11-24 20-24s17 8 20 24z" fill="#D54840"/></svg>' },
-  { id: "pegatinas", titulo: "Pegatinas y pack de WhatsApp", texto: "Sube varias fotos y salen las pegatinas con el fondo quitado y el borde de troquel, en láminas de 10 × 17,5 cm para Cricut, con QR o sin él.", dato: "6 con QR · 8 sin QR",
+  { id: "pegatinas", titulo: "Pegatinas y pack de WhatsApp", texto: "Sube varias fotos o pide a la IA que las diseñe: salen con el borde de troquel en láminas de 10 × 17,5 cm para Cricut, con QR o sin él.", dato: "De 6 a 45 por lámina",
     dibujo: '<svg viewBox="0 0 160 100"><rect x="52" y="4" width="56" height="92" rx="4" fill="#fff" stroke="#c9cdd8"/><circle cx="68" cy="22" r="10" fill="#D54840" stroke="#fff" stroke-width="3"/><circle cx="92" cy="22" r="10" fill="#E0A93A" stroke="#fff" stroke-width="3"/><rect x="58" y="38" width="20" height="16" rx="5" fill="#1E4D3B"/><circle cx="92" cy="46" r="10" fill="#7b2cbf"/><rect x="58" y="70" width="44" height="20" rx="5" fill="#191719"/><rect x="62" y="74" width="12" height="12" fill="#fff"/></svg>' },
   { id: "chapa", titulo: "Chapa o taza suelta", texto: "Diseña una sola chapa o taza con textos, iconos y fotos, e imprímela muchas veces.", dato: "Diseño a medida",
     dibujo: '<svg viewBox="0 0 160 100"><circle cx="62" cy="50" r="34" fill="#2ec4b6"/><circle cx="62" cy="50" r="27" fill="none" stroke="#fff" stroke-dasharray="3 3"/><text x="62" y="56" text-anchor="middle" font-family="Anton, sans-serif" font-size="16" fill="#fff">LUCÍA</text><rect x="104" y="34" width="40" height="32" rx="4" fill="#ff7a00"/><path d="M144 42 h6 a8 8 0 0 1 0 16 h-6" fill="none" stroke="#ff7a00" stroke-width="4"/></svg>' },
@@ -4051,14 +4062,28 @@ function baseYFotoTaza(o) {
 
 
 /* ============================== Estudio de pegatinas: lámina 10 × 17,5 cm con QR y pack de WhatsApp ============================== */
-const PEG_HUECOS = [[70, 60], [540, 60], [70, 490], [540, 490], [70, 920], [540, 920], [70, 1350], [540, 1350]].map(([x, y]) => ({ x, y, lado: 390 }));
-const pegMax = () => ($("peg-qr-si").checked ? 6 : 8);
+/* Rejilla de la lámina (1000 × 1750 px = 10 × 17,5 cm): depende del tamaño de pegatina y de si hay QR al pie. */
+function pegHuecos(tam, conQR) {
+  const lado = Number(tam ?? $("peg-tam").value) || 300, qr = conQR ?? $("peg-qr-si").checked;
+  const m = 30, g = 16, alto = (qr ? 1340 : 1720) - m;
+  const cols = Math.max(1, Math.floor((1000 - 2 * m + g) / (lado + g))), filas = Math.max(1, Math.floor((alto - m + g) / (lado + g)));
+  const x0 = (1000 - (cols * lado + (cols - 1) * g)) / 2, y0 = m + (alto - m - (filas * lado + (filas - 1) * g)) / 2;
+  const r = [];
+  for (let f = 0; f < filas; f++) for (let c = 0; c < cols; c++) r.push({ x: x0 + c * (lado + g), y: y0 + f * (lado + g), lado });
+  return r;
+}
+const pegMax = () => pegHuecos().length;
+function pintarOpcionesTam() {
+  const qr = $("peg-qr-si").checked;
+  [...$("peg-tam").options].forEach((o) => { const n = pegHuecos(o.value, qr).length; o.textContent = `${o.textContent.split(" (")[0]} (${n} por lámina)`; });
+}
 let pegHojaActual = 0;
 const pegNumHojas = () => Math.max(1, Math.ceil(peg.laminas.length / pegMax()));
 const pegInicio = () => Math.min(pegHojaActual, pegNumHojas() - 1) * pegMax();
 const pegVisibles = (h) => { const m = pegMax(), i = (h ?? Math.min(pegHojaActual, pegNumHojas() - 1)) * m; return peg.laminas.slice(i, i + m); };
 function pintarQRPeg() {
   const si = $("peg-qr-si").checked;
+  pintarOpcionesTam();
   $$("[data-peg-qr]").forEach((b) => b.setAttribute("aria-pressed", String((b.dataset.pegQr === "si") === si)));
   $("peg-qr-campos").hidden = !si; $("peg-qr-ayuda").hidden = !si;
 }
@@ -4140,10 +4165,10 @@ function pintarLamina(exportar = false) {
   $("peg-ant").disabled = pegHojaActual === 0; $("peg-sig").disabled = pegHojaActual >= total - 1;
   if (!exportar) {
     ctx.save(); ctx.strokeStyle = "#b9bfcc"; ctx.setLineDash([12, 12]); ctx.lineWidth = 4;
-    for (let i = vis.length; i < max; i++) { const h = PEG_HUECOS[i]; ctx.strokeRect(h.x + 25, h.y + 25, h.lado - 50, h.lado - 50); }
+    const hs = pegHuecos(); for (let i = vis.length; i < max; i++) { const h = hs[i], b = h.lado * 0.06; ctx.strokeRect(h.x + b, h.y + b, h.lado - 2 * b, h.lado - 2 * b); }
     ctx.restore();
   }
-  vis.forEach((c, i) => { const h = PEG_HUECOS[i]; ctx.drawImage(c, h.x, h.y, h.lado, h.lado); });
+  const huecosL = pegHuecos(); vis.forEach((c, i) => { const h = huecosL[i]; ctx.drawImage(c, h.x, h.y, h.lado, h.lado); });
   if (!$("peg-qr-si").checked) return;
   const X = 85, Y = 1365, W = 830, H = 310;
   ctx.fillStyle = "#ffffff"; caminoRedondo(0, ctx, X, Y, W, H, 48); ctx.fill();
@@ -4168,7 +4193,7 @@ $("peg-ant").onclick = () => { pegHojaActual = Math.max(0, pegHojaActual - 1); p
 $("peg-sig").onclick = () => { pegHojaActual = Math.min(pegNumHojas() - 1, pegHojaActual + 1); pintarLamina(); };
 pegHoja.addEventListener("click", (e) => {
   const r = pegHoja.getBoundingClientRect(), x = ((e.clientX - r.left) * 1000) / r.width, y = ((e.clientY - r.top) * 1750) / r.height;
-  const i = pegVisibles().findIndex((_, k) => { const h = PEG_HUECOS[k]; return x >= h.x && x <= h.x + h.lado && y >= h.y && y <= h.y + h.lado; });
+  const hsC = pegHuecos(); const i = pegVisibles().findIndex((_, k) => { const h = hsC[k]; return x >= h.x && x <= h.x + h.lado && y >= h.y && y <= h.y + h.lado; });
   if (i >= 0) { peg.laminas.splice(pegInicio() + i, 1); pintarLamina(); guardarPegSoon(); }
 });
 const PEG_PLANTILLAS = {
@@ -4190,6 +4215,7 @@ document.querySelector("#pegatinas").addEventListener("click", (e) => {
 [["peg-escala", (x) => `${x} %`], ["peg-img-y", (x) => x], ["peg-texto-y", (x) => x], ["peg-texto-t", (x) => `${x} %`]].forEach(([id, fmt]) => $(id).addEventListener("input", () => { $(`${id}-v`).textContent = fmt(pv(id)); pintarPegatina(); }));
 ["peg-qr-url", "peg-qr-titulo"].forEach((id) => $(id).addEventListener("input", () => { pintarLamina(); guardarPegSoon(); }));
 $("peg-qr-si").addEventListener("change", () => { pintarQRPeg(); pintarLamina(); guardarPegSoon(); });
+$("peg-tam").addEventListener("change", () => { pegHojaActual = 0; pintarLamina(); guardarPegSoon(); pegEstado(`Ahora caben ${pegMax()} pegatinas por lámina${pegNumHojas() > 1 ? ` (${pegNumHojas()} láminas)` : ""}.`, "ok"); });
 document.querySelector(".peg-qr").addEventListener("click", (e) => {
   const b = e.target.closest("[data-peg-qr]"); if (!b) return;
   $("peg-qr-si").checked = b.dataset.pegQr === "si"; $("peg-qr-si").dispatchEvent(new Event("change"));
@@ -4271,7 +4297,7 @@ let tPeg = null;
 function guardarPegSoon() {
   clearTimeout(tPeg);
   tPeg = setTimeout(() => {
-    const campos = ["peg-forma", "peg-color", "peg-texto", "peg-sub", "peg-fuente", "peg-tcolor", "peg-texto-y", "peg-texto-t", "peg-borde", "peg-borde-c", "peg-escala", "peg-img-y", "peg-qr-url", "peg-qr-titulo"];
+    const campos = ["peg-tam", "peg-forma", "peg-color", "peg-texto", "peg-sub", "peg-fuente", "peg-tcolor", "peg-texto-y", "peg-texto-t", "peg-borde", "peg-borde-c", "peg-escala", "peg-img-y", "peg-qr-url", "peg-qr-titulo"];
     idb.guardar("pegatinas-v1", JSON.stringify({ campos: Object.fromEntries(campos.map((id) => [id, pv(id)])), qr: $("peg-qr-si").checked, img: peg.imgUrl.length < 3e6 ? peg.imgUrl : "", laminas: peg.laminas.map((c) => c.toDataURL("image/png")) }));
   }, 600);
 }
@@ -4639,6 +4665,72 @@ $("qf-pegatinas").onclick = async () => {
   const n = await anadirRecortesALamina(recortes);
   pegEstado(`${n} pegatina${n === 1 ? "" : "s"} añadida${n === 1 ? "" : "s"} desde «Quitar fondo».`, "ok");
 };
+
+
+/* ============================== Pegatinas diseñadas por la IA ============================== */
+const ESTILOS_IA = {
+  kawaii: "estilo kawaii: formas redondeadas, carita tierna, colores pastel alegres, contorno oscuro suave",
+  plano: "ilustración plana moderna: formas geométricas limpias, colores vivos, sin degradados",
+  comic: "estilo cómic: contorno negro grueso, colores saturados, sombras planas, mucha expresión",
+  retro: "estilo retro de los 70: colores mostaza, naranja, marrón y crema, formas redondeadas",
+  marca: () => `ilustración plana con SOLO estos colores de marca: ${kit.colores.join(", ")}, contorno oscuro`,
+};
+let controlIAPeg = null;
+async function svgACanvas(svg) {
+  const url = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
+  try {
+    const img = await imagenDe(url);
+    const c = document.createElement("canvas"); c.width = c.height = 512;
+    c.getContext("2d").drawImage(img, 0, 0, 512, 512);
+    return c;
+  } finally { URL.revokeObjectURL(url); }
+}
+/* Añade un texto debajo del dibujo (con contorno blanco para que se lea sobre cualquier color). */
+async function conTexto(c, texto) {
+  if (!texto) return c;
+  const f = kit.fuentes[0] || "Outfit"; await cargarFuente(f);
+  const out = document.createElement("canvas"); out.width = out.height = 512;
+  const x = out.getContext("2d");
+  const r = recortarTransparente(c), k = Math.min(400 / r.width, 340 / r.height);
+  x.drawImage(r, (512 - r.width * k) / 2, 20 + (340 - r.height * k) / 2, r.width * k, r.height * k);
+  let t = 64; do { x.font = `800 ${t}px "${f}"`; t -= 2; } while (x.measureText(texto).width > 440 && t > 18);
+  x.textAlign = "center"; x.textBaseline = "middle"; x.lineJoin = "round";
+  x.lineWidth = 14; x.strokeStyle = "#ffffff"; x.strokeText(texto, 256, 430);
+  x.fillStyle = kit.colores[1] || "#191719"; x.fillText(texto, 256, 430);
+  return out;
+}
+$("peg-ia-ir").onclick = async () => {
+  const tema = $("peg-ia-tema").value.trim();
+  if (!tema) { pegEstado("Escribe qué pegatina quieres.", "error"); return; }
+  if (!sample) { pegEstado("La IA solo funciona al abrir esta página dentro de Claude.", "error"); return; }
+  const n = Number($("peg-ia-n").value), est = ESTILOS_IA[$("peg-ia-estilo").value], estilo = typeof est === "function" ? est() : est;
+  const variantes = ["de frente, pose principal", "en otra pose o con otra expresión", "con un pequeño elemento extra que lo complemente", "más simple, casi un icono", "en movimiento o saludando", "con otra combinación de colores"];
+  controlIAPeg = new AbortController();
+  $("peg-ia-ir").disabled = true; $("peg-ia-parar").disabled = false;
+  let hechas = 0, fallos = 0;
+  for (let i = 0; i < n; i++) {
+    if (controlIAPeg.signal.aborted) break;
+    pegEstado(`Claude está dibujando la pegatina ${i + 1} de ${n}…`);
+    try {
+      const { text } = await sample(
+        `Diseña UNA pegatina (sticker) troquelada de: ${tema}.\nEstilo: ${estilo}.\n${n > 1 ? `Variante ${i + 1} de ${n}: ${variantes[i % variantes.length]}.\n` : ""}\nReglas estrictas:\n- Responde SOLO con un SVG válido, viewBox="0 0 512 512".\n- Una sola figura compacta y centrada que ocupe casi todo el lienzo (deja unos 20 px de margen).\n- SIN fondo: nada de rectángulo de fondo ni cielo; fuera de la figura todo transparente.\n- La silueta exterior debe ser cerrada y sencilla (se corta con máquina).\n- Colores sólidos (máximo 8), formas limpias, contorno visible.\n- Prohibido: texto, <text>, <image>, <script>, <style>, <foreignObject>, filtros, máscaras, enlaces externos.\n- Máximo 120 elementos.`,
+        { signal: controlIAPeg.signal, cache: false, modelTier: "complex" });
+      const svg = limpiarSVG(text, false);
+      if (!svg) throw new Error("svg");
+      const lienzo = await conTexto(await svgACanvas(svg), $("peg-ia-texto").value.trim());
+      await anadirRecortesALamina([lienzo]); hechas++;
+    } catch (e) {
+      if (controlIAPeg.signal.aborted || e?.name === "AbortError") break;
+      if (e?.code === "not_granted") { pegEstado("Para usar la IA tienes que permitirlo cuando Claude lo pregunte.", "error"); break; }
+      if (e?.code === "rate_limited") { pegEstado("Claude está ocupado ahora mismo. Espera un poco y vuelve a probar.", "error"); break; }
+      fallos++;
+    }
+  }
+  $("peg-ia-ir").disabled = false; $("peg-ia-parar").disabled = true;
+  if (hechas) pegEstado(`${hechas} pegatina${hechas === 1 ? "" : "s"} de IA añadida${hechas === 1 ? "" : "s"} a la lámina${fallos ? ` (${fallos} no salieron bien)` : ""}. Pulsa una para quitarla si no te gusta.`, "ok");
+  else if (!$("peg-estado").classList.contains("error")) pegEstado(controlIAPeg.signal.aborted ? "Parado." : "No ha salido ninguna. Prueba a describirla de otra forma.", controlIAPeg.signal.aborted ? "" : "error");
+};
+$("peg-ia-parar").onclick = () => controlIAPeg?.abort();
 
 /* ============================== Arranque ============================== */
 BOTONES_IA.forEach((id) => { $(id).disabled = true; });
