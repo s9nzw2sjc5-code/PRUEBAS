@@ -368,6 +368,9 @@ body:has(#pegatinas:not([hidden])) { padding: 0; margin: 0; }
 .peg-troquel { background: var(--panel-2); border-radius: 12px; padding: 12px; }
 .peg-rapido { background: var(--acento-suave); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
 .peg-rapido strong { font-family: var(--f-titulo); font-size: 15px; }
+.peg-est-rejilla .estilo-foto { border: 2px solid transparent; border-radius: 12px; background: var(--panel); padding: 4px; display: flex; flex-direction: column; gap: 3px; font-size: 11.5px; font-weight: 600; color: var(--fg); }
+.peg-est-rejilla .estilo-foto.on { border-color: var(--acento); }
+.peg-est-rejilla .estilo-foto img { width: 100%; aspect-ratio: 1; object-fit: contain; border-radius: 8px; background-color: #fff; background-image: linear-gradient(45deg, #eceef4 25%, transparent 25%), linear-gradient(-45deg, #eceef4 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #eceef4 75%), linear-gradient(-45deg, transparent 75%, #eceef4 75%); background-size: 12px 12px; background-position: 0 0, 0 6px, 6px -6px, -6px 0; }
 .peg-qr { background: color-mix(in srgb, var(--ok) 8%, var(--panel)); border: 1px solid color-mix(in srgb, var(--ok) 25%, transparent); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
 .peg-lamina { display: flex; justify-content: center; padding: 16px; border-radius: 16px; border: 2px dashed var(--linea); background-color: var(--tablero-a); background-image: linear-gradient(45deg, var(--tablero-b) 25%, transparent 25%), linear-gradient(-45deg, var(--tablero-b) 25%, transparent 25%), linear-gradient(45deg, transparent 75%, var(--tablero-b) 75%), linear-gradient(-45deg, transparent 75%, var(--tablero-b) 75%); background-size: 18px 18px; background-position: 0 0, 0 9px, 9px -9px, -9px 0; }
 .peg-lamina canvas { width: min(340px, 100%); height: auto; border-radius: 8px; box-shadow: var(--sombra-2); cursor: pointer; }
@@ -773,6 +776,20 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
       <input type="file" id="peg-fotos-archivo" accept="image/png,image/jpeg,image/webp" multiple hidden>
       <p class="ayuda">¿Quieres repasar el recorte antes? Usa «Quitar fondo» en el inicio y al terminar pulsa «Hacer pegatinas con todas».</p>
     </div>
+    <div class="peg-rapido" id="peg-est-bloque">
+      <strong>Foto con estilo: dibujo animado, kawaii…</strong>
+      <p class="ayuda">Sube una foto, elige cómo quieres que quede y se convierte en pegatina con su línea de corte.</p>
+      <div class="fila"><button class="btn primario" id="peg-est-subir">Subir una foto</button><label class="check"><input type="checkbox" id="peg-est-fondo" checked> Quitar el fondo</label></div>
+      <input type="file" id="peg-est-archivo" accept="image/png,image/jpeg,image/webp" hidden>
+      <div id="peg-est-panel" class="campo-grupo" hidden>
+        <span class="etiqueta">Al instante</span>
+        <div class="rejilla tres-col peg-est-rejilla" id="peg-est-filtros"></div>
+        <span class="etiqueta">Con IA: Claude redibuja tu foto (unos 30 s)</span>
+        <div class="tres" id="peg-est-ia"><button class="btn mini" data-est-ia="kawaii">Kawaii</button><button class="btn mini" data-est-ia="chibi">Chibi</button><button class="btn mini" data-est-ia="cartoon">Dibujo animado</button><button class="btn mini" data-est-ia="pixel">Pixel art</button><button class="btn mini" data-est-ia="plano">Ilustración plana</button><button class="btn mini" data-est-ia="caricatura">Caricatura</button></div>
+        <div class="peg-vista"><canvas id="peg-est-vista" width="512" height="512"></canvas><span class="ayuda">La línea rosa discontinua es por donde cortará la máquina.</span></div>
+        <div class="fila"><select id="peg-est-n" class="campo" style="flex:1" aria-label="Cuántas copias"><option value="1">1 pegatina</option><option value="2">2 copias</option><option value="3">3 copias</option><option value="6">6 copias</option><option value="llenar">Llenar la lámina</option></select><button class="btn primario" id="peg-est-anadir">Añadir a la lámina</button></div>
+      </div>
+    </div>
     <div class="peg-rapido peg-ia" id="peg-ia-bloque">
       <strong>Pide pegatinas a la IA</strong>
       <textarea id="peg-ia-tema" class="campo" rows="2" placeholder="¿Qué quieres? Ej.: un gato con gafas de sol tomando café">una taza de café sonriente con corazones</textarea>
@@ -822,9 +839,10 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
       <label class="campo-grupo"><span class="etiqueta">Título del pie</span><input id="peg-qr-titulo" class="campo" value="¡Llévalos en tu WhatsApp!"></label></div>
     </div>
     <div class="peg-lamina"><canvas id="peg-hoja" width="1000" height="1750" title="Pulsa una pegatina para quitarla"></canvas></div>
+    <div class="fila" style="justify-content:space-between"><label class="check"><input type="checkbox" id="peg-ver-corte" checked> Ver línea de corte</label><button class="btn mini" id="peg-svg">Archivo de corte (SVG)</button></div>
     <div class="fila" style="justify-content:space-between"><span class="ayuda">Pulsa una pegatina de la lámina para quitarla.</span><span class="fila"><button class="btn mini" id="peg-repetir">Repetir en toda la lámina</button><button class="btn mini peligro" id="peg-vaciar">Vaciar esta lámina</button></span></div>
     <div class="estado" id="peg-estado" hidden></div>
-    <details class="seccion"><summary>Cómo usar el pack en WhatsApp</summary><div><p class="ayuda">WhatsApp no importa un .zip directamente. Descomprímelo en el móvil y añade las pegatinas con una app de paquetes de stickers (por ejemplo «Sticker Maker»). WhatsApp pide al menos 3 pegatinas por paquete; el .zip incluye cada una en WebP de 512 × 512 px y menos de 100 KB, y el icono de la bandeja en PNG de 96 × 96 px.</p><p class="ayuda">Para la Cricut: sube el PNG a Design Space como «Imprimir y cortar». La lámina mide 10 × 17,5 cm y cabe en el área de impresión.</p></div></details>
+    <details class="seccion"><summary>Cómo usar el pack en WhatsApp</summary><div><p class="ayuda">WhatsApp no importa un .zip directamente. Descomprímelo en el móvil y añade las pegatinas con una app de paquetes de stickers (por ejemplo «Sticker Maker»). WhatsApp pide al menos 3 pegatinas por paquete; el .zip incluye cada una en WebP de 512 × 512 px y menos de 100 KB, y el icono de la bandeja en PNG de 96 × 96 px.</p><p class="ayuda">Para la Cricut: sube el PNG a Design Space como «Imprimir y cortar» (detecta el contorno sola). Si prefieres la línea de corte exacta, descarga el «Archivo de corte (SVG)»: trae la capa «impresion» y la capa «corte» a tamaño real (10 × 17,5 cm); en Design Space pon la imagen como imprimir, las líneas como cortar y únelas con «Adjuntar».</p></div></details>
   </section>
 </main>
 </div>
@@ -4168,7 +4186,7 @@ function pintarLamina(exportar = false) {
     const hs = pegHuecos(); for (let i = vis.length; i < max; i++) { const h = hs[i], b = h.lado * 0.06; ctx.strokeRect(h.x + b, h.y + b, h.lado - 2 * b, h.lado - 2 * b); }
     ctx.restore();
   }
-  const huecosL = pegHuecos(); vis.forEach((c, i) => { const h = huecosL[i]; ctx.drawImage(c, h.x, h.y, h.lado, h.lado); });
+  const huecosL = pegHuecos(); vis.forEach((c, i) => { const h = huecosL[i]; ctx.drawImage(c, h.x, h.y, h.lado, h.lado); if (!exportar && $("peg-ver-corte").checked) dibujarCorte(ctx, c, h.x, h.y, h.lado); });
   if (!$("peg-qr-si").checked) return;
   const X = 85, Y = 1365, W = 830, H = 310;
   ctx.fillStyle = "#ffffff"; caminoRedondo(0, ctx, X, Y, W, H, 48); ctx.fill();
@@ -4731,6 +4749,207 @@ $("peg-ia-ir").onclick = async () => {
   else if (!$("peg-estado").classList.contains("error")) pegEstado(controlIAPeg.signal.aborted ? "Parado." : "No ha salido ninguna. Prueba a describirla de otra forma.", controlIAPeg.signal.aborted ? "" : "error");
 };
 $("peg-ia-parar").onclick = () => controlIAPeg?.abort();
+
+
+/* ============================== Línea de corte ==============================
+   Se calcula del contorno de cada pegatina (la silueta con su borde de troquel): se sigue el borde de cada
+   mancha opaca y se simplifica. Se dibuja en la vista y se exporta en SVG a tamaño real. */
+const DIRS8 = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]];
+function trazarBorde(m, w, h, sx, sy) {
+  const on = (x, y) => x >= 0 && y >= 0 && x < w && y < h && m[y * w + x];
+  const pts = [[sx, sy]]; let x = sx, y = sy, atras = 4;
+  for (let it = 0; it < w * h * 4; it++) {
+    let hallado = -1;
+    for (let k = 1; k <= 8; k++) { const d = (atras + k) % 8; if (on(x + DIRS8[d][0], y + DIRS8[d][1])) { hallado = d; break; } }
+    if (hallado < 0) break;
+    const bx = x + DIRS8[(hallado + 7) % 8][0], by = y + DIRS8[(hallado + 7) % 8][1];
+    x += DIRS8[hallado][0]; y += DIRS8[hallado][1];
+    atras = DIRS8.findIndex(([dx, dy]) => dx === bx - x && dy === by - y);
+    if (atras < 0) atras = (hallado + 4) % 8;
+    if (x === sx && y === sy) break;
+    pts.push([x, y]);
+  }
+  return pts;
+}
+function simplificar(pts, eps) {
+  if (pts.length < 4) return pts;
+  const dist = (p, a, b) => { const dx = b[0] - a[0], dy = b[1] - a[1], l = Math.hypot(dx, dy) || 1; return Math.abs(dy * p[0] - dx * p[1] + b[0] * a[1] - b[1] * a[0]) / l; };
+  const rdp = (a, z) => { let mx = 0, idx = -1; for (let i = a + 1; i < z; i++) { const d = dist(pts[i], pts[a], pts[z]); if (d > mx) { mx = d; idx = i; } } return mx > eps ? [...rdp(a, idx).slice(0, -1), ...rdp(idx, z)] : [pts[a], pts[z]]; };
+  return rdp(0, pts.length - 1);
+}
+/* Contornos de una pegatina de 512 px, en coordenadas de 0 a 512. Se calcula una vez y se guarda. */
+function corteDe(c) {
+  if (c.__corte) return c.__corte;
+  const R = 256, k = c.width / R, t = document.createElement("canvas"); t.width = t.height = R;
+  t.getContext("2d").drawImage(c, 0, 0, R, R);
+  const d = t.getContext("2d").getImageData(0, 0, R, R).data, m = new Uint8Array(R * R);
+  for (let p = 0; p < R * R; p++) m[p] = d[p * 4 + 3] > 40 ? 1 : 0;
+  const visto = new Uint8Array(R * R), contornos = [];
+  for (let p = 0; p < R * R; p++) {
+    if (!m[p] || visto[p]) continue;
+    const cola = [p]; visto[p] = 1; let n = 0;
+    while (cola.length) { const q = cola.pop(); n++; const x = q % R, y = (q - x) / R; for (const [dx, dy] of DIRS8) { const xx = x + dx, yy = y + dy; if (xx < 0 || yy < 0 || xx >= R || yy >= R) continue; const r = yy * R + xx; if (m[r] && !visto[r]) { visto[r] = 1; cola.push(r); } } }
+    if (n < 25) continue;
+    const borde = simplificar(trazarBorde(m, R, R, p % R, Math.floor(p / R)), 0.8);
+    contornos.push(borde.map(([x, y]) => [(x + 0.5) * k, (y + 0.5) * k]));
+  }
+  c.__corte = contornos;
+  return contornos;
+}
+function dibujarCorte(ctx, c, x, y, lado) {
+  const k = lado / 512;
+  ctx.save(); ctx.strokeStyle = "#ff2d87"; ctx.lineWidth = Math.max(1.5, lado / 160); ctx.setLineDash([lado / 40, lado / 60]);
+  for (const cont of corteDe(c)) { ctx.beginPath(); cont.forEach(([px, py], i) => (i ? ctx.lineTo(x + px * k, y + py * k) : ctx.moveTo(x + px * k, y + py * k))); ctx.closePath(); ctx.stroke(); }
+  ctx.restore();
+}
+$("peg-ver-corte").addEventListener("change", () => pintarLamina());
+$("peg-svg").onclick = async () => {
+  if (!peg.laminas.length) { pegEstado("Añade antes alguna pegatina a la lámina.", "error"); return; }
+  const capas = [];
+  await porCadaLamina(async () => { capas.push(pegHoja.toDataURL("image/png")); });
+  const hs = pegHuecos(), mm = 0.1; // 1 px de la lámina = 0,1 mm
+  const paginas = capas.map((png, h) => {
+    const cortes = pegVisibles(h).map((c, i) => { const s = hs[i], k = s.lado / 512; return corteDe(c).map((cont) => "M" + cont.map(([x, y]) => `${((s.x + x * k) * mm).toFixed(2)},${((s.y + y * k) * mm).toFixed(2)}`).join("L") + "Z").join(""); }).join("");
+    return `<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100mm" height="175mm" viewBox="0 0 100 175"><g id="impresion"><image x="0" y="0" width="100" height="175" xlink:href="${png}" href="${png}"/></g><g id="corte" fill="none" stroke="#ff0000" stroke-width="0.2"><path d="${cortes}"/></g></svg>`;
+  });
+  if (paginas.length === 1) { await guardarPeg(`lamina-corte-10x17_5cm-${fecha()}.svg`, paginas[0]); return; }
+  const zip = new JSZip(); paginas.forEach((t, i) => zip.file(`lamina-${String(i + 1).padStart(2, "0")}-corte.svg`, t));
+  await guardarPeg(`laminas-corte-${fecha()}.zip`, await zip.generateAsync({ type: "blob" }));
+};
+
+/* ============================== Foto con estilo ============================== */
+function premultBlur(id, r) {
+  const { width: w, height: h, data: d } = id, n = w * h, ch = [0, 1, 2, 3].map(() => new Uint8Array(n));
+  for (let p = 0; p < n; p++) { const a = d[p * 4 + 3]; ch[3][p] = a; for (let k = 0; k < 3; k++) ch[k][p] = (d[p * 4 + k] * a) / 255; }
+  const b = ch.map((c) => difuminar(c, w, h, r)), out = new ImageData(w, h);
+  for (let p = 0; p < n; p++) { const a = b[3][p] || 1; for (let k = 0; k < 3; k++) out.data[p * 4 + k] = Math.min(255, (b[k][p] * 255) / a); out.data[p * 4 + 3] = d[p * 4 + 3]; }
+  return out;
+}
+const lumi = (d, i) => 0.299 * d[i] + 0.587 * d[i + 1] + 0.114 * d[i + 2];
+function bordesSobel(id, umbral, grosor) {
+  const { width: w, height: h, data: d } = id, L = new Float32Array(w * h), e = new Uint8Array(w * h);
+  for (let p = 0; p < w * h; p++) L[p] = d[p * 4 + 3] < 30 ? 255 : lumi(d, p * 4);
+  for (let y = 1; y < h - 1; y++) for (let x = 1; x < w - 1; x++) {
+    const p = y * w + x;
+    const gx = -L[p - w - 1] - 2 * L[p - 1] - L[p + w - 1] + L[p - w + 1] + 2 * L[p + 1] + L[p + w + 1];
+    const gy = -L[p - w - 1] - 2 * L[p - w] - L[p - w + 1] + L[p + w - 1] + 2 * L[p + w] + L[p + w + 1];
+    if (Math.hypot(gx, gy) > umbral && d[p * 4 + 3] > 60) e[p] = 1;
+  }
+  if (grosor < 1) return e;
+  const g = new Uint8Array(w * h);
+  for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) if (e[y * w + x]) for (let dy = -grosor; dy <= grosor; dy++) for (let dx = -grosor; dx <= grosor; dx++) { const xx = x + dx, yy = y + dy; if (xx >= 0 && yy >= 0 && xx < w && yy < h && dx * dx + dy * dy <= grosor * grosor) g[yy * w + xx] = 1; }
+  return g;
+}
+const posterizar = (v, n) => Math.round((v / 255) * (n - 1)) * (255 / (n - 1));
+function colorear(id, fn) { const out = new ImageData(id.width, id.height), d = id.data, o = out.data; for (let p = 0; p < id.width * id.height; p++) { const i = p * 4; const [r, g, b] = fn(d[i], d[i + 1], d[i + 2], p); o[i] = r; o[i + 1] = g; o[i + 2] = b; o[i + 3] = d[i + 3]; } return out; }
+const saturar = (r, g, b, f) => { const l = 0.299 * r + 0.587 * g + 0.114 * b; return [l + (r - l) * f, l + (g - l) * f, l + (b - l) * f].map((v) => Math.max(0, Math.min(255, v))); };
+const hex = (c) => [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16));
+function chispas(c) {
+  const x = c.getContext("2d"), w = c.width, h = c.height, d = x.getImageData(0, 0, w, h).data, cols = ["#ffd23f", "#ff8fb8", "#ffffff"];
+  // Cada brillo se pega al borde de la figura (el punto opaco más cercano a cada esquina), así se corta junto con ella.
+  const cerca = (ex, ey) => { let m = null, md = Infinity; for (let y = 0; y < h; y += 4) for (let i = 0; i < w; i += 4) if (d[(y * w + i) * 4 + 3] > 128) { const dd = (i - ex) ** 2 + (y - ey) ** 2; if (dd < md) { md = dd; m = [i, y]; } } return m; };
+  [[w, 0, 0.09], [0, 0, 0.065], [w, h * 0.7, 0.06]].forEach(([ex, ey, t], i) => {
+    const p = cerca(ex, ey); if (!p) return;
+    const r = t * Math.max(w, h), cx = p[0] + Math.sign(ex - p[0] || 1) * r * 0.25, cy = p[1] + Math.sign(ey - p[1] || -1) * r * 0.25;
+    x.beginPath(); for (let k = 0; k < 8; k++) { const a = (k * Math.PI) / 4 - Math.PI / 2, rr = k % 2 ? r * 0.34 : r; x.lineTo(cx + rr * Math.cos(a), cy + rr * Math.sin(a)); } x.closePath();
+    x.fillStyle = cols[i % 3]; x.strokeStyle = "#7a4b5a"; x.lineWidth = Math.max(2, r * 0.12); x.fill(); x.stroke();
+  });
+}
+const FILTROS_FOTO = {
+  caricatura: { nombre: "Dibujo animado", hacer(id) { const b = premultBlur(premultBlur(id, 2), 2), e = bordesSobel(b, 70, 1); return colorear(b, (r, g, bl, p) => (e[p] ? [27, 30, 39] : saturar(posterizar(r, 6), posterizar(g, 6), posterizar(bl, 6), 1.35))); } },
+  kawaii: { nombre: "Kawaii pastel", hacer(id) { const b = premultBlur(id, 3), e = bordesSobel(b, 80, 1), rosa = [255, 214, 231]; return colorear(b, (r, g, bl, p) => { if (e[p]) return [122, 75, 90]; const q = saturar(posterizar(r, 5), posterizar(g, 5), posterizar(bl, 5), 0.95); return saturar(...q.map((v, k) => v * 0.68 + 255 * 0.2 + rosa[k] * 0.12), 1.25); }); }, extra: chispas },
+  comic: { nombre: "Cómic", hacer(id) { const b = premultBlur(id, 2), e = bordesSobel(b, 55, 2); return colorear(b, (r, g, bl, p) => (e[p] ? [10, 10, 12] : saturar(posterizar(r, 4), posterizar(g, 4), posterizar(bl, 4), 1.7))); } },
+  pop: { nombre: "Pop art", hacer(id) { const b = premultBlur(id, 2), pal = ["#191719", kit.colores[0] || "#D54840", "#2ec4b6", "#ffd23f"].map(hex); return colorear(b, (r, g, bl) => pal[Math.min(3, Math.floor((0.299 * r + 0.587 * g + 0.114 * bl) / 64))]); } },
+  lapiz: { nombre: "Lápiz", hacer(id) {
+    const { width: w, height: h, data: d } = id, n = w * h, gris = new Uint8Array(n), inv = new Uint8Array(n);
+    for (let p = 0; p < n; p++) { gris[p] = d[p * 4 + 3] < 30 ? 255 : lumi(d, p * 4); inv[p] = 255 - gris[p]; }
+    const bi = difuminar(inv, w, h, 5);
+    return colorear(id, (r, g, b, p) => { const v = Math.min(255, (gris[p] * 255) / Math.max(1, 255 - bi[p])); const t = Math.max(0, Math.min(255, (v - 128) * 1.4 + 128)); return [t, t, t]; });
+  } },
+  acuarela: { nombre: "Acuarela", hacer(id) { const b = premultBlur(premultBlur(id, 4), 3), e = bordesSobel(b, 35, 1), rnd = aleatorio(7); return colorear(b, (r, g, bl, p) => { const q = saturar(posterizar(r, 7), posterizar(g, 7), posterizar(bl, 7), 1.1), ruido = (rnd() - 0.5) * 16, f = e[p] ? 0.82 : 1; return q.map((v) => Math.max(0, Math.min(255, v * f + ruido))); }); } },
+  original: { nombre: "Sin filtro", hacer: (id) => id },
+};
+const est = { base: null, res: {}, actual: "caricatura" };
+function aplicarFiltroFoto(clave) {
+  const f = FILTROS_FOTO[clave], id = est.base.getContext("2d").getImageData(0, 0, est.base.width, est.base.height);
+  const c = document.createElement("canvas"); c.width = est.base.width; c.height = est.base.height;
+  c.getContext("2d").putImageData(f.hacer(id), 0, 0);
+  if (f.extra) f.extra(c);
+  return c;
+}
+function pintarEstilos() {
+  const claves = [...Object.keys(est.res).filter((k) => k.startsWith("ia-")), ...Object.keys(FILTROS_FOTO)];
+  $("peg-est-filtros").innerHTML = claves.filter((k) => est.res[k]).map((k) => `<button class="estilo-foto ${k === est.actual ? "on" : ""}" data-est="${k}"><img src="${est.res[k].__mini || (est.res[k].__mini = est.res[k].toDataURL("image/png"))}" alt="">${k.startsWith("ia-") ? `${est.nombresIA[k]} (IA)` : FILTROS_FOTO[k].nombre}</button>`).join("");
+  pintarVistaEstilo();
+}
+function pintarVistaEstilo() {
+  const r = est.res[est.actual]; if (!r) return;
+  const p = pegatinaDeRecorte(r), x = $("peg-est-vista").getContext("2d");
+  x.clearRect(0, 0, 512, 512); x.drawImage(p, 0, 0); dibujarCorte(x, p, 0, 0, 512);
+  est.pegatina = p;
+}
+$("peg-est-subir").onclick = () => $("peg-est-archivo").click();
+$("peg-est-archivo").onchange = async (e) => {
+  const a = e.target.files[0]; e.target.value = ""; if (!a) return;
+  $("peg-est-subir").disabled = true;
+  try {
+    pegEstado($("peg-est-fondo").checked ? "Quitando el fondo…" : "Preparando la foto…");
+    const url = await leerArchivo(a);
+    const r = await sinFondo(url, $("peg-est-fondo").checked ? "auto" : "no");
+    let c = recortarTransparente(r.lienzo);
+    const k = Math.min(1, 700 / Math.max(c.width, c.height));
+    if (k < 1) { const t = document.createElement("canvas"); t.width = Math.round(c.width * k); t.height = Math.round(c.height * k); t.getContext("2d").drawImage(c, 0, 0, t.width, t.height); c = t; }
+    est.base = c; est.res = {}; est.nombresIA = {}; est.foto = url;
+    pegEstado("Aplicando estilos…");
+    for (const clave of Object.keys(FILTROS_FOTO)) { est.res[clave] = aplicarFiltroFoto(clave); await new Promise((ok) => setTimeout(ok, 0)); }
+    est.actual = "caricatura";
+    $("peg-est-panel").hidden = false; pintarEstilos();
+    pegEstado("Elige un estilo y pulsa «Añadir a la lámina».", "ok");
+  } catch { pegEstado("No se pudo abrir esa foto.", "error"); }
+  $("peg-est-subir").disabled = false;
+};
+$("peg-est-filtros").addEventListener("click", (e) => { const b = e.target.closest("[data-est]"); if (!b) return; est.actual = b.dataset.est; $$(".estilo-foto").forEach((x) => x.classList.toggle("on", x === b)); pintarVistaEstilo(); });
+$("peg-est-anadir").onclick = async () => {
+  if (!est.res[est.actual]) return;
+  const v = $("peg-est-n").value;
+  const ultima = peg.laminas.length % pegMax();
+  const n = v === "llenar" ? (ultima ? pegMax() - ultima : pegMax()) : Number(v);
+  const anadidas = await anadirRecortesALamina(Array.from({ length: n }, () => est.res[est.actual]));
+  pegEstado(`${anadidas} pegatina${anadidas === 1 ? "" : "s"} añadida${anadidas === 1 ? "" : "s"} a la lámina.`, "ok");
+};
+const ESTILOS_FOTO_IA = {
+  kawaii: ["Kawaii", "estilo kawaii japonés: cabeza grande y redonda, ojos grandes y brillantes, mejillas sonrosadas, colores pastel, contorno marrón oscuro suave"],
+  chibi: ["Chibi", "estilo chibi de anime: cuerpo pequeño con cabeza enorme (proporción 1:2), ojos grandes, expresión alegre, colores vivos, contorno negro limpio"],
+  cartoon: ["Dibujo animado", "estilo dibujo animado moderno de televisión: formas exageradas y simpáticas, colores planos vivos, contorno negro grueso"],
+  pixel: ["Pixel art", "pixel art de 32 × 32 píxeles: dibújalo SOLO con <rect> cuadrados del mismo tamaño en una rejilla, paleta de 8-12 colores, contorno de píxeles oscuros"],
+  plano: ["Ilustración plana", "ilustración plana minimalista: formas geométricas, sin contorno, 5-7 colores armónicos, sombras planas"],
+  caricatura: ["Caricatura", "caricatura simpática: exagera con cariño los rasgos más característicos, colores vivos, contorno negro"],
+};
+$("peg-est-ia").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-est-ia]"); if (!b || !est.base) return;
+  if (!sample) { pegEstado("La IA solo funciona al abrir esta página dentro de Claude.", "error"); return; }
+  const lim = await sample.limits?.().catch(() => null);
+  if (!lim?.images) { pegEstado("En esta vista no se pueden enviar fotos a Claude. Usa los estilos «Al instante».", "error"); return; }
+  const [nombre, estilo] = ESTILOS_FOTO_IA[b.dataset.estIa];
+  $$("[data-est-ia]").forEach((x) => { x.disabled = true; });
+  pegEstado(`Claude está redibujando tu foto en estilo ${nombre}…`);
+  try {
+    const envio = document.createElement("canvas"), k = Math.min(1, 1024 / Math.max(est.base.width, est.base.height));
+    envio.width = Math.round(est.base.width * k); envio.height = Math.round(est.base.height * k);
+    const ex = envio.getContext("2d"); ex.fillStyle = "#ffffff"; ex.fillRect(0, 0, envio.width, envio.height); ex.drawImage(est.base, 0, 0, envio.width, envio.height);
+    const blob = await new Promise((ok) => envio.toBlob(ok, "image/jpeg", 0.9));
+    const { text } = await sample(
+      `La imagen adjunta es una foto que un cliente quiere convertir en pegatina.\nRedibuja a la persona, mascota u objeto principal de la foto en ${estilo}.\nTiene que ser reconocible: conserva los rasgos y colores que lo identifican (pelo, color de piel o pelaje, ropa, gafas, accesorios, forma, postura).\n\nReglas estrictas:\n- Responde SOLO con un SVG válido, viewBox="0 0 512 512".\n- Una sola figura compacta y centrada que ocupe casi todo el lienzo (unos 20 px de margen).\n- SIN fondo: fuera de la figura todo transparente; nada de rectángulos de fondo.\n- Silueta exterior cerrada y sencilla (se corta con máquina).\n- Prohibido: texto, <text>, <image>, <script>, <style>, <foreignObject>, filtros, máscaras, enlaces externos.\n- Máximo 250 elementos.`,
+      { images: blob, cache: false, modelTier: "complex" });
+    const svg = limpiarSVG(text, false); if (!svg) throw new Error("svg");
+    const clave = `ia-${b.dataset.estIa}-${Date.now().toString(36)}`;
+    est.res[clave] = await svgACanvas(svg); est.nombresIA[clave] = nombre; est.actual = clave;
+    pintarEstilos(); pegEstado(`Listo: versión ${nombre} hecha por Claude. Si no te convence, pulsa otra vez para otra versión.`, "ok");
+  } catch (err) {
+    pegEstado(err?.code === "not_granted" ? "Para usar la IA tienes que permitir que la página envíe la foto a Claude." : err?.code === "rate_limited" ? "Claude está ocupado. Espera un poco y vuelve a probar." : "No ha salido bien esta vez. Prueba de nuevo o con otro estilo.", "error");
+  }
+  $$("[data-est-ia]").forEach((x) => { x.disabled = false; });
+});
 
 /* ============================== Arranque ============================== */
 BOTONES_IA.forEach((id) => { $(id).disabled = true; });
