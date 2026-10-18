@@ -373,6 +373,10 @@ body:has(#pegatinas:not([hidden])) { padding: 0; margin: 0; }
 .peg-ajustes { border: 1px solid var(--linea); border-radius: 14px; }
 .peg-ajustes > div { padding-top: 4px; }
 .cp-modo { width: 100%; }
+.cp-otra { border: 1px solid var(--linea); border-radius: 12px; padding: 8px 10px; background: var(--panel); }
+.cp-otra summary { cursor: pointer; font-weight: 600; font-size: 13px; }
+.cp-otra > div { margin-top: 8px; }
+#cp-galeria { grid-template-columns: repeat(5, 1fr); }
 .cp-sel { background: var(--panel-2); border-radius: 14px; padding: 14px; display: flex; flex-direction: column; gap: 10px; }
 .cp-sel strong { font-family: var(--f-titulo); font-size: 15px; }
 #peg-lamina-marco.soltando { outline: 3px dashed var(--acento); outline-offset: -6px; }
@@ -728,6 +732,7 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
   <div class="relleno"></div>
   <div class="grupo">
     <button class="btn compartir" id="qf-al-diseno" hidden>Volver al diseño con la foto recortada</button>
+    <button class="btn grad" id="qf-a-lamina" hidden>Usar este recorte en la lámina</button>
     <button class="btn compartir" id="qf-a-fotos" disabled>Añadir a «Tus fotos»</button>
     <button class="btn compartir" id="qf-zip" disabled hidden>Descargar todas (.zip)</button>
     <button class="btn compartir" id="qf-pegatinas" disabled>Hacer pegatinas con todas</button>
@@ -783,13 +788,26 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
 </header>
 <main class="peg-mesa">
   <section class="panel peg-col" aria-label="Editar fotos">
-    <div class="zona-subida" id="cp-subida" role="button" tabindex="0"><strong>Sube tus fotos</strong>o suéltalas aquí · aparecen al momento en la lámina</div>
+    <div class="zona-subida" id="cp-subida" role="button" tabindex="0"><strong>Sube o arrastra tus fotos</strong>suéltalas aquí o directamente sobre la lámina, donde las quieras</div>
+    <div class="campo-grupo" id="cp-galeria-bloque" hidden><span class="etiqueta">Tus fotos: arrástralas a la lámina o púlsalas</span><div class="galeria" id="cp-galeria"></div></div>
     <input type="file" id="cp-archivo" accept="image/png,image/jpeg,image/webp" multiple hidden>
-    <div class="peg-rapido" id="cp-tras-subir" hidden><strong id="cp-tras-titulo">Fotos en la lámina</strong><p class="ayuda">¿Les quito el fondo? Puedes hacerlo después con cada foto.</p><div class="dos"><button class="btn primario" id="cp-quitar-nuevas">Quitar el fondo</button><button class="btn" id="cp-dejar">Dejarlas así</button></div></div>
+    <div class="peg-rapido" id="cp-tras-subir" hidden><strong id="cp-tras-titulo">Fotos en la lámina</strong><p class="ayuda">En «Solo imprimir fotos» no se quita el fondo solo. ¿Se lo quito?</p><div class="dos"><button class="btn primario" id="cp-quitar-nuevas">Quitar el fondo</button><button class="btn" id="cp-dejar">Dejarlas así</button></div></div>
     <div class="cp-sel">
       <strong id="cp-sel-titulo">Pulsa una foto de la lámina para editarla</strong>
       <div id="cp-sel-herr" class="campo-grupo" hidden>
+        <span class="etiqueta">Tamaño y posición</span>
+        <label class="deslizador" for="cp-tam"><span>Ancho</span><input type="range" id="cp-tam" min="10" max="100" step="1" value="30"><span id="cp-tam-v">3,0 cm</span></label>
+        <div class="tres"><button class="btn mini" id="cp-menos">− Pequeña</button><button class="btn mini" id="cp-mas">+ Grande</button><button class="btn mini" id="cp-girar">↻ Girar</button><button class="btn mini" id="cp-centrar">Centrar</button><button class="btn mini" id="cp-atras">Atrás</button><button class="btn mini" id="cp-delante">Delante</button></div>
+        <p class="ayuda">También puedes arrastrarla, tirar de sus esquinas o moverla con las flechas del teclado.</p>
+        <span class="etiqueta">Fondo</span>
         <div class="dos"><button class="btn primario" id="cp-quitar-fondo">Quitar fondo</button><button class="btn" id="cp-original">Volver al original</button></div>
+        <details class="cp-otra"><summary>¿No ha quedado bien? Quitar fondo otra vez</summary><div class="campo-grupo">
+          <select id="cp-metodo" class="campo" aria-label="Método"><option value="liso">Fondo de un color (logos, productos)</option><option value="persona">Persona (IA)</option><option value="auto">Automático</option></select>
+          <label class="deslizador" for="cp-tol"><span>Tolerancia</span><input type="range" id="cp-tol" min="5" max="150" value="55"><span id="cp-tol-v">55</span></label>
+          <label class="check"><input type="checkbox" id="cp-huecos"> Quitar también ese color dentro (huecos)</label>
+          <div class="dos"><button class="btn" id="cp-reintentar">Quitar fondo otra vez</button><button class="btn" id="cp-retocar">Retocar a mano</button></div>
+          <p class="ayuda">«Retocar a mano» abre la varita y el pincel con esta foto; al terminar vuelve sola a la lámina.</p>
+        </div></details>
         <span class="etiqueta">Estilo al instante</span>
         <div class="rejilla tres-col peg-est-rejilla" id="cp-filtros"></div>
         <span class="etiqueta">Que la IA la redibuje (unos 30 s)</span>
@@ -4329,7 +4347,8 @@ function crearPegFab() {
     if (o.__qr) peg.qrPos = { x: o.left, y: o.top, s: o.scaleX, ang: o.angle || 0 };
   };
   pegFab.on("object:modified", (e) => { const o = e.target; if (o.type === "activeSelection") { const m = o.calcTransformMatrix(); o.getObjects().forEach((x) => { const p = fabric.util.transformPoint(new fabric.Point(x.left, x.top), m); const d = fabric.util.qrDecompose(fabric.util.multiplyTransformMatrices(m, x.calcOwnMatrix())); if (x.__item) Object.assign(x.__item, { x: p.x, y: p.y, lado: x.width * d.scaleX, ang: d.angle }); }); } else sincronizar(o); guardarPegSoon(); });
-  ["selection:created", "selection:updated", "selection:cleared"].forEach((ev) => pegFab.on(ev, pintarSelPeg));
+  ["selection:created", "selection:updated", "selection:cleared"].forEach((ev) => pegFab.on(ev, () => pintarSelPeg()));
+  pegFab.on("object:scaling", () => pintarTamCP());
   pegFab.on("after:render", (opt) => {
     if (!$("peg-ver-corte").checked || peg.modo === "fotos") return;
     const ctx = opt.ctx || pegFab.getContext(), v = pegFab.viewportTransform, { W, H, util } = hojaPeg();
@@ -4589,7 +4608,7 @@ async function abrirPegatinas() {
   }
   pintarQRPeg();
   await cargarFuente(pv("peg-fuente")); await cargarFuente(kit.fuentes[0]);
-  pintarPegatina(); pintarModoCP(); pintarLamina(); pintarBandeja();
+  pintarPegatina(); pintarModoCP(); pintarLamina(); pintarBandeja(); pintarGaleriaCP();
 }
 $("peg-volver").onclick = () => mostrarInicio();
 
@@ -4851,7 +4870,7 @@ async function abrirQuitaFondo(desde) {
   pintarTusFotosQF(); pintarModoQF();
   if (desde?.url) await cargarEnQF(desde.url, "foto del diseño"); else pintarQF();
 }
-$("qf-volver").onclick = () => { if (qf.retorno) { qf.retorno = null; mostrarEditor(); } else mostrarInicio(); };
+$("qf-volver").onclick = () => { if (qf.retornoPeg) { qf.retornoPeg = null; $("qf-a-lamina").hidden = true; abrirPegatinas(); } else if (qf.retorno) { qf.retorno = null; mostrarEditor(); } else mostrarInicio(); };
 
 
 /* ============================== De fotos a pegatinas, de una vez ============================== */
@@ -5244,34 +5263,74 @@ async function lienzoDeArchivo(a) {
   c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); return c;
 }
 let cpNuevas = [];
-async function subirFotosCP(archivos) {
+async function subirFotosCP(archivos, punto) {
   const lista = [...archivos].filter((a) => /^image\/(png|jpeg|webp)$/.test(a.type));
   if (!lista.length) return;
   cpNuevas = [];
   for (const [i, a] of lista.entries()) {
     pegEstado(`Colocando ${i + 1} de ${lista.length}…`);
     try {
-      const it = nuevoItem({ orig: await lienzoDeArchivo(a) });
-      colocarItem(it); peg.items.push(it); cpNuevas.push(it);
-      pegHojaActual = it.hoja; pintarLamina();
+      const orig = await lienzoDeArchivo(a);
+      try { anadirAGaleria(await subirANube(orig.toDataURL("image/jpeg", 0.9))); } catch { /* sin galería */ }
+      ponerFotoEnLamina(orig, punto ? { x: punto.x + i * 40, y: punto.y + i * 40 } : null);
     } catch { /* foto dañada */ }
   }
-  guardarPegSoon();
-  $("cp-tras-subir").hidden = !cpNuevas.length;
+  guardarPegSoon(); pintarGaleriaCP();
+  if (!cpNuevas.length) { pegEstado("No se pudo abrir ninguna foto.", "error"); return; }
+  if (peg.modo === "pegatinas") { await quitarFondoVarios(cpNuevas.filter((i) => peg.items.includes(i))); return; }
+  $("cp-tras-subir").hidden = false;
   $("cp-tras-titulo").textContent = `${cpNuevas.length} foto${cpNuevas.length === 1 ? "" : "s"} en la lámina`;
-  pegEstado(cpNuevas.length ? "Ya están en la lámina. Pulsa una para editarla, moverla o cambiarle el tamaño." : "No se pudo abrir ninguna foto.", cpNuevas.length ? "ok" : "error");
+  pegEstado("Ya están en la lámina. Pulsa una para editarla, moverla o cambiarle el tamaño.", "ok");
 }
+function ponerFotoEnLamina(orig, punto) {
+  const it = nuevoItem({ orig });
+  colocarItem(it);
+  if (punto) { it.hoja = pegHojaActual; it.x = punto.x; it.y = punto.y; }
+  peg.items.push(it); cpNuevas.push(it);
+  pegHojaActual = it.hoja; pintarLamina();
+  return it;
+}
+function pintarGaleriaCP() {
+  const ids = galeria.filter((id) => recursos[id]).slice(-20).reverse();
+  $("cp-galeria-bloque").hidden = !ids.length;
+  $("cp-galeria").innerHTML = ids.map((id) => `<button class="galeria-item" draggable="true" data-cp-gal="${id}" title="Arrástrala a la lámina o púlsala"><img src="${recursos[id]}" alt=""></button>`).join("");
+}
+async function fotoDeGaleriaCP(id, punto) {
+  const url = recursos[id]; if (!url) return;
+  cpNuevas = [];
+  try {
+    const img = await imagenDe(url), k = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
+    const c = document.createElement("canvas"); c.width = Math.round(img.naturalWidth * k); c.height = Math.round(img.naturalHeight * k); c.getContext("2d").drawImage(img, 0, 0, c.width, c.height);
+    const it = ponerFotoEnLamina(c, punto); guardarPegSoon();
+    if (peg.modo === "pegatinas" && !tieneTransparencia(c.getContext("2d").getImageData(0, 0, c.width, c.height))) await quitarFondoVarios([it]);
+    else { seleccionarItem(it); pegEstado("Foto colocada.", "ok"); }
+  } catch { pegEstado("No se pudo abrir esa foto.", "error"); }
+}
+$("cp-galeria").addEventListener("click", (e) => { const b = e.target.closest("[data-cp-gal]"); if (b) fotoDeGaleriaCP(b.dataset.cpGal); });
+$("cp-galeria").addEventListener("dragstart", (e) => { const b = e.target.closest("[data-cp-gal]"); if (b) { e.dataTransfer.setData("text/plain", "cp-gal:" + b.dataset.cpGal); e.dataTransfer.effectAllowed = "copy"; } });
 const zonaCP = $("cp-subida");
 zonaCP.onclick = () => $("cp-archivo").click();
 zonaCP.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); $("cp-archivo").click(); } });
+function puntoEnLamina(e) {
+  if (!pegFab) return null;
+  const r = pegFab.upperCanvasEl.getBoundingClientRect(), { W, H } = hojaPeg();
+  const x = (e.clientX - r.left) / pegZoom, y = (e.clientY - r.top) / pegZoom;
+  return x >= 0 && y >= 0 && x <= W && y <= H ? { x, y } : null;
+}
 [zonaCP, $("peg-lamina-marco")].forEach((z) => {
-  z.addEventListener("dragover", (e) => { if (e.dataTransfer.types.includes("Files")) { e.preventDefault(); z.classList.add("soltando"); } });
+  z.addEventListener("dragover", (e) => { e.preventDefault(); e.dataTransfer.dropEffect = "copy"; z.classList.add("soltando"); });
   z.addEventListener("dragleave", () => z.classList.remove("soltando"));
-  z.addEventListener("drop", (e) => { if (!e.dataTransfer.files.length) return; e.preventDefault(); z.classList.remove("soltando"); subirFotosCP(e.dataTransfer.files); });
+  z.addEventListener("drop", (e) => {
+    e.preventDefault(); z.classList.remove("soltando");
+    const punto = z === zonaCP ? null : puntoEnLamina(e), t = e.dataTransfer.getData("text/plain");
+    if (t.startsWith("cp-gal:")) { fotoDeGaleriaCP(t.slice(7), punto); return; }
+    if (t.startsWith("galeria:")) { fotoDeGaleriaCP(t.slice(8), punto); return; }
+    if (e.dataTransfer.files.length) subirFotosCP(e.dataTransfer.files, punto);
+  });
 });
 $("cp-archivo").onchange = (e) => { const f = [...e.target.files]; e.target.value = ""; subirFotosCP(f); };
-async function quitarFondoItem(it) {
-  const r = await sinFondo(urlDe(it.orig), "auto");
+async function quitarFondoItem(it, metodo = "auto") {
+  const r = await sinFondo(urlDe(it.orig), metodo);
   it.sinFondo = recortarTransparente(r.lienzo); it.src = it.sinFondo; it.__estilos = null;
   renderizarItem(it); return r.metodo;
 }
@@ -5301,16 +5360,74 @@ function filtroSobre(c, clave) {
 const baseEstilo = (it) => it.sinFondo || it.orig || it.c0;
 function pintarPanelFoto() {
   const it = itemSel();
-  $("cp-sel-herr").hidden = !it || !baseEstilo(it);
+  $("cp-sel-herr").hidden = !seleccionPeg().length && !(pegFab && pegFab.getActiveObject());
   $("cp-sel-titulo").textContent = it ? "Foto seleccionada" : seleccionPeg().length > 1 ? `${seleccionPeg().length} fotos seleccionadas` : "Pulsa una foto de la lámina para editarla";
+  ["cp-quitar-fondo", "cp-original", "cp-reintentar", "cp-retocar"].forEach((id) => { $(id).disabled = !it || !it.orig; });
+  $("cp-filtros").hidden = $("cp-ia").hidden = !it || !baseEstilo(it);
   if (!it || !baseEstilo(it)) return;
   $("cp-original").disabled = it.src === it.orig;
   if (!it.__estilos) { const m = miniDe(baseEstilo(it), 220); it.__estilos = Object.keys(FILTROS_FOTO).map((k) => [k, filtroSobre(m, k).toDataURL("image/png")]); }
   $("cp-filtros").innerHTML = it.__estilos.map(([k, u]) => `<button class="estilo-foto ${it.estilo === k ? "on" : ""}" data-cp-estilo="${k}"><img src="${u}" alt="">${FILTROS_FOTO[k].nombre}</button>`).join("");
 }
 const pintarSelPegBase = pintarSelPeg;
-pintarSelPeg = function () { pintarSelPegBase(); pintarPanelFoto(); };
+pintarSelPeg = function () { pintarSelPegBase(); pintarPanelFoto(); if (pegFab && pegFab.getActiveObject()) pintarTamCP(); };
 $("cp-quitar-fondo").onclick = async () => { const s = seleccionPeg(); if (s.length) await quitarFondoVarios(s); };
+$("cp-tol").addEventListener("input", () => { $("cp-tol-v").textContent = pv("cp-tol"); });
+$("cp-reintentar").onclick = async () => {
+  const it = itemSel(); if (!it) return;
+  const antes = [pv("qf-tol"), $("qf-huecos").checked];
+  $("qf-tol").value = pv("cp-tol"); $("qf-huecos").checked = $("cp-huecos").checked;
+  pegEstado("Quitando el fondo otra vez…");
+  try { if (pv("cp-metodo") === "persona") mpFallo = false; await quitarFondoItem(it, pv("cp-metodo")); pintarLamina(); seleccionarItem(it); guardarPegSoon(); pegEstado("Hecho. Si sigue sin convencerte, sube o baja la tolerancia, o usa «Retocar a mano».", "ok"); }
+  catch { pegEstado("No se pudo quitar el fondo de esta foto.", "error"); }
+  $("qf-tol").value = antes[0]; $("qf-huecos").checked = antes[1];
+};
+$("cp-retocar").onclick = async () => {
+  const it = itemSel(); if (!it) return;
+  qf.items = []; qf.actual = -1; qf.retornoPeg = it;
+  await abrirQuitaFondo({ url: urlDe(it.orig) });
+  $("qf-a-lamina").hidden = false;
+  qfEstado("Retoca el recorte con la varita y el pincel y pulsa «Usar este recorte en la lámina».", "ok");
+};
+$("qf-a-lamina").onclick = async () => {
+  const it = qf.retornoPeg, r = qfItem(); if (!it || !r) return;
+  it.sinFondo = recortarTransparente(r.lienzo); it.src = it.sinFondo; it.estilo = null; it.__estilos = null; renderizarItem(it);
+  qf.retornoPeg = null; $("qf-a-lamina").hidden = true;
+  await abrirPegatinas(); seleccionarItem(it); guardarPegSoon(); pegEstado("Recorte actualizado en la lámina.", "ok");
+};
+/* Tamaño y posición de la selección */
+function objsSel() { return pegFab ? pegFab.getActiveObjects() : []; }
+function tocarSel(fn) {
+  const a = pegFab.getActiveObject(); if (!a) return;
+  if (a.type === "activeSelection") { const objs = a.getObjects(); pegFab.discardActiveObject(); objs.forEach(fn); pegFab.setActiveObject(new fabric.ActiveSelection(objs, { canvas: pegFab })); }
+  else fn(a);
+  objsSel().forEach((o) => { o.setCoords(); if (o.__item) Object.assign(o.__item, { x: o.left, y: o.top, lado: o.getScaledWidth(), ang: o.angle || 0 }); if (o.__qr) peg.qrPos = { x: o.left, y: o.top, s: o.scaleX, ang: o.angle || 0 }; });
+  pegFab.requestRenderAll(); pintarTamCP(); guardarPegSoon();
+}
+const anchoA = (o, mm) => { o.scale((mm * UPM) / o.width); };
+function pintarTamCP() {
+  const o = pegFab && pegFab.getActiveObject(); if (!o || o.type === "activeSelection") return;
+  const mm = o.getScaledWidth() / UPM; $("cp-tam").max = Math.round(hojaPeg().w); $("cp-tam").value = Math.round(mm); $("cp-tam-v").textContent = `${coma(mm / 10)} cm`;
+}
+$("cp-tam").addEventListener("input", () => tocarSel((o) => anchoA(o, Number(pv("cp-tam")))));
+$("cp-mas").onclick = () => tocarSel((o) => o.scale(o.scaleX * 1.12));
+$("cp-menos").onclick = () => tocarSel((o) => o.scale(o.scaleX / 1.12));
+$("cp-girar").onclick = () => tocarSel((o) => o.rotate(((o.angle || 0) + 90) % 360));
+$("cp-centrar").onclick = () => tocarSel((o) => { const { W, H } = hojaPeg(); o.set({ left: W / 2, top: H / 2 }); });
+$("cp-delante").onclick = () => $("peg-frente").click();
+$("cp-atras").onclick = () => {
+  const sel = seleccionPeg(); if (!sel.length) return;
+  const ids = new Set(sel.map((x) => x.id));
+  peg.items = [...peg.items.filter((i) => ids.has(i.id)), ...peg.items.filter((i) => !ids.has(i.id))];
+  pintarLamina(); guardarPegSoon();
+};
+document.addEventListener("keydown", (e) => {
+  if ($("pegatinas").hidden || !pegFab || !pegFab.getActiveObject() || e.target.closest?.("input, textarea, select")) return;
+  const d = { ArrowLeft: [-1, 0], ArrowRight: [1, 0], ArrowUp: [0, -1], ArrowDown: [0, 1] }[e.key]; if (!d) return;
+  e.preventDefault(); const paso = (e.shiftKey ? 5 : 1) * UPM;
+  const a = pegFab.getActiveObject(); a.set({ left: a.left + d[0] * paso, top: a.top + d[1] * paso }); a.setCoords();
+  if (a.type === "activeSelection") pegFab.fire("object:modified", { target: a }); else tocarSel(() => {});
+});
 $("cp-original").onclick = () => { const it = itemSel(); if (!it) return; it.src = it.orig; it.sinFondo = null; it.estilo = null; it.__estilos = null; renderizarItem(it); pintarLamina(); seleccionarItem(it); guardarPegSoon(); };
 $("cp-filtros").addEventListener("click", (e) => {
   const b = e.target.closest("[data-cp-estilo]"), it = itemSel(); if (!b || !it) return;
