@@ -852,7 +852,7 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
     </div>
     <div class="peg-rapido" id="peg-est-bloque">
       <strong>Foto con estilo: dibujo animado, kawaii…</strong>
-      <p class="ayuda">Sube una foto, elige cómo quieres que quede y se convierte en pegatina con su línea de corte.</p>
+      <p class="ayuda">Sube una foto, elige cómo quieres que quede y se convierte en pegatina.</p>
       <div class="fila"><button class="btn primario" id="peg-est-subir">Subir una foto</button><label class="check"><input type="checkbox" id="peg-est-fondo" checked> Quitar el fondo</label></div>
       <input type="file" id="peg-est-archivo" accept="image/png,image/jpeg,image/webp" hidden>
       <div id="peg-est-panel" class="campo-grupo" hidden>
@@ -903,7 +903,7 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
     </div>
     <div class="campo-grupo" id="peg-bandeja-bloque" hidden><span class="etiqueta">Tus fotos (pulsa una para añadir otra copia a la lámina)</span><div class="qf-tira" id="peg-bandeja"></div></div>
     <div class="peg-lamina" id="peg-lamina-marco"><canvas id="peg-hoja" width="400" height="700"></canvas></div>
-    <div class="fila" style="justify-content:space-between"><label class="check cp-solo-peg"><input type="checkbox" id="peg-ver-corte" checked> Ver línea de corte y zona de impresión</label><button class="btn mini" id="peg-svg">Archivo de corte (SVG)</button></div>
+    <div class="fila" style="justify-content:space-between"><label class="check" hidden><input type="checkbox" id="peg-ver-corte"> Ver línea de corte</label><span class="ayuda cp-solo-peg">La línea de corte la crea la app de Cricut al subir las pegatinas.</span><button class="btn mini" id="peg-svg" hidden>Archivo de corte (SVG)</button></div>
     <details class="seccion peg-ajustes"><summary>Hoja de la máquina, tamaño y borde de corte</summary><div>
     <div class="peg-qr">
       <label class="campo-grupo"><span class="etiqueta">Hoja de la máquina (medidas de la ficha de Cricut)</span>
@@ -912,8 +912,8 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
       <label class="campo-grupo"><span class="etiqueta">Tamaño al colocar y al ordenar (luego puedes cambiar cada una)</span>
         <select id="peg-tam" class="campo"><option value="390">Grande · 3,9 cm</option><option value="300" selected>Mediana · 3 cm</option><option value="220">Pequeña · 2,2 cm</option><option value="170">Mini · 1,7 cm</option></select></label>
     <div class="campo-grupo peg-troquel" id="cp-troquel"><span class="etiqueta">Borde blanco (troquel)</span>
-      <div class="fila"><input type="range" id="peg-borde" min="4" max="36" value="16" style="flex:1" aria-label="Grosor del borde"><input type="color" id="peg-borde-c" class="campo" value="#ffffff" aria-label="Color del borde"></div>
-      <p class="ayuda">Es el contorno que corta la Cricut. Con 12-20 px queda un margen cómodo.</p>
+      <div class="fila"><input type="range" id="peg-borde" min="0" max="36" value="16" style="flex:1" aria-label="Grosor del borde"><input type="color" id="peg-borde-c" class="campo" value="#ffffff" aria-label="Color del borde"></div>
+      <p class="ayuda">Margen blanco alrededor de cada pegatina. Ponlo a 0 si prefieres que el borde lo añada la app de Cricut.</p>
     </div>
     </div>
     </div></details>
@@ -5551,7 +5551,7 @@ function pintarEstilos() {
 function pintarVistaEstilo() {
   const r = est.res[est.actual]; if (!r) return;
   const p = pegatinaDeRecorte(r), x = $("peg-est-vista").getContext("2d");
-  x.clearRect(0, 0, 512, 512); x.drawImage(p, 0, 0); dibujarCorte(x, p, 0, 0, 512);
+  x.clearRect(0, 0, 512, 512); x.drawImage(p, 0, 0);
   est.pegatina = p;
 }
 $("peg-est-subir").onclick = () => $("peg-est-archivo").click();
@@ -5623,13 +5623,13 @@ function pintarModoCP() {
   $$("[data-cp-modo]").forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.cpModo === peg.modo)));
   $$(".cp-solo-peg").forEach((e) => { e.hidden = peg.modo === "fotos"; });
   $("cp-troquel").hidden = peg.modo === "fotos";
-  $("peg-svg").hidden = peg.modo === "fotos";
+  $("peg-svg").hidden = true;
   if ($("cp-fondos").children.length) pintarFondosCP();
 }
 document.querySelector(".cp-modo").addEventListener("click", (e) => {
   const b = e.target.closest("[data-cp-modo]"); if (!b || b.dataset.cpModo === peg.modo) return;
   peg.modo = b.dataset.cpModo; peg.items.forEach(renderizarItem); pintarModoCP(); pintarLamina(); guardarPegSoon();
-  pegEstado(peg.modo === "fotos" ? "Modo «Solo imprimir»: las fotos se imprimen tal cual, sin borde ni línea de corte." : "Modo «Pegatinas»: cada foto lleva su borde blanco y su línea de corte.", "ok");
+  pegEstado(peg.modo === "fotos" ? "Modo «Solo imprimir»: las fotos se imprimen tal cual, sin borde ni línea de corte." : "Modo «Pegatinas»: cada foto lleva su borde blanco; la línea de corte la pone la app de Cricut.", "ok");
 });
 async function lienzoDeArchivo(a) {
   const img = await imagenDe(await prepararFoto(a)), k = Math.min(1, 1600 / Math.max(img.naturalWidth, img.naturalHeight));
