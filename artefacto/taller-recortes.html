@@ -794,7 +794,7 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
   <div class="grupo">
     <button class="btn compartir" id="peg-zip" hidden><svg viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><line x1="11" y1="18" x2="13" y2="18"/></svg>Pack WhatsApp (.zip)</button>
     <button class="btn compartir" id="peg-pdf"><svg viewBox="0 0 24 24"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="14 3 14 9 20 9"/></svg>PDF</button>
-    <button class="btn grad" id="peg-png"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>PNG para Cricut</button>
+    <button class="btn grad" id="peg-png"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Para Cricut</button>
   </div>
 </header>
 <main class="peg-mesa">
@@ -896,7 +896,7 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
       <details class="cp-fondo-det"><summary>Fondo de la lámina <span class="ayuda" id="cp-fondo-actual">(blanco)</span></summary><div class="campo-grupo" style="margin-top:8px">
       <div class="cp-fondos" id="cp-fondos"></div>
       <div class="fila"><label class="fila" style="gap:6px"><span class="ayuda">Color 1</span><input type="color" id="cp-fh-c1" class="campo" value="#fde2ec"></label><label class="fila" style="gap:6px"><span class="ayuda">Color 2</span><input type="color" id="cp-fh-c2" class="campo" value="#ff8fb8"></label><button class="btn mini" id="cp-fh-azar">🎲 Al azar</button></div>
-      <p class="ayuda cp-solo-peg" id="cp-fh-nota" hidden>Con fondo en la lámina, la máquina no puede adivinar el contorno de cada pegatina: usa el «Archivo de corte (SVG)».</p>
+      <p class="ayuda cp-solo-peg" id="cp-fh-nota" hidden>Con fondo, «PNG para Cricut» descarga dos capas: el fondo y las pegatinas (con fondo transparente, para que Cricut detecte cada una). En Design Space ponlas una encima de otra y pulsa «Adjuntar», no «Aplanar». Vienen explicadas en el LEEME.</p>
       <button class="btn mini" id="cp-fh-cerrar">Listo, plegar</button>
       </div></details>
       <span hidden><span id="peg-sel-info"></span><span id="peg-pf-colores"></span><button id="peg-aleatorio"></button></span>
@@ -4563,10 +4563,11 @@ async function guardarPeg(nombre, datos) {
   catch (e) { pegEstado(e?.code === "declined" ? "" : "No se ha podido descargar el archivo.", e?.code === "declined" ? "" : "error"); }
 }
 /* Dibuja una lámina a tamaño real (k = píxeles por unidad; 1,2 ≈ 305 ppp). */
-function renderHoja(h, k = 1.2) {
+function renderHoja(h, k = 1.2, capa = "todo") {
   const { W, H } = hojaPeg(), c = document.createElement("canvas"); c.width = Math.round(W * k); c.height = Math.round(H * k);
   const x = c.getContext("2d"); x.scale(k, k);
-  dibujarFondoHoja(x, W, H, peg.fondoHoja);
+  if (capa !== "pegatinas") dibujarFondoHoja(x, W, H, peg.fondoHoja);
+  if (capa === "fondo") return c;
   const dibujar = (img, cx, cy, w, hh, ang) => { x.save(); x.translate(cx, cy); x.rotate(((ang || 0) * Math.PI) / 180); x.drawImage(img, -w / 2, -hh / 2, w, hh); x.restore(); };
   for (const it of itemsDe(h)) dibujar(it.c, it.x, it.y, it.lado, (it.lado * it.c.height) / it.c.width, it.ang);
   if ($("peg-qr-si").checked) { const q = posQR(), t = tarjetaQR(); dibujar(t, q.x, q.y, t.width * (q.s || 1), t.height * (q.s || 1), q.ang); }
@@ -4574,13 +4575,57 @@ function renderHoja(h, k = 1.2) {
 }
 async function porCadaLamina(fn) { for (let h = 0; h < pegNumHojas(); h++) if (itemsDe(h).length) await fn(h, renderHoja(h)); }
 const etiquetaHoja = () => { const { w, h } = hojaPeg(); return `${String(w).replace(".", "_")}x${String(h).replace(".", "_")}mm`; };
+/* PNG con la resolución guardada (chunk pHYs): 1,2 px por unidad = 12 px/mm ≈ 305 ppp, para que la Cricut lo abra a tamaño real. */
+const TABLA_CRC = (() => { const t = new Uint32Array(256); for (let n = 0; n < 256; n++) { let c = n; for (let k = 0; k < 8; k++) c = c & 1 ? 0xedb88320 ^ (c >>> 1) : c >>> 1; t[n] = c >>> 0; } return t; })();
+const crc32 = (b) => { let c = 0xffffffff; for (let i = 0; i < b.length; i++) c = TABLA_CRC[(c ^ b[i]) & 255] ^ (c >>> 8); return (c ^ 0xffffffff) >>> 0; };
+async function pngConPPP(c, pxPorMetro = 12000) {
+  const b = new Uint8Array(await (await aBlob(c, "image/png")).arrayBuffer()), ch = new Uint8Array(21), v = new DataView(ch.buffer);
+  v.setUint32(0, 9); ch.set([112, 72, 89, 115], 4); v.setUint32(8, pxPorMetro); v.setUint32(12, pxPorMetro); ch[16] = 1; v.setUint32(17, crc32(ch.subarray(4, 17)));
+  const out = new Uint8Array(b.length + 21); out.set(b.subarray(0, 33)); out.set(ch, 33); out.set(b.subarray(33), 54);
+  return new Blob([out], { type: "image/png" });
+}
+const LEEME_CRICUT = (conFondo) => {
+  const { w, h } = hojaPeg();
+  return `CÓMO IMPRIMIR Y CORTAR ESTAS PEGATINAS EN CRICUT\r\n\r\nMedida de la lámina: ${coma(w)} × ${coma(h)} mm.\r\n\r\n` +
+    `1. En Cricut Design Space pulsa «Subir» → «Subir imagen» y elige «pegatinas…png».\r\n` +
+    `2. Como el fondo es transparente, Design Space detecta cada pegatina por separado: elige «Imagen de imprimir y cortar».\r\n` +
+    `3. En el lienzo, pon el ancho a ${coma(w)} mm (con el candado cerrado) para que salgan a tamaño real.\r\n` +
+    (conFondo
+      ? `\r\nCON FONDO DE LÁMINA\r\n4. Sube también «fondo…png» como «Imprimir y cortar» y ponle el mismo tamaño (${coma(w)} × ${coma(h)} mm).\r\n` +
+        `5. Coloca las pegatinas encima del fondo (Organizar → Traer al frente) y alinéalas arriba a la izquierda.\r\n` +
+        `6. Selecciona las dos capas y pulsa «Adjuntar» (NO «Aplanar»: aplanar lo convierte en una sola pieza y solo corta el rectángulo).\r\n` +
+        `«vista-previa…png» es solo para ver cómo queda: no lo subas para cortar.\r\n`
+      : "") +
+    `\r\nLa carpeta «pegatinas-sueltas» tiene cada pegatina por separado (fondo transparente, tamaño real) por si prefieres colocarlas tú o usar la app de la StickerPix.\r\n`;
+};
 $("peg-png").onclick = async () => {
   if (!peg.items.length) { pegEstado("La lámina está vacía.", "error"); return; }
-  const hojas = []; await porCadaLamina(async (h, c) => { hojas.push([h, c]); });
-  if (hojas.length === 1) { await guardarPeg(`lamina-pegatinas-${etiquetaHoja()}-${fecha()}.png`, await aBlob(hojas[0][1], "image/png")); return; }
-  const zip = new JSZip();
-  for (const [h, c] of hojas) zip.file(`lamina-${String(h + 1).padStart(2, "0")}-${etiquetaHoja()}.png`, await aBlob(c, "image/png"));
-  await guardarPeg(`laminas-pegatinas-cricut-${fecha()}.zip`, await zip.generateAsync({ type: "blob" }));
+  if (peg.modo === "fotos") { // solo imprimir: una imagen por lámina tal cual
+    const hojas = []; await porCadaLamina(async (h, c) => { hojas.push([h, c]); });
+    if (hojas.length === 1) { await guardarPeg(`lamina-fotos-${etiquetaHoja()}-${fecha()}.png`, await pngConPPP(hojas[0][1])); return; }
+    const zip = new JSZip();
+    for (const [h, c] of hojas) zip.file(`lamina-${String(h + 1).padStart(2, "0")}-${etiquetaHoja()}.png`, await pngConPPP(c));
+    await guardarPeg(`laminas-fotos-${fecha()}.zip`, await zip.generateAsync({ type: "blob" })); return;
+  }
+  pegEstado("Preparando los archivos para Cricut…");
+  const conFondo = peg.fondoHoja && peg.fondoHoja.tipo !== "ninguno", zip = new JSZip(), varias = pegNumHojas() > 1;
+  let n = 0;
+  for (let h = 0; h < pegNumHojas(); h++) {
+    if (!itemsDe(h).length) continue;
+    const pre = varias ? `lamina-${String(h + 1).padStart(2, "0")}/` : "", eti = etiquetaHoja();
+    zip.file(`${pre}${conFondo ? "2-" : ""}pegatinas-para-cortar-${eti}.png`, await pngConPPP(renderHoja(h, 1.2, "pegatinas")));
+    if (conFondo) {
+      zip.file(`${pre}1-fondo-${eti}.png`, await pngConPPP(renderHoja(h, 1.2, "fondo")));
+      zip.file(`${pre}vista-previa-${eti}.png`, await aBlob(renderHoja(h, 0.6), "image/png"));
+    }
+    for (const it of itemsDe(h)) {
+      const lado = Math.round(it.lado * 1.2), c = document.createElement("canvas"); c.width = lado; c.height = Math.round((lado * it.c.height) / it.c.width);
+      c.getContext("2d").drawImage(it.c, 0, 0, c.width, c.height);
+      zip.file(`${pre}pegatinas-sueltas/pegatina-${String(++n).padStart(2, "0")}.png`, await pngConPPP(recortarTransparente(c)));
+    }
+  }
+  zip.file("LEEME-cricut.txt", LEEME_CRICUT(conFondo));
+  await guardarPeg(`pegatinas-cricut-${fecha()}.zip`, await zip.generateAsync({ type: "blob" }));
 };
 $("peg-pdf").onclick = async () => {
   if (!peg.items.length) { pegEstado("La lámina está vacía.", "error"); return; }
@@ -5430,8 +5475,8 @@ $("peg-svg").onclick = async () => {
   await porCadaLamina(async (hh, c) => {
     let d = itemsDe(hh).map((it) => corteDe(it.c).map((cont) => trazo(cont, it.x, it.y, it.lado, it.lado, it.ang, it.lado / 512, it.lado / 512)).join("")).join("");
     if ($("peg-qr-si").checked) { const q = posQR(), t = tamQR(), aw = t.w * (q.s || 1), ah = t.h * (q.s || 1); d += trazo([[0, 0], [1, 0], [1, 1], [0, 1]], q.x, q.y, aw, ah, q.ang, aw, ah); }
-    const png = c.toDataURL("image/png");
-    paginas.push(`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${w}mm" height="${h}mm" viewBox="0 0 ${w} ${h}"><g id="impresion"><image x="0" y="0" width="${w}" height="${h}" xlink:href="${png}" href="${png}"/></g><g id="corte" fill="none" stroke="#ff0000" stroke-width="0.2"><path d="${d}"/></g></svg>`);
+    const png = renderHoja(hh, 1.2, "pegatinas").toDataURL("image/png"), fondoSVG = peg.fondoHoja && peg.fondoHoja.tipo !== "ninguno" ? renderHoja(hh, 0.6, "fondo").toDataURL("image/png") : "";
+    paginas.push(`<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="${w}mm" height="${h}mm" viewBox="0 0 ${w} ${h}">${fondoSVG ? `<g id="fondo"><image x="0" y="0" width="${w}" height="${h}" xlink:href="${fondoSVG}" href="${fondoSVG}"/></g>` : ""}<g id="impresion"><image x="0" y="0" width="${w}" height="${h}" xlink:href="${png}" href="${png}"/></g><g id="corte" fill="none" stroke="#ff0000" stroke-width="0.2"><path d="${d}"/></g></svg>`);
   });
   if (paginas.length === 1) { await guardarPeg(`lamina-corte-${etiquetaHoja()}-${fecha()}.svg`, paginas[0]); return; }
   const zip = new JSZip(); paginas.forEach((t, i) => zip.file(`lamina-${String(i + 1).padStart(2, "0")}-corte.svg`, t));
