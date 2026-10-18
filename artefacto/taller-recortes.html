@@ -373,7 +373,11 @@ body:has(#pegatinas:not([hidden])) { padding: 0; margin: 0; }
 .peg-ajustes { border: 1px solid var(--linea); border-radius: 14px; }
 .peg-ajustes > div { padding-top: 4px; }
 .cp-modo { width: 100%; }
-.cp-fondo-det summary { cursor: pointer; font-weight: 600; font-size: 13px; }
+.cp-fondo-det summary { cursor: pointer; font-weight: 600; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border: 1px solid var(--linea); border-radius: 999px; background: #fff; list-style: none; }
+.cp-fondo-det summary::-webkit-details-marker { display: none; }
+.cp-fondo-det summary::before { content: "🎨"; }
+.cp-fondo-det[open] summary { border-color: var(--acento); }
+.qf-pasos { flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
 .cp-fondos { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; }
 .cp-fondos button { flex: none; width: 52px; height: 64px; border-radius: 8px; border: 2px solid var(--linea); padding: 0; overflow: hidden; position: relative; background: #fff; }
 .cp-fondos button.on { border-color: var(--acento); }
@@ -763,7 +767,6 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
       <div class="dos"><button class="btn mini activo" data-qf-herr="varita" title="Pulsa en una zona del fondo para quitarla">Varita</button><button class="btn mini" data-qf-herr="borrar">Pincel: borrar</button><button class="btn mini" data-qf-herr="recuperar">Pincel: restaurar</button><button class="btn mini" data-qf-herr="zona" title="Arrastra un rectángulo alrededor de lo que quieres conservar">Zona: rectángulo</button><button class="btn mini" data-qf-herr="lazo" title="Rodea a mano lo que quieres conservar">Zona: lazo</button></div>
       <label class="check"><input type="checkbox" id="qf-zona-auto" checked> Dentro de la zona, quitar también el fondo automáticamente</label>
       <label class="deslizador" for="qf-pincel"><span>Pincel</span><input type="range" id="qf-pincel" min="4" max="120" value="30"><span id="qf-pincel-v">30 px</span></label>
-      <div class="dos"><button class="btn mini" id="qf-deshacer" disabled>Deshacer</button><button class="btn mini" id="qf-reiniciar" disabled>Empezar de nuevo</button></div>
     </div>
     <div class="campo-grupo"><span class="etiqueta">Fondo de la vista previa</span>
       <div class="seg" role="group" aria-label="Fondo de la vista"><button data-qf-vista="cuadros" aria-pressed="true">Cuadros</button><button data-qf-vista="blanco" aria-pressed="false">Blanco</button><button data-qf-vista="negro" aria-pressed="false">Negro</button><button data-qf-vista="marca" aria-pressed="false">Marca</button></div>
@@ -772,6 +775,7 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
   </section>
   <section class="panel peg-col qf-obra" aria-label="Imagen">
     <div class="peg-cab"><h2 id="qf-nombre">Ninguna imagen todavía</h2><button class="btn mini" id="qf-original" disabled>Mantén pulsado: ver original</button></div>
+    <div class="fila qf-pasos"><button class="btn mini" id="qf-deshacer" disabled>↶ Deshacer</button><button class="btn mini" id="qf-reiniciar" disabled>Recorte del principio</button><button class="btn mini" id="qf-foto-original" disabled>Foto original</button></div>
     <div class="qf-lienzo cuadros" id="qf-marco"><canvas id="qf-lienzo" width="10" height="10"></canvas><p class="vacio" id="qf-vacio">Sube una imagen para empezar. Puedes subir varias a la vez.</p></div>
     <div class="qf-tira" id="qf-tira"></div>
   </section>
@@ -808,6 +812,7 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
         <p class="ayuda">También puedes arrastrarla, tirar de sus esquinas o moverla con las flechas del teclado.</p>
         <span class="etiqueta">Fondo</span>
         <div class="dos"><button class="btn primario" id="cp-quitar-fondo">Quitar fondo</button><button class="btn" id="cp-original">Volver al original</button></div>
+        <button class="btn ancho" id="cp-deshacer" disabled>↶ Deshacer el último cambio</button>
         <button class="btn ancho" id="cp-mejor">✨ Quitar fondo con IA (más preciso)</button>
         <div class="dos"><button class="btn mini" id="cp-h-borrar">🖌 Borrar con pincel</button><button class="btn mini" id="cp-h-recuperar">🖌 Restaurar con pincel</button><button class="btn mini" id="cp-h-zona">⬚ Elegir zona (rectángulo)</button><button class="btn mini" id="cp-h-lazo">➰ Elegir zona (lazo)</button></div>
         <details class="cp-otra"><summary>Más ajustes del recorte (método y tolerancia)</summary><div class="campo-grupo">
@@ -891,8 +896,9 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
       <details class="cp-fondo-det"><summary>Fondo de la lámina <span class="ayuda" id="cp-fondo-actual">(blanco)</span></summary><div class="campo-grupo" style="margin-top:8px">
       <div class="cp-fondos" id="cp-fondos"></div>
       <div class="fila"><label class="fila" style="gap:6px"><span class="ayuda">Color 1</span><input type="color" id="cp-fh-c1" class="campo" value="#fde2ec"></label><label class="fila" style="gap:6px"><span class="ayuda">Color 2</span><input type="color" id="cp-fh-c2" class="campo" value="#ff8fb8"></label><button class="btn mini" id="cp-fh-azar">🎲 Al azar</button></div>
-      </div></details>
       <p class="ayuda cp-solo-peg" id="cp-fh-nota" hidden>Con fondo en la lámina, la máquina no puede adivinar el contorno de cada pegatina: usa el «Archivo de corte (SVG)».</p>
+      <button class="btn mini" id="cp-fh-cerrar">Listo, plegar</button>
+      </div></details>
       <span hidden><span id="peg-sel-info"></span><span id="peg-pf-colores"></span><button id="peg-aleatorio"></button></span>
     </div>
     <div class="campo-grupo" id="peg-bandeja-bloque" hidden><span class="etiqueta">Tus fotos (pulsa una para añadir otra copia a la lámina)</span><div class="qf-tira" id="peg-bandeja"></div></div>
@@ -911,10 +917,10 @@ body:has(#quitafondo:not([hidden])) { padding: 0; margin: 0; }
     </div>
     </div>
     </div></details>
-    <div class="fila" style="justify-content:space-between"><span class="ayuda">Pulsa una foto para editarla. Arrástrala para moverla; tira de una esquina para cambiar el tamaño y del punto de arriba para girarla. Supr borra.</span><span class="fila"><button class="btn mini" id="peg-repetir" hidden>Llenar</button><button class="btn mini peligro" id="peg-vaciar">Vaciar esta lámina</button></span></div>
+    <div class="fila" style="justify-content:space-between"><span class="ayuda">Pulsa una foto para editarla. Arrástrala para moverla; tira de una esquina para cambiar el tamaño y del punto de arriba para girarla. Supr borra.</span><span class="fila"><button class="btn mini" id="peg-repetir" hidden>Llenar</button><button class="btn mini" id="peg-vaciar">Vaciar esta lámina</button><button class="btn mini peligro" id="peg-borrar-hoja">🗑 Borrar lámina</button></span></div>
     <div class="estado" id="peg-estado" hidden></div>
     <details class="seccion"><summary>Más opciones: QR y pack de WhatsApp</summary><div class="peg-qr">
-      <span class="etiqueta">¿Imprimir el QR del pack digital en esta lámina?</span>
+      <span class="etiqueta">¿Imprimir el QR del pack digital en esta lámina?</span><p class="ayuda">También puedes pulsar el QR en la lámina y darle a «Borrar».</p>
       <div class="seg" role="group" aria-label="QR en la lámina"><button data-peg-qr="si" aria-pressed="false">Sí, con QR</button><button data-peg-qr="no" aria-pressed="true">No, sin QR</button></div>
       <input type="checkbox" id="peg-qr-si" hidden>
       <p class="ayuda" id="peg-qr-ayuda">El QR lleva al pack con las pegatinas de esta lámina: descarga el .zip, súbelo a Drive o a tu web y pega aquí el enlace. La tarjeta del QR también se puede mover y cambiar de tamaño.</p>
@@ -4192,7 +4198,7 @@ function pintarOpcionesTam() {
   [...$("peg-tam").options].forEach((o) => { const n = pegHuecos(o.value, qr).length; o.textContent = `${o.textContent.split(" (")[0]} (${n} por lámina)`; });
 }
 let pegHojaActual = 0;
-const pegNumHojas = () => Math.max(peg.hojas || 1, ...peg.items.map((i) => i.hoja + 1));
+const pegNumHojas = () => Math.max(peg.hojas || 1, 1, ...peg.items.map((i) => i.hoja + 1));
 const itemsDe = (h = pegHojaActual) => peg.items.filter((i) => i.hoja === h);
 const pegVisibles = (h) => itemsDe(h ?? pegHojaActual).map((i) => i.c);
 const ocupadoEn = (s, h) => itemsDe(h).some((i) => Math.abs(i.x - s.x) < (i.lado + s.lado) / 2 - 6 && Math.abs(i.y - s.y) < (i.lado + s.lado) / 2 - 6);
@@ -4399,6 +4405,7 @@ function pintarLamina() {
   $("peg-contador").textContent = `${vis.length} ${nom}${vis.length === 1 ? "" : "s"}`;
   $("peg-num").textContent = `Lámina ${pegHojaActual + 1} de ${total}`;
   $("peg-ant").disabled = pegHojaActual === 0; $("peg-sig").disabled = pegHojaActual >= total - 1;
+  $("peg-borrar-hoja").hidden = total < 2;
   pegFab.discardActiveObject(); pegFab.clear(); pegFab.backgroundColor = "#ffffff";
   if (peg.fondoHoja && peg.fondoHoja.tipo !== "ninguno") pegFab.backgroundImage = new fabric.Image(lienzoFondoHoja(), { left: 0, top: 0, originX: "left", originY: "top", selectable: false, evented: false });
   vis.forEach((it) => pegFab.add(objetoItem(it)));
@@ -4445,7 +4452,7 @@ $("peg-borrar").onclick = () => {
 };
 $("peg-duplicar").onclick = () => {
   const sel = seleccionPeg(); if (!sel.length) return;
-  sel.forEach((it) => { const n = { ...it, id: idPeg++, x: it.x + 30, y: it.y + 30 }; peg.items.push(n); });
+  sel.forEach((it) => { const n = { ...it, id: idPeg++, x: it.x + 30, y: it.y + 30, __previos: [] }; peg.items.push(n); });
   pintarLamina(); guardarPegSoon();
 };
 $("peg-frente").onclick = () => {
@@ -4471,8 +4478,28 @@ $("peg-repetir").onclick = () => {
   pintarLamina(); guardarPegSoon();
 };
 $("peg-vaciar").onclick = () => { peg.items = peg.items.filter((i) => i.hoja !== pegHojaActual); pintarLamina(); guardarPegSoon(); };
-$("peg-ant").onclick = () => { pegHojaActual = Math.max(0, pegHojaActual - 1); pintarLamina(); };
-$("peg-sig").onclick = () => { pegHojaActual = Math.min(pegNumHojas() - 1, pegHojaActual + 1); pintarLamina(); };
+/* Quita las láminas vacías (menos la que se indique) y renumera las demás. Devuelve el nuevo número de «guardar». */
+function compactarHojas(guardar = -1) {
+  const total = pegNumHojas(), usadas = new Set(peg.items.map((i) => i.hoja)); if (guardar >= 0) usadas.add(guardar);
+  const mapa = new Map(); let k = 0; for (let h = 0; h < total; h++) if (usadas.has(h)) mapa.set(h, k++);
+  peg.items.forEach((i) => { i.hoja = mapa.get(i.hoja); });
+  peg.hojas = Math.max(1, k);
+  return guardar >= 0 ? mapa.get(guardar) : -1;
+}
+$("peg-borrar-hoja").onclick = () => {
+  const total = pegNumHojas(), n = itemsDe().length;
+  if (n && !confirm(`¿Borrar la lámina ${pegHojaActual + 1} con sus ${n} ${peg.modo === "fotos" ? "fotos" : "pegatinas"}?`)) return;
+  const h = pegHojaActual;
+  peg.items = peg.items.filter((i) => i.hoja !== h);
+  peg.items.forEach((i) => { if (i.hoja > h) i.hoja--; });
+  peg.hojas = Math.max(1, total - 1); pegHojaActual = Math.max(0, Math.min(h, peg.hojas - 1));
+  compactarHojas(pegHojaActual >= 0 ? pegHojaActual : -1);
+  pintarLamina(); guardarPegSoon();
+  pegEstado(total > 1 ? `Lámina borrada. Quedan ${pegNumHojas()}.` : "Lámina vaciada.", "ok");
+};
+const irAHoja = (h) => { pegHojaActual = Math.max(0, compactarHojas(Math.max(0, Math.min(pegNumHojas() - 1, h)))); pintarLamina(); guardarPegSoon(); };
+$("peg-ant").onclick = () => irAHoja(pegHojaActual - 1);
+$("peg-sig").onclick = () => irAHoja(pegHojaActual + 1);
 const PEG_PLANTILLAS = {
   sello: () => ({ "peg-forma": "circle", "peg-color": kit.colores[0], "peg-texto": "FAKTORINGO", "peg-sub": "Diseño personalizado", "peg-tcolor": "#ffffff" }),
   gracias: () => ({ "peg-forma": "rounded", "peg-color": kit.colores[4], "peg-texto": "¡GRACIAS!", "peg-sub": "Por apoyar lo artesanal", "peg-tcolor": "#ffffff" }),
@@ -4499,7 +4526,7 @@ document.querySelector("#pegatinas").addEventListener("click", (e) => {
 $("peg-qr-si").addEventListener("change", () => { pintarQRPeg(); pintarLamina(); guardarPegSoon(); });
 $("peg-borde").addEventListener("change", () => { peg.items.forEach(renderizarItem); pintarLamina(); guardarPegSoon(); });
 $("peg-tam").addEventListener("change", () => { ordenarTodo(); pintarLamina(); guardarPegSoon(); pegEstado(`Recolocadas a ${pegMax()} por lámina${pegNumHojas() > 1 ? ` (${pegNumHojas()} láminas)` : ""}. Puedes mover y cambiar el tamaño de cada una.`, "ok"); });
-document.querySelector(".peg-qr").addEventListener("click", (e) => {
+document.querySelector('[aria-label="QR en la lámina"]').addEventListener("click", (e) => {
   const b = e.target.closest("[data-peg-qr]"); if (!b) return;
   $("peg-qr-si").checked = b.dataset.pegQr === "si"; $("peg-qr-si").dispatchEvent(new Event("change"));
   pintarLamina(); pegEstado("");
@@ -4598,6 +4625,7 @@ const lienzoDeUrl = async (u) => { if (!u) return null; const im = await imagenD
 let pegListo = false;
 async function abrirPegatinas() {
   $("inicio").hidden = true; $("editor").hidden = true; $("quitafondo").hidden = true; $("pegatinas").hidden = false;
+  document.querySelector(".cp-fondo-det").open = false;
   window.scrollTo(0, 0);
   pintarKitPeg(); pintarGaleriaPeg();
   if (!pegListo) {
@@ -4610,10 +4638,10 @@ async function abrirPegatinas() {
       if (d) {
         Object.entries(d.campos || {}).forEach(([id, val]) => { if ($(id)) $(id).value = val; });
         $("peg-hoja-medidas").hidden = pv("peg-hoja-tipo") !== "personal";
-        $("peg-qr-si").checked = d.qr !== false;
+        $("peg-qr-si").checked = d.qr === true;
         if (d.img) peg.img = await imagenDe(d.img).catch(() => null), peg.imgUrl = peg.img ? d.img : "";
         if (d2) {
-          peg.hojas = d2.hojas || 1; peg.qrPos = d2.qrPos || null; peg.modo = d2.modo === "fotos" ? "fotos" : "pegatinas"; peg.fondoHoja = d2.fondoHoja || { tipo: "ninguno" };
+          peg.hojas = Math.min(d2.hojas || 1, 60); peg.qrPos = d2.qrPos || null; peg.modo = d2.modo === "fotos" ? "fotos" : "pegatinas"; peg.fondoHoja = d2.fondoHoja || { tipo: "ninguno" };
           for (const g of d2.items || []) { try { const orig = await lienzoDeUrl(g.orig), sf = await lienzoDeUrl(g.sinFondo), src = (await lienzoDeUrl(g.src)) || sf || orig; const it = nuevoItem({ src, orig: orig || src, sinFondo: sf, c0: await lienzoDeUrl(g.c0), fondo: g.fondo }); Object.assign(it, { hoja: g.hoja, x: g.x, y: g.y, lado: g.lado, ang: g.ang }); peg.items.push(it); } catch { /* pegatina dañada */ } }
         } else {
           for (const u of (d1.laminas || []).slice(0, 96)) { const it = nuevoItem({ c0: await lienzoDeUrl(u) }); peg.items.push(it); }
@@ -4914,7 +4942,7 @@ function pintarQF() {
   const it = qfItem(), c = $("qf-lienzo");
   $("qf-vacio").hidden = !!it;
   ["qf-png", "qf-a-fotos", "qf-original", "qf-reiniciar", "qf-pegatinas"].forEach((id) => { $(id).disabled = !it; });
-  $("qf-deshacer").disabled = !it || !it.historia.length;
+  pintarDeshacerQF(); $("qf-foto-original").disabled = !it;
   $("qf-zip").hidden = qf.items.length < 2; $("qf-zip").disabled = qf.items.length < 2;
   $("qf-al-diseno").hidden = !qf.retorno || !it;
   $("qf-nombre").textContent = it ? it.nombre : "Ninguna imagen todavía";
@@ -4925,7 +4953,7 @@ function pintarQF() {
 }
 function rehacer(it, todo) { if (todo && !["persona", "foto", "ia"].includes(it.modo)) { it.fijo = false; it.sinLimpiar = false; calcularAuto(it); } componer(it); pintarQF(); }
 let tQF = null;
-const rehacerPronto = (todo) => { clearTimeout(tQF); tQF = setTimeout(() => { const it = qfItem(); if (it) rehacer(it, todo); }, 120); };
+const rehacerPronto = (todo) => { if (todo && !tQF && qfItem()) guardarPaso(qfItem()); clearTimeout(tQF); tQF = setTimeout(() => { tQF = null; const it = qfItem(); if (it) rehacer(it, todo); }, 120); };
 async function cargarEnQF(url, nombre, alfa) {
   const img = await imagenDe(url);
   const k = Math.min(1, 2400 / Math.max(img.naturalWidth, img.naturalHeight));
@@ -4941,6 +4969,7 @@ async function cargarEnQF(url, nombre, alfa) {
   }
   qf.items.push(it); qf.actual = qf.items.length - 1;
   if (it.modo === "persona") await segmentarPersona(it);
+  it.inicial = { a: it.auto.slice(), modo: it.modo, sl: it.sinLimpiar, fijo: it.fijo };
   componer(it); pintarQF();
 }
 async function subirAQF(archivos) {
@@ -5009,7 +5038,7 @@ document.querySelector("#quitafondo").addEventListener("click", async (e) => {
     qf.modo = m.dataset.qfModo; pintarModoQF();
     const it = qfItem();
     if (it) {
-      it.modo = qf.modo;
+      guardarPaso(it); it.modo = qf.modo;
       if (it.modo === "persona" && !it.ia) await segmentarPersona(it);
       if (it.modo === "ia" || it.modo === "foto") {
         qfEstado(it.modo === "ia" ? "Claude está buscando el contorno…" : "Separando la figura del fondo…");
@@ -5029,7 +5058,8 @@ $("qf-huecos").addEventListener("change", () => rehacerPronto(true));
 
 /* Varita y pincel sobre la imagen */
 function puntoQF(e) { const c = $("qf-lienzo"), r = c.getBoundingClientRect(); return { x: Math.floor(((e.clientX - r.left) * c.width) / r.width), y: Math.floor(((e.clientY - r.top) * c.height) / r.height), k: c.width / r.width }; }
-function guardarPaso(it) { it.historia.push({ v: it.varita.slice(), m: it.manual.slice() }); if (it.historia.length > 15) it.historia.shift(); }
+function guardarPaso(it) { it.historia.push({ v: it.varita.slice(), m: it.manual.slice(), a: it.auto ? it.auto.slice() : null, modo: it.modo, sl: it.sinLimpiar, fijo: it.fijo }); if (it.historia.length > 20) it.historia.shift(); pintarDeshacerQF(); }
+function pintarDeshacerQF() { const it = qfItem(); $("qf-deshacer").disabled = !it || !it.historia.length; $("qf-deshacer").textContent = it && it.historia.length ? `↶ Deshacer (${it.historia.length})` : "↶ Deshacer"; }
 function pincelar(it, p) {
   const { width: w, height: h } = it.datos, r = Math.max(1, Math.round((Number($("qf-pincel").value) / 2) * p.k)), val = qf.herr === "borrar" ? 0 : 1;
   const o = it.salida.data, d = it.datos.data;
@@ -5091,8 +5121,26 @@ $("qf-lienzo").addEventListener("pointermove", (e) => {
 });
 const finPincel = () => { if (zonaRecorte) { cerrarZonaQF(); return; } if (!qf.pintando) return; qf.pintando = false; const it = qfItem(); if (it) { componer(it); pintarQF(); } };
 $("qf-lienzo").addEventListener("pointerup", finPincel); $("qf-lienzo").addEventListener("pointercancel", finPincel);
-$("qf-deshacer").onclick = () => { const it = qfItem(); const h = it?.historia.pop(); if (!h) return; it.varita = h.v; it.manual = h.m; componer(it); pintarQF(); };
-$("qf-reiniciar").onclick = () => { const it = qfItem(); if (!it) return; guardarPaso(it); it.varita.fill(0); it.manual.fill(-1); rehacer(it, true); };
+$("qf-deshacer").onclick = () => {
+  const it = qfItem(); const h = it?.historia.pop(); if (!h) return;
+  it.varita = h.v; it.manual = h.m; if (h.a) it.auto = h.a; it.modo = h.modo; it.sinLimpiar = h.sl; it.fijo = h.fijo;
+  qf.modo = it.modo; pintarModoQF(); componer(it); pintarQF(); qfEstado("Paso deshecho.", "ok");
+};
+$("qf-reiniciar").onclick = () => {
+  const it = qfItem(); if (!it) return; guardarPaso(it); it.varita.fill(0); it.manual.fill(-1);
+  if (it.inicial) { it.auto = it.inicial.a.slice(); it.modo = it.inicial.modo; it.sinLimpiar = it.inicial.sl; it.fijo = it.inicial.fijo; qf.modo = it.modo; pintarModoQF(); componer(it); pintarQF(); }
+  else rehacer(it, true);
+  qfEstado("Has vuelto al recorte del principio. Con «Deshacer» recuperas lo de antes.", "ok");
+};
+$("qf-foto-original").onclick = () => {
+  const it = qfItem(); if (!it) return; guardarPaso(it);
+  it.varita.fill(0); it.manual.fill(-1); it.auto = new Uint8Array(it.auto.length).fill(255); it.sinLimpiar = true; it.fijo = true;
+  componer(it); pintarQF(); qfEstado("Foto original completa, sin quitar nada. Usa la zona o el pincel, o «Deshacer».", "ok");
+};
+document.addEventListener("keydown", (e) => {
+  if ($("quitafondo").hidden || e.target.closest?.("input, textarea, select")) return;
+  if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === "z") { e.preventDefault(); $("qf-deshacer").click(); }
+});
 const verOriginal = (si) => { const it = qfItem(); if (it) $("qf-lienzo").getContext("2d").putImageData(si ? it.datos : it.salida, 0, 0); };
 $("qf-original").addEventListener("pointerdown", () => verOriginal(true));
 ["pointerup", "pointerleave", "pointercancel"].forEach((ev) => $("qf-original").addEventListener(ev, () => verOriginal(false)));
@@ -5610,8 +5658,10 @@ function puntoEnLamina(e) {
   });
 });
 $("cp-archivo").onchange = (e) => { const f = [...e.target.files]; e.target.value = ""; subirFotosCP(f); };
+/* Cada foto de la lámina recuerda sus versiones anteriores para poder deshacer. */
+function pasoItem(it) { (it.__previos ||= []).push({ src: it.src, sinFondo: it.sinFondo, alfa: it.alfa, estilo: it.estilo }); if (it.__previos.length > 15) it.__previos.shift(); }
 async function quitarFondoItem(it, metodo = "auto") {
-  const r = await sinFondo(urlDe(it.orig), metodo);
+  const r = await sinFondo(urlDe(it.orig), metodo); pasoItem(it);
   it.alfa = r.lienzo;
   it.sinFondo = recortarTransparente(r.lienzo); it.src = it.sinFondo; it.__estilos = null;
   renderizarItem(it); return r.metodo;
@@ -5645,10 +5695,12 @@ function pintarPanelFoto() {
   const it = itemSel();
   $("cp-sel-herr").hidden = !seleccionPeg().length && !(pegFab && pegFab.getActiveObject());
   $("cp-sel-titulo").textContent = it ? "Foto seleccionada" : seleccionPeg().length > 1 ? `${seleccionPeg().length} fotos seleccionadas` : "Pulsa una foto de la lámina para editarla";
+  $("cp-deshacer").disabled = true;
   ["cp-quitar-fondo", "cp-original", "cp-reintentar", "cp-retocar", "cp-mejor", "cp-h-borrar", "cp-h-recuperar", "cp-h-zona", "cp-h-lazo"].forEach((id) => { $(id).disabled = !it || !it.orig; });
   $("cp-filtros").hidden = $("cp-ia").hidden = !it || !baseEstilo(it);
   if (!it || !baseEstilo(it)) return;
   $("cp-original").disabled = it.src === it.orig;
+  $("cp-deshacer").disabled = !it.__previos?.length; $("cp-deshacer").textContent = it.__previos?.length ? `↶ Deshacer el último cambio (${it.__previos.length})` : "↶ Deshacer el último cambio";
   if (!it.__estilos) { const m = miniDe(baseEstilo(it), 220); it.__estilos = Object.keys(FILTROS_FOTO).map((k) => [k, filtroSobre(m, k).toDataURL("image/png")]); }
   $("cp-filtros").innerHTML = it.__estilos.map(([k, u]) => `<button class="estilo-foto ${it.estilo === k ? "on" : ""}" data-cp-estilo="${k}"><img src="${u}" alt="">${FILTROS_FOTO[k].nombre}</button>`).join("");
 }
@@ -5689,7 +5741,7 @@ $("cp-retocar").onclick = async () => {
 };
 $("qf-a-lamina").onclick = async () => {
   const it = qf.retornoPeg, r = qfItem(); if (!it || !r) return;
-  it.alfa = r.lienzo; it.sinFondo = recortarTransparente(r.lienzo); it.src = it.sinFondo; it.estilo = null; it.__estilos = null; renderizarItem(it);
+  pasoItem(it); it.alfa = r.lienzo; it.sinFondo = recortarTransparente(r.lienzo); it.src = it.sinFondo; it.estilo = null; it.__estilos = null; renderizarItem(it);
   qf.retornoPeg = null; $("qf-a-lamina").hidden = true;
   await abrirPegatinas(); seleccionarItem(it); guardarPegSoon(); pegEstado("Recorte actualizado en la lámina.", "ok");
 };
@@ -5726,10 +5778,14 @@ document.addEventListener("keydown", (e) => {
   const a = pegFab.getActiveObject(); a.set({ left: a.left + d[0] * paso, top: a.top + d[1] * paso }); a.setCoords();
   if (a.type === "activeSelection") pegFab.fire("object:modified", { target: a }); else tocarSel(() => {});
 });
-$("cp-original").onclick = () => { const it = itemSel(); if (!it) return; it.src = it.orig; it.sinFondo = null; it.estilo = null; it.__estilos = null; renderizarItem(it); pintarLamina(); seleccionarItem(it); guardarPegSoon(); };
+$("cp-deshacer").onclick = () => {
+  const it = itemSel(), h = it?.__previos?.pop(); if (!h) return;
+  Object.assign(it, h); it.__estilos = null; renderizarItem(it); pintarLamina(); seleccionarItem(it); guardarPegSoon(); pegEstado("Paso deshecho.", "ok");
+};
+$("cp-original").onclick = () => { const it = itemSel(); if (!it) return; pasoItem(it); it.src = it.orig; it.sinFondo = null; it.estilo = null; it.__estilos = null; renderizarItem(it); pintarLamina(); seleccionarItem(it); guardarPegSoon(); };
 $("cp-filtros").addEventListener("click", (e) => {
   const b = e.target.closest("[data-cp-estilo]"), it = itemSel(); if (!b || !it) return;
-  const k = b.dataset.cpEstilo, base = miniDe(baseEstilo(it), 900);
+  const k = b.dataset.cpEstilo, base = miniDe(baseEstilo(it), 900); pasoItem(it);
   it.src = k === "original" ? baseEstilo(it) : filtroSobre(base, k); it.estilo = k;
   renderizarItem(it); pintarLamina(); seleccionarItem(it); guardarPegSoon();
 });
@@ -5749,7 +5805,7 @@ $("cp-ia").addEventListener("click", async (e) => {
       `La imagen adjunta es una foto que se va a imprimir.\nRedibuja a la persona, mascota u objeto principal de la foto en ${estilo}.\nTiene que ser reconocible: conserva los rasgos y colores que lo identifican (pelo, color de piel o pelaje, ropa, gafas, accesorios, forma, postura).\n\nReglas estrictas:\n- Responde SOLO con un SVG válido, viewBox="0 0 512 512".\n- Una sola figura compacta y centrada que ocupe casi todo el lienzo (unos 20 px de margen).\n- SIN fondo: fuera de la figura todo transparente; nada de rectángulos de fondo.\n- Silueta exterior cerrada y sencilla.\n- Prohibido: texto, <text>, <image>, <script>, <style>, <foreignObject>, filtros, máscaras, enlaces externos.\n- Máximo 250 elementos.`,
       { images: blob, cache: false, modelTier: "complex" });
     const svg = limpiarSVG(text, false); if (!svg) throw new Error("svg");
-    it.src = await svgACanvas(svg); it.estilo = "ia-" + b.dataset.cpIa;
+    const nuevo = await svgACanvas(svg); pasoItem(it); it.src = nuevo; it.estilo = "ia-" + b.dataset.cpIa;
     renderizarItem(it); pintarLamina(); seleccionarItem(it); guardarPegSoon();
     pegEstado(`Listo: versión ${nombre}. Si no te convence, pulsa otra vez o «Volver al original».`, "ok");
   } catch (err) {
@@ -5819,6 +5875,7 @@ function pintarFondosCP() {
   $("cp-fh-nota").hidden = f.tipo === "ninguno" || peg.modo === "fotos";
 }
 function ponerFondoHoja(f) { peg.fondoHoja = f; pintarFondosCP(); pintarLamina(); guardarPegSoon(); }
+$("cp-fh-cerrar").onclick = () => { document.querySelector(".cp-fondo-det").open = false; };
 $("cp-fondos").addEventListener("click", (e) => {
   const b = e.target.closest("[data-fh]"); if (!b) return;
   const k = b.dataset.fh, v = FONDOS_HOJA[k];
