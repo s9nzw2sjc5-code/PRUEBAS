@@ -1,0 +1,8 @@
+import canvaPlugin from "@canva/app-eslint-plugin";
+
+export default [
+  {
+    ignores: ["**/node_modules/", "**/dist", "**/*.d.ts", "**/*.d.tsx"],
+  },
+  ...canvaPlugin.configs.apps_no_i18n,
+];
